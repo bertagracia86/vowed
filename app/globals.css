@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --gold: #C9A84C;
+  --gold-light: #F5EDD5;
+  --gold-pale: #FDFAF2;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, 'Helvetica Neue', sans-serif;
+  background: #ffffff;
+  color: #0A0A0A;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+.font-mono-custom {
+  font-family: 'DM Mono', monospace;
+}
