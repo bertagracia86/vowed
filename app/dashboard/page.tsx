@@ -8,23 +8,34 @@ import SeatingPlan from '@/components/SeatingPlan'
 const F = "'Cormorant Garamond',serif"
 const BLUE = '#6E8FC9'
 const BLUE_DARK = '#3D5A80'
-const INK = '#2C3E5C'
-const MUTE = '#7A93B5'
+const INK = '#2C2A26'
+const MUTE = '#8A8580'
+const BG = '#FAF9F7'
 
 const ICONS: Record<string, JSX.Element> = {
-  home: <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>,
-  todo: <><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></>,
-  budget: <><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 14h2"/></>,
+  home: <><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></>,
+  activity: <path d="M3 12h4l2-7 4 14 2-7h6"/>,
+  budget: <><circle cx="12" cy="12" r="9"/><path d="M12 7v10M15 9.5c0-1.5-1.5-2-3-2s-3 .8-3 2c0 1.2 1 1.7 3 2.2 2.2.5 3.2 1 3.2 2.3 0 1.4-1.6 2-3.2 2s-3-.6-3-2"/></>,
+  todo: <><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></>,
   guests: <><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 2.5-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 20c0-2.4 1.6-4 3.7-4.5"/></>,
+  vendors: <><path d="M4 9l8-6 8 6v11a1 1 0 01-1 1H5a1 1 0 01-1-1V9z"/><path d="M9 21V12h6v9"/></>,
+  seating: <><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></>,
   invitations: <><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></>,
+  pricing: <><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></>,
+  settings: <><circle cx="12" cy="12" r="3"/><path d="M19.4 13a7.97 7.97 0 000-2l2-1.5-2-3.4-2.4.6a8 8 0 00-1.7-1l-.4-2.5H10.1l-.4 2.5a8 8 0 00-1.7 1l-2.4-.6-2 3.4L5.6 11a8 8 0 000 2l-2 1.5 2 3.4 2.4-.6a8 8 0 001.7 1l.4 2.5h3.8l.4-2.5a8 8 0 001.7-1l2.4.6 2-3.4-2-1.5z"/></>,
 }
 
-const NAV = [
+const NAV_TOP = [
   { id: 'home', label: 'Dashboard' },
-  { id: 'todo', label: 'To-Do' },
+  { id: 'activity', label: 'Activity' },
   { id: 'budget', label: 'Budget' },
+  { id: 'todo', label: 'Checklist' },
   { id: 'guests', label: 'Guests' },
   { id: 'invitations', label: 'Invitations' },
+]
+const NAV_BOTTOM = [
+  { id: 'pricing', label: 'Pricing' },
+  { id: 'settings', label: 'Settings' },
 ]
 
 const TEMPLATES = [
@@ -62,7 +73,10 @@ export default function Dashboard() {
   const [newGuest, setNewGuest] = useState('')
   const [newCat, setNewCat] = useState('')
   const [newEst, setNewEst] = useState('')
+  const [newTable, setNewTable] = useState('')
   const [guestsView, setGuestsView] = useState<'list' | 'seating'>('list')
+  const [budgetFilter, setBudgetFilter] = useState('All')
+  const [draggedGuest, setDraggedGuest] = useState<string | null>(null)
 
   const supabase = createClient()
 
@@ -114,6 +128,13 @@ export default function Dashboard() {
     setNewCat(''); setNewEst('')
   }
 
+  async function addTableRow() {
+    if (!newTable.trim() || !user) return
+    const { data } = await supabase.from('tables_list').insert({ user_id: user.id, name: newTable }).select().single()
+    if (data) setTables(prev => [...prev, data])
+    setNewTable('')
+  }
+
   async function assignGuestToTable(guestId: string, tableName: string | null) {
     setGuests(prev => prev.map(g => g.id === guestId ? { ...g, table_name: tableName } : g))
     await supabase.from('guests').update({ table_name: tableName }).eq('id', guestId)
@@ -140,26 +161,40 @@ export default function Dashboard() {
   const budgetPaid = budget.reduce((a, b) => a + Number(b.paid || 0), 0)
   const budgetEst = budget.reduce((a, b) => a + Number(b.estimated || 0), 0)
   const confirmedGuests = guests.filter(g => g.rsvp === 'Sí').length
+  const unassignedGuests = guests.filter(g => !g.table_name)
+
+  const daysLeft: number | null = null
 
   const r = 32
   const circ = 2 * Math.PI * r
   const offset = circ - (circ * progressPct) / 100
 
   return (
-    <div className="min-h-screen flex" style={{background:'#FBFCFE',fontFamily:"'Inter',sans-serif"}}>
+    <div className="min-h-screen flex" style={{background:BG,fontFamily:"'Inter',sans-serif"}}>
 
-      <aside style={{width:190,background:'white',borderRight:'1px solid #EEF2F7',padding:'24px 16px',display:'flex',flexDirection:'column'}}>
-        <div style={{fontFamily:F,fontSize:20,fontStyle:'italic',color:BLUE,marginBottom:28}}>vowed</div>
-        {NAV.map(n => (
+      <aside style={{width:220,background:'white',borderRight:'1px solid #ECE9E4',padding:'20px 14px',display:'flex',flexDirection:'column'}}>
+        <div className="flex items-center gap-2 mb-1" style={{padding:'4px 8px 18px'}}>
+          <div style={{width:30,height:30,borderRadius:9,background:'#F4EFE7',display:'flex',alignItems:'center',justifyContent:'center',color:BLUE,fontSize:15}}>♡</div>
+          <span style={{fontFamily:F,fontSize:18,fontWeight:600,color:INK}}>Vowed</span>
+        </div>
+
+        {daysLeft !== null && (
+          <div style={{display:'flex',alignItems:'center',gap:8,padding:'8px 10px',marginBottom:14,fontSize:12,color:MUTE}}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.6"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+            {daysLeft} days to go
+          </div>
+        )}
+
+        {NAV_TOP.map(n => (
           <button
             key={n.id}
             onClick={() => setTab(n.id)}
             style={{
               display:'flex',alignItems:'center',gap:10,
-              textAlign:'left',padding:'9px 12px',borderRadius:10,border:'none',
-              background: tab===n.id ? '#EAF1FA' : 'transparent',
-              color: tab===n.id ? BLUE_DARK : MUTE,
-              fontWeight: tab===n.id ? 500 : 400,
+              textAlign:'left',padding:'9px 10px',borderRadius:9,border:'none',
+              background: tab===n.id ? '#F4F2EE' : 'transparent',
+              color: tab===n.id ? INK : MUTE,
+              fontWeight: tab===n.id ? 600 : 400,
               fontSize:13,cursor:'pointer',marginBottom:1
             }}
           >
@@ -167,243 +202,149 @@ export default function Dashboard() {
             {n.label}
           </button>
         ))}
-        <button onClick={handleLogout} style={{marginTop:'auto',textAlign:'left',fontSize:11,color:'#C7D2E0',background:'none',border:'none',cursor:'pointer',padding:'9px 12px'}}>
-          Cerrar sesión
-        </button>
+
+        <div style={{marginTop:'auto'}}>
+          {NAV_BOTTOM.map(n => (
+            <button
+              key={n.id}
+              onClick={() => setTab(n.id)}
+              style={{
+                display:'flex',alignItems:'center',gap:10,
+                textAlign:'left',padding:'9px 10px',borderRadius:9,border:'none',
+                background: tab===n.id ? '#F4F2EE' : 'transparent',
+                color: tab===n.id ? INK : MUTE,
+                fontWeight: tab===n.id ? 600 : 400,
+                fontSize:13,cursor:'pointer',marginBottom:1
+              }}
+            >
+              <Icon name={n.id} />
+              {n.label}
+            </button>
+          ))}
+          <button onClick={handleLogout} style={{display:'flex',alignItems:'center',gap:10,width:'100%',textAlign:'left',fontSize:13,color:MUTE,background:'none',border:'none',cursor:'pointer',padding:'9px 10px',marginTop:4}}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+            Sign Out
+          </button>
+        </div>
       </aside>
 
-      <main className="flex-1 px-10 py-8" style={{maxWidth:920}}>
+      <div className="flex-1 flex flex-col">
 
-        {tab === 'home' && (
-          <>
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <h1 style={{fontFamily:F,fontSize:26,fontWeight:500,color:INK}}>Hola, {name1} ♡</h1>
-                <p style={{fontSize:12,color:MUTE,marginTop:2}}>
-                  {totalTasks === 0 ? 'Empezad añadiendo vuestra primera tarea' : progressPct === 100 ? 'Lo tenéis todo listo' : 'Vais avanzando'}
-                </p>
-              </div>
-            </div>
+        <header style={{borderBottom:'1px solid #ECE9E4',padding:'16px 28px',display:'flex',alignItems:'center',justifyContent:'space-between',background:'white'}}>
+          <div className="flex items-center gap-3">
+            <span style={{fontFamily:F,fontSize:17,fontWeight:600,color:INK}}>Our Wedding</span>
+            {daysLeft !== null && (
+              <span style={{display:'flex',alignItems:'center',gap:6,fontSize:12,color:MUTE,border:'1px solid #ECE9E4',borderRadius:999,padding:'4px 12px'}}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/></svg>
+                {daysLeft} days to go
+              </span>
+            )}
+          </div>
+          <div style={{border:'1px solid #ECE9E4',borderRadius:10,padding:'8px 14px',fontSize:12,color:MUTE,display:'flex',alignItems:'center',gap:8,width:220}}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+            Search...
+          </div>
+        </header>
 
-            <div className="grid grid-cols-3 gap-4 mb-8">
-              <div style={{border:'1px solid #EEF2F7',borderRadius:18,padding:22,textAlign:'center'}}>
-                <p style={{fontSize:11,color:MUTE,marginBottom:14}}>Progreso</p>
-                {totalTasks > 0 ? (
-                  <>
-                    <svg width="84" height="84" viewBox="0 0 80 80" style={{margin:'0 auto'}}>
-                      <circle cx="40" cy="40" r={r} fill="none" stroke="#EEF2F7" strokeWidth="7"/>
-                      <circle cx="40" cy="40" r={r} fill="none" stroke={BLUE} strokeWidth="7" strokeDasharray={circ} strokeDashoffset={offset} transform="rotate(-90 40 40)" style={{transition:'stroke-dashoffset .6s ease'}}/>
-                      <text x="40" y="46" textAnchor="middle" style={{fontFamily:F,fontSize:20,fill:INK}}>{progressPct}%</text>
-                    </svg>
-                    <p style={{fontSize:11,color:MUTE,marginTop:10}}>{doneTasks} de {totalTasks} tareas</p>
-                  </>
-                ) : (
-                  <p style={{fontSize:12,color:MUTE,padding:'20px 0'}}>Sin tareas todavía</p>
+        <main className="flex-1 px-9 py-8 overflow-y-auto">
+
+          {tab === 'home' && (
+            <>
+              <div className="flex items-center justify-between mb-7">
+                <div>
+                  <h1 style={{fontFamily:F,fontSize:30,fontWeight:600,color:INK,marginBottom:4}}>Welcome back</h1>
+                  <p style={{fontSize:13,color:MUTE}}>Here's an overview of your wedding planning progress</p>
+                </div>
+                {daysLeft !== null && (
+                  <div style={{border:'1px solid #ECE9E4',borderRadius:10,padding:'10px 16px',display:'flex',alignItems:'center',gap:8,fontSize:13,color:INK,background:'white'}}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/></svg>
+                    {daysLeft} days to go
+                  </div>
                 )}
               </div>
 
-              <div style={{border:'1px solid #EEF2F7',borderRadius:18,padding:22}}>
-                <p style={{fontSize:11,color:MUTE,marginBottom:12}}>Próximas tareas</p>
-                {nextTasks.length > 0 ? nextTasks.map(t => (
-                  <div key={t.id} style={{display:'flex',alignItems:'center',gap:8,padding:'5px 0',fontSize:12,color:INK}}>
-                    <span style={{width:5,height:5,borderRadius:999,background:BLUE,flexShrink:0}}/>
-                    {t.title}
+              <div className="grid grid-cols-4 gap-4 mb-8">
+                <div style={{background:'white',border:'1px solid #ECE9E4',borderRadius:16,padding:20}}>
+                  <div style={{width:34,height:34,borderRadius:9,background:'#F4F2EE',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:14}}>
+                    <Icon name="budget" />
                   </div>
-                )) : <p style={{fontSize:12,color:MUTE}}>Nada pendiente ♡</p>}
-                <p onClick={() => setTab('todo')} style={{fontSize:11,color:BLUE,marginTop:12,cursor:'pointer'}}>Ver todas →</p>
+                  <p style={{fontSize:12,color:MUTE,marginBottom:6}}>Budget</p>
+                  <p style={{fontFamily:F,fontSize:26,fontWeight:600,color:INK,marginBottom:4}}>{budgetPaid.toLocaleString('es-ES')} €</p>
+                  <p style={{fontSize:11,color:MUTE,marginBottom:10}}>{Math.max(0,budgetEst-budgetPaid).toLocaleString('es-ES')} € remaining</p>
+                  <div style={{height:5,borderRadius:99,background:'#EFEBE4'}}>
+                    <div style={{height:5,borderRadius:99,background:BLUE,width: budgetEst>0 ? Math.min(100,(budgetPaid/budgetEst)*100)+'%' : '0%'}}/>
+                  </div>
+                </div>
+
+                <div style={{background:'white',border:'1px solid #F3D9D9',borderRadius:16,padding:20}}>
+                  <div style={{width:34,height:34,borderRadius:9,background:'#FBEEEE',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:14,color:'#C0594F'}}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 9v4M12 17h.01M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>
+                  </div>
+                  <p style={{fontSize:12,color:MUTE,marginBottom:6}}>Tasks</p>
+                  <p style={{fontFamily:F,fontSize:26,fontWeight:600,color:INK,marginBottom:4}}>{doneTasks}/{totalTasks}</p>
+                  <p style={{fontSize:11,color:'#C0594F',marginBottom:10}}>{nextTasks.length > 0 ? nextTasks.length+' pending' : 'all clear'}</p>
+                  <div style={{height:5,borderRadius:99,background:'#F6E4E4'}}>
+                    <div style={{height:5,borderRadius:99,background:'#C0594F',width: totalTasks>0 ? (doneTasks/totalTasks)*100+'%' : '0%'}}/>
+                  </div>
+                </div>
+
+                <div style={{background:'white',border:'1px solid #EFE0C2',borderRadius:16,padding:20}}>
+                  <div style={{width:34,height:34,borderRadius:9,background:'#FBF3E1',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:14,color:'#B8862F'}}>
+                    <Icon name="guests" />
+                  </div>
+                  <p style={{fontSize:12,color:MUTE,marginBottom:6}}>Guests</p>
+                  <p style={{fontFamily:F,fontSize:26,fontWeight:600,color:INK,marginBottom:4}}>{guests.length}</p>
+                  <p style={{fontSize:11,color:'#B8862F',marginBottom:10}}>{guests.filter(g=>g.rsvp==='Pendiente').length} awaiting RSVP</p>
+                  <div style={{height:5,borderRadius:99,background:'#F5EAD2'}}>
+                    <div style={{height:5,borderRadius:99,background:'#B8862F',width: guests.length>0 ? (confirmedGuests/guests.length)*100+'%' : '0%'}}/>
+                  </div>
+                </div>
+
+                <div style={{background:'white',border:'1px solid #EFE0C2',borderRadius:16,padding:20}}>
+                  <div style={{width:34,height:34,borderRadius:9,background:'#FBF3E1',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:14,color:'#B8862F'}}>
+                    <Icon name="vendors" />
+                  </div>
+                  <p style={{fontSize:12,color:MUTE,marginBottom:6}}>Vendors</p>
+                  <p style={{fontFamily:F,fontSize:26,fontWeight:600,color:INK,marginBottom:4}}>{tables.length}</p>
+                  <p style={{fontSize:11,color:MUTE}}>tables created</p>
+                </div>
               </div>
 
-              <div style={{border:'1px solid #EEF2F7',borderRadius:18,padding:22}}>
-                <p style={{fontSize:11,color:MUTE,marginBottom:10}}>Vuestros datos</p>
-                <p style={{fontFamily:F,fontSize:22,color:INK,marginBottom:2}}>{confirmedGuests} / {guests.length}</p>
-                <p style={{fontSize:11,color:MUTE,marginBottom:14}}>invitados confirmados</p>
-                <p style={{fontFamily:F,fontSize:22,color:INK,marginBottom:2}}>{budgetPaid.toLocaleString('es-ES')} €</p>
-                <p style={{fontSize:11,color:MUTE}}>pagado de {budgetEst.toLocaleString('es-ES')} €</p>
+              <div className="grid grid-cols-2 gap-4">
+                <div style={{background:'white',border:'1px solid #ECE9E4',borderRadius:16,padding:22}}>
+                  <p style={{fontSize:12,color:MUTE,marginBottom:14}}>Próximas tareas</p>
+                  {nextTasks.length > 0 ? nextTasks.map(t => (
+                    <div key={t.id} style={{display:'flex',alignItems:'center',gap:8,padding:'6px 0',fontSize:13,color:INK}}>
+                      <span style={{width:5,height:5,borderRadius:999,background:BLUE,flexShrink:0}}/>
+                      {t.title}
+                    </div>
+                  )) : <p style={{fontSize:12,color:MUTE}}>Nada pendiente ♡</p>}
+                  <p onClick={() => setTab('todo')} style={{fontSize:12,color:BLUE,marginTop:12,cursor:'pointer'}}>Ver checklist completo →</p>
+                </div>
+                <div style={{background:'white',border:'1px solid #ECE9E4',borderRadius:16,padding:22}}>
+                  <p style={{fontSize:12,color:MUTE,marginBottom:14}}>Resumen de invitados</p>
+                  <p style={{fontFamily:F,fontSize:22,color:INK,marginBottom:2}}>{confirmedGuests} / {guests.length}</p>
+                  <p style={{fontSize:12,color:MUTE}}>confirmados</p>
+                </div>
               </div>
-            </div>
-          </>
-        )}
+            </>
+          )}
 
-        {tab === 'todo' && (
-          <>
-            <h1 style={{fontFamily:F,fontSize:26,fontWeight:500,color:INK,marginBottom:4}}>Vuestras tareas</h1>
-            <p style={{fontSize:12,color:MUTE,marginBottom:24}}>{doneTasks} de {totalTasks} completadas</p>
-
-            <div className="flex gap-2 mb-5">
-              <input
-                value={newTask} onChange={e=>setNewTask(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && addTask()}
-                placeholder="Nueva tarea..."
-                style={{flex:1,border:'1px solid #DCE7F4',borderRadius:12,padding:'11px 16px',fontSize:13,outline:'none'}}
-              />
-              <button onClick={addTask} style={{background:BLUE,color:'white',border:'none',borderRadius:12,padding:'11px 22px',fontSize:13,cursor:'pointer'}}>Añadir</button>
-            </div>
-
-            {tasks.length === 0 ? (
-              <p style={{fontSize:13,color:MUTE,textAlign:'center',padding:'40px 0'}}>Aún no tenéis tareas. Añadid la primera arriba.</p>
-            ) : (
-              <div style={{border:'1px solid #EEF2F7',borderRadius:18,overflow:'hidden'}}>
-                {tasks.map((t, i) => (
-                  <div key={t.id} onClick={() => toggleTask(t.id, t.done)} style={{
-                    display:'flex',alignItems:'center',gap:12,padding:'14px 20px',
-                    borderBottom: i < tasks.length-1 ? '1px solid #F0F3F8' : 'none', cursor:'pointer'
-                  }}>
-                    <span style={{
-                      width:18,height:18,borderRadius:6,flexShrink:0,
-                      border: t.done ? 'none' : '1.5px solid #DCE7F4',
-                      background: t.done ? BLUE : 'white',
-                      display:'flex',alignItems:'center',justifyContent:'center'
-                    }}>
-                      {t.done && <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+          {tab === 'activity' && (
+            <>
+              <h1 style={{fontFamily:F,fontSize:26,fontWeight:600,color:INK,marginBottom:4}}>Activity</h1>
+              <p style={{fontSize:13,color:MUTE,marginBottom:24}}>Todo lo que habéis ido completando</p>
+              <div style={{background:'white',border:'1px solid #ECE9E4',borderRadius:16,padding:22}}>
+                {tasks.filter(t=>t.done).length === 0 ? (
+                  <p style={{fontSize:13,color:MUTE,textAlign:'center',padding:'30px 0'}}>Aún no hay actividad. Id marcando tareas para verlas aquí.</p>
+                ) : tasks.filter(t=>t.done).map((t,i,arr) => (
+                  <div key={t.id} style={{display:'flex',alignItems:'center',gap:10,padding:'10px 0',borderBottom: i<arr.length-1 ? '1px solid #F0EEEA':'none'}}>
+                    <span style={{width:16,height:16,borderRadius:'50%',background:BLUE,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
+                      <svg width="9" height="7" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
                     </span>
-                    <span style={{fontSize:13,color: t.done ? '#C7D2E0' : INK, textDecoration: t.done ? 'line-through' : 'none'}}>{t.title}</span>
+                    <span style={{fontSize:13,color:INK}}>{t.title}</span>
                   </div>
                 ))}
               </div>
-            )}
-          </>
-        )}
-
-        {tab === 'guests' && (
-          <>
-            <div className="flex items-center justify-between mb-1">
-              <h1 style={{fontFamily:F,fontSize:26,fontWeight:500,color:INK}}>Invitados</h1>
-              <div style={{display:'flex',gap:1,background:'#EEF2F7',borderRadius:10,padding:2}}>
-                <button onClick={()=>setGuestsView('list')} style={{
-                  padding:'7px 16px',borderRadius:8,border:'none',fontSize:12,cursor:'pointer',
-                  background: guestsView==='list' ? 'white' : 'transparent',
-                  color: guestsView==='list' ? INK : MUTE,
-                  fontWeight: guestsView==='list' ? 500 : 400
-                }}>Lista</button>
-                <button onClick={()=>setGuestsView('seating')} style={{
-                  padding:'7px 16px',borderRadius:8,border:'none',fontSize:12,cursor:'pointer',
-                  background: guestsView==='seating' ? 'white' : 'transparent',
-                  color: guestsView==='seating' ? INK : MUTE,
-                  fontWeight: guestsView==='seating' ? 500 : 400
-                }}>Mesas</button>
-              </div>
-            </div>
-            <p style={{fontSize:12,color:MUTE,marginBottom:24}}>{guests.length} en la lista · {confirmedGuests} confirmados</p>
-
-            {guestsView === 'list' && (
-              <>
-                <div className="flex gap-2 mb-5">
-                  <input
-                    value={newGuest} onChange={e=>setNewGuest(e.target.value)}
-                    onKeyDown={e => e.key === 'Enter' && addGuest()}
-                    placeholder="Nombre del invitado..."
-                    style={{flex:1,border:'1px solid #DCE7F4',borderRadius:12,padding:'11px 16px',fontSize:13,outline:'none'}}
-                  />
-                  <button onClick={addGuest} style={{background:BLUE,color:'white',border:'none',borderRadius:12,padding:'11px 22px',fontSize:13,cursor:'pointer'}}>Añadir</button>
-                </div>
-
-                {guests.length === 0 ? (
-                  <p style={{fontSize:13,color:MUTE,textAlign:'center',padding:'40px 0'}}>Aún no tenéis invitados. Añadid el primero arriba.</p>
-                ) : (
-                  <div style={{border:'1px solid #EEF2F7',borderRadius:18,overflow:'hidden'}}>
-                    <div style={{display:'grid',gridTemplateColumns:'1.4fr 1.4fr 1fr 1fr',padding:'10px 20px',background:'#FAFBFD',borderBottom:'1px solid #EEF2F7'}}>
-                      <span style={{fontSize:10,color:MUTE,letterSpacing:'0.04em'}}>NOMBRE</span>
-                      <span style={{fontSize:10,color:MUTE,letterSpacing:'0.04em'}}>CONTACTO</span>
-                      <span style={{fontSize:10,color:MUTE,letterSpacing:'0.04em'}}>MESA</span>
-                      <span style={{fontSize:10,color:MUTE,letterSpacing:'0.04em'}}>ASISTENCIA</span>
-                    </div>
-                    {guests.map((g, i) => (
-                      <div key={g.id} style={{display:'grid',gridTemplateColumns:'1.4fr 1.4fr 1fr 1fr',alignItems:'center',padding:'10px 20px',borderBottom: i < guests.length-1 ? '1px solid #F0F3F8' : 'none'}}>
-                        <span style={{fontSize:13,color:INK}}>{g.name}</span>
-                        <input
-                          value={g.contact || ''} onChange={e=>updateGuest(g.id,'contact',e.target.value)}
-                          placeholder="Email o teléfono"
-                          style={{border:'none',background:'transparent',fontSize:12,color:MUTE,outline:'none'}}
-                        />
-                        <span style={{fontSize:12,color: g.table_name ? INK : '#C7D2E0'}}>{g.table_name || '—'}</span>
-                        <select
-                          value={g.rsvp} onChange={e=>updateGuest(g.id,'rsvp',e.target.value)}
-                          style={{border:'1px solid #EEF2F7',borderRadius:8,padding:'5px 8px',fontSize:11,color:INK,background:'white',outline:'none',width:'fit-content'}}
-                        >
-                          <option>Pendiente</option>
-                          <option>Sí</option>
-                          <option>No</option>
-                        </select>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </>
-            )}
-
-            {guestsView === 'seating' && user && (
-              <SeatingPlan
-                guests={guests}
-                tables={tables}
-                setTables={setTables}
-                assignGuestToTable={assignGuestToTable}
-                userId={user.id}
-              />
-            )}
-          </>
-        )}
-
-        {tab === 'budget' && (
-          <>
-            <h1 style={{fontFamily:F,fontSize:26,fontWeight:500,color:INK,marginBottom:4}}>Presupuesto</h1>
-            <p style={{fontSize:12,color:MUTE,marginBottom:24}}>{budgetPaid.toLocaleString('es-ES')} € pagado de {budgetEst.toLocaleString('es-ES')} € estimado</p>
-
-            <div className="flex gap-2 mb-5">
-              <input
-                value={newCat} onChange={e=>setNewCat(e.target.value)}
-                placeholder="Categoría (ej: Catering)"
-                style={{flex:1,border:'1px solid #DCE7F4',borderRadius:12,padding:'11px 16px',fontSize:13,outline:'none'}}
-              />
-              <input
-                value={newEst} onChange={e=>setNewEst(e.target.value)} type="number"
-                placeholder="Presupuesto €"
-                style={{width:140,border:'1px solid #DCE7F4',borderRadius:12,padding:'11px 16px',fontSize:13,outline:'none'}}
-              />
-              <button onClick={addBudget} style={{background:BLUE,color:'white',border:'none',borderRadius:12,padding:'11px 22px',fontSize:13,cursor:'pointer'}}>Añadir</button>
-            </div>
-
-            {budget.length === 0 ? (
-              <p style={{fontSize:13,color:MUTE,textAlign:'center',padding:'40px 0'}}>Aún no tenéis partidas de presupuesto.</p>
-            ) : (
-              <div style={{border:'1px solid #EEF2F7',borderRadius:18,overflow:'hidden'}}>
-                {budget.map((b, i) => (
-                  <div key={b.id} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'12px 20px',borderBottom: i < budget.length-1 ? '1px solid #F0F3F8' : 'none'}}>
-                    <span style={{fontSize:13,color:INK}}>{b.category}</span>
-                    <span style={{fontSize:12,color:MUTE}}>{Number(b.estimated).toLocaleString('es-ES')} €</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </>
-        )}
-
-        {tab === 'invitations' && (
-          <>
-            <h1 style={{fontFamily:F,fontSize:26,fontWeight:500,color:INK,marginBottom:4}}>Invitaciones</h1>
-            <p style={{fontSize:12,color:MUTE,marginBottom:24}}>Plantillas listas para personalizar</p>
-
-            <div className="grid grid-cols-2 gap-5">
-              {TEMPLATES.map(t => (
-                <div key={t.name} style={{border:'1px solid #EEF2F7',borderRadius:18,overflow:'hidden'}}>
-                  <div style={{aspectRatio:'4/3',overflow:'hidden'}}>
-                    <img src={t.img} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}}/>
-                  </div>
-                  <div style={{padding:16,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-                    <div>
-                      <p style={{fontFamily:F,fontSize:15,color:INK}}>{t.name}</p>
-                      <p style={{fontSize:12,color:MUTE}}>{t.price}</p>
-                    </div>
-                    <button style={{background:BLUE,color:'white',border:'none',borderRadius:999,padding:'9px 20px',fontSize:12,cursor:'pointer'}}>
-                      Comprar
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
-
-      </main>
-    </div>
-  )
-}
+            </>
+          )}
