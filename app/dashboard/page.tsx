@@ -187,6 +187,197 @@ export default function Dashboard() {
               display:'flex',alignItems:'center',gap:10,textAlign:'left',padding:'9px 10px',borderRadius:9,border:'none',
               background: tab===n.id ? '#F4F2EE' : 'transparent', color: tab===n.id ? INK : MUTE,
               fontWeight: tab===n.id ? 600 : 400, fontSize:13,cursor:'pointer',marginBottom:1
+cd ~/vowed
+cat > app/dashboard/page.tsx << 'VOWEDEOF'
+'use client'
+
+import { useState } from 'react'
+
+const F = "'Cormorant Garamond',serif"
+const BLUE = '#6E8FC9'
+const BLUE_DARK = '#3D5A80'
+const INK = '#2C2A26'
+const MUTE = '#8A8580'
+const BG = '#FAF9F7'
+
+const ICONS: Record<string, JSX.Element> = {
+  home: <><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></>,
+  activity: <path d="M3 12h4l2-7 4 14 2-7h6"/>,
+  budget: <><circle cx="12" cy="12" r="9"/><path d="M12 7v10M15 9.5c0-1.5-1.5-2-3-2s-3 .8-3 2c0 1.2 1 1.7 3 2.2 2.2.5 3.2 1 3.2 2.3 0 1.4-1.6 2-3.2 2s-3-.6-3-2"/></>,
+  todo: <><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></>,
+  guests: <><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 2.5-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 20c0-2.4 1.6-4 3.7-4.5"/></>,
+  vendors: <><path d="M4 9l8-6 8 6v11a1 1 0 01-1 1H5a1 1 0 01-1-1V9z"/><path d="M9 21V12h6v9"/></>,
+  seating: <><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></>,
+  invitations: <><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></>,
+  pricing: <><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></>,
+  settings: <><circle cx="12" cy="12" r="3"/><path d="M19.4 13a7.97 7.97 0 000-2l2-1.5-2-3.4-2.4.6a8 8 0 00-1.7-1l-.4-2.5H10.1l-.4 2.5a8 8 0 00-1.7 1l-2.4-.6-2 3.4L5.6 11a8 8 0 000 2l-2 1.5 2 3.4 2.4-.6a8 8 0 001.7 1l.4 2.5h3.8l.4-2.5a8 8 0 001.7-1l2.4.6 2-3.4-2-1.5z"/></>,
+}
+
+const NAV_TOP = [
+  { id: 'home', label: 'Resumen' },
+  { id: 'activity', label: 'Actividad' },
+  { id: 'budget', label: 'Presupuesto' },
+  { id: 'todo', label: 'Tareas' },
+  { id: 'guests', label: 'Invitados' },
+  { id: 'vendors', label: 'Proveedores' },
+  { id: 'seating', label: 'Mesas' },
+  { id: 'invitations', label: 'Invitaciones' },
+]
+const NAV_BOTTOM = [
+  { id: 'pricing', label: 'Precios' },
+  { id: 'settings', label: 'Ajustes' },
+]
+
+const TEMPLATES = [
+  { name: 'Jardín de olivos', price: '12 €', img: 'https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=300&q=80' },
+  { name: 'Lino y oro', price: '14 €', img: 'https://images.unsplash.com/photo-1622037022824-0c71d511ec02?w=300&q=80' },
+  { name: 'Acuarela floral', price: '12 €', img: 'https://images.unsplash.com/photo-1612630440053-cdc4458c79fd?w=300&q=80' },
+  { name: 'Minimal clásica', price: '10 €', img: 'https://images.unsplash.com/photo-1595407753234-0882f1e76e26?w=300&q=80' },
+]
+
+function Icon({ name }: { name: string }) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      {ICONS[name]}
+    </svg>
+  )
+}
+
+interface Task { id: string; title: string; done: boolean }
+interface Guest { id: string; name: string; contact: string; rsvp: string; table_name: string | null }
+interface BudgetItem { id: string; category: string; estimated: number; paid: number }
+interface TableRow { id: string; name: string }
+
+const DEFAULT_TASKS: Task[] = [
+  { id: '1', title: 'Definir el presupuesto total', done: true },
+  { id: '2', title: 'Elegir la fecha tentativa', done: true },
+  { id: '3', title: 'Visitar y reservar el espacio', done: false },
+  { id: '4', title: 'Contratar al fotógrafo', done: false },
+  { id: '5', title: 'Buscar y contratar catering', done: false },
+]
+
+const DEFAULT_GUESTS: Guest[] = [
+  { id: '1', name: 'María García', contact: 'maria@email.com', rsvp: 'Sí', table_name: 'Mesa 1' },
+  { id: '2', name: 'Carlos López', contact: '600 123 456', rsvp: 'Sí', table_name: 'Mesa 1' },
+  { id: '3', name: 'Ana Martínez', contact: '', rsvp: 'Pendiente', table_name: null },
+]
+
+const DEFAULT_BUDGET: BudgetItem[] = [
+  { id: '1', category: 'Catering', estimated: 8000, paid: 3000 },
+  { id: '2', category: 'Finca', estimated: 5000, paid: 500 },
+  { id: '3', category: 'Fotografía', estimated: 2800, paid: 2800 },
+]
+
+const DEFAULT_TABLES: TableRow[] = [
+  { id: '1', name: 'Mesa 1' },
+  { id: '2', name: 'Mesa 2' },
+]
+
+export default function Dashboard() {
+  const [authed, setAuthed] = useState(false)
+  const [pwInput, setPwInput] = useState('')
+  const [pwError, setPwError] = useState('')
+
+  const [tab, setTab] = useState('home')
+  const [tasks, setTasks] = useState<Task[]>(DEFAULT_TASKS)
+  const [guests, setGuests] = useState<Guest[]>(DEFAULT_GUESTS)
+  const [budget, setBudget] = useState<BudgetItem[]>(DEFAULT_BUDGET)
+  const [tables, setTables] = useState<TableRow[]>(DEFAULT_TABLES)
+
+  const [newTask, setNewTask] = useState('')
+  const [newGuest, setNewGuest] = useState('')
+  const [newCat, setNewCat] = useState('')
+  const [newEst, setNewEst] = useState('')
+  const [budgetFilter, setBudgetFilter] = useState('All')
+
+  function checkPassword(e: React.FormEvent) {
+    e.preventDefault()
+    if (pwInput === '1234') {
+      setAuthed(true)
+      setPwError('')
+    } else {
+      setPwError('Contraseña incorrecta')
+    }
+  }
+
+  function toggleTask(id: string) {
+    setTasks(prev => prev.map(t => t.id === id ? { ...t, done: !t.done } : t))
+  }
+
+  function addTask() {
+    if (!newTask.trim()) return
+    setTasks(prev => [...prev, { id: Date.now().toString(), title: newTask, done: false }])
+    setNewTask('')
+  }
+
+  function addGuest() {
+    if (!newGuest.trim()) return
+    setGuests(prev => [...prev, { id: Date.now().toString(), name: newGuest, contact: '', rsvp: 'Pendiente', table_name: null }])
+    setNewGuest('')
+  }
+
+  function updateGuest(id: string, field: keyof Guest, value: string) {
+    setGuests(prev => prev.map(g => g.id === id ? { ...g, [field]: value } : g))
+  }
+
+  function addBudget() {
+    if (!newCat.trim()) return
+    setBudget(prev => [...prev, { id: Date.now().toString(), category: newCat, estimated: Number(newEst) || 0, paid: 0 }])
+    setNewCat(''); setNewEst('')
+  }
+
+  if (!authed) {
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{background:BG,fontFamily:"'Inter',sans-serif"}}>
+        <form onSubmit={checkPassword} style={{background:'white',border:'1px solid #ECE9E4',borderRadius:18,padding:'40px 36px',width:320,textAlign:'center'}}>
+          <div style={{fontFamily:F,fontSize:24,fontStyle:'italic',fontWeight:700,color:BLUE,marginBottom:6}}>Vowed</div>
+          <p style={{fontSize:12,color:MUTE,marginBottom:24}}>Introduce la contraseña para entrar</p>
+          <input
+            type="password" value={pwInput} onChange={e=>setPwInput(e.target.value)}
+            placeholder="••••" autoFocus
+            style={{width:'100%',border:'1px solid #DCE7F4',borderRadius:12,padding:'12px 16px',fontSize:14,outline:'none',textAlign:'center',marginBottom:12}}
+          />
+          {pwError && <p style={{fontSize:12,color:'#C0594F',marginBottom:12}}>{pwError}</p>}
+          <button type="submit" style={{width:'100%',background:BLUE,color:'white',border:'none',borderRadius:12,padding:'12px 0',fontSize:14,cursor:'pointer'}}>
+            Entrar
+          </button>
+        </form>
+      </div>
+    )
+  }
+
+  const totalTasks = tasks.length
+  const doneTasks = tasks.filter(t => t.done).length
+  const nextTasks = tasks.filter(t => !t.done).slice(0, 3)
+  const budgetPaid = budget.reduce((a, b) => a + b.paid, 0)
+  const budgetEst = budget.reduce((a, b) => a + b.estimated, 0)
+  const confirmedGuests = guests.filter(g => g.rsvp === 'Sí').length
+
+  return (
+    <div className="min-h-screen flex" style={{background:BG,fontFamily:"'Inter',sans-serif"}}>
+
+      <aside style={{width:220,background:'white',borderRight:'1px solid #ECE9E4',padding:'20px 14px',display:'flex',flexDirection:'column'}}>
+        <div className="flex items-center gap-2 mb-1" style={{padding:'4px 8px 18px'}}>
+          <div style={{width:30,height:30,borderRadius:9,background:'#F4EFE7',display:'flex',alignItems:'center',justifyContent:'center',color:BLUE,fontSize:15}}>♡</div>
+          <span style={{fontFamily:F,fontSize:18,fontWeight:600,color:INK}}>Vowed</span>
+        </div>
+
+        {NAV_TOP.map(n => (
+          <button key={n.id} onClick={() => setTab(n.id)} style={{
+            display:'flex',alignItems:'center',gap:10,textAlign:'left',padding:'9px 10px',borderRadius:9,border:'none',
+            background: tab===n.id ? '#F4F2EE' : 'transparent', color: tab===n.id ? INK : MUTE,
+            fontWeight: tab===n.id ? 600 : 400, fontSize:13,cursor:'pointer',marginBottom:1
+          }}>
+            <Icon name={n.id} />{n.label}
+          </button>
+        ))}
+
+        <div style={{marginTop:'auto'}}>
+          {NAV_BOTTOM.map(n => (
+            <button key={n.id} onClick={() => setTab(n.id)} style={{
+              display:'flex',alignItems:'center',gap:10,textAlign:'left',padding:'9px 10px',borderRadius:9,border:'none',
+              background: tab===n.id ? '#F4F2EE' : 'transparent', color: tab===n.id ? INK : MUTE,
+              fontWeight: tab===n.id ? 600 : 400, fontSize:13,cursor:'pointer',marginBottom:1
             }}>
               <Icon name={n.id} />{n.label}
             </button>
