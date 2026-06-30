@@ -1,147 +1,152 @@
-import Link from 'next/link'
+'use client'
 
-export default function Home() {
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { createClient } from '@/lib/supabase'
+
+const F = "'Cormorant Garamond',serif"
+const M = "'DM Mono',monospace"
+
+const PROVIDERS = [
+  'Lugares para boda','Fotografía','Vídeo','Música','Catering','Coche de boda',
+  'Invitaciones de boda','Detalles de boda','Novia y complementos','Luna de miel',
+  'Transporte','Flores y decoración','Animación','Organización','Novio y complementos',
+  'Belleza y salud','Joyería','Tartas de boda'
+]
+
+export default function Onboarding() {
+  const router = useRouter()
+  const [name1, setName1] = useState('')
+  const [name2, setName2] = useState('')
+  const [guests, setGuests] = useState('')
+  const [budget, setBudget] = useState('')
+  const [city, setCity] = useState('')
+  const [weddingDate, setWeddingDate] = useState('')
+  const [selected, setSelected] = useState<string[]>(['Lugares para boda','Fotografía','Vídeo','Música','Catering'])
+  const [saving, setSaving] = useState(false)
+
+  function toggleProvider(p: string) {
+    setSelected(prev => prev.includes(p) ? prev.filter(x => x !== p) : [...prev, p])
+  }
+
+  async function finish() {
+    setSaving(true)
+    const supabase = createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (user) {
+      await supabase.from('profiles').upsert({
+        id: user.id,
+        name1: name1 || user.user_metadata?.name1 || '',
+        name2: name2 || user.user_metadata?.name2 || '',
+        wedding_date: weddingDate || null,
+        budget,
+      })
+    }
+    router.push('/dashboard')
+  }
+
   return (
-    <main className="min-h-screen bg-white">
+    <div className="min-h-screen grid grid-cols-[380px_1fr]" style={{fontFamily:"'Inter',sans-serif"}}>
 
-      {/* NAV */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-10 py-6 bg-white border-b border-gray-100">
-        <div className="font-display text-xl font-light tracking-widest uppercase">Vowed</div>
-        <div className="flex items-center gap-8">
-          <Link href="#features" className="font-mono-custom text-xs tracking-widest uppercase text-gray-400 hover:text-black transition-colors">
-            Qué incluye
-          </Link>
-          <Link href="#how" className="font-mono-custom text-xs tracking-widest uppercase text-gray-400 hover:text-black transition-colors">
-            Cómo funciona
-          </Link>
-          <Link href="/login" className="font-mono-custom text-xs tracking-widest uppercase text-gray-400 hover:text-black transition-colors">
-            Acceder
-          </Link>
-          <Link href="/register" className="font-mono-custom text-xs tracking-widest uppercase bg-black text-white px-5 py-2.5 hover:bg-gray-900 transition-colors">
-            Empezar gratis
-          </Link>
+      {/* LEFT - peachy panel */}
+      <div style={{background:'linear-gradient(160deg,#F3E3DC 0%,#F8ECE4 100%)'}} className="flex flex-col justify-between p-12 relative overflow-hidden">
+        <div style={{fontFamily:F,fontSize:18,fontWeight:300,letterSpacing:'0.2em',textTransform:'uppercase',color:'#3A2E28'}}>Vowed</div>
+        <div>
+          <h1 style={{fontFamily:F,fontSize:34,fontWeight:400,lineHeight:1.25,color:'#2A2018',marginBottom:16}}>
+            Un paso más...<br/>¡y listo!
+          </h1>
+          <p style={{fontSize:13,color:'#7A6A5E',lineHeight:1.8,maxWidth:260}}>
+            Pon a punto vuestro organizador rellenando los datos básicos sobre vuestra boda.
+          </p>
         </div>
-      </nav>
+        <div style={{fontFamily:M,fontSize:9,color:'#9A8A7E',letterSpacing:'0.1em'}}>VOWED · 2025</div>
 
-      {/* HERO */}
-      <section className="grid grid-cols-2 min-h-screen">
-        <div className="bg-[#0A0A0A] flex flex-col justify-between p-16 pt-32">
-          <div />
-          <div>
-            <div className="font-mono-custom text-xs tracking-widest text-[#C9A84C] uppercase mb-8">
-              Wedding Planner
+        <div style={{position:'absolute',bottom:-60,right:-60,width:200,height:200,borderRadius:'50%',border:'1px solid rgba(201,168,76,0.25)'}}/>
+        <div style={{position:'absolute',bottom:-20,right:-20,width:120,height:120,borderRadius:'50%',border:'1px solid rgba(201,168,76,0.18)'}}/>
+      </div>
+
+      {/* RIGHT - form */}
+      <div className="px-20 py-16 overflow-y-auto">
+        <div style={{maxWidth:680}}>
+
+          <h2 style={{fontFamily:F,fontSize:26,fontWeight:400,marginBottom:28,color:'#1A1A1A'}}>Sobre nosotros</h2>
+          <div className="grid grid-cols-2 gap-8 mb-12">
+            <div>
+              <label style={{fontFamily:M,fontSize:10,letterSpacing:'0.1em',textTransform:'uppercase',color:'#AAA',display:'block',marginBottom:8}}>Yo soy...</label>
+              <input value={name1} onChange={e=>setName1(e.target.value)} placeholder="Tu nombre" style={{width:'100%',border:'none',borderBottom:'1px solid #E5E0DA',padding:'8px 0',fontSize:16,outline:'none',background:'transparent'}}
+                onFocus={e=>e.target.style.borderBottomColor='#C9A84C'} onBlur={e=>e.target.style.borderBottomColor='#E5E0DA'}/>
             </div>
-            <h1 className="font-display text-7xl font-light italic text-white leading-tight">
-              Vuestra<br />boda<br /><em className="text-[#C9A84C] not-italic">perfecta.</em>
-            </h1>
+            <div>
+              <label style={{fontFamily:M,fontSize:10,letterSpacing:'0.1em',textTransform:'uppercase',color:'#AAA',display:'block',marginBottom:8}}>Mi pareja es...</label>
+              <input value={name2} onChange={e=>setName2(e.target.value)} placeholder="Nombre de tu pareja" style={{width:'100%',border:'none',borderBottom:'1px solid #E5E0DA',padding:'8px 0',fontSize:16,outline:'none',background:'transparent'}}
+                onFocus={e=>e.target.style.borderBottomColor='#C9A84C'} onBlur={e=>e.target.style.borderBottomColor='#E5E0DA'}/>
+            </div>
           </div>
-          <div className="font-mono-custom text-xs text-gray-600 tracking-widest">
-            VOWED · WEDDING PLANNER · 2025
-          </div>
-        </div>
 
-        <div className="flex flex-col justify-center px-20 pt-24">
-          <div className="font-mono-custom text-xs tracking-widest uppercase text-[#C9A84C] mb-6">
-            Organización nupcial
+          <h2 style={{fontFamily:F,fontSize:26,fontWeight:400,marginBottom:28,color:'#1A1A1A'}}>Sobre vuestra boda</h2>
+          <div className="grid grid-cols-2 gap-8 mb-8">
+            <div>
+              <label style={{fontFamily:M,fontSize:10,letterSpacing:'0.1em',textTransform:'uppercase',color:'#AAA',display:'block',marginBottom:8}}>Fecha de la boda</label>
+              <input type="date" value={weddingDate} onChange={e=>setWeddingDate(e.target.value)} style={{width:'100%',border:'none',borderBottom:'1px solid #E5E0DA',padding:'8px 0',fontSize:16,outline:'none',background:'transparent',color:'#1A1A1A'}}
+                onFocus={e=>e.target.style.borderBottomColor='#C9A84C'} onBlur={e=>e.target.style.borderBottomColor='#E5E0DA'}/>
+            </div>
+            <div>
+              <label style={{fontFamily:M,fontSize:10,letterSpacing:'0.1em',textTransform:'uppercase',color:'#AAA',display:'block',marginBottom:8}}>Nº de invitados</label>
+              <input type="number" value={guests} onChange={e=>setGuests(e.target.value)} placeholder="100" style={{width:'100%',border:'none',borderBottom:'1px solid #E5E0DA',padding:'8px 0',fontSize:16,outline:'none',background:'transparent'}}
+                onFocus={e=>e.target.style.borderBottomColor='#C9A84C'} onBlur={e=>e.target.style.borderBottomColor='#E5E0DA'}/>
+            </div>
           </div>
-          <h2 className="font-display text-4xl font-light leading-snug mb-6">
-            Todo lo que necesitáis.<br />En un solo lugar.
-          </h2>
-          <p className="text-sm text-gray-500 leading-relaxed max-w-sm mb-10">
-            Vowed os guía desde la primera decisión hasta el último detalle. Checklist por etapas, presupuesto, invitados y seating. Sin experiencia previa. Sin estrés.
-          </p>
-          <div className="flex flex-col gap-4">
-            <Link href="/register" className="inline-flex items-center gap-4 bg-[#0A0A0A] text-white font-mono-custom text-xs tracking-widest uppercase px-8 py-4 w-fit hover:bg-gray-900 transition-colors">
-              Empezar gratis
-              <span className="w-6 h-px bg-[#C9A84C] relative after:content-[''] after:absolute after:right-0 after:top-[-3px] after:w-1.5 after:h-1.5 after:border-r after:border-t after:border-[#C9A84C] after:rotate-45" />
-            </Link>
-            <p className="font-mono-custom text-xs text-gray-400 tracking-wider">
-              Sin tarjeta de crédito · Acceso inmediato
-            </p>
+          <div className="grid grid-cols-2 gap-8 mb-12">
+            <div>
+              <label style={{fontFamily:M,fontSize:10,letterSpacing:'0.1em',textTransform:'uppercase',color:'#AAA',display:'block',marginBottom:8}}>Presupuesto aproximado (€)</label>
+              <input type="number" value={budget} onChange={e=>setBudget(e.target.value)} placeholder="20000" style={{width:'100%',border:'none',borderBottom:'1px solid #E5E0DA',padding:'8px 0',fontSize:16,outline:'none',background:'transparent'}}
+                onFocus={e=>e.target.style.borderBottomColor='#C9A84C'} onBlur={e=>e.target.style.borderBottomColor='#E5E0DA'}/>
+            </div>
+            <div>
+              <label style={{fontFamily:M,fontSize:10,letterSpacing:'0.1em',textTransform:'uppercase',color:'#AAA',display:'block',marginBottom:8}}>Población</label>
+              <input value={city} onChange={e=>setCity(e.target.value)} placeholder="Ciudad" style={{width:'100%',border:'none',borderBottom:'1px solid #E5E0DA',padding:'8px 0',fontSize:16,outline:'none',background:'transparent'}}
+                onFocus={e=>e.target.style.borderBottomColor='#C9A84C'} onBlur={e=>e.target.style.borderBottomColor='#E5E0DA'}/>
+            </div>
           </div>
-        </div>
-      </section>
 
-      {/* FEATURES */}
-      <section id="features" className="py-32 px-16 border-t border-gray-100">
-        <div className="max-w-6xl mx-auto">
-          <div className="font-mono-custom text-xs tracking-widest uppercase text-[#C9A84C] mb-4">
-            Todo incluido
-          </div>
-          <h2 className="font-display text-5xl font-light italic mb-20">
-            Cada módulo, pensado<br />para vosotros.
-          </h2>
-          <div className="grid grid-cols-3 gap-px bg-gray-100 border border-gray-100">
-            {[
-              { num: '01', title: 'Checklist por etapas', desc: 'Desde 18 meses antes hasta el día de la boda. 30 tareas organizadas por periodo con progreso real.' },
-              { num: '02', title: 'Presupuesto', desc: 'Control total de gastos. Presupuesto estimado, coste real y pagado. Estado de cada partida en tiempo real.' },
-              { num: '03', title: 'Lista de invitados', desc: 'Gestión completa: reserva de fecha, invitación enviada y confirmación de asistencia.' },
-              { num: '04', title: 'Seating', desc: 'Distribución de mesas. Asignad cada invitado a su mesa y visualizad la distribución al instante.' },
-              { num: '05', title: 'Proveedores', desc: 'Todos los contactos en un lugar. Estado de cada proveedor: por contactar, negociando o contratado.' },
-              { num: '06', title: 'Progreso visual', desc: 'Panel central con el porcentaje de planificación completada. Siempre sabéis dónde estáis.' },
-            ].map(f => (
-              <div key={f.num} className="bg-white p-10">
-                <div className="font-display text-5xl font-light italic text-gray-100 mb-6">{f.num}</div>
-                <div className="text-sm font-medium mb-3">{f.title}</div>
-                <div className="text-xs text-gray-400 leading-relaxed font-mono-custom">{f.desc}</div>
-              </div>
+          <h2 style={{fontFamily:F,fontSize:22,fontWeight:400,marginBottom:6,color:'#1A1A1A'}}>Selecciona lo que necesitáis</h2>
+          <p style={{fontSize:12,color:'#AAA',marginBottom:24}}>Podéis cambiarlo en cualquier momento.</p>
+
+          <div className="grid grid-cols-3 gap-x-8 gap-y-4 mb-12">
+            {PROVIDERS.map(p => (
+              <label key={p} className="flex items-center gap-3 cursor-pointer">
+                <div style={{
+                  width:18,height:18,flexShrink:0,
+                  border: selected.includes(p) ? 'none' : '1.5px solid #DDD',
+                  background: selected.includes(p) ? '#C9A84C' : 'white',
+                  display:'flex',alignItems:'center',justifyContent:'center'
+                }}>
+                  {selected.includes(p) && (
+                    <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                      <path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  )}
+                </div>
+                <input type="checkbox" className="hidden" checked={selected.includes(p)} onChange={()=>toggleProvider(p)} />
+                <span style={{fontSize:13,color:'#333'}}>{p}</span>
+              </label>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* HOW IT WORKS */}
-      <section id="how" className="py-32 px-16 bg-[#FDFAF2] border-t border-gray-100">
-        <div className="max-w-5xl mx-auto">
-          <div className="font-mono-custom text-xs tracking-widest uppercase text-[#C9A84C] mb-4">
-            En tres pasos
-          </div>
-          <h2 className="font-display text-5xl font-light italic mb-20">
-            Cómo funciona.
-          </h2>
-          <div className="grid grid-cols-3 gap-20">
-            {[
-              { num: '01', title: 'Creaos una cuenta', desc: 'Solo necesitáis un email. Sin tarjeta de crédito. Acceso inmediato al organizador completo.' },
-              { num: '02', title: 'Responded el quiz', desc: 'Cinco preguntas sobre vuestra boda. Vowed genera un plan personalizado a vuestro estilo y fecha.' },
-              { num: '03', title: 'Organizad juntos', desc: 'Acceded desde cualquier dispositivo. Cada cambio se guarda automáticamente en vuestra cuenta.' },
-            ].map(s => (
-              <div key={s.num}>
-                <div className="font-display text-8xl font-light italic text-gray-100 leading-none mb-6">{s.num}</div>
-                <div className="w-8 h-px bg-[#C9A84C] mb-5" />
-                <div className="text-sm font-medium mb-3">{s.title}</div>
-                <div className="text-xs text-gray-400 leading-relaxed">{s.desc}</div>
-              </div>
-            ))}
-          </div>
+          <button
+            onClick={finish}
+            disabled={saving}
+            style={{
+              background:'#1A1A1A',color:'white',border:'none',
+              padding:'15px 40px',fontFamily:M,fontSize:11,
+              letterSpacing:'0.12em',textTransform:'uppercase',
+              cursor:'pointer',opacity:saving?0.6:1
+            }}
+          >
+            {saving ? 'Creando vuestro espacio...' : 'Crear nuestro organizador'}
+          </button>
         </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-32 px-16 bg-[#0A0A0A]">
-        <div className="max-w-3xl mx-auto text-center">
-          <div className="font-mono-custom text-xs tracking-widest uppercase text-[#C9A84C] mb-6">
-            Empezad hoy
-          </div>
-          <h2 className="font-display text-6xl font-light italic text-white mb-8">
-            Vuestra boda os espera.
-          </h2>
-          <p className="text-sm text-gray-500 mb-12 leading-relaxed">
-            Acceso gratuito. Sin límites. Todo el organizador disponible desde el primer día.
-          </p>
-          <Link href="/register" className="inline-flex items-center gap-4 bg-white text-black font-mono-custom text-xs tracking-widest uppercase px-10 py-4 hover:bg-gray-100 transition-colors">
-            Crear cuenta gratis
-          </Link>
-        </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer className="border-t border-gray-100 px-16 py-8 flex items-center justify-between">
-        <div className="font-display text-lg font-light tracking-widest uppercase">Vowed</div>
-        <div className="font-mono-custom text-xs text-gray-400 tracking-widest">
-          WEDDING PLANNER · 2025
-        </div>
-      </footer>
-
-    </main>
+      </div>
+    </div>
   )
 }
