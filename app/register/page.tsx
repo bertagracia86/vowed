@@ -27,7 +27,7 @@ export default function RegisterPage() {
       options: { data: { name1, name2 } }
     })
     if (error) { setError(error.message); setLoading(false) }
-    else { router.push('/dashboard') }
+    else { router.push('/start') }
   }
 
   return (
