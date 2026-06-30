@@ -15,6 +15,7 @@ const ICONS: Record<string, JSX.Element> = {
   todo: <><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></>,
   budget: <><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 14h2"/></>,
   guests: <><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 2.5-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 20c0-2.4 1.6-4 3.7-4.5"/></>,
+  invitations: <><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></>,
 }
 
 const NAV = [
@@ -22,6 +23,14 @@ const NAV = [
   { id: 'todo', label: 'To-Do' },
   { id: 'budget', label: 'Budget' },
   { id: 'guests', label: 'Guests' },
+  { id: 'invitations', label: 'Invitations' },
+]
+
+const TEMPLATES = [
+  { name: 'Jardín de olivos', price: '12 €', img: 'https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=300&q=80' },
+  { name: 'Lino y oro', price: '14 €', img: 'https://images.unsplash.com/photo-1622037022824-0c71d511ec02?w=300&q=80' },
+  { name: 'Acuarela floral', price: '12 €', img: 'https://images.unsplash.com/photo-1612630440053-cdc4458c79fd?w=300&q=80' },
+  { name: 'Minimal clásica', price: '10 €', img: 'https://images.unsplash.com/photo-1595407753234-0882f1e76e26?w=300&q=80' },
 ]
 
 function Icon({ name }: { name: string }) {
@@ -33,8 +42,9 @@ function Icon({ name }: { name: string }) {
 }
 
 interface Task { id: string; title: string; done: boolean }
-interface Guest { id: string; name: string; rsvp: string }
+interface Guest { id: string; name: string; contact: string | null; rsvp: string; table_name: string | null }
 interface BudgetItem { id: string; category: string; estimated: number; paid: number }
+interface TableRow { id: string; name: string }
 
 export default function Dashboard() {
   const router = useRouter()
@@ -45,18 +55,24 @@ export default function Dashboard() {
   const [tasks, setTasks] = useState<Task[]>([])
   const [guests, setGuests] = useState<Guest[]>([])
   const [budget, setBudget] = useState<BudgetItem[]>([])
+  const [tables, setTables] = useState<TableRow[]>([])
+
   const [newTask, setNewTask] = useState('')
   const [newGuest, setNewGuest] = useState('')
   const [newCat, setNewCat] = useState('')
   const [newEst, setNewEst] = useState('')
+  const [newTable, setNewTable] = useState('')
+  const [guestsView, setGuestsView] = useState<'list' | 'seating'>('list')
+  const [draggedGuest, setDraggedGuest] = useState<string | null>(null)
 
   const supabase = createClient()
 
   async function loadAll(uid: string) {
     const { data: t } = await supabase.from('tasks').select('id,title,done').eq('user_id', uid).order('created_at')
-    const { data: g } = await supabase.from('guests').select('id,name,rsvp').eq('user_id', uid).order('created_at')
+    const { data: g } = await supabase.from('guests').select('id,name,contact,rsvp,table_name').eq('user_id', uid).order('created_at')
     const { data: b } = await supabase.from('budget_items').select('id,category,estimated,paid').eq('user_id', uid).order('created_at')
-    setTasks(t || []); setGuests(g || []); setBudget(b || [])
+    const { data: tb } = await supabase.from('tables_list').select('id,name').eq('user_id', uid).order('created_at')
+    setTasks(t || []); setGuests(g || []); setBudget(b || []); setTables(tb || [])
   }
 
   useEffect(() => {
@@ -87,11 +103,28 @@ export default function Dashboard() {
     setNewGuest('')
   }
 
+  async function updateGuest(id: string, field: keyof Guest, value: string) {
+    setGuests(prev => prev.map(g => g.id === id ? { ...g, [field]: value } : g))
+    await supabase.from('guests').update({ [field]: value }).eq('id', id)
+  }
+
   async function addBudget() {
     if (!newCat.trim() || !user) return
     const { data } = await supabase.from('budget_items').insert({ user_id: user.id, category: newCat, estimated: Number(newEst) || 0, paid: 0 }).select().single()
     if (data) setBudget(prev => [...prev, data])
     setNewCat(''); setNewEst('')
+  }
+
+  async function addTableRow() {
+    if (!newTable.trim() || !user) return
+    const { data } = await supabase.from('tables_list').insert({ user_id: user.id, name: newTable }).select().single()
+    if (data) setTables(prev => [...prev, data])
+    setNewTable('')
+  }
+
+  async function assignGuestToTable(guestId: string, tableName: string) {
+    setGuests(prev => prev.map(g => g.id === guestId ? { ...g, table_name: tableName } : g))
+    await supabase.from('guests').update({ table_name: tableName }).eq('id', guestId)
   }
 
   async function handleLogout() {
@@ -114,6 +147,8 @@ export default function Dashboard() {
   const nextTasks = tasks.filter(t => !t.done).slice(0, 3)
   const budgetPaid = budget.reduce((a, b) => a + Number(b.paid || 0), 0)
   const budgetEst = budget.reduce((a, b) => a + Number(b.estimated || 0), 0)
+  const confirmedGuests = guests.filter(g => g.rsvp === 'Sí').length
+  const unassignedGuests = guests.filter(g => !g.table_name)
 
   const r = 32
   const circ = 2 * Math.PI * r
@@ -146,7 +181,7 @@ export default function Dashboard() {
         </button>
       </aside>
 
-      <main className="flex-1 px-10 py-8 max-w-3xl">
+      <main className="flex-1 px-10 py-8" style={{maxWidth:920}}>
 
         {tab === 'home' && (
           <>
@@ -189,8 +224,8 @@ export default function Dashboard() {
 
               <div style={{border:'1px solid #EEF2F7',borderRadius:18,padding:22}}>
                 <p style={{fontSize:11,color:MUTE,marginBottom:10}}>Vuestros datos</p>
-                <p style={{fontFamily:F,fontSize:22,color:INK,marginBottom:2}}>{guests.length}</p>
-                <p style={{fontSize:11,color:MUTE,marginBottom:14}}>invitados</p>
+                <p style={{fontFamily:F,fontSize:22,color:INK,marginBottom:2}}>{confirmedGuests} / {guests.length}</p>
+                <p style={{fontSize:11,color:MUTE,marginBottom:14}}>invitados confirmados</p>
                 <p style={{fontFamily:F,fontSize:22,color:INK,marginBottom:2}}>{budgetPaid.toLocaleString('es-ES')} €</p>
                 <p style={{fontSize:11,color:MUTE}}>pagado de {budgetEst.toLocaleString('es-ES')} €</p>
               </div>
@@ -240,29 +275,131 @@ export default function Dashboard() {
 
         {tab === 'guests' && (
           <>
-            <h1 style={{fontFamily:F,fontSize:26,fontWeight:500,color:INK,marginBottom:4}}>Invitados</h1>
-            <p style={{fontSize:12,color:MUTE,marginBottom:24}}>{guests.length} en la lista</p>
-
-            <div className="flex gap-2 mb-5">
-              <input
-                value={newGuest} onChange={e=>setNewGuest(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && addGuest()}
-                placeholder="Nombre del invitado..."
-                style={{flex:1,border:'1px solid #DCE7F4',borderRadius:12,padding:'11px 16px',fontSize:13,outline:'none'}}
-              />
-              <button onClick={addGuest} style={{background:BLUE,color:'white',border:'none',borderRadius:12,padding:'11px 22px',fontSize:13,cursor:'pointer'}}>Añadir</button>
+            <div className="flex items-center justify-between mb-1">
+              <h1 style={{fontFamily:F,fontSize:26,fontWeight:500,color:INK}}>Invitados</h1>
+              <div style={{display:'flex',gap:1,background:'#EEF2F7',borderRadius:10,padding:2}}>
+                <button onClick={()=>setGuestsView('list')} style={{
+                  padding:'7px 16px',borderRadius:8,border:'none',fontSize:12,cursor:'pointer',
+                  background: guestsView==='list' ? 'white' : 'transparent',
+                  color: guestsView==='list' ? INK : MUTE,
+                  fontWeight: guestsView==='list' ? 500 : 400
+                }}>Lista</button>
+                <button onClick={()=>setGuestsView('seating')} style={{
+                  padding:'7px 16px',borderRadius:8,border:'none',fontSize:12,cursor:'pointer',
+                  background: guestsView==='seating' ? 'white' : 'transparent',
+                  color: guestsView==='seating' ? INK : MUTE,
+                  fontWeight: guestsView==='seating' ? 500 : 400
+                }}>Mesas</button>
+              </div>
             </div>
+            <p style={{fontSize:12,color:MUTE,marginBottom:24}}>{guests.length} en la lista · {confirmedGuests} confirmados</p>
 
-            {guests.length === 0 ? (
-              <p style={{fontSize:13,color:MUTE,textAlign:'center',padding:'40px 0'}}>Aún no tenéis invitados. Añadid el primero arriba.</p>
-            ) : (
-              <div style={{border:'1px solid #EEF2F7',borderRadius:18,overflow:'hidden'}}>
-                {guests.map((g, i) => (
-                  <div key={g.id} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'12px 20px',borderBottom: i < guests.length-1 ? '1px solid #F0F3F8' : 'none'}}>
-                    <span style={{fontSize:13,color:INK}}>{g.name}</span>
-                    <span style={{fontSize:11,color:MUTE}}>{g.rsvp}</span>
+            {guestsView === 'list' && (
+              <>
+                <div className="flex gap-2 mb-5">
+                  <input
+                    value={newGuest} onChange={e=>setNewGuest(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && addGuest()}
+                    placeholder="Nombre del invitado..."
+                    style={{flex:1,border:'1px solid #DCE7F4',borderRadius:12,padding:'11px 16px',fontSize:13,outline:'none'}}
+                  />
+                  <button onClick={addGuest} style={{background:BLUE,color:'white',border:'none',borderRadius:12,padding:'11px 22px',fontSize:13,cursor:'pointer'}}>Añadir</button>
+                </div>
+
+                {guests.length === 0 ? (
+                  <p style={{fontSize:13,color:MUTE,textAlign:'center',padding:'40px 0'}}>Aún no tenéis invitados. Añadid el primero arriba.</p>
+                ) : (
+                  <div style={{border:'1px solid #EEF2F7',borderRadius:18,overflow:'hidden'}}>
+                    <div style={{display:'grid',gridTemplateColumns:'1.4fr 1.4fr 1fr 1fr',padding:'10px 20px',background:'#FAFBFD',borderBottom:'1px solid #EEF2F7'}}>
+                      <span style={{fontSize:10,color:MUTE,letterSpacing:'0.04em'}}>NOMBRE</span>
+                      <span style={{fontSize:10,color:MUTE,letterSpacing:'0.04em'}}>CONTACTO</span>
+                      <span style={{fontSize:10,color:MUTE,letterSpacing:'0.04em'}}>MESA</span>
+                      <span style={{fontSize:10,color:MUTE,letterSpacing:'0.04em'}}>ASISTENCIA</span>
+                    </div>
+                    {guests.map((g, i) => (
+                      <div key={g.id} style={{display:'grid',gridTemplateColumns:'1.4fr 1.4fr 1fr 1fr',alignItems:'center',padding:'10px 20px',borderBottom: i < guests.length-1 ? '1px solid #F0F3F8' : 'none'}}>
+                        <span style={{fontSize:13,color:INK}}>{g.name}</span>
+                        <input
+                          value={g.contact || ''} onChange={e=>updateGuest(g.id,'contact',e.target.value)}
+                          placeholder="Email o teléfono"
+                          style={{border:'none',background:'transparent',fontSize:12,color:MUTE,outline:'none'}}
+                        />
+                        <span style={{fontSize:12,color: g.table_name ? INK : '#C7D2E0'}}>{g.table_name || '—'}</span>
+                        <select
+                          value={g.rsvp} onChange={e=>updateGuest(g.id,'rsvp',e.target.value)}
+                          style={{border:'1px solid #EEF2F7',borderRadius:8,padding:'5px 8px',fontSize:11,color:INK,background:'white',outline:'none',width:'fit-content'}}
+                        >
+                          <option>Pendiente</option>
+                          <option>Sí</option>
+                          <option>No</option>
+                        </select>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                )}
+              </>
+            )}
+
+            {guestsView === 'seating' && (
+              <div className="grid grid-cols-[1fr_260px] gap-5">
+                <div>
+                  <div className="flex gap-2 mb-5">
+                    <input
+                      value={newTable} onChange={e=>setNewTable(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && addTableRow()}
+                      placeholder="Nombre de mesa (ej: Mesa 1)"
+                      style={{flex:1,border:'1px solid #DCE7F4',borderRadius:12,padding:'11px 16px',fontSize:13,outline:'none'}}
+                    />
+                    <button onClick={addTableRow} style={{background:BLUE,color:'white',border:'none',borderRadius:12,padding:'11px 22px',fontSize:13,cursor:'pointer'}}>+ Mesa</button>
+                  </div>
+
+                  {tables.length === 0 ? (
+                    <p style={{fontSize:13,color:MUTE,textAlign:'center',padding:'40px 0'}}>Aún no tenéis mesas. Cread la primera arriba.</p>
+                  ) : (
+                    <div className="grid grid-cols-2 gap-3">
+                      {tables.map(table => {
+                        const seated = guests.filter(g => g.table_name === table.name)
+                        return (
+                          <div
+                            key={table.id}
+                            onDragOver={e => e.preventDefault()}
+                            onDrop={() => { if (draggedGuest) assignGuestToTable(draggedGuest, table.name) }}
+                            style={{border:'1.5px dashed #DCE7F4',borderRadius:16,padding:16,minHeight:120}}
+                          >
+                            <p style={{fontFamily:F,fontSize:15,color:INK,marginBottom:8}}>{table.name}</p>
+                            {seated.map(g => (
+                              <div
+                                key={g.id}
+                                draggable
+                                onDragStart={() => setDraggedGuest(g.id)}
+                                style={{background:'#F3F7FC',borderRadius:8,padding:'5px 10px',fontSize:11,color:INK,marginBottom:5,cursor:'grab'}}
+                              >
+                                {g.name}
+                              </div>
+                            ))}
+                            {seated.length === 0 && <p style={{fontSize:11,color:'#C7D2E0'}}>Arrastrad invitados aquí</p>}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )}
+                </div>
+
+                <div style={{border:'1px solid #EEF2F7',borderRadius:16,padding:16,alignSelf:'flex-start'}}>
+                  <p style={{fontSize:11,color:MUTE,marginBottom:10}}>Sin mesa asignada</p>
+                  {unassignedGuests.length === 0 ? (
+                    <p style={{fontSize:11,color:'#C7D2E0'}}>Todos asignados ♡</p>
+                  ) : unassignedGuests.map(g => (
+                    <div
+                      key={g.id}
+                      draggable
+                      onDragStart={() => setDraggedGuest(g.id)}
+                      style={{background:'white',border:'1px solid #EEF2F7',borderRadius:8,padding:'7px 10px',fontSize:12,color:INK,marginBottom:6,cursor:'grab'}}
+                    >
+                      {g.name}
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </>
@@ -299,6 +436,32 @@ export default function Dashboard() {
                 ))}
               </div>
             )}
+          </>
+        )}
+
+        {tab === 'invitations' && (
+          <>
+            <h1 style={{fontFamily:F,fontSize:26,fontWeight:500,color:INK,marginBottom:4}}>Invitaciones</h1>
+            <p style={{fontSize:12,color:MUTE,marginBottom:24}}>Plantillas listas para personalizar</p>
+
+            <div className="grid grid-cols-2 gap-5">
+              {TEMPLATES.map(t => (
+                <div key={t.name} style={{border:'1px solid #EEF2F7',borderRadius:18,overflow:'hidden'}}>
+                  <div style={{aspectRatio:'4/3',overflow:'hidden'}}>
+                    <img src={t.img} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}}/>
+                  </div>
+                  <div style={{padding:16,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                    <div>
+                      <p style={{fontFamily:F,fontSize:15,color:INK}}>{t.name}</p>
+                      <p style={{fontSize:12,color:MUTE}}>{t.price}</p>
+                    </div>
+                    <button style={{background:BLUE,color:'white',border:'none',borderRadius:999,padding:'9px 20px',fontSize:12,cursor:'pointer'}}>
+                      Comprar
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </>
         )}
 
