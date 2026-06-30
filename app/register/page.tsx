@@ -31,8 +31,8 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-6" style={{background:'#FFFFFF',fontFamily:"'Inter',sans-serif"}}>
-      <Link href="/" style={{fontFamily:F,fontSize:18,fontWeight:300,letterSpacing:'0.18em',textTransform:'uppercase',color:'#1A1A1A',position:'absolute',top:32,left:40}}>
+    <div className="min-h-screen flex flex-col items-center justify-center px-6" style={{background:'linear-gradient(180deg,#EAF1FA 0%,white 40%)',fontFamily:"'Inter',sans-serif"}}>
+      <Link href="/" style={{fontFamily:F,fontSize:22,fontStyle:'italic',fontWeight:700,color:'#3D5A80',position:'absolute',top:32,left:40}}>
         Vowed
       </Link>
 
@@ -40,22 +40,22 @@ export default function RegisterPage() {
 
         {step === 0 && (
           <div className="text-center">
-            <h1 style={{fontFamily:F,fontSize:32,fontWeight:300,fontStyle:'italic',color:'#1A1A1A',lineHeight:1.3,marginBottom:12}}>
+            <h1 style={{fontFamily:F,fontSize:32,fontWeight:300,fontStyle:'italic',color:'#2C3E5C',lineHeight:1.3,marginBottom:12}}>
               ¿Cómo os llamáis?
             </h1>
-            <p style={{fontSize:13,color:'#999',marginBottom:40}}>Solo esto, para empezar.</p>
+            <p style={{fontSize:13,color:'#7A93B5',marginBottom:40}}>Solo esto, para empezar.</p>
             <div className="flex flex-col gap-3 mb-8">
               <input
                 value={name1} onChange={e=>setName1(e.target.value)}
                 placeholder="Tu nombre"
-                style={{width:'100%',border:'1px solid #EEEEEE',borderRadius:999,padding:'16px 24px',fontSize:15,outline:'none',textAlign:'center',transition:'border-color .15s'}}
-                onFocus={e=>e.target.style.borderColor='#1A1A1A'} onBlur={e=>e.target.style.borderColor='#EEEEEE'}
+                style={{width:'100%',border:'1px solid #DCE7F4',borderRadius:999,padding:'16px 24px',fontSize:15,outline:'none',textAlign:'center',background:'white'}}
+                onFocus={e=>e.target.style.borderColor='#3D5A80'} onBlur={e=>e.target.style.borderColor='#DCE7F4'}
               />
               <input
                 value={name2} onChange={e=>setName2(e.target.value)}
                 placeholder="Nombre de tu pareja"
-                style={{width:'100%',border:'1px solid #EEEEEE',borderRadius:999,padding:'16px 24px',fontSize:15,outline:'none',textAlign:'center',transition:'border-color .15s'}}
-                onFocus={e=>e.target.style.borderColor='#1A1A1A'} onBlur={e=>e.target.style.borderColor='#EEEEEE'}
+                style={{width:'100%',border:'1px solid #DCE7F4',borderRadius:999,padding:'16px 24px',fontSize:15,outline:'none',textAlign:'center',background:'white'}}
+                onFocus={e=>e.target.style.borderColor='#3D5A80'} onBlur={e=>e.target.style.borderColor='#DCE7F4'}
               />
             </div>
             <button
@@ -63,10 +63,9 @@ export default function RegisterPage() {
               disabled={!name1 || !name2}
               style={{
                 width:'100%',borderRadius:999,padding:'16px 0',border:'none',
-                background: name1 && name2 ? '#1A1A1A' : '#F0F0F0',
-                color: name1 && name2 ? 'white' : '#BBB',
-                fontSize:14,fontWeight:500,cursor: name1 && name2 ? 'pointer' : 'default',
-                transition:'all .15s'
+                background: name1 && name2 ? '#3D5A80' : '#E2EBF6',
+                color: name1 && name2 ? 'white' : '#AFC2DC',
+                fontSize:14,fontWeight:500,cursor: name1 && name2 ? 'pointer' : 'default'
               }}
             >
               Continuar
@@ -76,39 +75,39 @@ export default function RegisterPage() {
 
         {step === 1 && (
           <div className="text-center">
-            <h1 style={{fontFamily:F,fontSize:32,fontWeight:300,fontStyle:'italic',color:'#1A1A1A',lineHeight:1.3,marginBottom:12}}>
+            <h1 style={{fontFamily:F,fontSize:32,fontWeight:300,fontStyle:'italic',color:'#2C3E5C',lineHeight:1.3,marginBottom:12}}>
               Y vuestro email
             </h1>
-            <p style={{fontSize:13,color:'#999',marginBottom:40}}>Para guardar todo lo que vayáis organizando.</p>
+            <p style={{fontSize:13,color:'#7A93B5',marginBottom:40}}>Para guardar todo lo que vayáis organizando.</p>
             <form onSubmit={handleRegister} className="flex flex-col gap-3">
               <input
                 type="email" value={email} onChange={e=>setEmail(e.target.value)} required
                 placeholder="vuestro@email.com"
-                style={{width:'100%',border:'1px solid #EEEEEE',borderRadius:999,padding:'16px 24px',fontSize:15,outline:'none',textAlign:'center'}}
-                onFocus={e=>e.target.style.borderColor='#1A1A1A'} onBlur={e=>e.target.style.borderColor='#EEEEEE'}
+                style={{width:'100%',border:'1px solid #DCE7F4',borderRadius:999,padding:'16px 24px',fontSize:15,outline:'none',textAlign:'center',background:'white'}}
+                onFocus={e=>e.target.style.borderColor='#3D5A80'} onBlur={e=>e.target.style.borderColor='#DCE7F4'}
               />
               <input
                 type="password" value={password} onChange={e=>setPassword(e.target.value)} required minLength={6}
                 placeholder="Contraseña"
-                style={{width:'100%',border:'1px solid #EEEEEE',borderRadius:999,padding:'16px 24px',fontSize:15,outline:'none',textAlign:'center'}}
-                onFocus={e=>e.target.style.borderColor='#1A1A1A'} onBlur={e=>e.target.style.borderColor='#EEEEEE'}
+                style={{width:'100%',border:'1px solid #DCE7F4',borderRadius:999,padding:'16px 24px',fontSize:15,outline:'none',textAlign:'center',background:'white'}}
+                onFocus={e=>e.target.style.borderColor='#3D5A80'} onBlur={e=>e.target.style.borderColor='#DCE7F4'}
               />
               {error && <p style={{fontSize:12,color:'#C0594F'}}>{error}</p>}
               <button
                 type="submit" disabled={loading}
-                style={{width:'100%',borderRadius:999,padding:'16px 0',border:'none',background:'#1A1A1A',color:'white',fontSize:14,fontWeight:500,cursor:'pointer',marginTop:8,opacity:loading?0.6:1}}
+                style={{width:'100%',borderRadius:999,padding:'16px 0',border:'none',background:'#3D5A80',color:'white',fontSize:14,fontWeight:500,cursor:'pointer',marginTop:8,opacity:loading?0.6:1}}
               >
                 {loading ? 'Creando vuestro espacio...' : 'Empezar'}
               </button>
-              <button type="button" onClick={() => setStep(0)} style={{background:'none',border:'none',fontSize:12,color:'#BBB',cursor:'pointer',marginTop:4}}>
+              <button type="button" onClick={() => setStep(0)} style={{background:'none',border:'none',fontSize:12,color:'#AFC2DC',cursor:'pointer',marginTop:4}}>
                 Atrás
               </button>
             </form>
           </div>
         )}
 
-        <p style={{textAlign:'center',fontSize:12,color:'#CCC',marginTop:32}}>
-          Ya tenéis cuenta? <Link href="/login" style={{color:'#999',textDecoration:'underline'}}>Acceder</Link>
+        <p style={{textAlign:'center',fontSize:12,color:'#AFC2DC',marginTop:32}}>
+          Ya tenéis cuenta? <Link href="/login" style={{color:'#7A93B5',textDecoration:'underline'}}>Acceder</Link>
         </p>
       </div>
     </div>
