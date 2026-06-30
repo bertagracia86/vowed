@@ -1,84 +1,5 @@
 'use client'
 
-import {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  useState  from 'react'
-
-const F = "'Cormorant Garamond',serif"
-#const BLUE = '
-6E8FC9'
-#const BLUE_DARK = '
-3D5A80'
-#const INK = '
-2C2A26'
-#const MUTE = '
-8A8580'
-#const BG = '
-FAF9F7'
-
-const ICONS: Record<string, JSX.Element> = {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}} 
-  home: <><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></>,
-  activity: <path d="M3 12h4l2-7 4 14 2-7h6"/>,
-  budget: <><circle cx="12" cy="12" r="9"/><path d="M12 7v10M15 9.5c0-1.5-1.5-2-3-2s-3 .8-3 2c0 1.2 1 1.7 3 2.2 2.2.5 3.2 1 3.2 2.3 0 1.4-1.6 2-3.2 2s-3-.6-3-2"/></>,
-  todo: <><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></>,
-  guests: <><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 2.5-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 20c0-2.4 1.6-4 3.7-4.5"/></>,
-  vendors: <><path d="M4 9l8-6 8 6v11a1 1 0 01-1 1H5a1 1 0 01-1-1V9z"/><path d="M9 21V12h6v9"/></>,
-  seating: <><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></>,
-  invitations: <><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></>,
-  pricing: <><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></>,
-  settings: <><circle cx="12" cy="12" r="3"/><path d="M19.4 13a7.97 7.97 0 000-2l2-1.5-2-3.4-2.4.6a8 8 0 00-1.7-1l-.4-2.5H10.1l-.4 2.5a8 8 0 00-1.7 1l-2.4-.6-2 3.4L5.6 11a8 8 0 000 2l-2 1.5 2 3.4 2.4-.6a8 8 0 001.7 1l.4 2.5h3.8l.4-2.5a8 8 0 001.7-1l2.4.6 2-3.4-2-1.5z"/></>,
-
-
-const NAV_TOP = 
-{.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: 'home', label: 'Resumen' ,
-  {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: 'activity', label: 'Actividad' ,
-  {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: 'budget', label: 'Presupuesto' ,
-  {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: 'todo', label: 'Tareas' ,
-  {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: 'guests', label: 'Invitados' ,
-  {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: 'vendors', label: 'Proveedores' ,
-  {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: 'seating', label: 'Mesas' ,
-  {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: 'invitations', label: 'Invitaciones' ,
-
-{.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: 'pricing', label: 'Precios' ,
-  {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: 'settings', label: 'Ajustes' ,
-
-{.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  name: 'Jardín de olivos', price: '12 ', img: 'https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=300&q=80' ,
-  {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  name: 'Lino y oro', price: '14 ', img: 'https://images.unsplash.com/photo-1622037022824-0c71d511ec02?w=300&q=80' ,
-  {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  name: 'Acuarela floral', price: '12 ', img: 'https://images.unsplash.com/photo-1612630440053-cdc4458c79fd?w=300&q=80' ,
-  {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  name: 'Minimal clásica', price: '10 ', img: 'https://images.unsplash.com/photo-1595407753234-0882f1e76e26?w=300&q=80' ,
-{.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  name : {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  name: string ) {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}} 
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}} ICONSame
-    </svg>
-  )
-
-
-interface Task {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: string; title: string; done: boolean 
-interface Guest {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: string; name: string; contact: string; rsvp: string; table_name: string  null 
-interface BudgetItem {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: string; category: string; estimated: number; paid: number 
-interface TableRow {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: string; name: string 
-
-const DEFAULT_TASKS: Task
-{.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: '1', title: 'Definir el presupuesto total', done: true ,
-  {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: '2', title: 'Elegir la fecha tentativa', done: true ,
-  {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: '3', title: 'Visitar y reservar el espacio', done: false ,
-  {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: '4', title: 'Contratar al fotógrafo', done: false ,
-  {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: '5', title: 'Buscar y contratar catering', done: false ,
-
-{.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: '1', name: 'María García', contact: 'mariaemail.com', rsvp: 'Sí', table_name: 'Mesa 1' ,
-  {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: '2', name: 'Carlos López', contact: '600 123 456', rsvp: 'Sí', table_name: 'Mesa 1' ,
-  {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: '3', name: 'Ana Martínez', contact: '', rsvp: 'Pendiente', table_name: null ,
-
-{.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: '1', category: 'Catering', estimated: 8000, paid: 3000 ,
-  {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: '2', category: 'Finca', estimated: 5000, paid: 500 ,
-  {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: '3', category: 'Fotografía', estimated: 2800, paid: 2800 ,
-
-{.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: '1', name: 'Mesa 1' ,
-  {.{env.local.example,git{,ignore}},README.md,app,components,lib,next.config.js,p{ackage.json,ostcss.config.js},t{ailwind.config.js,sconfig.json}}  id: '2', name: 'Mesa 2' ,
-
-cd ~/vowed
-cat >> app/dashboard/page.tsx << 'C1'
-'use client'
-
 import { useState } from 'react'
 
 const F = "'Cormorant Garamond',serif"
@@ -159,6 +80,7 @@ const DEFAULT_BUDGET: BudgetItem[] = [
 const DEFAULT_TABLES: TableRow[] = [
   { id: '1', name: 'Mesa 1' },
   { id: '2', name: 'Mesa 2' },
+]
 ]
 
 export default function Dashboard() {
