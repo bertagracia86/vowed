@@ -90,14 +90,43 @@ export default function Dashboard() {
     setTasks(t || []); setGuests(g || []); setBudget(b || []); setTables(tb || [])
   }
 
+  const DEMO_EMAIL = 'demo@vowed.app'
+  const DEMO_PASSWORD = 'vowed-demo-public-2025'
+
   useEffect(() => {
-    supabase.auth.getUser().then(async ({ data }) => {
-      if (!data.user) { router.push('/login'); return }
-      setUser(data.user)
-      await loadAll(data.user.id)
+    async function ensureDemoSession() {
+      const { data: existing } = await supabase.auth.getUser()
+      if (existing.user) {
+        setUser(existing.user)
+        await loadAll(existing.user.id)
+        setLoading(false)
+        return
+      }
+
+      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+        email: DEMO_EMAIL, password: DEMO_PASSWORD
+      })
+
+      if (signInData.user) {
+        setUser(signInData.user)
+        await loadAll(signInData.user.id)
+        setLoading(false)
+        return
+      }
+
+      const { data: signUpData } = await supabase.auth.signUp({
+        email: DEMO_EMAIL, password: DEMO_PASSWORD,
+        options: { data: { name1: 'Vosotros', name2: 'Vuestra pareja' } }
+      })
+
+      if (signUpData.user) {
+        setUser(signUpData.user)
+        await loadAll(signUpData.user.id)
+      }
       setLoading(false)
-    })
-  }, [router])
+    }
+    ensureDemoSession()
+  }, [])
 
   async function toggleTask(id: string, current: boolean) {
     setTasks(prev => prev.map(t => t.id === id ? { ...t, done: !current } : t))
