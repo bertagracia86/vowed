@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
+import SeatingPlan from '@/components/SeatingPlan'
 
 const F = "'Cormorant Garamond',serif"
 const BLUE = '#6E8FC9'
@@ -44,7 +45,7 @@ function Icon({ name }: { name: string }) {
 interface Task { id: string; title: string; done: boolean }
 interface Guest { id: string; name: string; contact: string | null; rsvp: string; table_name: string | null }
 interface BudgetItem { id: string; category: string; estimated: number; paid: number }
-interface TableRow { id: string; name: string }
+interface TableRow { id: string; name: string; shape: string; pos_x: number; pos_y: number }
 
 export default function Dashboard() {
   const router = useRouter()
@@ -61,9 +62,7 @@ export default function Dashboard() {
   const [newGuest, setNewGuest] = useState('')
   const [newCat, setNewCat] = useState('')
   const [newEst, setNewEst] = useState('')
-  const [newTable, setNewTable] = useState('')
   const [guestsView, setGuestsView] = useState<'list' | 'seating'>('list')
-  const [draggedGuest, setDraggedGuest] = useState<string | null>(null)
 
   const supabase = createClient()
 
@@ -71,7 +70,7 @@ export default function Dashboard() {
     const { data: t } = await supabase.from('tasks').select('id,title,done').eq('user_id', uid).order('created_at')
     const { data: g } = await supabase.from('guests').select('id,name,contact,rsvp,table_name').eq('user_id', uid).order('created_at')
     const { data: b } = await supabase.from('budget_items').select('id,category,estimated,paid').eq('user_id', uid).order('created_at')
-    const { data: tb } = await supabase.from('tables_list').select('id,name').eq('user_id', uid).order('created_at')
+    const { data: tb } = await supabase.from('tables_list').select('id,name,shape,pos_x,pos_y').eq('user_id', uid).order('created_at')
     setTasks(t || []); setGuests(g || []); setBudget(b || []); setTables(tb || [])
   }
 
@@ -115,14 +114,7 @@ export default function Dashboard() {
     setNewCat(''); setNewEst('')
   }
 
-  async function addTableRow() {
-    if (!newTable.trim() || !user) return
-    const { data } = await supabase.from('tables_list').insert({ user_id: user.id, name: newTable }).select().single()
-    if (data) setTables(prev => [...prev, data])
-    setNewTable('')
-  }
-
-  async function assignGuestToTable(guestId: string, tableName: string) {
+  async function assignGuestToTable(guestId: string, tableName: string | null) {
     setGuests(prev => prev.map(g => g.id === guestId ? { ...g, table_name: tableName } : g))
     await supabase.from('guests').update({ table_name: tableName }).eq('id', guestId)
   }
@@ -148,7 +140,6 @@ export default function Dashboard() {
   const budgetPaid = budget.reduce((a, b) => a + Number(b.paid || 0), 0)
   const budgetEst = budget.reduce((a, b) => a + Number(b.estimated || 0), 0)
   const confirmedGuests = guests.filter(g => g.rsvp === 'Sí').length
-  const unassignedGuests = guests.filter(g => !g.table_name)
 
   const r = 32
   const circ = 2 * Math.PI * r
@@ -340,67 +331,14 @@ export default function Dashboard() {
               </>
             )}
 
-            {guestsView === 'seating' && (
-              <div className="grid grid-cols-[1fr_260px] gap-5">
-                <div>
-                  <div className="flex gap-2 mb-5">
-                    <input
-                      value={newTable} onChange={e=>setNewTable(e.target.value)}
-                      onKeyDown={e => e.key === 'Enter' && addTableRow()}
-                      placeholder="Nombre de mesa (ej: Mesa 1)"
-                      style={{flex:1,border:'1px solid #DCE7F4',borderRadius:12,padding:'11px 16px',fontSize:13,outline:'none'}}
-                    />
-                    <button onClick={addTableRow} style={{background:BLUE,color:'white',border:'none',borderRadius:12,padding:'11px 22px',fontSize:13,cursor:'pointer'}}>+ Mesa</button>
-                  </div>
-
-                  {tables.length === 0 ? (
-                    <p style={{fontSize:13,color:MUTE,textAlign:'center',padding:'40px 0'}}>Aún no tenéis mesas. Cread la primera arriba.</p>
-                  ) : (
-                    <div className="grid grid-cols-2 gap-3">
-                      {tables.map(table => {
-                        const seated = guests.filter(g => g.table_name === table.name)
-                        return (
-                          <div
-                            key={table.id}
-                            onDragOver={e => e.preventDefault()}
-                            onDrop={() => { if (draggedGuest) assignGuestToTable(draggedGuest, table.name) }}
-                            style={{border:'1.5px dashed #DCE7F4',borderRadius:16,padding:16,minHeight:120}}
-                          >
-                            <p style={{fontFamily:F,fontSize:15,color:INK,marginBottom:8}}>{table.name}</p>
-                            {seated.map(g => (
-                              <div
-                                key={g.id}
-                                draggable
-                                onDragStart={() => setDraggedGuest(g.id)}
-                                style={{background:'#F3F7FC',borderRadius:8,padding:'5px 10px',fontSize:11,color:INK,marginBottom:5,cursor:'grab'}}
-                              >
-                                {g.name}
-                              </div>
-                            ))}
-                            {seated.length === 0 && <p style={{fontSize:11,color:'#C7D2E0'}}>Arrastrad invitados aquí</p>}
-                          </div>
-                        )
-                      })}
-                    </div>
-                  )}
-                </div>
-
-                <div style={{border:'1px solid #EEF2F7',borderRadius:16,padding:16,alignSelf:'flex-start'}}>
-                  <p style={{fontSize:11,color:MUTE,marginBottom:10}}>Sin mesa asignada</p>
-                  {unassignedGuests.length === 0 ? (
-                    <p style={{fontSize:11,color:'#C7D2E0'}}>Todos asignados ♡</p>
-                  ) : unassignedGuests.map(g => (
-                    <div
-                      key={g.id}
-                      draggable
-                      onDragStart={() => setDraggedGuest(g.id)}
-                      style={{background:'white',border:'1px solid #EEF2F7',borderRadius:8,padding:'7px 10px',fontSize:12,color:INK,marginBottom:6,cursor:'grab'}}
-                    >
-                      {g.name}
-                    </div>
-                  ))}
-                </div>
-              </div>
+            {guestsView === 'seating' && user && (
+              <SeatingPlan
+                guests={guests}
+                tables={tables}
+                setTables={setTables}
+                assignGuestToTable={assignGuestToTable}
+                userId={user.id}
+              />
             )}
           </>
         )}
