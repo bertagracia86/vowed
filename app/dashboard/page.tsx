@@ -26,16 +26,18 @@ const ICONS: Record<string, JSX.Element> = {
 }
 
 const NAV_TOP = [
-  { id: 'home', label: 'Dashboard' },
-  { id: 'activity', label: 'Activity' },
-  { id: 'budget', label: 'Budget' },
-  { id: 'todo', label: 'Checklist' },
-  { id: 'guests', label: 'Guests' },
-  { id: 'invitations', label: 'Invitations' },
+  { id: 'home', label: 'Resumen' },
+  { id: 'activity', label: 'Actividad' },
+  { id: 'budget', label: 'Presupuesto' },
+  { id: 'todo', label: 'Tareas' },
+  { id: 'guests', label: 'Invitados' },
+  { id: 'vendors', label: 'Proveedores' },
+  { id: 'seating', label: 'Mesas' },
+  { id: 'invitations', label: 'Invitaciones' },
 ]
 const NAV_BOTTOM = [
-  { id: 'pricing', label: 'Pricing' },
-  { id: 'settings', label: 'Settings' },
+  { id: 'pricing', label: 'Precios' },
+  { id: 'settings', label: 'Ajustes' },
 ]
 
 const TEMPLATES = [
@@ -181,7 +183,7 @@ export default function Dashboard() {
         {daysLeft !== null && (
           <div style={{display:'flex',alignItems:'center',gap:8,padding:'8px 10px',marginBottom:14,fontSize:12,color:MUTE}}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.6"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
-            {daysLeft} days to go
+            {daysLeft} días restantes
           </div>
         )}
 
@@ -223,7 +225,7 @@ export default function Dashboard() {
           ))}
           <button onClick={handleLogout} style={{display:'flex',alignItems:'center',gap:10,width:'100%',textAlign:'left',fontSize:13,color:MUTE,background:'none',border:'none',cursor:'pointer',padding:'9px 10px',marginTop:4}}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
-            Sign Out
+            Cerrar sesión
           </button>
         </div>
       </aside>
@@ -236,13 +238,13 @@ export default function Dashboard() {
             {daysLeft !== null && (
               <span style={{display:'flex',alignItems:'center',gap:6,fontSize:12,color:MUTE,border:'1px solid #ECE9E4',borderRadius:999,padding:'4px 12px'}}>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/></svg>
-                {daysLeft} days to go
+                {daysLeft} días restantes
               </span>
             )}
           </div>
           <div style={{border:'1px solid #ECE9E4',borderRadius:10,padding:'8px 14px',fontSize:12,color:MUTE,display:'flex',alignItems:'center',gap:8,width:220}}>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
-            Search...
+            Buscar...
           </div>
         </header>
 
@@ -252,13 +254,13 @@ export default function Dashboard() {
             <>
               <div className="flex items-center justify-between mb-7">
                 <div>
-                  <h1 style={{fontFamily:F,fontSize:30,fontWeight:600,color:INK,marginBottom:4}}>Welcome back</h1>
+                  <h1 style={{fontFamily:F,fontSize:30,fontWeight:600,color:INK,marginBottom:4}}>Bienvenidos de nuevo</h1>
                   <p style={{fontSize:13,color:MUTE}}>Here's an overview of your wedding planning progress</p>
                 </div>
                 {daysLeft !== null && (
                   <div style={{border:'1px solid #ECE9E4',borderRadius:10,padding:'10px 16px',display:'flex',alignItems:'center',gap:8,fontSize:13,color:INK,background:'white'}}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/></svg>
-                    {daysLeft} days to go
+                    {daysLeft} días restantes
                   </div>
                 )}
               </div>
@@ -268,9 +270,9 @@ export default function Dashboard() {
                   <div style={{width:34,height:34,borderRadius:9,background:'#F4F2EE',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:14}}>
                     <Icon name="budget" />
                   </div>
-                  <p style={{fontSize:12,color:MUTE,marginBottom:6}}>Budget</p>
+                  <p style={{fontSize:12,color:MUTE,marginBottom:6}}>Presupuesto</p>
                   <p style={{fontFamily:F,fontSize:26,fontWeight:600,color:INK,marginBottom:4}}>{budgetPaid.toLocaleString('es-ES')} €</p>
-                  <p style={{fontSize:11,color:MUTE,marginBottom:10}}>{Math.max(0,budgetEst-budgetPaid).toLocaleString('es-ES')} € remaining</p>
+                  <p style={{fontSize:11,color:MUTE,marginBottom:10}}>{Math.max(0,budgetEst-budgetPaid).toLocaleString('es-ES')} € restantes</p>
                   <div style={{height:5,borderRadius:99,background:'#EFEBE4'}}>
                     <div style={{height:5,borderRadius:99,background:BLUE,width: budgetEst>0 ? Math.min(100,(budgetPaid/budgetEst)*100)+'%' : '0%'}}/>
                   </div>
@@ -280,9 +282,9 @@ export default function Dashboard() {
                   <div style={{width:34,height:34,borderRadius:9,background:'#FBEEEE',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:14,color:'#C0594F'}}>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 9v4M12 17h.01M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>
                   </div>
-                  <p style={{fontSize:12,color:MUTE,marginBottom:6}}>Tasks</p>
+                  <p style={{fontSize:12,color:MUTE,marginBottom:6}}>Tareas</p>
                   <p style={{fontFamily:F,fontSize:26,fontWeight:600,color:INK,marginBottom:4}}>{doneTasks}/{totalTasks}</p>
-                  <p style={{fontSize:11,color:'#C0594F',marginBottom:10}}>{nextTasks.length > 0 ? nextTasks.length+' pending' : 'all clear'}</p>
+                  <p style={{fontSize:11,color:'#C0594F',marginBottom:10}}>{nextTasks.length > 0 ? nextTasks.length+' pendientes' : 'completado'}</p>
                   <div style={{height:5,borderRadius:99,background:'#F6E4E4'}}>
                     <div style={{height:5,borderRadius:99,background:'#C0594F',width: totalTasks>0 ? (doneTasks/totalTasks)*100+'%' : '0%'}}/>
                   </div>
@@ -292,9 +294,9 @@ export default function Dashboard() {
                   <div style={{width:34,height:34,borderRadius:9,background:'#FBF3E1',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:14,color:'#B8862F'}}>
                     <Icon name="guests" />
                   </div>
-                  <p style={{fontSize:12,color:MUTE,marginBottom:6}}>Guests</p>
+                  <p style={{fontSize:12,color:MUTE,marginBottom:6}}>Invitados</p>
                   <p style={{fontFamily:F,fontSize:26,fontWeight:600,color:INK,marginBottom:4}}>{guests.length}</p>
-                  <p style={{fontSize:11,color:'#B8862F',marginBottom:10}}>{guests.filter(g=>g.rsvp==='Pendiente').length} awaiting RSVP</p>
+                  <p style={{fontSize:11,color:'#B8862F',marginBottom:10}}>{guests.filter(g=>g.rsvp==='Pendiente').length} por confirmar</p>
                   <div style={{height:5,borderRadius:99,background:'#F5EAD2'}}>
                     <div style={{height:5,borderRadius:99,background:'#B8862F',width: guests.length>0 ? (confirmedGuests/guests.length)*100+'%' : '0%'}}/>
                   </div>
@@ -304,9 +306,9 @@ export default function Dashboard() {
                   <div style={{width:34,height:34,borderRadius:9,background:'#FBF3E1',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:14,color:'#B8862F'}}>
                     <Icon name="vendors" />
                   </div>
-                  <p style={{fontSize:12,color:MUTE,marginBottom:6}}>Vendors</p>
+                  <p style={{fontSize:12,color:MUTE,marginBottom:6}}>Proveedores</p>
                   <p style={{fontFamily:F,fontSize:26,fontWeight:600,color:INK,marginBottom:4}}>{tables.length}</p>
-                  <p style={{fontSize:11,color:MUTE}}>tables created</p>
+                  <p style={{fontSize:11,color:MUTE}}>mesas creadas</p>
                 </div>
               </div>
 
@@ -332,7 +334,7 @@ export default function Dashboard() {
 
           {tab === 'activity' && (
             <>
-              <h1 style={{fontFamily:F,fontSize:26,fontWeight:600,color:INK,marginBottom:4}}>Activity</h1>
+              <h1 style={{fontFamily:F,fontSize:26,fontWeight:600,color:INK,marginBottom:4}}>Actividad</h1>
               <p style={{fontSize:13,color:MUTE,marginBottom:24}}>Todo lo que habéis ido completando</p>
               <div style={{background:'white',border:'1px solid #ECE9E4',borderRadius:16,padding:22}}>
                 {tasks.filter(t=>t.done).length === 0 ? (
@@ -351,7 +353,7 @@ export default function Dashboard() {
 
           {tab === 'pricing' && (
             <>
-              <h1 style={{fontFamily:F,fontSize:26,fontWeight:600,color:INK,marginBottom:4}}>Pricing</h1>
+              <h1 style={{fontFamily:F,fontSize:26,fontWeight:600,color:INK,marginBottom:4}}>Precios</h1>
               <p style={{fontSize:13,color:MUTE,marginBottom:24}}>El organizador es gratuito. Solo cobramos por las plantillas de invitaciones.</p>
               <div className="grid grid-cols-2 gap-4">
                 <div style={{background:'white',border:'1px solid #ECE9E4',borderRadius:16,padding:24}}>
@@ -370,7 +372,7 @@ export default function Dashboard() {
 
           {tab === 'settings' && (
             <>
-              <h1 style={{fontFamily:F,fontSize:26,fontWeight:600,color:INK,marginBottom:4}}>Settings</h1>
+              <h1 style={{fontFamily:F,fontSize:26,fontWeight:600,color:INK,marginBottom:4}}>Ajustes</h1>
               <p style={{fontSize:13,color:MUTE,marginBottom:24}}>{user?.email}</p>
               <button onClick={handleLogout} style={{background:'white',border:'1px solid #ECE9E4',borderRadius:12,padding:'11px 22px',fontSize:13,color:INK,cursor:'pointer'}}>
                 Cerrar sesión
@@ -421,80 +423,72 @@ export default function Dashboard() {
 
         {tab === 'guests' && (
           <>
-            <div className="flex items-center justify-between mb-1">
-              <h1 style={{fontFamily:F,fontSize:26,fontWeight:500,color:INK}}>Invitados</h1>
-              <div style={{display:'flex',gap:1,background:'#EEF2F7',borderRadius:10,padding:2}}>
-                <button onClick={()=>setGuestsView('list')} style={{
-                  padding:'7px 16px',borderRadius:8,border:'none',fontSize:12,cursor:'pointer',
-                  background: guestsView==='list' ? 'white' : 'transparent',
-                  color: guestsView==='list' ? INK : MUTE,
-                  fontWeight: guestsView==='list' ? 500 : 400
-                }}>Lista</button>
-                <button onClick={()=>setGuestsView('seating')} style={{
-                  padding:'7px 16px',borderRadius:8,border:'none',fontSize:12,cursor:'pointer',
-                  background: guestsView==='seating' ? 'white' : 'transparent',
-                  color: guestsView==='seating' ? INK : MUTE,
-                  fontWeight: guestsView==='seating' ? 500 : 400
-                }}>Mesas</button>
-              </div>
-            </div>
+            <h1 style={{fontFamily:F,fontSize:26,fontWeight:500,color:INK,marginBottom:4}}>Invitados</h1>
             <p style={{fontSize:12,color:MUTE,marginBottom:24}}>{guests.length} en la lista · {confirmedGuests} confirmados</p>
 
-            {guestsView === 'list' && (
-              <>
-                <div className="flex gap-2 mb-5">
-                  <input
-                    value={newGuest} onChange={e=>setNewGuest(e.target.value)}
-                    onKeyDown={e => e.key === 'Enter' && addGuest()}
-                    placeholder="Nombre del invitado..."
-                    style={{flex:1,border:'1px solid #DCE7F4',borderRadius:12,padding:'11px 16px',fontSize:13,outline:'none'}}
-                  />
-                  <button onClick={addGuest} style={{background:BLUE,color:'white',border:'none',borderRadius:12,padding:'11px 22px',fontSize:13,cursor:'pointer'}}>Añadir</button>
-                </div>
-
-                {guests.length === 0 ? (
-                  <p style={{fontSize:13,color:MUTE,textAlign:'center',padding:'40px 0'}}>Aún no tenéis invitados. Añadid el primero arriba.</p>
-                ) : (
-                  <div style={{border:'1px solid #EEF2F7',borderRadius:18,overflow:'hidden'}}>
-                    <div style={{display:'grid',gridTemplateColumns:'1.4fr 1.4fr 1fr 1fr',padding:'10px 20px',background:'#FAFBFD',borderBottom:'1px solid #EEF2F7'}}>
-                      <span style={{fontSize:10,color:MUTE,letterSpacing:'0.04em'}}>NOMBRE</span>
-                      <span style={{fontSize:10,color:MUTE,letterSpacing:'0.04em'}}>CONTACTO</span>
-                      <span style={{fontSize:10,color:MUTE,letterSpacing:'0.04em'}}>MESA</span>
-                      <span style={{fontSize:10,color:MUTE,letterSpacing:'0.04em'}}>ASISTENCIA</span>
-                    </div>
-                    {guests.map((g, i) => (
-                      <div key={g.id} style={{display:'grid',gridTemplateColumns:'1.4fr 1.4fr 1fr 1fr',alignItems:'center',padding:'10px 20px',borderBottom: i < guests.length-1 ? '1px solid #F0F3F8' : 'none'}}>
-                        <span style={{fontSize:13,color:INK}}>{g.name}</span>
-                        <input
-                          value={g.contact || ''} onChange={e=>updateGuest(g.id,'contact',e.target.value)}
-                          placeholder="Email o teléfono"
-                          style={{border:'none',background:'transparent',fontSize:12,color:MUTE,outline:'none'}}
-                        />
-                        <span style={{fontSize:12,color: g.table_name ? INK : '#C7D2E0'}}>{g.table_name || '—'}</span>
-                        <select
-                          value={g.rsvp} onChange={e=>updateGuest(g.id,'rsvp',e.target.value)}
-                          style={{border:'1px solid #EEF2F7',borderRadius:8,padding:'5px 8px',fontSize:11,color:INK,background:'white',outline:'none',width:'fit-content'}}
-                        >
-                          <option>Pendiente</option>
-                          <option>Sí</option>
-                          <option>No</option>
-                        </select>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </>
-            )}
-
-            {guestsView === 'seating' && user && (
-              <SeatingPlan
-                guests={guests}
-                tables={tables}
-                setTables={setTables}
-                assignGuestToTable={assignGuestToTable}
-                userId={user.id}
+            <div className="flex gap-2 mb-5">
+              <input
+                value={newGuest} onChange={e=>setNewGuest(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && addGuest()}
+                placeholder="Nombre del invitado..."
+                style={{flex:1,border:'1px solid #DCE7F4',borderRadius:12,padding:'11px 16px',fontSize:13,outline:'none'}}
               />
+              <button onClick={addGuest} style={{background:BLUE,color:'white',border:'none',borderRadius:12,padding:'11px 22px',fontSize:13,cursor:'pointer'}}>Añadir</button>
+            </div>
+
+            {guests.length === 0 ? (
+              <p style={{fontSize:13,color:MUTE,textAlign:'center',padding:'40px 0'}}>Aún no tenéis invitados. Añadid el primero arriba.</p>
+            ) : (
+              <div style={{border:'1px solid #EEF2F7',borderRadius:18,overflow:'hidden'}}>
+                <div style={{display:'grid',gridTemplateColumns:'1.4fr 1.4fr 1fr 1fr',padding:'10px 20px',background:'#FAFBFD',borderBottom:'1px solid #EEF2F7'}}>
+                  <span style={{fontSize:10,color:MUTE,letterSpacing:'0.04em'}}>NOMBRE</span>
+                  <span style={{fontSize:10,color:MUTE,letterSpacing:'0.04em'}}>CONTACTO</span>
+                  <span style={{fontSize:10,color:MUTE,letterSpacing:'0.04em'}}>MESA</span>
+                  <span style={{fontSize:10,color:MUTE,letterSpacing:'0.04em'}}>ASISTENCIA</span>
+                </div>
+                {guests.map((g, i) => (
+                  <div key={g.id} style={{display:'grid',gridTemplateColumns:'1.4fr 1.4fr 1fr 1fr',alignItems:'center',padding:'10px 20px',borderBottom: i < guests.length-1 ? '1px solid #F0F3F8' : 'none'}}>
+                    <span style={{fontSize:13,color:INK}}>{g.name}</span>
+                    <input
+                      value={g.contact || ''} onChange={e=>updateGuest(g.id,'contact',e.target.value)}
+                      placeholder="Email o teléfono"
+                      style={{border:'none',background:'transparent',fontSize:12,color:MUTE,outline:'none'}}
+                    />
+                    <span style={{fontSize:12,color: g.table_name ? INK : '#C7D2E0'}}>{g.table_name || '—'}</span>
+                    <select
+                      value={g.rsvp} onChange={e=>updateGuest(g.id,'rsvp',e.target.value)}
+                      style={{border:'1px solid #EEF2F7',borderRadius:8,padding:'5px 8px',fontSize:11,color:INK,background:'white',outline:'none',width:'fit-content'}}
+                    >
+                      <option>Pendiente</option>
+                      <option>Sí</option>
+                      <option>No</option>
+                    </select>
+                  </div>
+                ))}
+              </div>
             )}
+          </>
+        )}
+
+        {tab === 'vendors' && (
+          <>
+            <h1 style={{fontFamily:F,fontSize:26,fontWeight:500,color:INK,marginBottom:4}}>Proveedores</h1>
+            <p style={{fontSize:12,color:MUTE,marginBottom:24}}>Próximamente: gestión completa de contactos y contratos.</p>
+            <p style={{fontSize:13,color:MUTE,textAlign:'center',padding:'40px 0',border:'1px solid #EEF2F7',borderRadius:18}}>Esta sección estará disponible muy pronto.</p>
+          </>
+        )}
+
+        {tab === 'seating' && user && (
+          <>
+            <h1 style={{fontFamily:F,fontSize:26,fontWeight:500,color:INK,marginBottom:4}}>Mesas</h1>
+            <p style={{fontSize:12,color:MUTE,marginBottom:24}}>Distribuid a vuestros invitados arrastrándolos a cada mesa</p>
+            <SeatingPlan
+              guests={guests}
+              tables={tables}
+              setTables={setTables}
+              assignGuestToTable={assignGuestToTable}
+              userId={user.id}
+            />
           </>
         )}
 
@@ -519,7 +513,7 @@ export default function Dashboard() {
               <div style={{background:'white',border:'1px solid #ECE9E4',borderRadius:16,padding:18}}>
                 <div className="flex items-center gap-2 mb-3">
                   <div style={{width:28,height:28,borderRadius:8,background:'#F4F2EE',display:'flex',alignItems:'center',justifyContent:'center',color:MUTE,fontSize:13}}>€</div>
-                  <span style={{fontSize:12,color:MUTE}}>Total Budget</span>
+                  <span style={{fontSize:12,color:MUTE}}>Presupuesto total</span>
                 </div>
                 <p style={{fontFamily:F,fontSize:22,fontWeight:600,color:INK}}>{budgetEst.toLocaleString('es-ES')} €</p>
               </div>
@@ -528,7 +522,7 @@ export default function Dashboard() {
                   <div style={{width:28,height:28,borderRadius:8,background:'#F4F2EE',display:'flex',alignItems:'center',justifyContent:'center',color:MUTE}}>
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 17l6-6 4 4 8-8"/></svg>
                   </div>
-                  <span style={{fontSize:12,color:MUTE}}>Total Spent</span>
+                  <span style={{fontSize:12,color:MUTE}}>Total Gastado</span>
                 </div>
                 <p style={{fontFamily:F,fontSize:22,fontWeight:600,color:INK}}>{budgetPaid.toLocaleString('es-ES')} €</p>
               </div>
@@ -537,7 +531,7 @@ export default function Dashboard() {
                   <div style={{width:28,height:28,borderRadius:8,background:'#F4F2EE',display:'flex',alignItems:'center',justifyContent:'center',color:MUTE}}>
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 7l-6 6-4-4-8 8"/></svg>
                   </div>
-                  <span style={{fontSize:12,color:MUTE}}>Remaining</span>
+                  <span style={{fontSize:12,color:MUTE}}>Restante</span>
                 </div>
                 <p style={{fontFamily:F,fontSize:22,fontWeight:600,color:INK}}>{Math.max(0,budgetEst-budgetPaid).toLocaleString('es-ES')} €</p>
               </div>
@@ -546,7 +540,7 @@ export default function Dashboard() {
                   <div style={{width:28,height:28,borderRadius:8,background:'#F4F2EE',display:'flex',alignItems:'center',justifyContent:'center',color:MUTE}}>
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l6 3"/></svg>
                   </div>
-                  <span style={{fontSize:12,color:MUTE}}>% Spent</span>
+                  <span style={{fontSize:12,color:MUTE}}>% Gastado</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <p style={{fontFamily:F,fontSize:22,fontWeight:600,color:INK}}>{pctSpent}%</p>
@@ -561,7 +555,7 @@ export default function Dashboard() {
                   <div style={{width:28,height:28,borderRadius:8,background:'#F4F2EE',display:'flex',alignItems:'center',justifyContent:'center',color:MUTE}}>
                     <Icon name="guests" />
                   </div>
-                  <span style={{fontSize:12,color:MUTE}}>Cost Per Guest</span>
+                  <span style={{fontSize:12,color:MUTE}}>Coste Por Invitado</span>
                 </div>
                 <p style={{fontFamily:F,fontSize:22,fontWeight:600,color:INK}}>{costPerGuest.toLocaleString('es-ES')} €</p>
               </div>
@@ -572,7 +566,7 @@ export default function Dashboard() {
                 <div className="flex items-center gap-3">
                   <span style={{color:'#C0594F',fontSize:18}}>⚠</span>
                   <div>
-                    <p style={{fontSize:13,fontWeight:500,color:INK}}>You have {overdueItems.length} pending payment{overdueItems.length>1?'s':''}</p>
+                    <p style={{fontSize:13,fontWeight:500,color:INK}}>Tenéis {overdueItems.length} pago{overdueItems.length>1?'s':''} pendiente{overdueItems.length>1?'s':''}</p>
                     <p style={{fontSize:12,color:MUTE}}>Hay partidas con saldo pendiente de pagar.</p>
                   </div>
                 </div>
@@ -581,9 +575,9 @@ export default function Dashboard() {
 
             <div className="flex items-center justify-between mb-4" style={{borderBottom:'1px solid #ECE9E4',paddingBottom:10}}>
               <div className="flex items-center gap-6">
-                <span style={{fontSize:13,fontWeight:600,color:INK,borderBottom:`2px solid ${BLUE}`,paddingBottom:10,marginBottom:-11}}>Categories</span>
-                <span style={{fontSize:13,color:MUTE}}>Payments</span>
-                <span style={{fontSize:13,color:MUTE}}>Insights</span>
+                <span style={{fontSize:13,fontWeight:600,color:INK,borderBottom:`2px solid ${BLUE}`,paddingBottom:10,marginBottom:-11}}>Categorías</span>
+                <span style={{fontSize:13,color:MUTE}}>Pagos</span>
+                <span style={{fontSize:13,color:MUTE}}>Estadísticas</span>
               </div>
             </div>
 
@@ -604,7 +598,7 @@ export default function Dashboard() {
 
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <span style={{fontFamily:F,fontSize:18,fontWeight:600,color:INK}}>Categories</span>
+                <span style={{fontFamily:F,fontSize:18,fontWeight:600,color:INK}}>Categorías</span>
                 {overAllocated > 0 && (
                   <span style={{background:'#FBEEEE',color:'#C0594F',fontSize:11,borderRadius:999,padding:'3px 10px'}}>Over-allocated: {overAllocated.toLocaleString('es-ES')} €</span>
                 )}
