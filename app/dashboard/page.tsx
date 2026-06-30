@@ -81,7 +81,6 @@ const DEFAULT_TABLES: TableRow[] = [
   { id: '1', name: 'Mesa 1' },
   { id: '2', name: 'Mesa 2' },
 ]
-]
 
 export default function Dashboard() {
   const [authed, setAuthed] = useState(false)
