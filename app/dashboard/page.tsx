@@ -90,42 +90,11 @@ export default function Dashboard() {
     setTasks(t || []); setGuests(g || []); setBudget(b || []); setTables(tb || [])
   }
 
-  const DEMO_EMAIL = 'demo@vowed.app'
-  const DEMO_PASSWORD = 'vowed-demo-public-2025'
+  const SHARED_ID = '00000000-0000-0000-0000-000000000001'
 
   useEffect(() => {
-    async function ensureDemoSession() {
-      const { data: existing } = await supabase.auth.getUser()
-      if (existing.user) {
-        setUser(existing.user)
-        await loadAll(existing.user.id)
-        setLoading(false)
-        return
-      }
-
-      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
-        email: DEMO_EMAIL, password: DEMO_PASSWORD
-      })
-
-      if (signInData.user) {
-        setUser(signInData.user)
-        await loadAll(signInData.user.id)
-        setLoading(false)
-        return
-      }
-
-      const { data: signUpData } = await supabase.auth.signUp({
-        email: DEMO_EMAIL, password: DEMO_PASSWORD,
-        options: { data: { name1: 'Vosotros', name2: 'Vuestra pareja' } }
-      })
-
-      if (signUpData.user) {
-        setUser(signUpData.user)
-        await loadAll(signUpData.user.id)
-      }
-      setLoading(false)
-    }
-    ensureDemoSession()
+    setUser({ id: SHARED_ID, user_metadata: { name1: 'Vosotros', name2: 'Vuestra pareja' } })
+    loadAll(SHARED_ID).then(() => setLoading(false))
   }, [])
 
   async function toggleTask(id: string, current: boolean) {
