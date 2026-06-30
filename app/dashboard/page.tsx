@@ -348,3 +348,343 @@ export default function Dashboard() {
               </div>
             </>
           )}
+<div key={t.id} style={{display:'flex',alignItems:'center',gap:10,padding:'10px 0',borderBottom: i<arr.length-1 ? '1px solid #F0EEEA':'none'}}>
+                    <span style={{width:16,height:16,borderRadius:'50%',background:BLUE,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
+                      <svg width="9" height="7" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    </span>
+                    <span style={{fontSize:13,color:INK}}>{t.title}</span>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {tab === 'pricing' && (
+            <>
+              <h1 style={{fontFamily:F,fontSize:26,fontWeight:600,color:INK,marginBottom:4}}>Pricing</h1>
+              <p style={{fontSize:13,color:MUTE,marginBottom:24}}>El organizador es gratuito. Solo cobramos por las plantillas de invitaciones.</p>
+              <div className="grid grid-cols-2 gap-4">
+                <div style={{background:'white',border:'1px solid #ECE9E4',borderRadius:16,padding:24}}>
+                  <p style={{fontFamily:F,fontSize:20,color:INK,marginBottom:8}}>Organizador</p>
+                  <p style={{fontFamily:F,fontSize:32,color:INK,marginBottom:4}}>Gratis</p>
+                  <p style={{fontSize:12,color:MUTE}}>Checklist, presupuesto, invitados, seating. Para siempre.</p>
+                </div>
+                <div style={{background:'white',border:`1px solid ${BLUE}`,borderRadius:16,padding:24}}>
+                  <p style={{fontFamily:F,fontSize:20,color:INK,marginBottom:8}}>Plantillas de invitación</p>
+                  <p style={{fontFamily:F,fontSize:32,color:INK,marginBottom:4}}>Desde 10 €</p>
+                  <p style={{fontSize:12,color:MUTE}}>Diseños listos para personalizar y enviar.</p>
+                </div>
+              </div>
+            </>
+          )}
+
+          {tab === 'settings' && (
+            <>
+              <h1 style={{fontFamily:F,fontSize:26,fontWeight:600,color:INK,marginBottom:4}}>Settings</h1>
+              <p style={{fontSize:13,color:MUTE,marginBottom:24}}>{user?.email}</p>
+              <button onClick={handleLogout} style={{background:'white',border:'1px solid #ECE9E4',borderRadius:12,padding:'11px 22px',fontSize:13,color:INK,cursor:'pointer'}}>
+                Cerrar sesión
+              </button>
+            </>
+          )}
+
+
+        {tab === 'todo' && (
+          <>
+            <h1 style={{fontFamily:F,fontSize:26,fontWeight:500,color:INK,marginBottom:4}}>Vuestras tareas</h1>
+            <p style={{fontSize:12,color:MUTE,marginBottom:24}}>{doneTasks} de {totalTasks} completadas</p>
+
+            <div className="flex gap-2 mb-5">
+              <input
+                value={newTask} onChange={e=>setNewTask(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && addTask()}
+                placeholder="Nueva tarea..."
+                style={{flex:1,border:'1px solid #DCE7F4',borderRadius:12,padding:'11px 16px',fontSize:13,outline:'none'}}
+              />
+              <button onClick={addTask} style={{background:BLUE,color:'white',border:'none',borderRadius:12,padding:'11px 22px',fontSize:13,cursor:'pointer'}}>Añadir</button>
+            </div>
+
+            {tasks.length === 0 ? (
+              <p style={{fontSize:13,color:MUTE,textAlign:'center',padding:'40px 0'}}>Aún no tenéis tareas. Añadid la primera arriba.</p>
+            ) : (
+              <div style={{border:'1px solid #EEF2F7',borderRadius:18,overflow:'hidden'}}>
+                {tasks.map((t, i) => (
+                  <div key={t.id} onClick={() => toggleTask(t.id, t.done)} style={{
+                    display:'flex',alignItems:'center',gap:12,padding:'14px 20px',
+                    borderBottom: i < tasks.length-1 ? '1px solid #F0F3F8' : 'none', cursor:'pointer'
+                  }}>
+                    <span style={{
+                      width:18,height:18,borderRadius:6,flexShrink:0,
+                      border: t.done ? 'none' : '1.5px solid #DCE7F4',
+                      background: t.done ? BLUE : 'white',
+                      display:'flex',alignItems:'center',justifyContent:'center'
+                    }}>
+                      {t.done && <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                    </span>
+                    <span style={{fontSize:13,color: t.done ? '#C7D2E0' : INK, textDecoration: t.done ? 'line-through' : 'none'}}>{t.title}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
+        )}
+
+        {tab === 'guests' && (
+          <>
+            <div className="flex items-center justify-between mb-1">
+              <h1 style={{fontFamily:F,fontSize:26,fontWeight:500,color:INK}}>Invitados</h1>
+              <div style={{display:'flex',gap:1,background:'#EEF2F7',borderRadius:10,padding:2}}>
+                <button onClick={()=>setGuestsView('list')} style={{
+                  padding:'7px 16px',borderRadius:8,border:'none',fontSize:12,cursor:'pointer',
+                  background: guestsView==='list' ? 'white' : 'transparent',
+                  color: guestsView==='list' ? INK : MUTE,
+                  fontWeight: guestsView==='list' ? 500 : 400
+                }}>Lista</button>
+                <button onClick={()=>setGuestsView('seating')} style={{
+                  padding:'7px 16px',borderRadius:8,border:'none',fontSize:12,cursor:'pointer',
+                  background: guestsView==='seating' ? 'white' : 'transparent',
+                  color: guestsView==='seating' ? INK : MUTE,
+                  fontWeight: guestsView==='seating' ? 500 : 400
+                }}>Mesas</button>
+              </div>
+            </div>
+            <p style={{fontSize:12,color:MUTE,marginBottom:24}}>{guests.length} en la lista · {confirmedGuests} confirmados</p>
+
+            {guestsView === 'list' && (
+              <>
+                <div className="flex gap-2 mb-5">
+                  <input
+                    value={newGuest} onChange={e=>setNewGuest(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && addGuest()}
+                    placeholder="Nombre del invitado..."
+                    style={{flex:1,border:'1px solid #DCE7F4',borderRadius:12,padding:'11px 16px',fontSize:13,outline:'none'}}
+                  />
+                  <button onClick={addGuest} style={{background:BLUE,color:'white',border:'none',borderRadius:12,padding:'11px 22px',fontSize:13,cursor:'pointer'}}>Añadir</button>
+                </div>
+
+                {guests.length === 0 ? (
+                  <p style={{fontSize:13,color:MUTE,textAlign:'center',padding:'40px 0'}}>Aún no tenéis invitados. Añadid el primero arriba.</p>
+                ) : (
+                  <div style={{border:'1px solid #EEF2F7',borderRadius:18,overflow:'hidden'}}>
+                    <div style={{display:'grid',gridTemplateColumns:'1.4fr 1.4fr 1fr 1fr',padding:'10px 20px',background:'#FAFBFD',borderBottom:'1px solid #EEF2F7'}}>
+                      <span style={{fontSize:10,color:MUTE,letterSpacing:'0.04em'}}>NOMBRE</span>
+                      <span style={{fontSize:10,color:MUTE,letterSpacing:'0.04em'}}>CONTACTO</span>
+                      <span style={{fontSize:10,color:MUTE,letterSpacing:'0.04em'}}>MESA</span>
+                      <span style={{fontSize:10,color:MUTE,letterSpacing:'0.04em'}}>ASISTENCIA</span>
+                    </div>
+                    {guests.map((g, i) => (
+                      <div key={g.id} style={{display:'grid',gridTemplateColumns:'1.4fr 1.4fr 1fr 1fr',alignItems:'center',padding:'10px 20px',borderBottom: i < guests.length-1 ? '1px solid #F0F3F8' : 'none'}}>
+                        <span style={{fontSize:13,color:INK}}>{g.name}</span>
+                        <input
+                          value={g.contact || ''} onChange={e=>updateGuest(g.id,'contact',e.target.value)}
+                          placeholder="Email o teléfono"
+                          style={{border:'none',background:'transparent',fontSize:12,color:MUTE,outline:'none'}}
+                        />
+                        <span style={{fontSize:12,color: g.table_name ? INK : '#C7D2E0'}}>{g.table_name || '—'}</span>
+                        <select
+                          value={g.rsvp} onChange={e=>updateGuest(g.id,'rsvp',e.target.value)}
+                          style={{border:'1px solid #EEF2F7',borderRadius:8,padding:'5px 8px',fontSize:11,color:INK,background:'white',outline:'none',width:'fit-content'}}
+                        >
+                          <option>Pendiente</option>
+                          <option>Sí</option>
+                          <option>No</option>
+                        </select>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+
+            {guestsView === 'seating' && user && (
+              <SeatingPlan
+                guests={guests}
+                tables={tables}
+                setTables={setTables}
+                assignGuestToTable={assignGuestToTable}
+                userId={user.id}
+              />
+            )}
+          </>
+        )}
+
+        {tab === 'budget' && (() => {
+          const pctSpent = budgetEst > 0 ? Math.round((budgetPaid/budgetEst)*100) : 0
+          const guestCount = guests.length || 1
+          const costPerGuest = Math.round(budgetEst / guestCount)
+          const overdueItems = budget.filter(b => b.paid < b.estimated)
+          const categories = Array.from(new Set(budget.map(b => b.category)))
+          const filteredBudget = budgetFilter === 'All' ? budget : budget.filter(b => b.category === budgetFilter)
+          const overAllocated = budgetPaid > budgetEst ? budgetPaid - budgetEst : 0
+
+          const rPct = 22
+          const circPct = 2 * Math.PI * rPct
+          const offsetPct = circPct - (circPct * pctSpent) / 100
+
+          return (
+          <>
+            <h1 style={{fontFamily:F,fontSize:26,fontWeight:600,color:INK,marginBottom:18}}>Presupuesto</h1>
+
+            <div className="grid grid-cols-5 gap-3 mb-5">
+              <div style={{background:'white',border:'1px solid #ECE9E4',borderRadius:16,padding:18}}>
+                <div className="flex items-center gap-2 mb-3">
+                  <div style={{width:28,height:28,borderRadius:8,background:'#F4F2EE',display:'flex',alignItems:'center',justifyContent:'center',color:MUTE,fontSize:13}}>€</div>
+                  <span style={{fontSize:12,color:MUTE}}>Total Budget</span>
+                </div>
+                <p style={{fontFamily:F,fontSize:22,fontWeight:600,color:INK}}>{budgetEst.toLocaleString('es-ES')} €</p>
+              </div>
+              <div style={{background:'white',border:'1px solid #ECE9E4',borderRadius:16,padding:18}}>
+                <div className="flex items-center gap-2 mb-3">
+                  <div style={{width:28,height:28,borderRadius:8,background:'#F4F2EE',display:'flex',alignItems:'center',justifyContent:'center',color:MUTE}}>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 17l6-6 4 4 8-8"/></svg>
+                  </div>
+                  <span style={{fontSize:12,color:MUTE}}>Total Spent</span>
+                </div>
+                <p style={{fontFamily:F,fontSize:22,fontWeight:600,color:INK}}>{budgetPaid.toLocaleString('es-ES')} €</p>
+              </div>
+              <div style={{background:'white',border:'1px solid #ECE9E4',borderRadius:16,padding:18}}>
+                <div className="flex items-center gap-2 mb-3">
+                  <div style={{width:28,height:28,borderRadius:8,background:'#F4F2EE',display:'flex',alignItems:'center',justifyContent:'center',color:MUTE}}>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 7l-6 6-4-4-8 8"/></svg>
+                  </div>
+                  <span style={{fontSize:12,color:MUTE}}>Remaining</span>
+                </div>
+                <p style={{fontFamily:F,fontSize:22,fontWeight:600,color:INK}}>{Math.max(0,budgetEst-budgetPaid).toLocaleString('es-ES')} €</p>
+              </div>
+              <div style={{background:'white',border:'1px solid #ECE9E4',borderRadius:16,padding:18}}>
+                <div className="flex items-center gap-2 mb-3">
+                  <div style={{width:28,height:28,borderRadius:8,background:'#F4F2EE',display:'flex',alignItems:'center',justifyContent:'center',color:MUTE}}>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l6 3"/></svg>
+                  </div>
+                  <span style={{fontSize:12,color:MUTE}}>% Spent</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p style={{fontFamily:F,fontSize:22,fontWeight:600,color:INK}}>{pctSpent}%</p>
+                  <svg width="40" height="40" viewBox="0 0 50 50">
+                    <circle cx="25" cy="25" r={rPct} fill="none" stroke="#EFEBE4" strokeWidth="5"/>
+                    <circle cx="25" cy="25" r={rPct} fill="none" stroke={BLUE} strokeWidth="5" strokeDasharray={circPct} strokeDashoffset={offsetPct} transform="rotate(-90 25 25)"/>
+                  </svg>
+                </div>
+              </div>
+              <div style={{background:'white',border:'1px solid #ECE9E4',borderRadius:16,padding:18}}>
+                <div className="flex items-center gap-2 mb-3">
+                  <div style={{width:28,height:28,borderRadius:8,background:'#F4F2EE',display:'flex',alignItems:'center',justifyContent:'center',color:MUTE}}>
+                    <Icon name="guests" />
+                  </div>
+                  <span style={{fontSize:12,color:MUTE}}>Cost Per Guest</span>
+                </div>
+                <p style={{fontFamily:F,fontSize:22,fontWeight:600,color:INK}}>{costPerGuest.toLocaleString('es-ES')} €</p>
+              </div>
+            </div>
+
+            {overdueItems.length > 0 && (
+              <div style={{background:'#FBEEEE',border:'1px solid #F3D9D9',borderRadius:16,padding:'16px 20px',marginBottom:20,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                <div className="flex items-center gap-3">
+                  <span style={{color:'#C0594F',fontSize:18}}>⚠</span>
+                  <div>
+                    <p style={{fontSize:13,fontWeight:500,color:INK}}>You have {overdueItems.length} pending payment{overdueItems.length>1?'s':''}</p>
+                    <p style={{fontSize:12,color:MUTE}}>Hay partidas con saldo pendiente de pagar.</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div className="flex items-center justify-between mb-4" style={{borderBottom:'1px solid #ECE9E4',paddingBottom:10}}>
+              <div className="flex items-center gap-6">
+                <span style={{fontSize:13,fontWeight:600,color:INK,borderBottom:`2px solid ${BLUE}`,paddingBottom:10,marginBottom:-11}}>Categories</span>
+                <span style={{fontSize:13,color:MUTE}}>Payments</span>
+                <span style={{fontSize:13,color:MUTE}}>Insights</span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 mb-5 flex-wrap">
+              <button onClick={()=>setBudgetFilter('All')} style={{
+                padding:'7px 16px',borderRadius:999,border:'none',fontSize:12,cursor:'pointer',
+                background: budgetFilter==='All' ? INK : '#F4F2EE',
+                color: budgetFilter==='All' ? 'white' : MUTE
+              }}>All</button>
+              {categories.map(cat => (
+                <button key={cat} onClick={()=>setBudgetFilter(cat)} style={{
+                  padding:'7px 16px',borderRadius:999,border:'1px solid #ECE9E4',fontSize:12,cursor:'pointer',
+                  background: budgetFilter===cat ? '#F4F2EE' : 'white',
+                  color: budgetFilter===cat ? INK : MUTE
+                }}>{cat}</button>
+              ))}
+            </div>
+
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <span style={{fontFamily:F,fontSize:18,fontWeight:600,color:INK}}>Categories</span>
+                {overAllocated > 0 && (
+                  <span style={{background:'#FBEEEE',color:'#C0594F',fontSize:11,borderRadius:999,padding:'3px 10px'}}>Over-allocated: {overAllocated.toLocaleString('es-ES')} €</span>
+                )}
+              </div>
+            </div>
+
+            <div className="flex gap-2 mb-5">
+              <input
+                value={newCat} onChange={e=>setNewCat(e.target.value)}
+                placeholder="Categoría (ej: Catering)"
+                style={{flex:1,border:'1px solid #DCE7F4',borderRadius:12,padding:'11px 16px',fontSize:13,outline:'none'}}
+              />
+              <input
+                value={newEst} onChange={e=>setNewEst(e.target.value)} type="number"
+                placeholder="Presupuesto €"
+                style={{width:140,border:'1px solid #DCE7F4',borderRadius:12,padding:'11px 16px',fontSize:13,outline:'none'}}
+              />
+              <button onClick={addBudget} style={{background:BLUE,color:'white',border:'none',borderRadius:12,padding:'11px 22px',fontSize:13,cursor:'pointer'}}>Añadir</button>
+            </div>
+
+            {filteredBudget.length === 0 ? (
+              <p style={{fontSize:13,color:MUTE,textAlign:'center',padding:'40px 0'}}>Aún no tenéis partidas de presupuesto.</p>
+            ) : (
+              <div className="grid grid-cols-3 gap-4">
+                {filteredBudget.map(b => {
+                  const itemPct = b.estimated > 0 ? Math.min(100,(b.paid/b.estimated)*100) : 0
+                  return (
+                    <div key={b.id} style={{background:'white',border:'1px solid #ECE9E4',borderRadius:16,padding:18}}>
+                      <p style={{fontFamily:F,fontSize:16,fontWeight:500,color:INK,marginBottom:10}}>{b.category}</p>
+                      <p style={{fontSize:12,color:MUTE,marginBottom:4}}>{Number(b.paid).toLocaleString('es-ES')} € de {Number(b.estimated).toLocaleString('es-ES')} €</p>
+                      <div style={{height:5,borderRadius:99,background:'#EFEBE4',marginTop:8}}>
+                        <div style={{height:5,borderRadius:99,background:BLUE,width:itemPct+'%'}}/>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+          </>
+          )
+        })()}
+
+        {tab === 'invitations' && (
+          <>
+            <h1 style={{fontFamily:F,fontSize:26,fontWeight:500,color:INK,marginBottom:4}}>Invitaciones</h1>
+            <p style={{fontSize:12,color:MUTE,marginBottom:24}}>Plantillas listas para personalizar</p>
+
+            <div className="grid grid-cols-2 gap-5">
+              {TEMPLATES.map(t => (
+                <div key={t.name} style={{border:'1px solid #EEF2F7',borderRadius:18,overflow:'hidden'}}>
+                  <div style={{aspectRatio:'4/3',overflow:'hidden'}}>
+                    <img src={t.img} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}}/>
+                  </div>
+                  <div style={{padding:16,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                    <div>
+                      <p style={{fontFamily:F,fontSize:15,color:INK}}>{t.name}</p>
+                      <p style={{fontSize:12,color:MUTE}}>{t.price}</p>
+                    </div>
+                    <button style={{background:BLUE,color:'white',border:'none',borderRadius:999,padding:'9px 20px',fontSize:12,cursor:'pointer'}}>
+                      Comprar
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+      </main>
+      </div>
+    </div>
+  )
+}
