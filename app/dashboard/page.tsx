@@ -329,24 +329,59 @@ export default function Dashboard() {
                   <p style={{fontSize:12,color:MUTE}}>confirmados</p>
                 </div>
               </div>
+
+              <div style={{background:'white',border:'1px solid #ECE9E4',borderRadius:16,padding:24,marginTop:16}}>
+                <p style={{fontFamily:F,fontSize:18,fontWeight:600,color:INK,marginBottom:16}}>Acciones rápidas</p>
+                <div className="flex gap-3 flex-wrap">
+                  <button onClick={()=>setTab('budget')} style={{display:'flex',alignItems:'center',gap:8,border:'1px solid #ECE9E4',borderRadius:10,padding:'10px 16px',background:'white',fontSize:13,color:INK,cursor:'pointer'}}>
+                    <Icon name="budget" /> Gestionar presupuesto
+                  </button>
+                  <button onClick={()=>setTab('todo')} style={{display:'flex',alignItems:'center',gap:8,border:'1px solid #ECE9E4',borderRadius:10,padding:'10px 16px',background:'white',fontSize:13,color:INK,cursor:'pointer'}}>
+                    <Icon name="todo" /> Ver tareas
+                  </button>
+                  <button onClick={()=>setTab('guests')} style={{display:'flex',alignItems:'center',gap:8,border:'1px solid #ECE9E4',borderRadius:10,padding:'10px 16px',background:'white',fontSize:13,color:INK,cursor:'pointer'}}>
+                    <Icon name="guests" /> Gestionar invitados
+                  </button>
+                  <button onClick={()=>setTab('vendors')} style={{display:'flex',alignItems:'center',gap:8,border:'1px solid #ECE9E4',borderRadius:10,padding:'10px 16px',background:'white',fontSize:13,color:INK,cursor:'pointer'}}>
+                    <Icon name="vendors" /> Ver proveedores
+                  </button>
+                </div>
+              </div>
             </>
           )}
 
           {tab === 'activity' && (
             <>
-              <h1 style={{fontFamily:F,fontSize:26,fontWeight:600,color:INK,marginBottom:4}}>Actividad</h1>
-              <p style={{fontSize:13,color:MUTE,marginBottom:24}}>Todo lo que habéis ido completando</p>
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <div style={{width:34,height:34,borderRadius:9,background:'#F4F2EE',display:'flex',alignItems:'center',justifyContent:'center',color:MUTE}}>
+                    <Icon name="activity" />
+                  </div>
+                  <h1 style={{fontFamily:F,fontSize:22,fontWeight:600,color:INK}}>Actividad</h1>
+                  <span style={{background:'#F4F2EE',color:MUTE,fontSize:12,borderRadius:999,padding:'3px 11px'}}>{tasks.filter(t=>t.done).length}</span>
+                </div>
+                <button style={{display:'flex',alignItems:'center',gap:6,border:'1px solid #ECE9E4',borderRadius:10,padding:'8px 14px',background:'white',fontSize:12,color:MUTE,cursor:'pointer'}}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M22 3H2l8 9.5V19l4 2v-8.5z"/></svg>
+                  Filtrar
+                </button>
+              </div>
+
               <div style={{background:'white',border:'1px solid #ECE9E4',borderRadius:16,padding:22}}>
                 {tasks.filter(t=>t.done).length === 0 ? (
                   <p style={{fontSize:13,color:MUTE,textAlign:'center',padding:'30px 0'}}>Aún no hay actividad. Id marcando tareas para verlas aquí.</p>
-                ) : tasks.filter(t=>t.done).map((t,i,arr) => (
-                  <div key={t.id} style={{display:'flex',alignItems:'center',gap:10,padding:'10px 0',borderBottom: i<arr.length-1 ? '1px solid #F0EEEA':'none'}}>
-                    <span style={{width:16,height:16,borderRadius:'50%',background:BLUE,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
-                      <svg width="9" height="7" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                    </span>
-                    <span style={{fontSize:13,color:INK}}>{t.title}</span>
-                  </div>
-                ))}
+                ) : (
+                  <>
+                    <p style={{fontSize:11,color:MUTE,letterSpacing:'0.08em',marginBottom:10}}>COMPLETADAS</p>
+                    {tasks.filter(t=>t.done).map((t,i,arr) => (
+                      <div key={t.id} style={{display:'flex',alignItems:'center',gap:10,padding:'10px 0',borderBottom: i<arr.length-1 ? '1px solid #F0EEEA':'none'}}>
+                        <span style={{width:28,height:28,borderRadius:9,background:'#F4F2EE',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,color:BLUE}}>
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+                        </span>
+                        <span style={{fontSize:13,color:INK}}>{t.title}</span>
+                      </div>
+                    ))}
+                  </>
+                )}
               </div>
             </>
           )}
