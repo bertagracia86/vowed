@@ -348,16 +348,6 @@ export default function Dashboard() {
               </div>
             </>
           )}
-<div key={t.id} style={{display:'flex',alignItems:'center',gap:10,padding:'10px 0',borderBottom: i<arr.length-1 ? '1px solid #F0EEEA':'none'}}>
-                    <span style={{width:16,height:16,borderRadius:'50%',background:BLUE,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
-                      <svg width="9" height="7" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                    </span>
-                    <span style={{fontSize:13,color:INK}}>{t.title}</span>
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
 
           {tab === 'pricing' && (
             <>
