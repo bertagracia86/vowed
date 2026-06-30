@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
 
+const F = "'Cormorant Garamond',serif"
+
 export default function LoginPage() {
   const router = useRouter()
   const [email, setEmail] = useState('')
@@ -18,92 +20,47 @@ export default function LoginPage() {
     setError('')
     const supabase = createClient()
     const { error } = await supabase.auth.signInWithPassword({ email, password })
-    if (error) {
-      setError('Email o contraseña incorrectos.')
-      setLoading(false)
-    } else {
-      router.push('/dashboard')
-    }
+    if (error) { setError('Email o contraseña incorrectos.'); setLoading(false) }
+    else { router.push('/dashboard') }
   }
 
   return (
-    <div className="min-h-screen grid grid-cols-2">
-      <div className="bg-[#0A0A0A] flex flex-col justify-between p-16">
-        <Link href="/" className="font-display text-xl font-light tracking-widest uppercase text-white">
-          Vowed
-        </Link>
-        <div>
-          <div className="font-mono-custom text-xs tracking-widest text-[#C9A84C] uppercase mb-6">
-            Bienvenidos de nuevo
-          </div>
-          <h2 className="font-display text-5xl font-light italic text-white leading-tight">
-            Continuad donde<br />lo dejasteis.
-          </h2>
-        </div>
-        <div className="font-mono-custom text-xs text-gray-600 tracking-widest">
-          VOWED · 2025
-        </div>
-      </div>
+    <div className="min-h-screen flex flex-col items-center justify-center px-6" style={{background:'white',fontFamily:"'Inter',sans-serif"}}>
+      <Link href="/" style={{fontFamily:F,fontSize:18,fontWeight:300,letterSpacing:'0.18em',textTransform:'uppercase',color:'#1A1A1A',position:'absolute',top:32,left:40}}>
+        Vowed
+      </Link>
 
-      <div className="flex flex-col justify-center px-20">
-        <div className="max-w-sm w-full">
-          <div className="font-mono-custom text-xs tracking-widest uppercase text-[#C9A84C] mb-2">
-            Acceder
-          </div>
-          <h1 className="font-display text-3xl font-light italic mb-10">
-            Vuestra cuenta
-          </h1>
+      <div style={{width:'100%',maxWidth:380}} className="text-center">
+        <h1 style={{fontFamily:F,fontSize:32,fontWeight:300,fontStyle:'italic',color:'#1A1A1A',marginBottom:12}}>
+          Bienvenidos de nuevo
+        </h1>
+        <p style={{fontSize:13,color:'#999',marginBottom:40}}>Continuad donde lo dejasteis.</p>
 
-          <form onSubmit={handleLogin} className="flex flex-col gap-4">
-            <div>
-              <label className="font-mono-custom text-xs tracking-widest uppercase text-gray-400 block mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                required
-                className="w-full border border-gray-200 px-4 py-3 text-sm outline-none focus:border-[#C9A84C] transition-colors"
-                placeholder="vuestro@email.com"
-              />
-            </div>
-            <div>
-              <label className="font-mono-custom text-xs tracking-widest uppercase text-gray-400 block mb-2">
-                Contraseña
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                required
-                className="w-full border border-gray-200 px-4 py-3 text-sm outline-none focus:border-[#C9A84C] transition-colors"
-                placeholder="········"
-              />
-            </div>
+        <form onSubmit={handleLogin} className="flex flex-col gap-3">
+          <input
+            type="email" value={email} onChange={e=>setEmail(e.target.value)} required
+            placeholder="vuestro@email.com"
+            style={{width:'100%',border:'1px solid #EEEEEE',borderRadius:999,padding:'16px 24px',fontSize:15,outline:'none',textAlign:'center'}}
+            onFocus={e=>e.target.style.borderColor='#1A1A1A'} onBlur={e=>e.target.style.borderColor='#EEEEEE'}
+          />
+          <input
+            type="password" value={password} onChange={e=>setPassword(e.target.value)} required
+            placeholder="Contraseña"
+            style={{width:'100%',border:'1px solid #EEEEEE',borderRadius:999,padding:'16px 24px',fontSize:15,outline:'none',textAlign:'center'}}
+            onFocus={e=>e.target.style.borderColor='#1A1A1A'} onBlur={e=>e.target.style.borderColor='#EEEEEE'}
+          />
+          {error && <p style={{fontSize:12,color:'#C0594F'}}>{error}</p>}
+          <button
+            type="submit" disabled={loading}
+            style={{width:'100%',borderRadius:999,padding:'16px 0',border:'none',background:'#1A1A1A',color:'white',fontSize:14,fontWeight:500,cursor:'pointer',marginTop:8,opacity:loading?0.6:1}}
+          >
+            {loading ? 'Accediendo...' : 'Acceder'}
+          </button>
+        </form>
 
-            {error && (
-              <p className="font-mono-custom text-xs text-red-500">{error}</p>
-            )}
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="bg-[#0A0A0A] text-white font-mono-custom text-xs tracking-widest uppercase px-8 py-4 hover:bg-gray-900 transition-colors disabled:opacity-50 mt-2"
-            >
-              {loading ? 'Accediendo...' : 'Acceder'}
-            </button>
-          </form>
-
-          <div className="mt-8 pt-8 border-t border-gray-100">
-            <p className="font-mono-custom text-xs text-gray-400 tracking-wider">
-              Sin cuenta aún?{' '}
-              <Link href="/register" className="text-[#C9A84C] hover:underline">
-                Creaos una gratis
-              </Link>
-            </p>
-          </div>
-        </div>
+        <p style={{fontSize:12,color:'#CCC',marginTop:32}}>
+          Sin cuenta aún? <Link href="/register" style={{color:'#999',textDecoration:'underline'}}>Creaos una gratis</Link>
+        </p>
       </div>
     </div>
   )
