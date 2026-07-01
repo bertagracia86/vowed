@@ -124,7 +124,7 @@ export default function Home() {
 
       {/* HERO — full bleed photo */}
       <section style={{ position: 'relative', minHeight: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '80px 48px' }}>
-        <img src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=1800&q=80" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+        <img src="https://images.unsplash.com/photo-1605985687770-2e2e82c9b5f1?w=1800&q=80" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(20,30,50,0.42)' }} />
         <div style={{ position: 'relative', zIndex: 2 }}>
           <h1 className="a1" style={{ fontFamily: F, fontSize: 'clamp(48px,7vw,96px)', fontWeight: 600, color: 'white', lineHeight: 1.0, marginBottom: 24, maxWidth: 800 }}>
