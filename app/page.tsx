@@ -38,6 +38,8 @@ export default function Home() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap');
         *{box-sizing:border-box}
+        html,body{background:#8ec5f7;padding:12px;}
+        main{border-radius:24px;overflow:hidden;}
         .reveal{opacity:0;transform:translateY(40px);transition:opacity 0.9s cubic-bezier(.16,1,.3,1),transform 0.9s cubic-bezier(.16,1,.3,1)}
         .reveal.in{opacity:1;transform:translateY(0)}
         .reveal-l{opacity:0;transform:translateX(-40px);transition:opacity 0.9s cubic-bezier(.16,1,.3,1),transform 0.9s cubic-bezier(.16,1,.3,1)}
@@ -99,7 +101,6 @@ export default function Home() {
 
         <div className="hero-blob-anim" style={{ margin: '32px auto', position: 'relative', zIndex: 2 }}>
           <div ref={heroImgRef} style={{ willChange: 'transform' }}>
-            {/* Borde azul exterior */}
             <div style={{ padding: 8, borderRadius: '50% 50% 50% 50% / 40% 40% 60% 60%', background: BLUE, display: 'inline-block' }}>
               <div style={{ width: 'clamp(300px,52vw,620px)', height: 'clamp(220px,34vw,420px)', borderRadius: '50% 50% 50% 50% / 40% 40% 60% 60%', overflow: 'hidden', boxShadow: '0 32px 80px rgba(142,197,247,0.2)' }}>
                 <img src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=1200&q=80" alt="boda" style={{ width: '100%', height: '120%', objectFit: 'cover', marginTop: '-10%' }} />
