@@ -45,12 +45,10 @@ export default function Home() {
         .a1{animation:fadeUp 0.9s 0.1s both}
         .a2{animation:fadeUp 0.9s 0.25s both}
         .a3{animation:fadeUp 0.9s 0.4s both}
-        .a4{animation:fadeUp 0.9s 0.55s both}
-        .a5{animation:fadeUp 0.9s 0.7s both}
         .btn-blue{background:#8ec5f7;color:white;border:none;border-radius:999px;padding:13px 28px;font-size:13px;font-weight:500;cursor:pointer;display:inline-block;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;box-shadow:0 4px 18px rgba(142,197,247,0.4)}
         .btn-blue:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(142,197,247,0.55)}
-        .btn-ghost{background:transparent;color:#555;border:none;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none;transition:color 0.2s}
-        .btn-ghost:hover{color:#8ec5f7}
+        .btn-dark{background:#1a1a2e;color:white;border:none;border-radius:999px;padding:14px 32px;font-size:15px;font-weight:600;cursor:pointer;display:inline-block;text-decoration:none;transition:opacity 0.2s}
+        .btn-dark:hover{opacity:0.85}
         .nav-link{font-size:13px;color:#6b7280;cursor:pointer;transition:color 0.2s;text-decoration:none}
         .nav-link:hover{color:#1a1a2e}
         .feat-img-card{border-radius:16px;overflow:hidden;position:relative;cursor:pointer}
@@ -65,9 +63,7 @@ export default function Home() {
 
       {/* NAV */}
       <nav id="main-nav" style={{ position: 'sticky', top: 0, zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 48px', height: 64, transition: 'background 0.3s', backdropFilter: 'blur(16px)' }}>
-        <Link href="/">
-          <img src="/logo.png" alt="mylov3" style={{ height: 26, display: 'block' }} />
-        </Link>
+        <Link href="/"><img src="/logo.png" alt="mylov3" style={{ height: 26, display: 'block' }} /></Link>
         <div style={{ display: 'flex', gap: 36 }}>
           {['Funciones', 'Precios', 'Inspiración', 'Sobre nosotros'].map(l => (
             <a key={l} href="#" className="nav-link">{l}</a>
@@ -77,17 +73,17 @@ export default function Home() {
       </nav>
 
       {/* HERO */}
-      <section style={{ minHeight: 'calc(100vh - 64px)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'center', padding: '60px 64px 80px', background: '#fff', position: 'relative' }}>
+      <section style={{ minHeight: 'calc(100vh - 64px)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'center', padding: '60px 64px 80px', background: '#fff' }}>
         <div>
-          <span className="a1 pill-tag" style={{ display: 'inline-block', marginBottom: 24 }}>Organizador de bodas</span>
-          <h1 className="a2" style={{ fontFamily: F, fontSize: 'clamp(52px,6vw,84px)', fontWeight: 400, lineHeight: 1.0, color: INK, marginBottom: 0 }}>PLANIFICAD</h1>
-          <h1 className="a3" style={{ fontFamily: F, fontSize: 'clamp(52px,6vw,84px)', fontWeight: 400, lineHeight: 1.05, fontStyle: 'italic', color: BLUE, marginBottom: 24 }}>vuestra boda</h1>
-          <p className="a4" style={{ fontSize: 15, color: MUTE, lineHeight: 1.85, maxWidth: 380, marginBottom: 40 }}>
-            La forma más sencilla y bonita de organizar cada detalle de vuestro gran día. Todo en un solo lugar.
+          <h1 className="a1" style={{ fontFamily: F, fontSize: 'clamp(48px,5.5vw,78px)', fontWeight: 600, lineHeight: 1.05, color: INK, marginBottom: 20 }}>
+            La planificación de vuestra boda empieza aquí
+          </h1>
+          <p className="a2" style={{ fontSize: 16, color: MUTE, lineHeight: 1.85, maxWidth: 420, marginBottom: 40 }}>
+            Desde la finca y el catering hasta la web de boda y los invitados — mylov3 está con vosotros en cada paso del camino.
           </p>
-          <div className="a5" style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-            <Link href="/dashboard" className="btn-blue">Empezar gratis</Link>
-            <a href="#funciones" className="btn-ghost">Ver cómo funciona →</a>
+          <div className="a3" style={{ display: 'flex', gap: 14, alignItems: 'center', flexWrap: 'wrap' }}>
+            <Link href="/dashboard" className="btn-blue" style={{ fontSize: 15, padding: '14px 32px', fontWeight: 600 }}>¡Empezamos!</Link>
+            <Link href="/dashboard" className="btn-dark">Ver demo</Link>
           </div>
         </div>
 
@@ -96,7 +92,6 @@ export default function Home() {
             <div style={{ width: 'clamp(320px,42vw,520px)', height: 'clamp(320px,42vw,520px)', borderRadius: '50%', border: `10px solid ${BLUE}`, overflow: 'hidden', boxShadow: '0 32px 80px rgba(142,197,247,0.25)' }}>
               <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=900&q=80" alt="boda" style={{ width: '100%', height: '110%', objectFit: 'cover', marginTop: '-5%' }} />
             </div>
-            {/* Floating badge */}
             <div style={{ position: 'absolute', bottom: 32, left: -24, background: 'white', borderRadius: 16, padding: '14px 20px', boxShadow: '0 8px 32px rgba(0,0,0,0.1)', display: 'flex', alignItems: 'center', gap: 12 }}>
               <span style={{ fontSize: 24 }}>♡</span>
               <div>
@@ -119,7 +114,7 @@ export default function Home() {
           ].map(f => (
             <div key={f.t} style={{ padding: '24px 16px' }}>
               <div style={{ fontSize: 28, marginBottom: 14, color: BLUE }}>{f.icon}</div>
-              <p style={{ fontFamily: F, fontSize: 18, color: INK, marginBottom: 8, fontWeight: 400 }}>{f.t}</p>
+              <p style={{ fontFamily: F, fontSize: 18, color: INK, marginBottom: 8 }}>{f.t}</p>
               <p style={{ fontSize: 12, color: MUTE, lineHeight: 1.7 }}>{f.d}</p>
             </div>
           ))}
@@ -131,18 +126,11 @@ export default function Home() {
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 80, alignItems: 'center' }}>
           <div className="reveal-l">
             <span className="pill-tag" style={{ marginBottom: 20, display: 'inline-block' }}>Todo bajo control</span>
-            <h2 style={{ fontFamily: F, fontSize: 'clamp(36px,4vw,54px)', fontWeight: 400, color: INK, lineHeight: 1.1, marginBottom: 12 }}>
-              Gestiona cada detalle
-            </h2>
-            <h2 style={{ fontFamily: F, fontSize: 'clamp(36px,4vw,54px)', fontWeight: 400, fontStyle: 'italic', color: BLUE, lineHeight: 1.1, marginBottom: 24 }}>
-              con facilidad
-            </h2>
-            <p style={{ fontSize: 14, color: MUTE, lineHeight: 1.85, marginBottom: 36 }}>
-              Herramientas intuitivas para que disfrutes del proceso y vivas el día más importante de tu vida sin preocupaciones.
-            </p>
+            <h2 style={{ fontFamily: F, fontSize: 'clamp(36px,4vw,54px)', fontWeight: 400, color: INK, lineHeight: 1.1, marginBottom: 12 }}>Gestiona cada detalle</h2>
+            <h2 style={{ fontFamily: F, fontSize: 'clamp(36px,4vw,54px)', fontWeight: 400, fontStyle: 'italic', color: BLUE, lineHeight: 1.1, marginBottom: 24 }}>con facilidad</h2>
+            <p style={{ fontSize: 14, color: MUTE, lineHeight: 1.85, marginBottom: 36 }}>Herramientas intuitivas para que disfrutes del proceso y vivas el día más importante de tu vida sin preocupaciones.</p>
             <Link href="/dashboard" className="btn-blue">Descubre todas las funciones</Link>
           </div>
-
           <div className="reveal-r" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gridTemplateRows: '180px 180px', gap: 10 }}>
             {[
               { label: 'Invitados', sub: 'Confirma asistencia y organiza mesas.', img: 'https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=400&q=80' },
@@ -176,12 +164,10 @@ export default function Home() {
       {/* TESTIMONIALS */}
       <div style={{ background: 'white', padding: '100px 64px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div className="reveal" style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 80, alignItems: 'center', marginBottom: 56 }}>
-            <div>
-              <span className="pill-tag" style={{ marginBottom: 20, display: 'inline-block' }}>Parejas que ya vivieron su día</span>
-              <h2 style={{ fontFamily: F, fontSize: 'clamp(32px,3.5vw,48px)', fontWeight: 400, color: INK, lineHeight: 1.1, marginBottom: 8 }}>Historias reales,</h2>
-              <h2 style={{ fontFamily: F, fontSize: 'clamp(32px,3.5vw,48px)', fontWeight: 400, fontStyle: 'italic', color: BLUE, lineHeight: 1.1 }}>momentos inolvidables</h2>
-            </div>
+          <div className="reveal" style={{ marginBottom: 56 }}>
+            <span className="pill-tag" style={{ marginBottom: 20, display: 'inline-block' }}>Parejas que ya vivieron su día</span>
+            <h2 style={{ fontFamily: F, fontSize: 'clamp(32px,3.5vw,48px)', fontWeight: 400, color: INK, lineHeight: 1.1, marginBottom: 8 }}>Historias reales,</h2>
+            <h2 style={{ fontFamily: F, fontSize: 'clamp(32px,3.5vw,48px)', fontWeight: 400, fontStyle: 'italic', color: BLUE, lineHeight: 1.1 }}>momentos inolvidables</h2>
           </div>
           <div className="reveal-scale" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 20 }}>
             {[
