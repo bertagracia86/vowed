@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 
 const F = "'Cormorant Garamond',serif"
-const BLUE = '#6E8FC9'
+const BLUE = '#8ec5f7'
 const INK = '#2C2A26'
 const MUTE = '#8A8580'
 const BG = '#FAFAF8'
@@ -55,9 +55,9 @@ export default function Home() {
         @keyframes imgBlob{from{opacity:0;transform:scale(0.96)}to{opacity:1;transform:scale(1)}}
         .hero-blob-anim{animation:imgBlob 1.2s 0.4s both}
         .feat-card{background:white;border:1px solid rgba(44,42,38,0.07);border-radius:20px;padding:28px 24px;transition:transform 0.3s,box-shadow 0.3s}
-        .feat-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(110,143,201,0.1)}
-        .btn-pill{background:#6E8FC9;color:white;border:none;border-radius:999px;padding:14px 32px;font-size:13px;font-weight:500;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;box-shadow:0 4px 18px rgba(110,143,201,0.25);display:inline-block;text-decoration:none}
-        .btn-pill:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(110,143,201,0.38)}
+        .feat-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(142,197,247,0.15)}
+        .btn-pill{background:#8ec5f7;color:white;border:none;border-radius:999px;padding:14px 32px;font-size:13px;font-weight:500;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;box-shadow:0 4px 18px rgba(142,197,247,0.35);display:inline-block;text-decoration:none}
+        .btn-pill:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(142,197,247,0.5)}
         .nav-link{font-size:13px;color:#8A8580;cursor:pointer;transition:color 0.2s}
         .nav-link:hover{color:#2C2A26}
         @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -68,10 +68,10 @@ export default function Home() {
         .gal-item:hover img{transform:scale(1.05)}
         .pc-card{background:white;border:1px solid rgba(44,42,38,0.08);border-radius:20px;padding:48px 40px;transition:transform 0.3s}
         .pc-card:hover{transform:translateY(-3px)}
-        .pc-btn-s{background:#6E8FC9;color:white;border:none;width:100%;padding:14px;border-radius:999px;font-size:13px;font-weight:500;cursor:pointer;transition:opacity 0.2s}
+        .pc-btn-s{background:#8ec5f7;color:white;border:none;width:100%;padding:14px;border-radius:999px;font-size:13px;font-weight:500;cursor:pointer;transition:opacity 0.2s}
         .pc-btn-s:hover{opacity:0.85}
-        .pc-btn-o{background:transparent;color:#6E8FC9;border:1px solid rgba(110,143,201,0.35);width:100%;padding:14px;border-radius:999px;font-size:13px;cursor:pointer;transition:background 0.2s}
-        .pc-btn-o:hover{background:rgba(110,143,201,0.06)}
+        .pc-btn-o{background:transparent;color:#8ec5f7;border:1px solid rgba(142,197,247,0.45);width:100%;padding:14px;border-radius:999px;font-size:13px;cursor:pointer;transition:background 0.2s}
+        .pc-btn-o:hover{background:rgba(142,197,247,0.08)}
         .par-section{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:65vh}
         .par-bg{position:absolute;inset:0;will-change:transform}
         .par-bg img{width:100%;height:130%;object-fit:cover;display:block}
@@ -80,7 +80,9 @@ export default function Home() {
 
       {/* NAV */}
       <nav id="main-nav" style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 56px', height: 60, transition: 'background 0.4s', backdropFilter: 'blur(16px)' }}>
-        <div style={{ fontFamily: F, fontSize: 20, fontStyle: 'italic', fontWeight: 400, color: BLUE, letterSpacing: '0.04em' }}>vowed</div>
+        <Link href="/">
+          <img src="/logo.png" alt="mylov3" style={{ height: 28, display: 'block' }} />
+        </Link>
         <div style={{ display: 'flex', gap: 36 }}>
           {['Funciones', 'Precios', 'Inspiración', 'Sobre nosotros'].map(l => (
             <span key={l} className="nav-link">{l}</span>
@@ -97,7 +99,7 @@ export default function Home() {
 
         <div className="hero-blob-anim" style={{ margin: '32px auto', position: 'relative', zIndex: 2 }}>
           <div ref={heroImgRef} style={{ willChange: 'transform' }}>
-            <div style={{ width: 'clamp(320px,55vw,640px)', height: 'clamp(240px,36vw,440px)', borderRadius: '60% 40% 55% 45% / 45% 55% 45% 55%', overflow: 'hidden', boxShadow: '0 32px 80px rgba(110,143,201,0.12)', margin: '0 auto' }}>
+            <div style={{ width: 'clamp(320px,55vw,640px)', height: 'clamp(240px,36vw,440px)', borderRadius: '60% 40% 55% 45% / 45% 55% 45% 55%', overflow: 'hidden', boxShadow: '0 32px 80px rgba(142,197,247,0.15)', margin: '0 auto' }}>
               <img src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=1200&q=80" alt="boda" style={{ width: '100%', height: '120%', objectFit: 'cover', marginTop: '-10%' }} />
             </div>
           </div>
@@ -142,7 +144,7 @@ export default function Home() {
             { n: '06', t: 'Web de boda', d: 'Una página para vuestros invitados.' },
           ].map(f => (
             <div key={f.n} className="feat-card">
-              <p style={{ fontFamily: F, fontSize: 44, fontWeight: 300, color: 'rgba(110,143,201,0.15)', lineHeight: 1, marginBottom: 18 }}>{f.n}</p>
+              <p style={{ fontFamily: F, fontSize: 44, fontWeight: 300, color: 'rgba(142,197,247,0.25)', lineHeight: 1, marginBottom: 18 }}>{f.n}</p>
               <p style={{ fontFamily: F, fontSize: 19, color: INK, marginBottom: 8 }}>{f.t}</p>
               <p style={{ fontSize: 13, color: MUTE, lineHeight: 1.75 }}>{f.d}</p>
             </div>
@@ -233,7 +235,7 @@ export default function Home() {
       </div>
 
       {/* PRECIOS */}
-      <div style={{ background: '#F5F7FA', borderTop: '1px solid rgba(110,143,201,0.08)', padding: '100px 48px' }}>
+      <div style={{ background: '#F5F7FA', borderTop: '1px solid rgba(142,197,247,0.12)', padding: '100px 48px' }}>
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
           <div className="reveal" style={{ textAlign: 'center', marginBottom: 56 }}>
             <p style={{ fontSize: 11, color: BLUE, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 16 }}>Precios</p>
@@ -283,7 +285,7 @@ export default function Home() {
 
       {/* FOOTER */}
       <footer style={{ borderTop: '1px solid rgba(44,42,38,0.06)', padding: '28px 56px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white' }}>
-        <div style={{ fontFamily: F, fontSize: 18, fontStyle: 'italic', color: BLUE }}>vowed</div>
+        <img src="/logo.png" alt="mylov3" style={{ height: 24, display: 'block' }} />
         <p style={{ fontSize: 12, color: '#B0AAA3' }}>Hecho con ♡ para parejas que quieren disfrutar del proceso</p>
         <p style={{ fontSize: 11, color: '#D0CCC6' }}>2025</p>
       </footer>
