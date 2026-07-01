@@ -79,39 +79,26 @@ export default function Home() {
       `}</style>
 
       {/* NAV */}
-      <nav id="main-nav" style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 56px', transition: 'background 0.4s, backdrop-filter 0.4s', backdropFilter: 'blur(16px)' }}>
-        <div style={{ fontFamily: F, fontSize: 21, fontStyle: 'italic', fontWeight: 500, color: BLUE }}>vowed</div>
+      <nav id="main-nav" style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 56px', height: 60, transition: 'background 0.4s', backdropFilter: 'blur(16px)' }}>
+        <div style={{ fontFamily: F, fontSize: 20, fontStyle: 'italic', fontWeight: 400, color: BLUE, letterSpacing: '0.04em' }}>vowed</div>
         <div style={{ display: 'flex', gap: 36 }}>
           {['Funciones', 'Precios', 'Inspiración', 'Sobre nosotros'].map(l => (
             <span key={l} className="nav-link">{l}</span>
           ))}
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-          <Link href="/dashboard" style={{ fontSize: 13, color: MUTE }}>Acceder</Link>
-          <Link href="/dashboard" className="btn-pill" style={{ padding: '9px 22px', fontSize: 13 }}>Empezar gratis</Link>
-        </div>
+        <Link href="/dashboard" className="btn-pill" style={{ padding: '9px 22px', fontSize: 13 }}>Empezar gratis ♡</Link>
       </nav>
 
       {/* HERO */}
       <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '130px 48px 80px', background: BG, position: 'relative' }}>
         <p className="h1" style={{ fontSize: 11, color: BLUE, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 24 }}>Organizador de bodas</p>
+        <h1 className="h2" style={{ fontFamily: F, fontSize: 'clamp(52px,8vw,100px)', fontWeight: 300, lineHeight: 1.02, letterSpacing: '-0.025em', color: INK, marginBottom: 0 }}>PLANIFICAD</h1>
+        <h1 className="h3" style={{ fontFamily: F, fontSize: 'clamp(52px,8vw,100px)', fontWeight: 300, lineHeight: 1.02, letterSpacing: '-0.025em', fontStyle: 'italic', color: BLUE, marginBottom: 0 }}>vuestra boda</h1>
 
-        <h1 className="h2" style={{ fontFamily: F, fontSize: 'clamp(52px,8vw,100px)', fontWeight: 300, lineHeight: 1.02, letterSpacing: '-0.025em', color: INK, marginBottom: 0 }}>
-          PLANIFICAD
-        </h1>
-        <h1 className="h3" style={{ fontFamily: F, fontSize: 'clamp(52px,8vw,100px)', fontWeight: 300, lineHeight: 1.02, letterSpacing: '-0.025em', fontStyle: 'italic', color: BLUE, marginBottom: 0 }}>
-          vuestra boda
-        </h1>
-
-        {/* BLOB IMAGE — centro */}
         <div className="hero-blob-anim" style={{ margin: '32px auto', position: 'relative', zIndex: 2 }}>
           <div ref={heroImgRef} style={{ willChange: 'transform' }}>
             <div style={{ width: 'clamp(320px,55vw,640px)', height: 'clamp(240px,36vw,440px)', borderRadius: '60% 40% 55% 45% / 45% 55% 45% 55%', overflow: 'hidden', boxShadow: '0 32px 80px rgba(110,143,201,0.12)', margin: '0 auto' }}>
-              <img
-                src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=1200&q=80"
-                alt="boda"
-                style={{ width: '100%', height: '120%', objectFit: 'cover', marginTop: '-10%' }}
-              />
+              <img src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=1200&q=80" alt="boda" style={{ width: '100%', height: '120%', objectFit: 'cover', marginTop: '-10%' }} />
             </div>
           </div>
         </div>
