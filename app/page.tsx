@@ -58,8 +58,6 @@ export default function Home() {
         .feat-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(142,197,247,0.15)}
         .btn-pill{background:#8ec5f7;color:white;border:none;border-radius:999px;padding:14px 32px;font-size:13px;font-weight:500;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;box-shadow:0 4px 18px rgba(142,197,247,0.35);display:inline-block;text-decoration:none}
         .btn-pill:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(142,197,247,0.5)}
-        .btn-pill-white{background:white;color:#8ec5f7;border:none;border-radius:999px;padding:14px 32px;font-size:13px;font-weight:600;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;box-shadow:0 4px 18px rgba(0,0,0,0.1);display:inline-block;text-decoration:none}
-        .btn-pill-white:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,0.15)}
         .nav-link{font-size:13px;color:#8A8580;cursor:pointer;transition:color 0.2s}
         .nav-link:hover{color:#2C2A26}
         @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -94,25 +92,28 @@ export default function Home() {
       </nav>
 
       {/* HERO */}
-      <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '110px 48px 80px', background: '#8ec5f7', position: 'relative' }}>
-        <p className="h1" style={{ fontSize: 11, color: 'rgba(255,255,255,0.85)', letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 24 }}>Organizador de bodas</p>
-        <h1 className="h2" style={{ fontFamily: F, fontSize: 'clamp(52px,8vw,100px)', fontWeight: 300, lineHeight: 1.02, letterSpacing: '-0.025em', color: 'white', marginBottom: 0 }}>PLANIFICAD</h1>
-        <h1 className="h3" style={{ fontFamily: F, fontSize: 'clamp(52px,8vw,100px)', fontWeight: 300, lineHeight: 1.02, letterSpacing: '-0.025em', fontStyle: 'italic', color: 'white', marginBottom: 0 }}>vuestra boda</h1>
+      <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '130px 48px 80px', background: BG, position: 'relative' }}>
+        <p className="h1" style={{ fontSize: 11, color: BLUE, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 24 }}>Organizador de bodas</p>
+        <h1 className="h2" style={{ fontFamily: F, fontSize: 'clamp(52px,8vw,100px)', fontWeight: 300, lineHeight: 1.02, letterSpacing: '-0.025em', color: INK, marginBottom: 0 }}>PLANIFICAD</h1>
+        <h1 className="h3" style={{ fontFamily: F, fontSize: 'clamp(52px,8vw,100px)', fontWeight: 300, lineHeight: 1.02, letterSpacing: '-0.025em', fontStyle: 'italic', color: BLUE, marginBottom: 0 }}>vuestra boda</h1>
 
-        <div className="hero-blob-anim" style={{ margin: '36px auto', position: 'relative', zIndex: 2, width: '100%', maxWidth: 880 }}>
+        <div className="hero-blob-anim" style={{ margin: '32px auto', position: 'relative', zIndex: 2 }}>
           <div ref={heroImgRef} style={{ willChange: 'transform' }}>
-            <div style={{ borderRadius: '44% 56% 52% 48% / 36% 42% 58% 64%', overflow: 'hidden', aspectRatio: '16/9', boxShadow: '0 40px 100px rgba(0,0,0,0.18)', margin: '0 auto' }}>
-              <img src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=1200&q=80" alt="boda" style={{ width: '100%', height: '115%', objectFit: 'cover', marginTop: '-7%' }} />
+            {/* Borde azul exterior */}
+            <div style={{ padding: 8, borderRadius: '50% 50% 50% 50% / 40% 40% 60% 60%', background: BLUE, display: 'inline-block' }}>
+              <div style={{ width: 'clamp(300px,52vw,620px)', height: 'clamp(220px,34vw,420px)', borderRadius: '50% 50% 50% 50% / 40% 40% 60% 60%', overflow: 'hidden', boxShadow: '0 32px 80px rgba(142,197,247,0.2)' }}>
+                <img src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=1200&q=80" alt="boda" style={{ width: '100%', height: '120%', objectFit: 'cover', marginTop: '-10%' }} />
+              </div>
             </div>
           </div>
         </div>
 
-        <p className="h4" style={{ fontSize: 15, color: 'rgba(255,255,255,0.88)', maxWidth: 480, margin: '0 auto 40px', lineHeight: 1.9 }}>
+        <p className="h4" style={{ fontSize: 15, color: MUTE, maxWidth: 480, margin: '0 auto 40px', lineHeight: 1.9 }}>
           Herramientas bonitas para planificar el día más importante de vuestra vida. Todo en un solo lugar.
         </p>
         <div className="h5" style={{ display: 'flex', gap: 14, justifyContent: 'center', alignItems: 'center' }}>
-          <Link href="/dashboard" className="btn-pill-white">Empezar a planificar</Link>
-          <Link href="/dashboard" style={{ fontSize: 14, color: 'white', borderBottom: '1px solid rgba(255,255,255,0.5)', paddingBottom: 2 }}>Ver demo ♡</Link>
+          <Link href="/dashboard" className="btn-pill">Empezar a planificar</Link>
+          <Link href="/dashboard" style={{ fontSize: 14, color: MUTE, borderBottom: '1px solid rgba(138,133,128,0.3)', paddingBottom: 2 }}>Ver demo ♡</Link>
         </div>
       </section>
 
