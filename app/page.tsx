@@ -6,7 +6,7 @@ const BLUE = '#cbecff'
 const BLUE_DARK = '#5bb8e8'
 const BLUE_LIGHT = '#e8f7ff'
 const INK = '#1a3a52'
-const F = "'Boston Angel', serif"
+const F = "'Cormorant Garamond', serif"
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0)
@@ -49,44 +49,46 @@ export default function Home() {
   return (
     <main style={{ fontFamily: F, overflowX: 'hidden', background: '#f7fbff' }}>
       <style>{`
-        @font-face {
-          font-family: 'Boston Angel';
-          src: url('/fonts/boston-angel.ttf') format('truetype');
-          font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { background: #e8f7ff; padding: 5px; font-family: 'Boston Angel', serif; }
-        main { border-radius: 20px; overflow: hidden; }
-        * { font-family: 'Boston Angel', serif !important; }
+        html, body { background: #e8f7ff; padding: 5px; }
+        main { border-radius: 24px; overflow: hidden; }
 
-        .nav-a { font-size: 14px; color: ${INK}; text-decoration: none; opacity: 0.7; transition: opacity 0.2s; }
+        .nav-a { font-size: 14px; color: ${INK}; text-decoration: none; opacity: 0.7; transition: opacity 0.2s; font-family: ${F}; }
         .nav-a:hover { opacity: 1; }
-        .btn-light { background: rgba(255,255,255,0.92); color: ${INK}; border: none; border-radius: 999px; padding: 14px 36px; font-size: 15px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
+
+        .btn-light { background: rgba(255,255,255,0.92); color: ${INK}; border: none; border-radius: 999px; padding: 14px 36px; font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; box-shadow: 0 2px 12px rgba(0,0,0,0.08); font-family: ${F}; }
         .btn-light:hover { background: white; transform: translateY(-1px); }
-        .btn-blue { background: ${BLUE_DARK}; color: white; border: none; border-radius: 999px; padding: 14px 36px; font-size: 15px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; box-shadow: 0 4px 20px rgba(91,184,232,0.4); }
-        .btn-blue:hover { transform: translateY(-1px); box-shadow: 0 8px 32px rgba(91,184,232,0.6); }
-        .btn-blue-sm { background: ${BLUE_DARK}; color: white; border: none; border-radius: 999px; padding: 10px 24px; font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; }
+
+        .btn-blue { background: ${BLUE_DARK}; color: white; border: none; border-radius: 999px; padding: 14px 36px; font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; box-shadow: 0 4px 20px rgba(91,184,232,0.35); font-family: ${F}; }
+        .btn-blue:hover { transform: translateY(-1px); box-shadow: 0 8px 32px rgba(91,184,232,0.55); }
+
+        .btn-blue-sm { background: ${BLUE_DARK}; color: white; border: none; border-radius: 999px; padding: 10px 24px; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; font-family: ${F}; }
         .btn-blue-sm:hover { opacity: 0.9; transform: translateY(-1px); }
-        .feat-card { border-right: 1px solid #eee; border-bottom: 1px solid #eee; padding: 28px 24px; background: white; transition: background 0.2s; cursor: pointer; }
+
+        .feat-card { padding: 32px 28px; background: white; transition: background 0.2s; cursor: pointer; }
         .feat-card:hover { background: #fafeff; }
-        .feat-card-title { font-size: 16px; font-weight: 500; color: ${INK}; display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
-        .feat-card-sub { font-size: 13px; color: #7a9ab5; line-height: 1.5; }
-        .feat-badge { display: inline-flex; align-items: center; gap: 6px; background: white; border: 1px solid #eee; border-radius: 999px; padding: 6px 14px; font-size: 11px; font-weight: 500; color: ${INK}; position: absolute; bottom: 12px; left: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); white-space: nowrap; }
+        .feat-card-title { font-family: ${F}; font-size: 18px; font-weight: 500; color: ${INK}; display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+        .feat-card-sub { font-family: ${F}; font-size: 14px; color: #7a9ab5; line-height: 1.5; }
+        .feat-badge { display: inline-flex; align-items: center; gap: 6px; background: white; border: 1px solid #eee; border-radius: 999px; padding: 7px 16px; font-size: 12px; font-weight: 500; color: ${INK}; position: absolute; bottom: 14px; left: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); white-space: nowrap; font-family: ${F}; }
+
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         .floating { animation: float 6s ease-in-out infinite; }
+
         @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .ticker { display: flex; gap: 48px; animation: ticker 24s linear infinite; width: max-content; align-items: center; }
-        .scroll-btn { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.6); background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; font-size: 18px; transition: all 0.2s; }
+
+        .scroll-btn { width: 48px; height: 48px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.6); background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; font-size: 18px; transition: all 0.2s; font-family: ${F}; }
         .scroll-btn:hover { background: rgba(255,255,255,0.1); }
+
+        .review-card { background: ${BLUE_LIGHT}; border: 1px solid ${BLUE}; border-radius: 28px; padding: 32px; }
       `}</style>
 
       {/* NAV */}
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 300, background: scrollY > 20 ? 'rgba(255,255,255,0.98)' : 'white', borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '0 48px', height: 68, display: 'flex', alignItems: 'center', justifyContent: 'space-between', transition: 'all 0.3s', backdropFilter: 'blur(12px)' }}>
         <Link href="/"><img src="/logo.png" alt="mylov3" style={{ height: 26, display: 'block' }} /></Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
-          <span style={{ fontSize: 14, color: INK, opacity: 0.6 }}>¿Ya tienes cuenta?</span>
+          <span style={{ fontSize: 14, color: INK, opacity: 0.6, fontFamily: F }}>¿Ya tienes cuenta?</span>
           <a href="#" className="nav-a" style={{ textDecoration: 'underline', opacity: 0.8 }}>Inicia sesión</a>
           <Link href="/dashboard" className="btn-blue-sm">¡Empezamos!</Link>
         </div>
@@ -94,9 +96,9 @@ export default function Home() {
 
       {/* BANNER */}
       <div className="banner" style={{ position: 'fixed', top: 68, left: 0, right: 0, zIndex: 200, background: BLUE_DARK, padding: '12px 24px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, willChange: 'transform, opacity' }}>
-        <span style={{ background: 'rgba(255,255,255,0.25)', color: 'white', fontSize: 11, fontWeight: 700, borderRadius: 4, padding: '2px 8px', letterSpacing: '0.04em' }}>Nuevo</span>
-        <span style={{ fontSize: 13, color: 'white', fontWeight: 500 }}>Planifica tu boda.</span>
-        <a href="#" style={{ fontSize: 13, color: 'white', fontWeight: 700, textDecoration: 'underline' }}>Pruébalo</a>
+        <span style={{ background: 'rgba(255,255,255,0.25)', color: 'white', fontSize: 12, fontWeight: 600, borderRadius: 8, padding: '2px 10px', fontFamily: F }}>Nuevo</span>
+        <span style={{ fontSize: 14, color: 'white', fontWeight: 500, fontFamily: F }}>Planifica tu boda.</span>
+        <a href="#" style={{ fontSize: 14, color: 'white', fontWeight: 600, textDecoration: 'underline', fontFamily: F }}>Pruébalo</a>
       </div>
 
       {/* HERO */}
@@ -107,10 +109,10 @@ export default function Home() {
         </video>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%)' }} />
         <div className="hero-content" style={{ position: 'relative', zIndex: 10, textAlign: 'center', padding: '0 24px', maxWidth: 860, margin: '0 auto' }}>
-          <h1 style={{ fontSize: 'clamp(2.2rem,5vw,4.5rem)', fontWeight: 600, color: 'white', lineHeight: 1.05, marginBottom: 28, letterSpacing: '-0.02em' }}>
+          <h1 style={{ fontFamily: F, fontSize: 'clamp(2.2rem,5vw,4.5rem)', fontWeight: 600, color: 'white', lineHeight: 1.05, marginBottom: 28, letterSpacing: '-0.02em' }}>
             La planificación de<br />la boda comienza aquí.
           </h1>
-          <p style={{ fontSize: 'clamp(14px,1.8vw,18px)', color: 'rgba(255,255,255,0.85)', maxWidth: 520, margin: '0 auto 44px', lineHeight: 1.75 }}>
+          <p style={{ fontFamily: F, fontSize: 'clamp(15px,1.8vw,19px)', color: 'rgba(255,255,255,0.85)', maxWidth: 520, margin: '0 auto 44px', lineHeight: 1.75 }}>
             Desde la finca y el catering hasta la web de boda y los invitados — mylov3 está con vosotros en cada paso del camino.
           </p>
           <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -127,7 +129,7 @@ export default function Home() {
       <div style={{ overflow: 'hidden', borderTop: `1px solid ${BLUE}`, borderBottom: `1px solid ${BLUE}`, padding: '18px 0', background: 'white' }}>
         <div className="ticker">
           {['Invitados','·','Presupuesto','·','Mesas','·','Cronograma','·','Proveedores','·','Web de boda','·','Notas','·','Inspiración','·','Invitados','·','Presupuesto','·','Mesas','·','Cronograma','·','Proveedores','·','Web de boda','·','Notas','·','Inspiración','·'].map((t, i) => (
-            <span key={i} style={{ fontSize: 12, color: t === '·' ? '#b8dff0' : '#aac4d8', letterSpacing: '0.1em', textTransform: 'uppercase', whiteSpace: 'nowrap', flexShrink: 0 }}>{t}</span>
+            <span key={i} style={{ fontFamily: F, fontSize: 13, color: t === '·' ? '#b8dff0' : '#aac4d8', letterSpacing: '0.1em', textTransform: 'uppercase', whiteSpace: 'nowrap', flexShrink: 0 }}>{t}</span>
           ))}
         </div>
       </div>
@@ -135,19 +137,19 @@ export default function Home() {
       {/* FEATURES */}
       <section style={{ background: 'white' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr' }}>
-          <div style={{ padding: '64px 48px', borderRight: '1px solid #eee', position: 'sticky', top: 68, height: 'fit-content' }}>
-            <h2 style={{ fontSize: 'clamp(1.8rem,2.5vw,2.6rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
+          <div style={{ padding: '64px 48px', borderRight: `1px solid ${BLUE}`, position: 'sticky', top: 68, height: 'fit-content' }}>
+            <h2 style={{ fontFamily: F, fontSize: 'clamp(1.8rem,2.5vw,2.6rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
               Todo lo que necesitáis para planificar la boda que queréis
             </h2>
-            <p style={{ fontSize: 14, color: '#7a9ab5', lineHeight: 1.7 }}>Para todos los días del camino</p>
+            <p style={{ fontFamily: F, fontSize: 15, color: '#7a9ab5', lineHeight: 1.7 }}>Para todos los días del camino</p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)' }}>
             {features.map((f, i) => (
-              <div key={f.title} className="feat-card" style={{ borderRight: (i + 1) % 3 === 0 ? 'none' : '1px solid #eee', borderBottom: i < 3 ? '1px solid #eee' : 'none' }}>
+              <div key={f.title} className="feat-card" style={{ borderRight: (i + 1) % 3 === 0 ? 'none' : `1px solid ${BLUE}`, borderBottom: i < 3 ? `1px solid ${BLUE}` : 'none' }}>
                 <div className="feat-card-title">{f.title} <span style={{ color: BLUE_DARK }}>→</span></div>
                 <p className="feat-card-sub">{f.sub}</p>
                 <div style={{ position: 'relative', marginTop: 16 }}>
-                  <img src={f.img} alt={f.title} style={{ width: '100%', height: 180, objectFit: 'cover', borderRadius: 12, display: 'block' }} />
+                  <img src={f.img} alt={f.title} style={{ width: '100%', height: 180, objectFit: 'cover', borderRadius: 18, display: 'block' }} />
                   <div className="feat-badge">{f.badge}</div>
                 </div>
               </div>
@@ -160,58 +162,58 @@ export default function Home() {
       <section style={{ padding: '80px 40px 120px', background: BLUE_LIGHT }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div className="sec-reveal" style={{ textAlign: 'center', marginBottom: 64 }}>
-            <span style={{ display: 'inline-block', fontSize: 11, color: BLUE_DARK, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 16, fontWeight: 600 }}>Demo en vivo</span>
-            <h2 style={{ fontSize: 'clamp(2rem,4vw,3.5rem)', fontWeight: 400, color: INK, lineHeight: 1.1 }}>Así es vuestro dashboard</h2>
+            <span style={{ fontFamily: F, display: 'inline-block', fontSize: 12, color: BLUE_DARK, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 16, fontWeight: 600 }}>Demo en vivo</span>
+            <h2 style={{ fontFamily: F, fontSize: 'clamp(2rem,4vw,3.5rem)', fontWeight: 400, color: INK, lineHeight: 1.1 }}>Así es vuestro dashboard</h2>
           </div>
-          <div className="dash-wrap floating" style={{ background: 'white', borderRadius: 20, overflow: 'hidden', boxShadow: '0 40px 120px rgba(91,184,232,0.12)', border: `1px solid ${BLUE}` }}>
+          <div className="dash-wrap floating" style={{ background: 'white', borderRadius: 24, overflow: 'hidden', boxShadow: '0 40px 120px rgba(91,184,232,0.12)', border: `1px solid ${BLUE}` }}>
             <div style={{ background: BLUE_LIGHT, borderBottom: `1px solid ${BLUE}`, padding: '12px 20px', display: 'flex', alignItems: 'center', gap: 12 }}>
               <div style={{ display: 'flex', gap: 6 }}>
                 {['#ff5f57','#febc2e','#28c840'].map(c => <div key={c} style={{ width: 10, height: 10, borderRadius: '50%', background: c }} />)}
               </div>
-              <div style={{ flex: 1, background: BLUE, borderRadius: 6, padding: '4px 12px', fontSize: 11, color: '#7ab8d0', textAlign: 'center' }}>mylov3.app/dashboard</div>
+              <div style={{ flex: 1, background: BLUE, borderRadius: 8, padding: '4px 12px', fontSize: 11, color: '#7ab8d0', textAlign: 'center', fontFamily: F }}>mylov3.app/dashboard</div>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr', minHeight: 400 }}>
               <div style={{ background: BLUE_LIGHT, borderRight: `1px solid ${BLUE}`, padding: '20px 12px' }}>
                 <img src="/logo.png" alt="" style={{ height: 18, marginBottom: 28, marginLeft: 8 }} />
                 {[{icon:'⊞',l:'Resumen',a:true},{icon:'☑',l:'Tareas'},{icon:'€',l:'Presupuesto'},{icon:'♡',l:'Invitados'},{icon:'◉',l:'Mesas'},{icon:'📅',l:'Cronograma'}].map(n => (
-                  <div key={n.l} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 10px', borderRadius: 8, marginBottom: 2, background: n.a ? BLUE : 'transparent', cursor: 'pointer' }}>
+                  <div key={n.l} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 10px', borderRadius: 12, marginBottom: 2, background: n.a ? BLUE : 'transparent', cursor: 'pointer' }}>
                     <span style={{ fontSize: 13, color: n.a ? BLUE_DARK : '#aac4d8' }}>{n.icon}</span>
-                    <span style={{ fontSize: 12, color: n.a ? INK : '#aac4d8', fontWeight: n.a ? 600 : 400 }}>{n.l}</span>
+                    <span style={{ fontFamily: F, fontSize: 13, color: n.a ? INK : '#aac4d8', fontWeight: n.a ? 600 : 400 }}>{n.l}</span>
                   </div>
                 ))}
               </div>
               <div style={{ padding: 20, background: 'white' }}>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 10, marginBottom: 16 }}>
                   {[{l:'Presupuesto',v:'17.300 €',s:'3.500 € restantes'},{l:'Tareas',v:'2/7',s:'5 pendientes'},{l:'Invitados',v:'48',s:'32 confirmados'},{l:'Días',v:'127',s:'para el gran día'}].map(c => (
-                    <div key={c.l} style={{ background: BLUE_LIGHT, border: `1px solid ${BLUE}`, borderRadius: 12, padding: '12px 14px' }}>
-                      <p style={{ fontSize: 10, color: '#7ab8d0', marginBottom: 6 }}>{c.l}</p>
-                      <p style={{ fontSize: 18, fontWeight: 600, color: INK, marginBottom: 2 }}>{c.v}</p>
-                      <p style={{ fontSize: 10, color: BLUE_DARK }}>{c.s}</p>
+                    <div key={c.l} style={{ background: BLUE_LIGHT, border: `1px solid ${BLUE}`, borderRadius: 16, padding: '12px 14px' }}>
+                      <p style={{ fontFamily: F, fontSize: 10, color: '#7ab8d0', marginBottom: 6 }}>{c.l}</p>
+                      <p style={{ fontFamily: F, fontSize: 18, fontWeight: 600, color: INK, marginBottom: 2 }}>{c.v}</p>
+                      <p style={{ fontFamily: F, fontSize: 10, color: BLUE_DARK }}>{c.s}</p>
                     </div>
                   ))}
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                  <div style={{ background: BLUE_LIGHT, border: `1px solid ${BLUE}`, borderRadius: 12, padding: 14 }}>
-                    <p style={{ fontSize: 11, color: '#7ab8d0', marginBottom: 12 }}>Próximas tareas</p>
+                  <div style={{ background: BLUE_LIGHT, border: `1px solid ${BLUE}`, borderRadius: 16, padding: 14 }}>
+                    <p style={{ fontFamily: F, fontSize: 11, color: '#7ab8d0', marginBottom: 12 }}>Próximas tareas</p>
                     {[{t:'Reservar la finca',done:true},{t:'Contratar fotógrafo',done:true},{t:'Enviar invitaciones',done:false},{t:'Elegir el menú',done:false},{t:'Prueba del vestido',done:false}].map(t => (
                       <div key={t.t} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                        <div style={{ width: 14, height: 14, borderRadius: 4, flexShrink: 0, background: t.done ? BLUE_DARK : 'transparent', border: t.done ? 'none' : `1px solid ${BLUE}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <div style={{ width: 14, height: 14, borderRadius: 5, flexShrink: 0, background: t.done ? BLUE_DARK : 'transparent', border: t.done ? 'none' : `1px solid ${BLUE}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                           {t.done && <span style={{ fontSize: 8, color: 'white' }}>✓</span>}
                         </div>
-                        <span style={{ fontSize: 11, color: t.done ? '#aac4d8' : INK, textDecoration: t.done ? 'line-through' : 'none' }}>{t.t}</span>
+                        <span style={{ fontFamily: F, fontSize: 12, color: t.done ? '#aac4d8' : INK, textDecoration: t.done ? 'line-through' : 'none' }}>{t.t}</span>
                       </div>
                     ))}
                   </div>
-                  <div style={{ background: BLUE_LIGHT, border: `1px solid ${BLUE}`, borderRadius: 12, padding: 14 }}>
-                    <p style={{ fontSize: 11, color: '#7ab8d0', marginBottom: 12 }}>Presupuesto</p>
+                  <div style={{ background: BLUE_LIGHT, border: `1px solid ${BLUE}`, borderRadius: 16, padding: 14 }}>
+                    <p style={{ fontFamily: F, fontSize: 11, color: '#7ab8d0', marginBottom: 12 }}>Presupuesto</p>
                     {[{cat:'Catering',est:8000,paid:3000},{cat:'Finca',est:5000,paid:500},{cat:'Fotografía',est:2800,paid:2800},{cat:'Flores',est:1500,paid:0}].map(b => (
                       <div key={b.cat} style={{ marginBottom: 10 }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                          <span style={{ fontSize: 11, color: INK }}>{b.cat}</span>
-                          <span style={{ fontSize: 10, color: '#7ab8d0' }}>{b.paid.toLocaleString('es-ES')} / {b.est.toLocaleString('es-ES')} €</span>
+                          <span style={{ fontFamily: F, fontSize: 12, color: INK }}>{b.cat}</span>
+                          <span style={{ fontFamily: F, fontSize: 10, color: '#7ab8d0' }}>{b.paid.toLocaleString('es-ES')} / {b.est.toLocaleString('es-ES')} €</span>
                         </div>
-                        <div style={{ height: 3, background: BLUE, borderRadius: 2 }}>
-                          <div style={{ height: '100%', width: `${Math.round(b.paid/b.est*100)}%`, background: BLUE_DARK, borderRadius: 2 }} />
+                        <div style={{ height: 4, background: BLUE, borderRadius: 999 }}>
+                          <div style={{ height: '100%', width: `${Math.round(b.paid/b.est*100)}%`, background: BLUE_DARK, borderRadius: 999 }} />
                         </div>
                       </div>
                     ))}
@@ -221,7 +223,7 @@ export default function Home() {
             </div>
           </div>
           <div style={{ textAlign: 'center', marginTop: 48 }}>
-            <Link href="/dashboard" className="btn-blue-sm" style={{ fontSize: 15, padding: '14px 40px' }}>Abrir mi dashboard →</Link>
+            <Link href="/dashboard" className="btn-blue" style={{ fontSize: 15, padding: '14px 40px' }}>Abrir mi dashboard →</Link>
           </div>
         </div>
       </section>
@@ -231,7 +233,7 @@ export default function Home() {
         <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1800&q=80" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '130%', objectFit: 'cover', marginTop: '-15%', filter: 'brightness(0.55)' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(225,246,255,0.1)' }} />
         <div className="sec-reveal" style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '0 40px' }}>
-          <p style={{ fontSize: 'clamp(2rem,5vw,4.5rem)', fontWeight: 400, fontStyle: 'italic', color: 'white', lineHeight: 1.2, marginBottom: 32, textShadow: '0 2px 20px rgba(0,0,0,0.2)' }}>
+          <p style={{ fontFamily: F, fontSize: 'clamp(2rem,5vw,4.5rem)', fontWeight: 400, fontStyle: 'italic', color: 'white', lineHeight: 1.2, marginBottom: 32, textShadow: '0 2px 20px rgba(0,0,0,0.2)' }}>
             "El día más bonito<br />empieza con el mejor plan"
           </p>
           <Link href="/dashboard" className="btn-blue">Empezar ahora</Link>
@@ -242,22 +244,22 @@ export default function Home() {
       <section style={{ padding: '120px 40px', background: 'white' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div className="sec-reveal" style={{ textAlign: 'center', marginBottom: 72 }}>
-            <h2 style={{ fontSize: 'clamp(2rem,4vw,3.5rem)', fontWeight: 400, color: INK, lineHeight: 1.1, marginBottom: 12 }}>Parejas que ya lo vivieron</h2>
-            <p style={{ fontSize: 14, color: '#7ab8d0' }}>+2.400 bodas planificadas con mylov3</p>
+            <h2 style={{ fontFamily: F, fontSize: 'clamp(2rem,4vw,3.5rem)', fontWeight: 400, color: INK, lineHeight: 1.1, marginBottom: 12 }}>Parejas que ya lo vivieron</h2>
+            <p style={{ fontFamily: F, fontSize: 15, color: '#7ab8d0' }}>+2.400 bodas planificadas con mylov3</p>
           </div>
-          <div className="sec-reveal" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 16 }}>
+          <div className="sec-reveal" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 20 }}>
             {[
               { q: 'Hizo que todo fuera tan fácil. Pudimos disfrutar cada momento sin preocupaciones.', n: 'María & Lucas', d: 'Abril 2024' },
               { q: 'La mejor herramienta para planificar nuestra boda. No podemos imaginar haberlo hecho sin mylov3.', n: 'Ana & Diego', d: 'Junio 2024' },
               { q: 'Todo en un solo lugar, hermoso y completísimo. Lo recomendamos a todas las parejas.', n: 'Sofía & Tomás', d: 'Mayo 2024' },
             ].map(r => (
-              <div key={r.n} style={{ background: BLUE_LIGHT, border: `1px solid ${BLUE}`, borderRadius: 20, padding: 28 }}>
+              <div key={r.n} className="review-card">
                 <div style={{ display: 'flex', gap: 3, marginBottom: 18 }}>
-                  {[...Array(5)].map((_, i) => <span key={i} style={{ color: BLUE_DARK, fontSize: 14 }}>★</span>)}
+                  {[...Array(5)].map((_, i) => <span key={i} style={{ color: BLUE_DARK, fontSize: 16 }}>★</span>)}
                 </div>
-                <p style={{ fontSize: 14, color: '#4a7a9a', lineHeight: 1.8, marginBottom: 24, fontStyle: 'italic' }}>"{r.q}"</p>
-                <p style={{ fontSize: 13, fontWeight: 600, color: INK }}>{r.n}</p>
-                <p style={{ fontSize: 11, color: '#7ab8d0' }}>{r.d}</p>
+                <p style={{ fontFamily: F, fontSize: 15, color: '#4a7a9a', lineHeight: 1.8, marginBottom: 24, fontStyle: 'italic' }}>"{r.q}"</p>
+                <p style={{ fontFamily: F, fontSize: 14, fontWeight: 600, color: INK }}>{r.n}</p>
+                <p style={{ fontFamily: F, fontSize: 12, color: '#7ab8d0' }}>{r.d}</p>
               </div>
             ))}
           </div>
@@ -267,11 +269,11 @@ export default function Home() {
       {/* CTA FINAL */}
       <section style={{ padding: '120px 40px', background: BLUE_LIGHT, textAlign: 'center' }}>
         <div className="sec-reveal" style={{ maxWidth: 700, margin: '0 auto' }}>
-          <div style={{ fontSize: 32, color: BLUE_DARK, marginBottom: 24 }}>♡</div>
-          <h2 style={{ fontSize: 'clamp(2.5rem,5vw,5rem)', fontWeight: 400, color: INK, lineHeight: 1.05, letterSpacing: '-0.03em', marginBottom: 20 }}>
+          <div style={{ fontSize: 36, color: BLUE_DARK, marginBottom: 24 }}>♡</div>
+          <h2 style={{ fontFamily: F, fontSize: 'clamp(2.5rem,5vw,5rem)', fontWeight: 400, color: INK, lineHeight: 1.05, letterSpacing: '-0.03em', marginBottom: 20 }}>
             Vuestra historia de amor merece el mejor comienzo
           </h2>
-          <p style={{ fontSize: 15, color: '#7a9ab5', marginBottom: 48, lineHeight: 1.8 }}>Gratis para siempre. Sin tarjeta de crédito.</p>
+          <p style={{ fontFamily: F, fontSize: 16, color: '#7a9ab5', marginBottom: 48, lineHeight: 1.8 }}>Gratis para siempre. Sin tarjeta de crédito.</p>
           <Link href="/dashboard" className="btn-blue">Empezar a planificar gratis</Link>
         </div>
       </section>
@@ -279,8 +281,8 @@ export default function Home() {
       {/* FOOTER */}
       <footer style={{ borderTop: `1px solid ${BLUE}`, padding: '32px 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white' }}>
         <img src="/logo.png" alt="mylov3" style={{ height: 22, display: 'block' }} />
-        <p style={{ fontSize: 12, color: '#7ab8d0' }}>Hecho con ♡ para parejas que quieren disfrutar del proceso</p>
-        <p style={{ fontSize: 11, color: '#a0d4e8' }}>2025</p>
+        <p style={{ fontFamily: F, fontSize: 13, color: '#7ab8d0' }}>Hecho con ♡ para parejas que quieren disfrutar del proceso</p>
+        <p style={{ fontFamily: F, fontSize: 12, color: '#a0d4e8' }}>2025</p>
       </footer>
     </main>
   )
