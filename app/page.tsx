@@ -3,8 +3,8 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 const BLUE = '#cbecff'
-const BLUE_DARK = '#5bb8e8'
-const BLUE_LIGHT = '#e8f7ff'
+const BLUE_DARK = '#8ec5f7'
+const BLUE_LIGHT = '#f0f9ff'
 const INK = '#1a3a52'
 const F = "'Cormorant Garamond', serif"
 
@@ -103,7 +103,7 @@ export default function Home() {
 
       {/* HERO */}
       <section className="hero-sec" style={{ position: 'relative', height: '100vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 112 }}>
-        <video className="hero-bg-video" autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '115%', objectFit: 'cover', marginTop: '-7%', filter: 'brightness(0.48)' }}>
+        <video className="hero-bg-video" autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '115%', objectFit: 'cover', marginTop: '-7%', filter: 'brightness(0.62)' }}>
           <source src="https://assets.mixkit.co/videos/11891/11891-720.mp4" type="video/mp4" />
           <img src="https://images.unsplash.com/photo-1605985687770-2e2e82c9b5f1?w=1800&q=80" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </video>
