@@ -58,10 +58,10 @@ function ShaderCanvas() {
                       fbm(uv + 2.0 * q + vec2(8.3,2.8) + t * 0.3));
         float f = fbm(uv + 2.8 * r);
 
-        vec3 colA = vec3(0.97, 0.98, 1.0);
-        vec3 colB = vec3(0.72, 0.86, 0.98);
-        vec3 colC = vec3(0.88, 0.94, 1.0);
-        vec3 colD = vec3(0.82, 0.91, 0.99);
+        vec3 colA = vec3(1.0, 1.0, 1.0);
+        vec3 colB = vec3(0.93, 0.97, 1.0);
+        vec3 colC = vec3(0.97, 0.99, 1.0);
+        vec3 colD = vec3(0.90, 0.95, 1.0);
 
         vec3 col = mix(colA, colB, clamp(f * f * 3.5, 0.0, 1.0));
         col = mix(col, colC, clamp(length(q) * 0.7, 0.0, 1.0));
