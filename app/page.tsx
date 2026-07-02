@@ -4,7 +4,7 @@ import { ArrowRight, Clock, Menu, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 const BLUE = '#8ec5f7'
-const DARK = '#1a1a2e'
+const DARK = '#2d5a8e'
 
 function ShaderCanvas() {
   const ref = useRef<HTMLCanvasElement>(null)
@@ -52,21 +52,22 @@ function ShaderCanvas() {
         vec2 uv = gl_FragCoord.xy / u_res;
         uv.y = 1.0 - uv.y;
 
-        float t = u_time * 0.18;
+        float t = u_time * 0.14;
         vec2 q = vec2(fbm(uv + t), fbm(uv + vec2(1.7, 9.2) + t * 0.8));
         vec2 r = vec2(fbm(uv + 2.0 * q + vec2(1.7,9.2) + t * 0.5),
                       fbm(uv + 2.0 * q + vec2(8.3,2.8) + t * 0.3));
         float f = fbm(uv + 2.8 * r);
 
-        vec3 colA = vec3(0.94, 0.94, 0.94);
-        vec3 colB = vec3(0.55, 0.77, 0.97);
-        vec3 colC = vec3(1.0, 1.0, 1.0);
+        vec3 colA = vec3(0.97, 0.98, 1.0);
+        vec3 colB = vec3(0.72, 0.86, 0.98);
+        vec3 colC = vec3(0.88, 0.94, 1.0);
+        vec3 colD = vec3(0.82, 0.91, 0.99);
 
-        vec3 col = mix(colA, colB, clamp(f * f * 4.0, 0.0, 1.0));
-        col = mix(col, colC, clamp(length(q), 0.0, 1.0));
-        col = mix(col, colB * 0.9, clamp(length(r.x), 0.0, 1.0));
+        vec3 col = mix(colA, colB, clamp(f * f * 3.5, 0.0, 1.0));
+        col = mix(col, colC, clamp(length(q) * 0.7, 0.0, 1.0));
+        col = mix(col, colD, clamp(length(r.x) * 0.5, 0.0, 1.0));
 
-        float grain = (noise(uv * u_res * 0.5 + u_time * 100.0) - 0.5) * 0.03;
+        float grain = (noise(uv * u_res * 0.5 + u_time * 100.0) - 0.5) * 0.018;
         col += grain;
 
         gl_FragColor = vec4(col, 1.0);
@@ -97,7 +98,7 @@ function ShaderCanvas() {
     const uRes = gl.getUniformLocation(prog, 'u_res')
 
     let raf: number
-    let start = performance.now()
+    const start = performance.now()
 
     function resize() {
       canvas!.width = canvas!.offsetWidth
@@ -143,8 +144,8 @@ export default function Home() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap');
         *{box-sizing:border-box;margin:0;padding:0}
-        html,body{background:#8ec5f7;padding:12px;}
-        main{border-radius:24px;overflow:hidden;}
+        html,body{background:#8ec5f7;padding:5px;}
+        main{border-radius:20px;overflow:hidden;}
 
         .roll-wrap{display:flex;flex-direction:column;overflow:hidden;height:20px;}
         .roll-inner{display:flex;flex-direction:column;transition:transform 0.5s cubic-bezier(0.25,0.1,0.25,1);}
@@ -153,16 +154,13 @@ export default function Home() {
         .arrow-c{width:28px;height:28px;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform 0.5s cubic-bezier(0.25,0.1,0.25,1);}
         .btn-group:hover .arrow-c{transform:rotate(-45deg);}
 
-        .arrow-c-dark{width:28px;height:28px;border-radius:50%;background:${DARK};display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform 0.5s cubic-bezier(0.25,0.1,0.25,1);}
-        .btn-group:hover .arrow-c-dark{transform:rotate(-45deg);}
-
         .btn-pill-dark{background:${DARK};color:white;border:none;border-radius:999px;padding:8px 8px 8px 20px;font-size:13px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none;}
         .btn-pill-blue{background:${BLUE};color:white;border:none;border-radius:999px;padding:10px 10px 10px 24px;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none;}
         .btn-outline-dark{background:transparent;color:${DARK};border:2px solid ${DARK};border-radius:999px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;transition:all 0.2s;}
         .btn-outline-dark:hover{background:${DARK};color:white;}
 
         .nav-a{font-size:14px;color:${DARK};text-decoration:none;transition:color 0.3s;}
-        .nav-a:hover{color:#6b7280;}
+        .nav-a:hover{color:#8ec5f7;}
 
         .card-wrap{border-radius:20px;overflow:hidden;position:relative;cursor:pointer;}
         .card-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s cubic-bezier(0.16,1,.3,1);}
@@ -178,11 +176,11 @@ export default function Home() {
       `}</style>
 
       {/* ── HERO ── */}
-      <section style={{ position:'relative', minHeight:'100vh', display:'flex', flexDirection:'column', background:'#EFEFEF', overflow:'hidden' }}>
+      <section style={{ position:'relative', minHeight:'100vh', display:'flex', flexDirection:'column', background:'#EEF6FF', overflow:'hidden' }}>
         <ShaderCanvas />
 
         {/* NAV */}
-        <div style={{ position:'relative', zIndex:20, padding:'12px 12px 0' }}>
+        <div style={{ position:'relative', zIndex:20, padding:'10px 10px 0' }}>
           <nav style={{ background:'white', borderRadius:999, padding:'5px', display:'flex', alignItems:'center', justifyContent:'space-between', maxWidth:1440, margin:'0 auto', paddingLeft:16 }}>
             <div style={{ display:'flex', alignItems:'center', gap:32 }}>
               <Link href="/"><img src="/logo.png" alt="mylov3" style={{ height:26, display:'block' }} /></Link>
@@ -207,7 +205,7 @@ export default function Home() {
                 </div>
                 <div className="arrow-c"><ArrowRight size={13} color={DARK} /></div>
               </Link>
-              <button onClick={() => setMenuOpen(v => !v)} style={{ background:DARK, color:'white', border:'none', borderRadius:999, padding:'8px 16px', fontSize:13, fontWeight:500, cursor:'pointer', display:'flex', alignItems:'center', gap:6 }}>
+              <button onClick={() => setMenuOpen(v => !v)} style={{ background:BLUE, color:'white', border:'none', borderRadius:999, padding:'8px 16px', fontSize:13, fontWeight:500, cursor:'pointer', display:'flex', alignItems:'center', gap:6 }}>
                 {menuOpen ? <X size={14} /> : <Menu size={14} />}
                 {menuOpen ? 'Cerrar' : 'Menú'}
               </button>
@@ -217,7 +215,7 @@ export default function Home() {
 
         {/* Mobile sheet */}
         {menuOpen && (
-          <div style={{ position:'fixed', inset:0, zIndex:50, background:'rgba(0,0,0,0.6)' }} onClick={() => setMenuOpen(false)}>
+          <div style={{ position:'fixed', inset:0, zIndex:50, background:'rgba(45,90,142,0.5)' }} onClick={() => setMenuOpen(false)}>
             <div className={`mobile-sheet${menuOpen ? ' open' : ''}`} style={{ position:'absolute', bottom:12, left:12, right:12, background:'white', borderRadius:20, padding:'32px 28px' }} onClick={e => e.stopPropagation()}>
               <div style={{ fontSize:12, color:'#6b7280', marginBottom:28, display:'flex', alignItems:'center', gap:6 }}>
                 <Clock size={13} />{time} en Madrid
@@ -238,7 +236,7 @@ export default function Home() {
         {/* Hero content */}
         <div style={{ flex:1, display:'flex', flexDirection:'column', justifyContent:'flex-end', position:'relative', zIndex:20 }}>
           <div style={{ maxWidth:1440, margin:'0 auto', width:'100%', padding:'0 48px 80px' }}>
-            <p style={{ fontSize:13, color:DARK, letterSpacing:'0.05em', marginBottom:32 }}>mylov3 — Organizador de bodas</p>
+            <p style={{ fontSize:13, color:DARK, letterSpacing:'0.05em', marginBottom:32, opacity:0.7 }}>mylov3 — Organizador de bodas</p>
             <h1 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'clamp(2.5rem,7vw,4.8rem)', fontWeight:500, lineHeight:1.08, letterSpacing:'-0.03em', color:DARK, marginBottom:48 }}>
               Planificad la boda<br />
               de vuestros sueños,<br />
@@ -251,10 +249,10 @@ export default function Home() {
                 </div>
                 <div className="arrow-c" style={{ width:32, height:32 }}><ArrowRight size={15} color={BLUE} /></div>
               </Link>
-              <div style={{ background:'white', borderRadius:8, boxShadow:'0 2px 8px rgba(0,0,0,0.08)', padding:'8px 14px', display:'flex', alignItems:'center', gap:10 }}>
+              <div style={{ background:'white', borderRadius:8, boxShadow:'0 2px 8px rgba(45,90,142,0.1)', padding:'8px 14px', display:'flex', alignItems:'center', gap:10 }}>
                 <span style={{ fontSize:18, color:BLUE }}>♡</span>
                 <span style={{ fontSize:13, fontWeight:500, color:DARK }}>+2.400 parejas</span>
-                <span style={{ fontSize:10, background:DARK, color:'white', borderRadius:4, padding:'2px 8px', fontWeight:600 }}>GRATIS</span>
+                <span style={{ fontSize:10, background:BLUE, color:'white', borderRadius:4, padding:'2px 8px', fontWeight:600 }}>GRATIS</span>
               </div>
             </div>
           </div>
@@ -265,8 +263,8 @@ export default function Home() {
       <section style={{ background:'white', padding:'80px 0 96px' }}>
         <div style={{ maxWidth:1440, margin:'0 auto', padding:'0 48px' }}>
           <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:28 }}>
-            <div style={{ width:28, height:28, borderRadius:'50%', background:DARK, color:'white', display:'flex', alignItems:'center', justifyContent:'center', fontSize:11, fontWeight:700, flexShrink:0 }}>1</div>
-            <span style={{ fontSize:12, fontWeight:500, border:'1px solid #e5e7eb', borderRadius:999, padding:'4px 16px' }}>Sobre mylov3</span>
+            <div style={{ width:28, height:28, borderRadius:'50%', background:BLUE, color:'white', display:'flex', alignItems:'center', justifyContent:'center', fontSize:11, fontWeight:700, flexShrink:0 }}>1</div>
+            <span style={{ fontSize:12, fontWeight:500, border:'1px solid #e5e7eb', borderRadius:999, padding:'4px 16px', color:DARK }}>Sobre mylov3</span>
           </div>
           <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'clamp(1.5rem,4vw,3.2rem)', fontWeight:500, lineHeight:1.12, letterSpacing:'-0.02em', color:DARK, marginBottom:64 }}>
             Herramientas bonitas para organizar<br />cada detalle de vuestro gran día.
@@ -294,16 +292,16 @@ export default function Home() {
       </section>
 
       {/* ── FEATURES ── */}
-      <section style={{ background:'#F5F5F5', padding:'80px 0 112px' }}>
+      <section style={{ background:'#F0F6FF', padding:'80px 0 112px' }}>
         <div style={{ maxWidth:1440, margin:'0 auto', padding:'0 48px' }}>
           <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:28 }}>
-            <div style={{ width:28, height:28, borderRadius:'50%', background:DARK, color:'white', display:'flex', alignItems:'center', justifyContent:'center', fontSize:11, fontWeight:700, flexShrink:0 }}>2</div>
-            <span style={{ fontSize:12, fontWeight:500, border:'1px solid #d1d5db', borderRadius:999, padding:'4px 16px' }}>Funciones principales</span>
+            <div style={{ width:28, height:28, borderRadius:'50%', background:BLUE, color:'white', display:'flex', alignItems:'center', justifyContent:'center', fontSize:11, fontWeight:700, flexShrink:0 }}>2</div>
+            <span style={{ fontSize:12, fontWeight:500, border:'1px solid #d1d5db', borderRadius:999, padding:'4px 16px', color:DARK }}>Funciones principales</span>
           </div>
           <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'clamp(1.75rem,7vw,4.2rem)', fontWeight:500, lineHeight:1.08, letterSpacing:'-0.03em', color:DARK, marginBottom:48 }}>Todo en un lugar</h2>
           <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:24 }}>
             <div>
-              <div className="card-wrap" style={{ aspectRatio:'329/246', background:'#1a2a3a' }}>
+              <div className="card-wrap" style={{ aspectRatio:'329/246' }}>
                 <img src="https://images.unsplash.com/photo-1605985687770-2e2e82c9b5f1?w=900&q=80" alt="" />
                 <div className="expand-btn" style={{ background:'white' }}>
                   <span className="expand-text" style={{ color:DARK }}>Ver función</span>
@@ -316,7 +314,7 @@ export default function Home() {
               <p style={{ fontSize:14, fontWeight:600, color:DARK, marginTop:4 }}>Invitados & Mesas</p>
             </div>
             <div>
-              <div className="card-wrap" style={{ aspectRatio:'1/1', background:'#6b6b6b' }}>
+              <div className="card-wrap" style={{ aspectRatio:'1/1' }}>
                 <img src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=900&q=80" alt="" />
                 <div className="expand-btn" style={{ background:DARK }}>
                   <span className="expand-text" style={{ color:'white' }}>Explorar función</span>
@@ -333,11 +331,11 @@ export default function Home() {
       </section>
 
       {/* FOOTER */}
-      <footer style={{ background:'white', borderTop:'1px solid rgba(0,0,0,0.06)', padding:'36px 48px' }}>
+      <footer style={{ background:'white', borderTop:'1px solid rgba(142,197,247,0.2)', padding:'36px 48px' }}>
         <div style={{ maxWidth:1440, margin:'0 auto', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
           <img src="/logo.png" alt="mylov3" style={{ height:24, display:'block' }} />
           <p style={{ fontSize:12, color:'#B0AAA3' }}>Hecho con ♡ para parejas que quieren disfrutar del proceso</p>
-          <p style={{ fontSize:11, color:'#D0CCC6' }}>2025</p>
+          <p style={{ fontSize:11, color:'#aac8e8' }}>2025</p>
         </div>
       </footer>
     </main>
