@@ -43,7 +43,6 @@ export default function Home() {
     { title: 'Proveedores', sub: 'Encuentra y gestiona a tu equipo soñado.', img: '/proveedores.png', badge: '⭐⭐⭐⭐⭐ Estudio Luz' },
     { title: 'Invitaciones', sub: 'Diseños únicos para personalizar y descargar.', img: '/invitaciones.png', badge: '✎ Personalizar diseño' },
     { title: 'Presupuesto', sub: 'Controla cada gasto y mantente al día.', img: '/presupuesto.png', badge: '🔔 Recordatorio de pago' },
-    { title: 'Lista de invitados', sub: 'Recoge direcciones y confirma asistencias fácilmente.', img: '/invitados.png', badge: '48 invitados · 32 confirmados' },
     { title: 'Detalles', sub: 'Cada detalle de vuestra boda, organizado y a mano.', img: '/detalles.png', badge: '✦ Todo bajo control' },
   ]
 
@@ -62,10 +61,10 @@ export default function Home() {
         .btn-blue:hover { transform: translateY(-1px); box-shadow: 0 8px 32px rgba(142,197,247,0.55); }
         .btn-blue-sm { background: ${BLUE_DARK}; color: white; border: none; border-radius: 999px; padding: 10px 24px; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; font-family: ${F}; }
         .btn-blue-sm:hover { opacity: 0.9; transform: translateY(-1px); }
-        .feat-card { padding: 32px 28px; background: white; transition: background 0.2s; cursor: pointer; }
+        .feat-card { padding: 32px 28px; background: white; transition: background 0.2s; cursor: pointer; display: flex; flex-direction: column; }
         .feat-card:hover { background: #fafeff; }
         .feat-card-title { font-family: ${F}; font-size: 18px; font-weight: 500; color: ${INK}; display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
-        .feat-card-sub { font-family: ${F}; font-size: 14px; color: #7a9ab5; line-height: 1.5; }
+        .feat-card-sub { font-family: ${F}; font-size: 14px; color: #7a9ab5; line-height: 1.5; min-height: 44px; }
         .feat-badge { display: inline-flex; align-items: center; gap: 6px; background: white; border: 1px solid #eee; border-radius: 999px; padding: 7px 16px; font-size: 12px; font-weight: 500; color: ${INK}; position: absolute; bottom: 14px; left: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); white-space: nowrap; font-family: ${F}; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         .floating { animation: float 6s ease-in-out infinite; }
@@ -128,23 +127,31 @@ export default function Home() {
 
       {/* FEATURES */}
       <section style={{ background: 'white' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr' }}>
-          <div style={{ padding: '64px 48px', borderRight: `1px solid ${BLUE}`, position: 'sticky', top: 68, height: 'fit-content' }}>
-            <h2 style={{ fontFamily: F, fontSize: 'clamp(1.8rem,2.5vw,2.6rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr' }}>
+          <div style={{ padding: '64px 40px', borderRight: `1px solid ${BLUE}`, position: 'sticky', top: 68, height: 'fit-content' }}>
+            <h2 style={{ fontFamily: F, fontSize: 'clamp(1.8rem,2.5vw,2.4rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
               Todo lo que necesitáis para planificar la boda que queréis
             </h2>
             <p style={{ fontFamily: F, fontSize: 15, color: '#7a9ab5', lineHeight: 1.7 }}>Para todos los días del camino</p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gridAutoRows: '1fr' }}>
             {features.map((f, i) => (
-              <div key={f.title} className="feat-card" style={{
-                borderRight: (i + 1) % 3 === 0 ? 'none' : `1px solid ${BLUE}`,
-                borderBottom: i < features.length - (features.length % 3 || 3) ? `1px solid ${BLUE}` : 'none'
-              }}>
+              <div
+                key={f.title}
+                className="feat-card"
+                style={{
+                  borderRight: (i + 1) % 3 === 0 ? 'none' : `1px solid ${BLUE}`,
+                  borderBottom: i < 3 ? `1px solid ${BLUE}` : 'none',
+                }}
+              >
                 <div className="feat-card-title">{f.title} <span style={{ color: BLUE_DARK }}>→</span></div>
                 <p className="feat-card-sub">{f.sub}</p>
-                <div style={{ position: 'relative', marginTop: 16 }}>
-                  <img src={f.img} alt={f.title} style={{ width: '100%', height: 200, objectFit: 'cover', borderRadius: 18, display: 'block' }} />
+                <div style={{ position: 'relative', marginTop: 16, flex: 1 }}>
+                  <img
+                    src={f.img}
+                    alt={f.title}
+                    style={{ width: '100%', height: '100%', minHeight: 200, objectFit: 'cover', borderRadius: 18, display: 'block' }}
+                  />
                   <div className="feat-badge">{f.badge}</div>
                 </div>
               </div>
