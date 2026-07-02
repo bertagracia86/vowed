@@ -20,13 +20,30 @@ export default function Home() {
       s2.onload = () => {
         const { gsap, ScrollTrigger } = window as any
         gsap.registerPlugin(ScrollTrigger)
+
         gsap.to('.banner', { yPercent: -120, opacity: 0, ease: 'none', scrollTrigger: { trigger: '.hero-sec', start: 'top top', end: '15% top', scrub: true } })
         gsap.to('.hero-content', { yPercent: -18, ease: 'none', scrollTrigger: { trigger: '.hero-sec', start: 'top top', end: 'bottom top', scrub: true } })
         gsap.to('.hero-bg-video', { yPercent: 20, ease: 'none', scrollTrigger: { trigger: '.hero-sec', start: 'top top', end: 'bottom top', scrub: true } })
         gsap.fromTo('.dash-wrap', { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, ease: 'power3.out', scrollTrigger: { trigger: '.dash-wrap', start: 'top 85%' } })
+
+        // Feature cards: scale from small to large on scroll
+        gsap.utils.toArray('.feat-card').forEach((el: any, i: number) => {
+          gsap.fromTo(el,
+            { scale: 0.85, opacity: 0, y: 40 },
+            {
+              scale: 1, opacity: 1, y: 0,
+              duration: 0.8,
+              ease: 'power3.out',
+              delay: (i % 3) * 0.1,
+              scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+            }
+          )
+        })
+
         gsap.utils.toArray('.sec-reveal').forEach((el: any) => {
           gsap.fromTo(el, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 85%' } })
         })
+
         ScrollTrigger.refresh()
       }
       document.head.appendChild(s2)
@@ -61,7 +78,7 @@ export default function Home() {
         .btn-blue:hover { transform: translateY(-1px); box-shadow: 0 8px 32px rgba(142,197,247,0.55); }
         .btn-blue-sm { background: ${BLUE_DARK}; color: white; border: none; border-radius: 999px; padding: 10px 24px; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; font-family: ${F}; }
         .btn-blue-sm:hover { opacity: 0.9; transform: translateY(-1px); }
-        .feat-card { padding: 32px 28px; background: white; transition: background 0.2s; cursor: pointer; display: flex; flex-direction: column; }
+        .feat-card { padding: 32px 28px; background: white; transition: background 0.2s; cursor: pointer; display: flex; flex-direction: column; will-change: transform, opacity; }
         .feat-card:hover { background: #fafeff; }
         .feat-card-title { font-family: ${F}; font-size: 18px; font-weight: 500; color: ${INK}; display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
         .feat-card-sub { font-family: ${F}; font-size: 14px; color: #7a9ab5; line-height: 1.5; min-height: 44px; }
@@ -77,7 +94,9 @@ export default function Home() {
 
       {/* NAV */}
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 300, background: scrollY > 20 ? 'rgba(255,255,255,0.98)' : 'white', borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '0 48px', height: 68, display: 'flex', alignItems: 'center', justifyContent: 'space-between', transition: 'all 0.3s', backdropFilter: 'blur(12px)' }}>
-        <Link href="/"><img src="/logo.png" alt="mylov3" style={{ height: 26, display: 'block' }} /></Link>
+        <Link href="/">
+          <img src="/logo.png" alt="mylov3" style={{ height: 26, display: 'block', filter: 'brightness(0) saturate(100%) invert(62%) sepia(40%) saturate(400%) hue-rotate(180deg) brightness(1.1)' }} />
+        </Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
           <span style={{ fontSize: 14, color: INK, opacity: 0.6, fontFamily: F }}>¿Ya tienes cuenta?</span>
           <a href="#" className="nav-a" style={{ textDecoration: 'underline', opacity: 0.8 }}>Inicia sesión</a>
@@ -96,7 +115,6 @@ export default function Home() {
       <section className="hero-sec" style={{ position: 'relative', height: '100vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 112 }}>
         <video className="hero-bg-video" autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '115%', objectFit: 'cover', marginTop: '-7%', filter: 'brightness(0.62)' }}>
           <source src="/video.mp4" type="video/mp4" />
-          <img src="https://images.unsplash.com/photo-1605985687770-2e2e82c9b5f1?w=1800&q=80" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </video>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.3) 100%)' }} />
         <div className="hero-content" style={{ position: 'relative', zIndex: 10, textAlign: 'center', padding: '0 24px', maxWidth: 860, margin: '0 auto' }}>
@@ -136,22 +154,14 @@ export default function Home() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gridAutoRows: '1fr' }}>
             {features.map((f, i) => (
-              <div
-                key={f.title}
-                className="feat-card"
-                style={{
-                  borderRight: (i + 1) % 3 === 0 ? 'none' : `1px solid ${BLUE}`,
-                  borderBottom: i < 3 ? `1px solid ${BLUE}` : 'none',
-                }}
-              >
+              <div key={f.title} className="feat-card" style={{
+                borderRight: (i + 1) % 3 === 0 ? 'none' : `1px solid ${BLUE}`,
+                borderBottom: i < 3 ? `1px solid ${BLUE}` : 'none',
+              }}>
                 <div className="feat-card-title">{f.title} <span style={{ color: BLUE_DARK }}>→</span></div>
                 <p className="feat-card-sub">{f.sub}</p>
                 <div style={{ position: 'relative', marginTop: 16, flex: 1 }}>
-                  <img
-                    src={f.img}
-                    alt={f.title}
-                    style={{ width: '100%', height: '100%', minHeight: 200, objectFit: 'cover', borderRadius: 18, display: 'block' }}
-                  />
+                  <img src={f.img} alt={f.title} style={{ width: '100%', height: '100%', minHeight: 200, objectFit: 'cover', borderRadius: 18, display: 'block' }} />
                   <div className="feat-badge">{f.badge}</div>
                 </div>
               </div>
@@ -176,7 +186,7 @@ export default function Home() {
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr', minHeight: 400 }}>
               <div style={{ background: BLUE_LIGHT, borderRight: `1px solid ${BLUE}`, padding: '20px 12px' }}>
-                <img src="/logo.png" alt="" style={{ height: 18, marginBottom: 28, marginLeft: 8 }} />
+                <img src="/logo.png" alt="" style={{ height: 18, marginBottom: 28, marginLeft: 8, filter: 'brightness(0) saturate(100%) invert(62%) sepia(40%) saturate(400%) hue-rotate(180deg) brightness(1.1)' }} />
                 {[{icon:'⊞',l:'Resumen',a:true},{icon:'☑',l:'Tareas'},{icon:'€',l:'Presupuesto'},{icon:'♡',l:'Invitados'},{icon:'◉',l:'Mesas'},{icon:'📅',l:'Cronograma'}].map(n => (
                   <div key={n.l} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 10px', borderRadius: 12, marginBottom: 2, background: n.a ? BLUE : 'transparent', cursor: 'pointer' }}>
                     <span style={{ fontSize: 13, color: n.a ? BLUE_DARK : '#aac4d8' }}>{n.icon}</span>
@@ -282,7 +292,7 @@ export default function Home() {
 
       {/* FOOTER */}
       <footer style={{ borderTop: `1px solid ${BLUE}`, padding: '32px 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white' }}>
-        <img src="/logo.png" alt="mylov3" style={{ height: 22, display: 'block' }} />
+        <img src="/logo.png" alt="mylov3" style={{ height: 22, display: 'block', filter: 'brightness(0) saturate(100%) invert(62%) sepia(40%) saturate(400%) hue-rotate(180deg) brightness(1.1)' }} />
         <p style={{ fontFamily: F, fontSize: 13, color: '#7ab8d0' }}>Hecho con ♡ para parejas que quieren disfrutar del proceso</p>
         <p style={{ fontFamily: F, fontSize: 12, color: '#a0d4e8' }}>2025</p>
       </footer>
