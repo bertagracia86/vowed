@@ -196,18 +196,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* MOBILE SHOWCASE — left phone mockup scrolls, right sticky with 6 subapartados en negrita */}
+      {/* MOBILE SHOWCASE — left desliza con las imágenes, right sticky con 6 subapartados en negrita */}
       <section style={{ background: 'white', borderTop: `1px solid ${BLUE}` }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 48px', display: 'grid', gridTemplateColumns: '1fr 220px', gap: 80, alignItems: 'start' }}>
 
-          {/* LEFT — scrolls, phone mockup per feature */}
+          {/* LEFT — se desliza con el scroll normal de la página */}
           <div>
             {features.map((f, i) => (
-              <div key={f.title} className="mobile-step" id={`mobile-${i}`} style={{ minHeight: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 0' }}>
-                <div style={{ width: 240, borderRadius: 36, border: `10px solid ${INK}`, background: INK, boxShadow: '0 30px 80px rgba(26,58,82,0.25)' }}>
-                  <div style={{ background: 'white', borderRadius: 26, overflow: 'hidden' }}>
-                    <img src={f.img} alt={f.title} style={{ width: '100%', height: 420, objectFit: 'cover', display: 'block' }} />
-                  </div>
+              <div key={f.title} className="mobile-step" id={`mobile-${i}`} style={{ padding: '48px 0' }}>
+                <div style={{ borderRadius: 24, overflow: 'hidden', boxShadow: '0 24px 70px rgba(142,197,247,0.2)' }}>
+                  <img src={f.img} alt={f.title} style={{ width: '100%', height: 480, objectFit: 'cover', display: 'block' }} />
                 </div>
               </div>
             ))}
