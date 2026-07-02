@@ -38,11 +38,13 @@ export default function Home() {
   }, [])
 
   const features = [
-    { title: 'Invitados', sub: 'Gestiona confirmaciones, menús y mesas.', img: 'https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=600&q=80', badge: '♡ Confirmar asistencia' },
-    { title: 'Web de boda', sub: 'Una página bonita y gratis para vuestros invitados.', img: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600&q=80', badge: '✦ veronicaymarcos.com' },
-    { title: 'Proveedores', sub: 'Encuentra y gestiona a tu equipo soñado.', img: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&q=80', badge: '⭐⭐⭐⭐⭐ Estudio Luz' },
+    { title: 'Invitados', sub: 'Gestiona confirmaciones, menús y mesas.', img: '/invitados.png', badge: '♡ Confirmar asistencia' },
+    { title: 'Web de boda', sub: 'Una página bonita y gratis para vuestros invitados.', img: '/web-de-boda.png', badge: '✦ veronicaymarcos.com' },
+    { title: 'Proveedores', sub: 'Encuentra y gestiona a tu equipo soñado.', img: '/proveedores.png', badge: '⭐⭐⭐⭐⭐ Estudio Luz' },
     { title: 'Invitaciones', sub: 'Diseños únicos para personalizar y descargar.', img: '/invitaciones.png', badge: '✎ Personalizar diseño' },
-    { title: 'Presupuesto', sub: 'Controla cada gasto y mantente al día.', img: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?w=600&q=80', badge: '🔔 Recordatorio de pago' },
+    { title: 'Presupuesto', sub: 'Controla cada gasto y mantente al día.', img: '/presupuesto.png', badge: '🔔 Recordatorio de pago' },
+    { title: 'Lista de invitados', sub: 'Recoge direcciones y confirma asistencias fácilmente.', img: '/invitados.png', badge: '48 invitados · 32 confirmados' },
+    { title: 'Detalles', sub: 'Cada detalle de vuestra boda, organizado y a mano.', img: '/detalles.png', badge: '✦ Todo bajo control' },
   ]
 
   return (
@@ -52,34 +54,25 @@ export default function Home() {
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: #e8f7ff; padding: 5px; }
         main { border-radius: 24px; overflow: hidden; }
-
         .nav-a { font-size: 14px; color: ${INK}; text-decoration: none; opacity: 0.7; transition: opacity 0.2s; font-family: ${F}; }
         .nav-a:hover { opacity: 1; }
-
         .btn-light { background: rgba(255,255,255,0.92); color: ${INK}; border: none; border-radius: 999px; padding: 14px 36px; font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; box-shadow: 0 2px 12px rgba(0,0,0,0.08); font-family: ${F}; }
         .btn-light:hover { background: white; transform: translateY(-1px); }
-
-        .btn-blue { background: ${BLUE_DARK}; color: white; border: none; border-radius: 999px; padding: 14px 36px; font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; box-shadow: 0 4px 20px rgba(91,184,232,0.35); font-family: ${F}; }
-        .btn-blue:hover { transform: translateY(-1px); box-shadow: 0 8px 32px rgba(91,184,232,0.55); }
-
+        .btn-blue { background: ${BLUE_DARK}; color: white; border: none; border-radius: 999px; padding: 14px 36px; font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; box-shadow: 0 4px 20px rgba(142,197,247,0.35); font-family: ${F}; }
+        .btn-blue:hover { transform: translateY(-1px); box-shadow: 0 8px 32px rgba(142,197,247,0.55); }
         .btn-blue-sm { background: ${BLUE_DARK}; color: white; border: none; border-radius: 999px; padding: 10px 24px; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; font-family: ${F}; }
         .btn-blue-sm:hover { opacity: 0.9; transform: translateY(-1px); }
-
         .feat-card { padding: 32px 28px; background: white; transition: background 0.2s; cursor: pointer; }
         .feat-card:hover { background: #fafeff; }
         .feat-card-title { font-family: ${F}; font-size: 18px; font-weight: 500; color: ${INK}; display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
         .feat-card-sub { font-family: ${F}; font-size: 14px; color: #7a9ab5; line-height: 1.5; }
         .feat-badge { display: inline-flex; align-items: center; gap: 6px; background: white; border: 1px solid #eee; border-radius: 999px; padding: 7px 16px; font-size: 12px; font-weight: 500; color: ${INK}; position: absolute; bottom: 14px; left: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); white-space: nowrap; font-family: ${F}; }
-
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         .floating { animation: float 6s ease-in-out infinite; }
-
         @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .ticker { display: flex; gap: 48px; animation: ticker 24s linear infinite; width: max-content; align-items: center; }
-
-        .scroll-btn { width: 48px; height: 48px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.6); background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; font-size: 18px; transition: all 0.2s; font-family: ${F}; }
+        .scroll-btn { width: 48px; height: 48px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.6); background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; font-size: 18px; transition: all 0.2s; }
         .scroll-btn:hover { background: rgba(255,255,255,0.1); }
-
         .review-card { background: ${BLUE_LIGHT}; border: 1px solid ${BLUE}; border-radius: 28px; padding: 32px; }
       `}</style>
 
@@ -102,11 +95,11 @@ export default function Home() {
 
       {/* HERO */}
       <section className="hero-sec" style={{ position: 'relative', height: '100vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 112 }}>
-        <video className="hero-bg-video" autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '115%', objectFit: 'cover', marginTop: '-7%', filter: 'brightness(0.75)' }}>
+        <video className="hero-bg-video" autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '115%', objectFit: 'cover', marginTop: '-7%', filter: 'brightness(0.62)' }}>
           <source src="https://assets.mixkit.co/videos/11891/11891-720.mp4" type="video/mp4" />
           <img src="https://images.unsplash.com/photo-1605985687770-2e2e82c9b5f1?w=1800&q=80" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </video>
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.3) 100%)' }} />
         <div className="hero-content" style={{ position: 'relative', zIndex: 10, textAlign: 'center', padding: '0 24px', maxWidth: 860, margin: '0 auto' }}>
           <h1 style={{ fontFamily: F, fontSize: 'clamp(2.2rem,5vw,4.5rem)', fontWeight: 600, color: 'white', lineHeight: 1.05, marginBottom: 28, letterSpacing: '-0.02em' }}>
             La planificación de<br />la boda comienza aquí.
@@ -144,11 +137,14 @@ export default function Home() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)' }}>
             {features.map((f, i) => (
-              <div key={f.title} className="feat-card" style={{ borderRight: (i + 1) % 3 === 0 ? 'none' : `1px solid ${BLUE}`, borderBottom: i < 3 ? `1px solid ${BLUE}` : 'none' }}>
+              <div key={f.title} className="feat-card" style={{
+                borderRight: (i + 1) % 3 === 0 ? 'none' : `1px solid ${BLUE}`,
+                borderBottom: i < features.length - (features.length % 3 || 3) ? `1px solid ${BLUE}` : 'none'
+              }}>
                 <div className="feat-card-title">{f.title} <span style={{ color: BLUE_DARK }}>→</span></div>
                 <p className="feat-card-sub">{f.sub}</p>
                 <div style={{ position: 'relative', marginTop: 16 }}>
-                  <img src={f.img} alt={f.title} style={{ width: '100%', height: 180, objectFit: 'cover', borderRadius: 18, display: 'block' }} />
+                  <img src={f.img} alt={f.title} style={{ width: '100%', height: 200, objectFit: 'cover', borderRadius: 18, display: 'block' }} />
                   <div className="feat-badge">{f.badge}</div>
                 </div>
               </div>
@@ -164,7 +160,7 @@ export default function Home() {
             <span style={{ fontFamily: F, display: 'inline-block', fontSize: 12, color: BLUE_DARK, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 16, fontWeight: 600 }}>Demo en vivo</span>
             <h2 style={{ fontFamily: F, fontSize: 'clamp(2rem,4vw,3.5rem)', fontWeight: 400, color: INK, lineHeight: 1.1 }}>Así es vuestro dashboard</h2>
           </div>
-          <div className="dash-wrap floating" style={{ background: 'white', borderRadius: 24, overflow: 'hidden', boxShadow: '0 40px 120px rgba(91,184,232,0.12)', border: `1px solid ${BLUE}` }}>
+          <div className="dash-wrap floating" style={{ background: 'white', borderRadius: 24, overflow: 'hidden', boxShadow: '0 40px 120px rgba(142,197,247,0.12)', border: `1px solid ${BLUE}` }}>
             <div style={{ background: BLUE_LIGHT, borderBottom: `1px solid ${BLUE}`, padding: '12px 20px', display: 'flex', alignItems: 'center', gap: 12 }}>
               <div style={{ display: 'flex', gap: 6 }}>
                 {['#ff5f57','#febc2e','#28c840'].map(c => <div key={c} style={{ width: 10, height: 10, borderRadius: '50%', background: c }} />)}
