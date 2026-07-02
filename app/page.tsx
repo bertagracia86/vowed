@@ -1,400 +1,383 @@
 'use client'
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
+import { ArrowRight, Clock, Menu, X } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
-const F = "'Cormorant Garamond',serif"
 const BLUE = '#8ec5f7'
-const INK = '#1a1a2e'
-const MUTE = '#6b7280'
+const DARK = '#1a1a2e'
 
 export default function Home() {
-  const [activeFeature, setActiveFeature] = useState(0)
+  const [mounted, setMounted] = useState(false)
+  const [shaders, setShaders] = useState<any>(null)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [time, setTime] = useState('')
 
   useEffect(() => {
-    // Load GSAP + ScrollTrigger from CDN
-    const s1 = document.createElement('script')
-    s1.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js'
-    s1.onload = () => {
-      const s2 = document.createElement('script')
-      s2.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js'
-      s2.onload = () => {
-        const gsap = (window as any).gsap
-        const ScrollTrigger = (window as any).ScrollTrigger
-        gsap.registerPlugin(ScrollTrigger)
+    setMounted(true)
 
-        // Hero image parallax — slow drift down
-        gsap.to('.hero-img', {
-          yPercent: 18,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '.hero-section',
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true,
-          },
-        })
+    import('shaders/react')
+      .then(mod => setShaders(mod))
+      .catch(() => {})
 
-        // All parallax images — expand from zoomed-in as they enter
-        ;(gsap.utils.toArray('.par-img') as HTMLElement[]).forEach((img) => {
-          gsap.fromTo(
-            img,
-            { scale: 1.14 },
-            {
-              scale: 1,
-              ease: 'none',
-              scrollTrigger: {
-                trigger: img.parentElement,
-                start: 'top bottom',
-                end: 'bottom top',
-                scrub: true,
-              },
-            }
-          )
-        })
-
-        // Reveal elements
-        ;(gsap.utils.toArray('.g-reveal') as HTMLElement[]).forEach((el) => {
-          gsap.fromTo(
-            el,
-            { opacity: 0, y: 40 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.9,
-              ease: 'power3.out',
-              scrollTrigger: {
-                trigger: el,
-                start: 'top 88%',
-                toggleActions: 'play none none none',
-              },
-            }
-          )
-        })
-
-        ;(gsap.utils.toArray('.g-reveal-l') as HTMLElement[]).forEach((el) => {
-          gsap.fromTo(
-            el,
-            { opacity: 0, x: -40 },
-            {
-              opacity: 1,
-              x: 0,
-              duration: 0.9,
-              ease: 'power3.out',
-              scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' },
-            }
-          )
-        })
-
-        ;(gsap.utils.toArray('.g-reveal-r') as HTMLElement[]).forEach((el) => {
-          gsap.fromTo(
-            el,
-            { opacity: 0, x: 40 },
-            {
-              opacity: 1,
-              x: 0,
-              duration: 0.9,
-              ease: 'power3.out',
-              scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' },
-            }
-          )
-        })
-
-        ;(gsap.utils.toArray('.g-reveal-scale') as HTMLElement[]).forEach((el) => {
-          gsap.fromTo(
-            el,
-            { opacity: 0, scale: 0.96 },
-            {
-              opacity: 1,
-              scale: 1,
-              duration: 0.9,
-              ease: 'power3.out',
-              scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' },
-            }
-          )
-        })
-
-        ScrollTrigger.refresh()
-      }
-      document.head.appendChild(s2)
+    const tick = () => {
+      setTime(new Date().toLocaleTimeString('es-ES', {
+        timeZone: 'Europe/Madrid',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+      }))
     }
-    document.head.appendChild(s1)
-
-    const handleScroll = () => {
-      const nav = document.getElementById('main-nav')
-      if (nav) nav.style.background = window.scrollY > 40 ? 'rgba(255,255,255,0.98)' : 'rgba(255,255,255,0)'
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    tick()
+    const interval = setInterval(tick, 1000)
+    return () => clearInterval(interval)
   }, [])
 
-  const features = [
-    { id: 'invitados', label: 'Invitados', desc: 'Gestiona quién viene y organiza las mesas.', img: 'https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=800&q=80' },
-    { id: 'presupuesto', label: 'Presupuesto', desc: 'Controla cada gasto y mantente al día.', img: 'https://images.unsplash.com/photo-1546032996-6098e9b04e0a?w=800&q=80' },
-    { id: 'proveedores', label: 'Proveedores', desc: 'Encuentra y gestiona a tu equipo soñado.', img: 'https://images.unsplash.com/photo-1622037022824-0c71d511ec02?w=800&q=80' },
-    { id: 'tareas', label: 'Tareas', desc: 'Crea tu lista y no olvides nada.', img: 'https://images.unsplash.com/photo-1612630440053-cdc4458c79fd?w=800&q=80' },
-    { id: 'cronograma', label: 'Cronograma', desc: 'Planifica cada momento de vuestra boda.', img: 'https://images.unsplash.com/photo-1595407753234-0882f1e76e26?w=800&q=80' },
-    { id: 'web', label: 'Web de boda', desc: 'Una página bonita para vuestros invitados.', img: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&q=80' },
-  ]
-
-  const deepDives = [
-    { tag: 'Invitados', title: 'Gestiona tu lista de invitados', sub: 'Decide con quién celebrarlo y nosotros hacemos el resto — desde recopilar contactos hasta gestionar los RSVPs.', cta: 'Empezar', img: 'https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=900&q=80' },
-    { tag: 'Presupuesto', title: 'Controla cada euro de tu boda', sub: 'Sin sorpresas. Añade partidas, registra pagos y ve en tiempo real cuánto lleváis gastado.', cta: 'Ver el presupuesto', img: 'https://images.unsplash.com/photo-1546032996-6098e9b04e0a?w=900&q=80' },
-    { tag: 'Proveedores', title: 'Encuentra tu equipo soñado', sub: 'Fotógrafo, catering, flores, DJ. Estado del contrato y presupuesto asignado a cada uno.', cta: 'Buscar proveedores', img: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=900&q=80' },
-    { tag: 'Web de boda', title: 'La forma más bonita de tener a tus invitados informados', sub: 'Crea vuestra página personalizada en segundos. Fecha, lugar, historia y más.', cta: 'Crear mi web', img: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=900&q=80' },
-  ]
+  const Swirl = shaders?.Swirl
+  const ChromaFlow = shaders?.ChromaFlow
+  const FlutedGlass = shaders?.FlutedGlass
+  const FilmGrain = shaders?.FilmGrain
 
   return (
-    <main style={{ background: '#fff', fontFamily: "'Inter',sans-serif", overflowX: 'hidden' }}>
+    <main style={{ fontFamily: "'Inter',sans-serif", overflowX: 'hidden' }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap');
         *{box-sizing:border-box;margin:0;padding:0}
         html,body{background:#8ec5f7;padding:12px;}
         main{border-radius:24px;overflow:hidden;}
-        @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-        .a1{animation:fadeUp 0.9s 0.05s both}
-        .a2{animation:fadeUp 0.9s 0.2s both}
-        .a3{animation:fadeUp 0.9s 0.35s both}
-        .btn-blue{background:#8ec5f7;color:white;border:none;border-radius:999px;padding:14px 32px;font-size:15px;font-weight:600;cursor:pointer;display:inline-block;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;box-shadow:0 4px 18px rgba(142,197,247,0.4)}
-        .btn-blue:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(142,197,247,0.55)}
-        .btn-white{background:white;color:#1a1a2e;border:none;border-radius:999px;padding:14px 32px;font-size:15px;font-weight:600;cursor:pointer;display:inline-block;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;box-shadow:0 4px 18px rgba(0,0,0,0.12)}
-        .btn-white:hover{transform:translateY(-2px)}
-        .btn-dark{background:#1a1a2e;color:white;border:none;border-radius:999px;padding:14px 32px;font-size:15px;font-weight:600;cursor:pointer;display:inline-block;text-decoration:none;transition:opacity 0.2s}
-        .btn-dark:hover{opacity:0.85}
-        .btn-outline{background:transparent;color:#1a1a2e;border:2px solid #1a1a2e;border-radius:999px;padding:12px 28px;font-size:14px;font-weight:600;cursor:pointer;display:inline-block;text-decoration:none;transition:all 0.2s}
-        .btn-outline:hover{background:#1a1a2e;color:white}
-        .btn-outline-blue{background:transparent;color:#8ec5f7;border:2px solid #8ec5f7;border-radius:999px;padding:12px 28px;font-size:14px;font-weight:600;cursor:pointer;display:inline-block;text-decoration:none;transition:all 0.2s}
-        .btn-outline-blue:hover{background:#8ec5f7;color:white}
-        .nav-link{font-size:13px;color:#6b7280;cursor:pointer;transition:color 0.2s;text-decoration:none;white-space:nowrap}
-        .nav-link:hover{color:#1a1a2e}
-        .feat-tab{background:none;border:none;border-bottom:2px solid transparent;padding:12px 0;font-size:14px;font-weight:500;color:#6b7280;cursor:pointer;transition:all 0.2s;white-space:nowrap}
-        .feat-tab.active{color:#8ec5f7;border-bottom-color:#8ec5f7}
-        .diff-card{background:#F8FBFF;border:1px solid rgba(142,197,247,0.2);border-radius:20px;padding:28px 24px}
-        .review-card{background:#F8FBFF;border:1px solid rgba(142,197,247,0.2);border-radius:20px;padding:28px 24px}
-        .feat-img-card{border-radius:16px;overflow:hidden;position:relative;cursor:pointer}
-        .feat-img-card .card-label{position:absolute;bottom:0;left:0;right:0;padding:20px 18px 16px;background:linear-gradient(to top,rgba(0,0,0,0.55),transparent)}
-        @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-        .ticker-track{display:flex;gap:28px;animation:tick 30s linear infinite;width:max-content;align-items:center}
-        .vendor-pill{display:inline-block;background:#F8FBFF;border:1px solid rgba(142,197,247,0.25);border-radius:999px;padding:10px 20px;font-size:13px;color:#1a1a2e;text-decoration:none;transition:all 0.2s;cursor:pointer}
-        .vendor-pill:hover{background:#8ec5f7;color:white;border-color:#8ec5f7}
-        .par-wrap{overflow:hidden}
-        .par-img{width:100%;height:115%;object-fit:cover;display:block;transform-origin:center center;will-change:transform}
-        .hero-img{width:100%;height:130%;object-fit:cover;display:block;transform-origin:center center;will-change:transform}
-        .pill-tag{display:inline-block;background:rgba(142,197,247,0.15);color:#5aacf0;font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;border-radius:999px;padding:5px 14px}
+
+        .group { display:inline-flex; align-items:center; gap:8px; text-decoration:none; }
+
+        .roll-wrap {
+          display:flex; flex-direction:column; overflow:hidden; height:20px;
+        }
+        .roll-inner {
+          display:flex; flex-direction:column;
+          transition: transform 0.5s cubic-bezier(0.25,0.1,0.25,1);
+        }
+        .group:hover .roll-inner { transform:translateY(-50%); }
+
+        .arrow-c {
+          width:28px; height:28px; border-radius:50%; background:white;
+          display:flex; align-items:center; justify-content:center; flex-shrink:0;
+          transition: transform 0.5s cubic-bezier(0.25,0.1,0.25,1);
+        }
+        .group:hover .arrow-c { transform:rotate(-45deg); }
+        .arrow-c-white {
+          width:28px; height:28px; border-radius:50%; background:white;
+          display:flex; align-items:center; justify-content:center; flex-shrink:0;
+          transition: transform 0.5s cubic-bezier(0.25,0.1,0.25,1);
+        }
+        .group:hover .arrow-c-white { transform:rotate(-45deg); }
+
+        .btn-dark {
+          background:${DARK}; color:white; border:none; border-radius:999px;
+          padding:8px 8px 8px 20px; font-size:13px; font-weight:500; cursor:pointer;
+          border:none;
+        }
+        .btn-blue {
+          background:${BLUE}; color:white; border:none; border-radius:999px;
+          padding:10px 10px 10px 24px; font-size:14px; font-weight:600; cursor:pointer;
+        }
+        .btn-outline {
+          background:transparent; color:${DARK}; border:2px solid ${DARK};
+          border-radius:999px; padding:10px 24px; font-size:14px; font-weight:600;
+          cursor:pointer; text-decoration:none; transition:all 0.2s;
+        }
+        .btn-outline:hover { background:${DARK}; color:white; }
+
+        .card-img-wrap {
+          border-radius:20px; overflow:hidden; position:relative; cursor:pointer;
+        }
+        .card-img-wrap img {
+          width:100%; height:100%; object-fit:cover; display:block;
+          transition:transform 0.5s cubic-bezier(0.16,1,.3,1);
+        }
+        .card-img-wrap:hover img { transform:scale(1.05); }
+
+        .expand-btn {
+          position:absolute; bottom:14px; left:14px;
+          height:36px; border-radius:999px; overflow:hidden;
+          display:flex; align-items:center;
+          width:36px; transition:width 0.3s ease-in-out;
+        }
+        .expand-btn-text {
+          font-size:13px; font-weight:500; white-space:nowrap; padding-left:14px;
+          opacity:0; transition:opacity 0.15s ease 0.1s;
+        }
+        .card-img-wrap:hover .expand-btn { width:148px; }
+        .card-img-wrap:hover .expand-btn-text { opacity:1; }
+        .card-img-wrap:hover .expand-btn-sq { width:160px; }
+        .card-img-wrap:hover .expand-btn-sq-text { opacity:1; }
+
+        .expand-btn-sq {
+          position:absolute; bottom:14px; left:14px;
+          height:36px; border-radius:999px; overflow:hidden;
+          display:flex; align-items:center;
+          width:36px; transition:width 0.3s ease-in-out;
+        }
+        .expand-btn-sq-text {
+          font-size:13px; font-weight:500; white-space:nowrap; padding-left:14px;
+          color:white; opacity:0; transition:opacity 0.15s ease 0.1s;
+        }
+
+        .mobile-sheet {
+          transform:translateY(100%);
+          transition:transform 0.5s cubic-bezier(0.32,0.72,0,1);
+        }
+        .mobile-sheet.open { transform:translateY(0); }
+
+        .nav-a {
+          font-size:14px; color:${DARK}; text-decoration:none;
+          transition:color 0.3s;
+        }
+        .nav-a:hover { color:#6b7280; }
       `}</style>
 
-      {/* NAV */}
-      <nav id="main-nav" style={{ position: 'sticky', top: 0, zIndex: 200, transition: 'background 0.3s', backdropFilter: 'blur(16px)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 48px', height: 64, borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-          <Link href="/"><img src="/logo.png" alt="mylov3" style={{ height: 26, display: 'block' }} /></Link>
-          <div style={{ display: 'flex', gap: 32 }}>
-            {['Web de boda','Proveedores','Presupuesto','Invitados','Cronograma','Mesas'].map(l => (
-              <a key={l} href="#" className="nav-link">{l}</a>
-            ))}
-          </div>
-          <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-            <a href="#" style={{ fontSize: 13, color: MUTE, textDecoration: 'none' }}>Iniciar sesión</a>
-            <Link href="/dashboard" className="btn-blue" style={{ padding: '9px 20px', fontSize: 13 }}>Empezar gratis</Link>
-          </div>
-        </div>
-      </nav>
+      {/* ─── SECTION 1: HERO ─── */}
+      <section style={{ position:'relative', minHeight:'100vh', display:'flex', flexDirection:'column', background:'#EFEFEF' }}>
 
-      {/* HERO */}
-      <section className="hero-section" style={{ position: 'relative', minHeight: '86vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '80px 48px', overflow: 'hidden' }}>
-        <img className="hero-img" src="https://images.unsplash.com/photo-1605985687770-2e2e82c9b5f1?w=1800&q=80" alt="" style={{ position: 'absolute', inset: 0, marginTop: '-15%' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'rgba(15,25,45,0.48)' }} />
-        <div style={{ position: 'relative', zIndex: 2 }}>
-          <h1 className="a1" style={{ fontFamily: F, fontSize: 'clamp(48px,7vw,96px)', fontWeight: 600, color: 'white', lineHeight: 1.0, marginBottom: 24, maxWidth: 800 }}>
-            La planificación de vuestra boda empieza aquí
-          </h1>
-          <p className="a2" style={{ fontSize: 18, color: 'rgba(255,255,255,0.88)', maxWidth: 560, margin: '0 auto 40px', lineHeight: 1.75 }}>
-            Desde la finca y el catering hasta vuestra web de boda y los invitados — mylov3 está con vosotros en cada paso del camino.
-          </p>
-          <div className="a3" style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/dashboard" className="btn-white">¡Empezamos!</Link>
-            <Link href="/dashboard" className="btn-dark">Ver demo</Link>
+        {/* Shader overlay */}
+        {mounted && shaders && (
+          <div style={{ position:'absolute', inset:0, zIndex:10, pointerEvents:'none' }}>
+            <Swirl colorA="#ffffff" colorB="#d4eaff" detail={1.7} />
+            <ChromaFlow baseColor="#ffffff" downColor={BLUE} leftColor={BLUE} rightColor={BLUE} upColor={BLUE} momentum={13} radius={3.5} />
+            <FlutedGlass aberration={0.61} angle={31} frequency={8} highlight={0.12} highlightSoftness={0} lightAngle={-90} refraction={4} shape="rounded" softness={1} speed={0.15} />
+            <FilmGrain strength={0.05} />
           </div>
-        </div>
-      </section>
+        )}
 
-      {/* FEATURES TABS */}
-      <section style={{ background: 'white', padding: '80px 64px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <h2 className="g-reveal" style={{ fontFamily: F, fontSize: 'clamp(28px,3.5vw,44px)', fontWeight: 400, color: INK, textAlign: 'center', marginBottom: 8 }}>Todo lo que necesitáis para planificar vuestra boda</h2>
-          <p className="g-reveal" style={{ fontSize: 14, color: MUTE, textAlign: 'center', marginBottom: 40 }}>Para todos los días del camino</p>
-          <div className="g-reveal" style={{ display: 'flex', gap: 32, borderBottom: '1px solid #eee', marginBottom: 40, overflowX: 'auto' }}>
-            {features.map((f, i) => (
-              <button key={f.id} className={`feat-tab${activeFeature === i ? ' active' : ''}`} onClick={() => setActiveFeature(i)}>{f.label}</button>
-            ))}
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }}>
-            <div className="g-reveal-l">
-              <span className="pill-tag" style={{ marginBottom: 20, display: 'inline-block' }}>{features[activeFeature].label}</span>
-              <h3 style={{ fontFamily: F, fontSize: 'clamp(28px,3vw,42px)', fontWeight: 400, color: INK, marginBottom: 16, lineHeight: 1.2 }}>{features[activeFeature].desc}</h3>
-              <div style={{ display: 'flex', gap: 12, marginTop: 28 }}>
-                <Link href="/dashboard" className="btn-blue" style={{ fontSize: 14, padding: '12px 24px' }}>Empezar</Link>
-                <Link href="/dashboard" className="btn-outline-blue" style={{ fontSize: 14, padding: '12px 24px' }}>Saber más</Link>
+        {/* NAV */}
+        <div style={{ position:'relative', zIndex:20, padding:'12px 12px 0' }}>
+          <nav style={{ background:'white', borderRadius:999, padding:'5px', display:'flex', alignItems:'center', justifyContent:'space-between', maxWidth:1440, margin:'0 auto' }}>
+            {/* Left */}
+            <div style={{ display:'flex', alignItems:'center', gap:28, paddingLeft:8 }}>
+              <Link href="/">
+                <img src="/logo.png" alt="mylov3" style={{ height:26, display:'block' }} />
+              </Link>
+              <div style={{ display:'flex', gap:24 }}>
+                {['Funciones','Precios','Inspiración','Sobre nosotros'].map(l => (
+                  <a key={l} href="#" className="nav-a">{l}</a>
+                ))}
               </div>
             </div>
-            <div className="g-reveal-r par-wrap" style={{ borderRadius: 20, aspectRatio: '4/3' }}>
-              <img className="par-img" src={features[activeFeature].img} alt={features[activeFeature].label} style={{ marginTop: '-7.5%' }} />
+
+            {/* Right — desktop */}
+            <div style={{ display:'flex', alignItems:'center', gap:18 }}>
+              <span style={{ fontSize:13, color:'#6b7280' }}>Gratis para siempre ♡</span>
+              <div style={{ display:'flex', alignItems:'center', gap:6 }}>
+                <Clock size={14} color="#6b7280" />
+                <span style={{ fontSize:13, color:'#6b7280' }}>{time} en Madrid</span>
+              </div>
+              <Link href="/dashboard" className="group btn-dark">
+                <div className="roll-wrap">
+                  <div className="roll-inner">
+                    <span>Empezar gratis</span>
+                    <span>Empezar gratis</span>
+                  </div>
+                </div>
+                <div className="arrow-c">
+                  <ArrowRight size={13} color={DARK} />
+                </div>
+              </Link>
+
+              {/* Mobile menu toggle */}
+              <button
+                onClick={() => setMenuOpen(v => !v)}
+                style={{ background:DARK, color:'white', border:'none', borderRadius:999, padding:'8px 16px', fontSize:13, fontWeight:500, cursor:'pointer', display:'flex', alignItems:'center', gap:6 }}
+              >
+                {menuOpen ? <X size={14} /> : <Menu size={14} />}
+                {menuOpen ? 'Cerrar' : 'Menú'}
+              </button>
+            </div>
+          </nav>
+        </div>
+
+        {/* Mobile menu overlay */}
+        {menuOpen && (
+          <div style={{ position:'fixed', inset:0, zIndex:50, background:'rgba(0,0,0,0.6)' }} onClick={() => setMenuOpen(false)}>
+            <div
+              className={`mobile-sheet${menuOpen ? ' open' : ''}`}
+              style={{ position:'absolute', bottom:12, left:12, right:12, background:'white', borderRadius:20, padding:'32px 28px' }}
+              onClick={e => e.stopPropagation()}
+            >
+              <div style={{ fontSize:12, color:'#6b7280', marginBottom:28, display:'flex', alignItems:'center', gap:6 }}>
+                <Clock size={13} />{time} en Madrid
+              </div>
+              {['Funciones','Precios','Inspiración','Sobre nosotros'].map(l => (
+                <p key={l} style={{ fontSize:28, fontWeight:500, color:DARK, marginBottom:16, cursor:'pointer' }}>{l}</p>
+              ))}
+              <Link href="/dashboard" className="group btn-blue" style={{ marginTop:24, display:'inline-flex' }}>
+                <div className="roll-wrap" style={{ height:22 }}>
+                  <div className="roll-inner">
+                    <span>Empezar gratis</span>
+                    <span>Empezar gratis</span>
+                  </div>
+                </div>
+                <div className="arrow-c">
+                  <ArrowRight size={14} color={BLUE} />
+                </div>
+              </Link>
+            </div>
+          </div>
+        )}
+
+        {/* Hero content — bottom */}
+        <div style={{ flex:1, display:'flex', flexDirection:'column', justifyContent:'flex-end', position:'relative', zIndex:20 }}>
+          <div style={{ maxWidth:1440, margin:'0 auto', width:'100%', padding:'0 48px 80px' }}>
+            <p style={{ fontSize:13, color:DARK, letterSpacing:'0.05em', marginBottom:32 }}>mylov3 — Organizador de bodas</p>
+            <h1 style={{
+              fontFamily:"'Cormorant Garamond',serif",
+              fontSize:'clamp(2.5rem,7vw,4.2rem)',
+              fontWeight:500,
+              lineHeight:1.08,
+              letterSpacing:'-0.03em',
+              color:DARK,
+              marginBottom:48,
+            }}>
+              Planificad la boda<br />
+              de vuestros sueños,<br />
+              sin perder ni un detalle.
+            </h1>
+            <div style={{ display:'flex', gap:20, alignItems:'center', flexWrap:'wrap' }}>
+              <Link href="/dashboard" className="group btn-blue">
+                <div className="roll-wrap" style={{ height:22 }}>
+                  <div className="roll-inner">
+                    <span>Empezar a planificar</span>
+                    <span>Empezar a planificar</span>
+                  </div>
+                </div>
+                <div className="arrow-c" style={{ width:32, height:32 }}>
+                  <ArrowRight size={15} color={BLUE} />
+                </div>
+              </Link>
+
+              <div style={{ background:'white', borderRadius:8, boxShadow:'0 2px 8px rgba(0,0,0,0.08)', padding:'8px 14px', display:'flex', alignItems:'center', gap:10, transition:'box-shadow 0.2s' }}>
+                <span style={{ fontSize:18, color:BLUE }}>♡</span>
+                <span style={{ fontSize:13, fontWeight:500, color:DARK }}>+2.400 parejas</span>
+                <span style={{ fontSize:10, background:DARK, color:'white', borderRadius:4, padding:'2px 8px', fontWeight:600, letterSpacing:'0.04em' }}>GRATIS</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* TICKER */}
-      <div style={{ overflow: 'hidden', borderTop: '1px solid rgba(142,197,247,0.15)', borderBottom: '1px solid rgba(142,197,247,0.15)', padding: '14px 0', background: '#F8FBFF' }}>
-        <div className="ticker-track">
-          {['Tareas','♡','Presupuesto','♡','Invitados','♡','Mesas','♡','Cronograma','♡','Proveedores','♡','Web de boda','♡','Notas','♡','Inspiración','♡','Tareas','♡','Presupuesto','♡','Invitados','♡','Mesas','♡','Cronograma','♡','Proveedores','♡','Web de boda','♡','Notas','♡','Inspiración','♡'].map((t, i) => (
-            <span key={i} style={{ fontSize: 11, color: t === '♡' ? BLUE : '#C0BAB2', letterSpacing: '0.1em', textTransform: 'uppercase', whiteSpace: 'nowrap', flexShrink: 0 }}>{t}</span>
-          ))}
-        </div>
-      </div>
-
-      {/* DEEP DIVES */}
-      {deepDives.map((d, i) => (
-        <section key={d.tag} style={{ background: i % 2 === 0 ? 'white' : '#F8FBFF', padding: '100px 64px' }}>
-          <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
-            {i % 2 === 0 ? (
-              <>
-                <div className="g-reveal-l">
-                  <span className="pill-tag" style={{ marginBottom: 20, display: 'inline-block' }}>{d.tag}</span>
-                  <h2 style={{ fontFamily: F, fontSize: 'clamp(28px,3.5vw,46px)', fontWeight: 400, color: INK, lineHeight: 1.15, marginBottom: 20 }}>{d.title}</h2>
-                  <p style={{ fontSize: 15, color: MUTE, lineHeight: 1.8, marginBottom: 36 }}>{d.sub}</p>
-                  <div style={{ display: 'flex', gap: 12 }}>
-                    <Link href="/dashboard" className="btn-blue" style={{ fontSize: 14, padding: '12px 24px' }}>{d.cta}</Link>
-                    <Link href="/dashboard" className="btn-outline" style={{ fontSize: 14, padding: '12px 24px' }}>Saber más</Link>
-                  </div>
-                </div>
-                <div className="g-reveal-r par-wrap" style={{ borderRadius: 24, aspectRatio: '5/4', boxShadow: '0 24px 60px rgba(0,0,0,0.08)' }}>
-                  <img className="par-img" src={d.img} alt={d.tag} style={{ marginTop: '-7.5%' }} />
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="g-reveal-l par-wrap" style={{ borderRadius: 24, aspectRatio: '5/4', boxShadow: '0 24px 60px rgba(0,0,0,0.08)' }}>
-                  <img className="par-img" src={d.img} alt={d.tag} style={{ marginTop: '-7.5%' }} />
-                </div>
-                <div className="g-reveal-r">
-                  <span className="pill-tag" style={{ marginBottom: 20, display: 'inline-block' }}>{d.tag}</span>
-                  <h2 style={{ fontFamily: F, fontSize: 'clamp(28px,3.5vw,46px)', fontWeight: 400, color: INK, lineHeight: 1.15, marginBottom: 20 }}>{d.title}</h2>
-                  <p style={{ fontSize: 15, color: MUTE, lineHeight: 1.8, marginBottom: 36 }}>{d.sub}</p>
-                  <div style={{ display: 'flex', gap: 12 }}>
-                    <Link href="/dashboard" className="btn-blue" style={{ fontSize: 14, padding: '12px 24px' }}>{d.cta}</Link>
-                    <Link href="/dashboard" className="btn-outline" style={{ fontSize: 14, padding: '12px 24px' }}>Saber más</Link>
-                  </div>
-                </div>
-              </>
-            )}
+      {/* ─── SECTION 2: ABOUT ─── */}
+      <section style={{ background:'white', padding:'80px 0 96px' }}>
+        <div style={{ maxWidth:1440, margin:'0 auto', padding:'0 48px' }}>
+          {/* Badge */}
+          <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:28 }}>
+            <div style={{ width:28, height:28, borderRadius:'50%', background:DARK, color:'white', display:'flex', alignItems:'center', justifyContent:'center', fontSize:11, fontWeight:700, flexShrink:0 }}>1</div>
+            <span style={{ fontSize:12, fontWeight:500, border:'1px solid #e5e7eb', borderRadius:999, padding:'4px 16px' }}>Sobre mylov3</span>
           </div>
-        </section>
-      ))}
 
-      {/* LO QUE NOS HACE DIFERENTES */}
-      <section style={{ background: 'white', padding: '100px 64px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <h2 className="g-reveal" style={{ fontFamily: F, fontSize: 'clamp(28px,3.5vw,44px)', fontWeight: 400, color: INK, textAlign: 'center', marginBottom: 56 }}>Lo que nos hace diferentes</h2>
-          <div className="g-reveal-scale" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 20 }}>
-            {[
-              { icon: '♡', t: 'Todo en un lugar', d: 'Tareas, presupuesto, invitados, mesas, cronograma y más. Sin apps separadas.' },
-              { icon: '✦', t: 'Sin estrés', d: 'Diseñado para que disfrutéis del proceso, no solo del resultado.' },
-              { icon: '⊞', t: 'Plano de mesas interactivo', d: 'Arrastra y suelta a tus invitados en las mesas. Visual y sencillo.' },
-              { icon: '📅', t: 'Cuenta atrás en tiempo real', d: 'Sabréis en todo momento cuántos días quedan para el gran día.' },
-              { icon: '€', t: 'Presupuesto detallado', d: 'Controla cada partida, lo pagado y lo que queda. Sin sorpresas.' },
-              { icon: '🌐', t: 'Web de boda gratis', d: 'Una página bonita y personalizada para que vuestros invitados estén informados.' },
-            ].map(f => (
-              <div key={f.t} className="diff-card">
-                <div style={{ fontSize: 28, color: BLUE, marginBottom: 16 }}>{f.icon}</div>
-                <p style={{ fontFamily: F, fontSize: 18, color: INK, marginBottom: 10, fontWeight: 500 }}>{f.t}</p>
-                <p style={{ fontSize: 13, color: MUTE, lineHeight: 1.75 }}>{f.d}</p>
-              </div>
-            ))}
+          <h2 style={{
+            fontFamily:"'Cormorant Garamond',serif",
+            fontSize:'clamp(1.5rem,4vw,3.2rem)',
+            fontWeight:500,
+            lineHeight:1.12,
+            letterSpacing:'-0.02em',
+            color:DARK,
+            marginBottom:64,
+          }}>
+            Herramientas bonitas para organizar<br />
+            cada detalle de vuestro gran día.
+          </h2>
+
+          <div style={{ display:'grid', gridTemplateColumns:'26% 1fr 48%', gap:24, alignItems:'end' }}>
+            {/* Left image */}
+            <div style={{ borderRadius:20, overflow:'hidden', aspectRatio:'438/346' }}>
+              <img src="https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=800&q=80" alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+            </div>
+
+            {/* Center text */}
+            <div style={{ paddingLeft:20, paddingBottom:8 }}>
+              <p style={{ fontSize:16, lineHeight:1.65, color:DARK, fontWeight:500, marginBottom:36 }}>
+                Desde la lista de invitados<br />
+                hasta el plano de mesas.<br />
+                Desde el presupuesto<br />
+                hasta la web de boda.<br />
+                Todo en un solo lugar.
+              </p>
+              <Link href="/dashboard" className="group btn-blue" style={{ display:'inline-flex' }}>
+                <div className="roll-wrap" style={{ height:22 }}>
+                  <div className="roll-inner">
+                    <span>Empezar gratis</span>
+                    <span>Empezar gratis</span>
+                  </div>
+                </div>
+                <div className="arrow-c">
+                  <ArrowRight size={14} color={BLUE} />
+                </div>
+              </Link>
+            </div>
+
+            {/* Right image */}
+            <div style={{ borderRadius:20, overflow:'hidden', aspectRatio:'3/2' }}>
+              <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=900&q=80" alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      <section style={{ background: '#F8FBFF', padding: '100px 64px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div className="g-reveal" style={{ marginBottom: 56, textAlign: 'center' }}>
-            <span className="pill-tag" style={{ marginBottom: 20, display: 'inline-block' }}>Parejas que ya vivieron su día</span>
-            <h2 style={{ fontFamily: F, fontSize: 'clamp(28px,3.5vw,44px)', fontWeight: 400, color: INK }}>Historias reales, momentos inolvidables</h2>
+      {/* ─── SECTION 3: FEATURES ─── */}
+      <section style={{ background:'#F5F5F5', padding:'80px 0 112px' }}>
+        <div style={{ maxWidth:1440, margin:'0 auto', padding:'0 48px' }}>
+          {/* Badge */}
+          <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:28 }}>
+            <div style={{ width:28, height:28, borderRadius:'50%', background:DARK, color:'white', display:'flex', alignItems:'center', justifyContent:'center', fontSize:11, fontWeight:700, flexShrink:0 }}>2</div>
+            <span style={{ fontSize:12, fontWeight:500, border:'1px solid #d1d5db', borderRadius:999, padding:'4px 16px' }}>Funciones principales</span>
           </div>
-          <div className="g-reveal-scale" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 20 }}>
-            {[
-              { q: 'mylov3 hizo que todo fuera tan fácil y organizado. Pudimos disfrutar cada momento sin preocupaciones.', n: 'María & Lucas', d: 'Se casaron en Abril 2024', img: 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=100&q=80' },
-              { q: 'La mejor herramienta para planificar nuestra boda. ¡No podemos imaginar haberlo hecho sin mylov3!', n: 'Ana & Diego', d: 'Se casaron en Junio 2024', img: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?w=100&q=80' },
-              { q: 'Todo en un solo lugar, hermoso, práctico y super completo. Lo recomendamos a todas las parejas.', n: 'Sofía & Tomás', d: 'Se casaron en Mayo 2024', img: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=100&q=80' },
-            ].map(r => (
-              <div key={r.n} className="review-card">
-                <div style={{ display: 'flex', gap: 3, marginBottom: 16 }}>
-                  {[...Array(5)].map((_, i) => <span key={i} style={{ color: BLUE, fontSize: 15 }}>★</span>)}
-                </div>
-                <p style={{ fontSize: 14, color: INK, lineHeight: 1.8, marginBottom: 24, fontStyle: 'italic' }}>"{r.q}"</p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <div style={{ width: 38, height: 38, borderRadius: '50%', overflow: 'hidden', flexShrink: 0 }}>
-                    <img src={r.img} alt={r.n} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  </div>
-                  <div>
-                    <p style={{ fontSize: 13, fontWeight: 600, color: INK }}>{r.n}</p>
-                    <p style={{ fontSize: 11, color: MUTE }}>{r.d}</p>
+
+          <h2 style={{
+            fontFamily:"'Cormorant Garamond',serif",
+            fontSize:'clamp(1.75rem,7vw,4.2rem)',
+            fontWeight:500,
+            lineHeight:1.08,
+            letterSpacing:'-0.03em',
+            color:DARK,
+            marginBottom:48,
+          }}>Todo en un lugar</h2>
+
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:24 }}>
+            {/* Card 1 */}
+            <div>
+              <div className="card-img-wrap" style={{ aspectRatio:'329/246', background:'#1a2a3a' }}>
+                <img src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=900&q=80" alt="" />
+                <div className="expand-btn" style={{ background:'white' }}>
+                  <span className="expand-btn-text" style={{ color:DARK }}>Ver función</span>
+                  <div style={{ width:36, height:36, borderRadius:'50%', background:'white', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, marginLeft:'auto' }}>
+                    <ArrowRight size={13} color={DARK} style={{ transform:'rotate(-45deg)' }} />
                   </div>
                 </div>
               </div>
-            ))}
+              <p style={{ fontSize:13, color:'#6b7280', marginTop:16, lineHeight:1.6 }}>Gestiona tu lista de invitados, RSVPs, menús y organiza las mesas con drag & drop</p>
+              <p style={{ fontSize:14, fontWeight:600, color:DARK, marginTop:4 }}>Invitados & Mesas</p>
+            </div>
+
+            {/* Card 2 */}
+            <div>
+              <div className="card-img-wrap" style={{ aspectRatio:'1/1', background:'#6b6b6b' }}>
+                <img src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=900&q=80" alt="" />
+                <div className="expand-btn-sq" style={{ background:DARK }}>
+                  <span className="expand-btn-sq-text">Explorar función</span>
+                  <div style={{ width:36, height:36, borderRadius:'50%', background:BLUE, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, marginLeft:'auto' }}>
+                    <ArrowRight size={13} color="white" style={{ transform:'rotate(-45deg)' }} />
+                  </div>
+                </div>
+              </div>
+              <p style={{ fontSize:13, color:'#6b7280', marginTop:16, lineHeight:1.6 }}>Controla cada partida del presupuesto, pagos realizados y cuenta atrás hasta el gran día</p>
+              <p style={{ fontSize:14, fontWeight:600, color:DARK, marginTop:4 }}>Presupuesto & Cronograma</p>
+            </div>
           </div>
         </div>
       </section>
-
-      {/* PROVEEDORES */}
-      <section style={{ background: 'white', padding: '100px 64px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <h2 className="g-reveal" style={{ fontFamily: F, fontSize: 'clamp(28px,3.5vw,44px)', fontWeight: 400, color: INK, marginBottom: 36 }}>Explora proveedores por categoría</h2>
-          <div className="g-reveal-scale" style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-            {['Fincas y espacios','Fotógrafos','Videógrafos','Catering','Música y DJ','Flores','Pasteles','Vestidos','Transporte','Belleza y maquillaje','Wedding planners','Extras'].map(v => (
-              <a key={v} href="#" className="vendor-pill">{v}</a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA FINAL */}
-      <div style={{ position: 'relative', minHeight: 400, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-        <img className="par-img" src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=1600&q=80" alt="" style={{ position: 'absolute', inset: 0, width: '100%', marginTop: '-7.5%' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'rgba(255,255,255,0.72)' }} />
-        <div className="g-reveal" style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '60px 48px' }}>
-          <div style={{ color: BLUE, marginBottom: 12, fontSize: 22 }}>♡</div>
-          <h2 style={{ fontFamily: F, fontSize: 'clamp(28px,4vw,52px)', fontWeight: 400, color: INK, lineHeight: 1.15, marginBottom: 8 }}>Tu historia de amor merece</h2>
-          <h2 style={{ fontFamily: F, fontSize: 'clamp(28px,4vw,52px)', fontWeight: 400, fontStyle: 'italic', color: BLUE, lineHeight: 1.15, marginBottom: 36 }}>el mejor comienzo</h2>
-          <Link href="/dashboard" className="btn-blue" style={{ fontSize: 15, padding: '15px 40px' }}>Empieza a planificar gratis</Link>
-        </div>
-      </div>
 
       {/* FOOTER */}
-      <footer style={{ background: 'white', borderTop: '1px solid rgba(0,0,0,0.06)', padding: '48px 64px 32px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr 1fr', gap: 40, marginBottom: 48 }}>
-            <div>
-              <img src="/logo.png" alt="mylov3" style={{ height: 28, display: 'block', marginBottom: 16 }} />
-              <p style={{ fontSize: 13, color: MUTE, lineHeight: 1.75, maxWidth: 240 }}>La forma más bonita de planificar el día más importante de vuestra vida.</p>
-            </div>
-            {[
-              { t: 'Funciones', links: ['Invitados','Presupuesto','Mesas','Cronograma','Web de boda','Tareas'] },
-              { t: 'Empresa', links: ['Sobre nosotros','Blog','Prensa','Trabaja con nosotros'] },
-              { t: 'Ayuda', links: ['FAQs','Contacto','Privacidad','Términos'] },
-            ].map(col => (
-              <div key={col.t}>
-                <p style={{ fontSize: 12, fontWeight: 600, color: INK, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 16 }}>{col.t}</p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  {col.links.map(l => <a key={l} href="#" style={{ fontSize: 13, color: MUTE, textDecoration: 'none' }}>{l}</a>)}
-                </div>
-              </div>
-            ))}
-          </div>
-          <div style={{ borderTop: '1px solid rgba(0,0,0,0.06)', paddingTop: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <p style={{ fontSize: 12, color: '#B0AAA3' }}>© 2025 mylov3. Hecho con ♡ para parejas que quieren disfrutar del proceso.</p>
-            <p style={{ fontSize: 11, color: '#D0CCC6' }}>Para todos los días del camino</p>
-          </div>
+      <footer style={{ background:'white', borderTop:'1px solid rgba(0,0,0,0.06)', padding:'36px 48px' }}>
+        <div style={{ maxWidth:1440, margin:'0 auto', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
+          <img src="/logo.png" alt="mylov3" style={{ height:24, display:'block' }} />
+          <p style={{ fontSize:12, color:'#B0AAA3' }}>Hecho con ♡ para parejas que quieren disfrutar del proceso</p>
+          <p style={{ fontSize:11, color:'#D0CCC6' }}>2025</p>
         </div>
       </footer>
     </main>
