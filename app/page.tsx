@@ -11,6 +11,7 @@ const F = "'Cormorant Garamond', serif"
 export default function Home() {
   const [scrollY, setScrollY] = useState(0)
   const [activeFeatureDot, setActiveFeatureDot] = useState(0)
+  const [activeMobileDot, setActiveMobileDot] = useState(0)
 
   useEffect(() => {
     const s1 = document.createElement('script')
@@ -39,6 +40,21 @@ export default function Home() {
               toggleActions: 'play none none none',
               onEnter: () => setActiveFeatureDot(i),
               onEnterBack: () => setActiveFeatureDot(i),
+            }
+          })
+        })
+
+        // Update active dot for the mobile showcase based on which mobile-step is in view
+        ;(gsap.utils.toArray('.mobile-step') as HTMLElement[]).forEach((el: any, i: number) => {
+          gsap.fromTo(el, { opacity: 0, y: 30 }, {
+            opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
+            scrollTrigger: {
+              trigger: el,
+              start: 'top 55%',
+              end: 'bottom 45%',
+              toggleActions: 'play none none none',
+              onEnter: () => setActiveMobileDot(i),
+              onEnterBack: () => setActiveMobileDot(i),
             }
           })
         })
@@ -177,6 +193,61 @@ export default function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* MOBILE SHOWCASE — left phone mockup scrolls, right sticky with 6 subapartados en negrita */}
+      <section style={{ background: 'white', borderTop: `1px solid ${BLUE}` }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 48px', display: 'grid', gridTemplateColumns: '1fr 220px', gap: 80, alignItems: 'start' }}>
+
+          {/* LEFT — scrolls, phone mockup per feature */}
+          <div>
+            {features.map((f, i) => (
+              <div key={f.title} className="mobile-step" id={`mobile-${i}`} style={{ minHeight: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 0' }}>
+                <div style={{ width: 240, borderRadius: 36, border: `10px solid ${INK}`, background: INK, boxShadow: '0 30px 80px rgba(26,58,82,0.25)' }}>
+                  <div style={{ background: 'white', borderRadius: 26, overflow: 'hidden' }}>
+                    <img src={f.img} alt={f.title} style={{ width: '100%', height: 420, objectFit: 'cover', display: 'block' }} />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* RIGHT — sticky, 6 subapartados en negrita según scroll */}
+          <div style={{ position: 'sticky', top: '35vh', alignSelf: 'start' }}>
+            <div style={{ position: 'relative', paddingLeft: 22, borderLeft: `2px solid ${BLUE}` }}>
+              <div style={{
+                position: 'absolute',
+                left: -2,
+                top: `${(activeMobileDot / features.length) * 100}%`,
+                width: 2,
+                height: `${(1 / features.length) * 100}%`,
+                background: BLUE_DARK,
+                borderRadius: 2,
+                transition: 'top 0.45s cubic-bezier(.16,1,.3,1)',
+              }} />
+              {features.map((f, i) => (
+                <button
+                  key={i}
+                  className="deep-nav-btn"
+                  onClick={() => document.getElementById(`mobile-${i}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+                >
+                  <div className="deep-dot" style={{
+                    background: activeMobileDot === i ? BLUE_DARK : BLUE,
+                    transform: activeMobileDot === i ? 'scale(1.7)' : 'scale(1)',
+                  }} />
+                  <span style={{
+                    fontFamily: F,
+                    fontSize: activeMobileDot === i ? 14 : 12,
+                    fontWeight: activeMobileDot === i ? 600 : 400,
+                    color: activeMobileDot === i ? INK : '#aac4d8',
+                    transition: 'all 0.3s',
+                  }}>{f.title}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
         </div>
       </section>
 
