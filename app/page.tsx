@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const BLUE = '#cbecff'
 const BLUE_DARK = '#8ec5f7'
@@ -25,12 +25,23 @@ export default function Home() {
         gsap.to('.hero-content', { yPercent: -18, ease: 'none', scrollTrigger: { trigger: '.hero-sec', start: 'top top', end: 'bottom top', scrub: true } })
         gsap.to('.hero-bg-video', { yPercent: 20, ease: 'none', scrollTrigger: { trigger: '.hero-sec', start: 'top top', end: 'bottom top', scrub: true } })
         gsap.fromTo('.dash-wrap', { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, ease: 'power3.out', scrollTrigger: { trigger: '.dash-wrap', start: 'top 85%' } })
-        gsap.utils.toArray('.feat-card').forEach((el: any, i: number) => {
-          gsap.fromTo(el, { scale: 0.85, opacity: 0, y: 40 }, { scale: 1, opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: (i % 3) * 0.1, scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' } })
+
+        // Whole grid block scale up
+        gsap.fromTo('.feat-grid', { scale: 0.88, opacity: 0 }, { scale: 1, opacity: 1, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: '.feat-grid', start: 'top 85%', toggleActions: 'play none none none' } })
+
+        // Deep feature dots
+        ;(gsap.utils.toArray('.deep-item') as HTMLElement[]).forEach((el: any, i: number) => {
+          gsap.fromTo(el, { opacity: 0, y: 30 }, {
+            opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
+            scrollTrigger: {
+              trigger: el, start: 'top 60%', end: 'bottom 40%',
+              toggleActions: 'play none none none',
+              onEnter: () => setActiveFeatureDot(i),
+              onEnterBack: () => setActiveFeatureDot(i),
+            }
+          })
         })
-        gsap.utils.toArray('.deep-item').forEach((el: any, i: number) => {
-          gsap.fromTo(el, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 80%', toggleActions: 'play none none none', onEnter: () => setActiveFeatureDot(i), onEnterBack: () => setActiveFeatureDot(i) } })
-        })
+
         gsap.utils.toArray('.sec-reveal').forEach((el: any) => {
           gsap.fromTo(el, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 85%' } })
         })
@@ -54,42 +65,12 @@ export default function Home() {
   ]
 
   const deepFeatures = [
-    {
-      icon: '€',
-      title: 'Calculadora de presupuesto para bodas',
-      body: 'Controla los gastos de la boda con una asignación inteligente de categorías. Supervisa los pagos a proveedores, los depósitos y los costes finales con alertas presupuestarias en tiempo real.',
-      tag: 'REGISTRA CADA GASTO',
-    },
-    {
-      icon: '♡',
-      title: 'Gestor de listas de invitados',
-      body: 'Gestiona las confirmaciones de asistencia, controla los requisitos dietéticos, gestiona los acompañantes y exporta la lista completa de invitados para las invitaciones y las tarjetas de mesa.',
-      tag: 'SEGUIMIENTO DE RSVP INTEGRADO',
-    },
-    {
-      icon: '⊞',
-      title: 'Diseñador de planos de asientos',
-      body: 'Crea la distribución de las mesas de tu boda fácilmente con la función de arrastrar y soltar. Diseña la distribución de la recepción con mesas redondas, rectangulares y mesas principales.',
-      tag: 'ARRASTAR Y SOLTAR VISUALMENTE',
-    },
-    {
-      icon: '☑',
-      title: 'Lista de verificación para la planificación de bodas',
-      body: 'No te pierdas ninguna fecha límite para tu boda gracias a las tareas sugeridas. Los elementos de la lista de verificación se vinculan con tus proveedores y categorías de presupuesto para una planificación completa.',
-      tag: 'TODO ORGANIZADO Y A TIEMPO',
-    },
-    {
-      icon: '◎',
-      title: 'Gestión de proveedores',
-      body: 'Mantén todos los contactos, contratos y calendarios de pagos de los proveedores de tu boda en un solo lugar. Controla los depósitos y los pagos finales de cada proveedor.',
-      tag: 'TODOS LOS VENDEDORES ORGANIZADOS',
-    },
-    {
-      icon: '📅',
-      title: 'Cronograma de pagos',
-      body: 'Visualiza los próximos pagos y fechas de vencimiento de tu boda. Recibe alertas sobre depósitos, cuotas y pagos finales para que nunca te pierdas una fecha límite.',
-      tag: 'NUNCA TE PIERDAS UN PAGO',
-    },
+    { icon: '€', title: 'Calculadora de presupuesto', body: 'Controla los gastos de la boda con una asignación inteligente de categorías. Supervisa los pagos a proveedores, los depósitos y los costes finales con alertas presupuestarias en tiempo real.', tag: 'REGISTRA CADA GASTO' },
+    { icon: '♡', title: 'Gestor de invitados', body: 'Gestiona las confirmaciones de asistencia, controla los requisitos dietéticos, gestiona los acompañantes y exporta la lista completa de invitados para las invitaciones y las tarjetas de mesa.', tag: 'SEGUIMIENTO DE RSVP INTEGRADO' },
+    { icon: '⊞', title: 'Plano de asientos', body: 'Crea la distribución de las mesas de tu boda fácilmente con la función de arrastrar y soltar. Diseña la distribución de la recepción con mesas redondas, rectangulares y mesas principales.', tag: 'ARRASTRAR Y SOLTAR VISUALMENTE' },
+    { icon: '☑', title: 'Lista de verificación', body: 'No te pierdas ninguna fecha límite para tu boda gracias a las tareas sugeridas. Los elementos de la lista se vinculan con tus proveedores y categorías de presupuesto para una planificación completa.', tag: 'TODO ORGANIZADO Y A TIEMPO' },
+    { icon: '◎', title: 'Gestión de proveedores', body: 'Mantén todos los contactos, contratos y calendarios de pagos de los proveedores de tu boda en un solo lugar. Controla los depósitos y los pagos finales de cada proveedor.', tag: 'TODOS LOS VENDEDORES ORGANIZADOS' },
+    { icon: '📅', title: 'Cronograma de pagos', body: 'Visualiza los próximos pagos y fechas de vencimiento de tu boda. Recibe alertas sobre depósitos, cuotas y pagos finales para que nunca te pierdas una fecha límite.', tag: 'NUNCA TE PIERDAS UN PAGO' },
   ]
 
   return (
@@ -107,12 +88,13 @@ export default function Home() {
         .btn-blue:hover { transform: translateY(-1px); box-shadow: 0 8px 32px rgba(142,197,247,0.55); }
         .btn-blue-sm { background: ${BLUE_DARK}; color: white; border: none; border-radius: 999px; padding: 10px 24px; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; font-family: ${F}; }
         .btn-blue-sm:hover { opacity: 0.9; transform: translateY(-1px); }
-        .feat-card { padding: 32px 28px; background: white; transition: background 0.2s; cursor: pointer; display: flex; flex-direction: column; will-change: transform, opacity; }
+        .feat-card { padding: 32px 28px; background: white; transition: background 0.2s; cursor: pointer; display: flex; flex-direction: column; }
         .feat-card:hover { background: #fafeff; }
         .feat-card-title { font-family: ${F}; font-size: 18px; font-weight: 500; color: ${INK}; display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
         .feat-card-sub { font-family: ${F}; font-size: 14px; color: #7a9ab5; line-height: 1.5; min-height: 44px; }
         .feat-badge { display: inline-flex; align-items: center; gap: 6px; background: white; border: 1px solid #eee; border-radius: 999px; padding: 7px 16px; font-size: 12px; font-weight: 500; color: ${INK}; position: absolute; bottom: 14px; left: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); white-space: nowrap; font-family: ${F}; }
-        .dot-btn { width: 10px; height: 10px; border-radius: 50%; border: none; cursor: pointer; transition: all 0.3s; }
+        .feat-grid { will-change: transform, opacity; }
+        .nav-dot-label { font-family: ${F}; font-size: 13px; cursor: pointer; transition: all 0.3s; text-align: right; padding: 8px 0; border: none; background: none; display: block; width: 100%; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         .floating { animation: float 6s ease-in-out infinite; }
         @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -182,7 +164,7 @@ export default function Home() {
             </h2>
             <p style={{ fontFamily: F, fontSize: 15, color: '#7a9ab5', lineHeight: 1.7 }}>Para todos los días del camino</p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gridAutoRows: '1fr' }}>
+          <div className="feat-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gridAutoRows: '1fr' }}>
             {features.map((f, i) => (
               <div key={f.title} className="feat-card" style={{ borderRight: (i + 1) % 3 === 0 ? 'none' : `1px solid ${BLUE}`, borderBottom: i < 3 ? `1px solid ${BLUE}` : 'none' }}>
                 <div className="feat-card-title">{f.title} <span style={{ color: BLUE_DARK }}>→</span></div>
@@ -197,36 +179,44 @@ export default function Home() {
         </div>
       </section>
 
-      {/* DEEP FEATURES — scroll con dots */}
-      <section style={{ background: '#fafcff', borderTop: `1px solid ${BLUE}` }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 64px', maxWidth: 1000, margin: '0 auto', padding: '0 40px' }}>
+      {/* DEEP FEATURES — scroll con nav lateral */}
+      <section style={{ background: '#fafcff', borderTop: `1px solid ${BLUE}`, borderBottom: `1px solid ${BLUE}` }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 220px', maxWidth: 1200, margin: '0 auto', padding: '0 40px' }}>
+
           {/* Left: scrolling items */}
-          <div style={{ paddingRight: 40 }}>
+          <div style={{ paddingRight: 60 }}>
             {deepFeatures.map((f, i) => (
-              <div key={f.title} className="deep-item" style={{ padding: '80px 0', borderBottom: i < deepFeatures.length - 1 ? `1px solid ${BLUE}` : 'none' }}>
+              <div key={f.title} className="deep-item" id={`deep-${i}`} style={{ padding: '80px 0', borderBottom: i < deepFeatures.length - 1 ? `1px solid ${BLUE}` : 'none' }}>
                 <div style={{ width: 52, height: 52, borderRadius: 16, background: BLUE, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, marginBottom: 24 }}>
                   {f.icon}
                 </div>
-                <h3 style={{ fontFamily: F, fontSize: 'clamp(1.4rem,2.5vw,2rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>{f.title}</h3>
-                <p style={{ fontFamily: F, fontSize: 16, color: '#5a7a9a', lineHeight: 1.85, marginBottom: 24, maxWidth: 560 }}>{f.body}</p>
-                <span style={{ fontFamily: F, fontSize: 11, fontWeight: 600, color: BLUE_DARK, letterSpacing: '0.12em' }}>{f.tag}</span>
+                <h3 style={{ fontFamily: F, fontSize: 'clamp(1.6rem,2.5vw,2.2rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>{f.title}</h3>
+                <p style={{ fontFamily: F, fontSize: 16, color: '#5a7a9a', lineHeight: 1.85, marginBottom: 28, maxWidth: 560 }}>{f.body}</p>
+                <span style={{ fontFamily: F, fontSize: 11, fontWeight: 600, color: BLUE_DARK, letterSpacing: '0.14em' }}>{f.tag}</span>
               </div>
             ))}
           </div>
 
-          {/* Right: sticky dots */}
-          <div style={{ position: 'sticky', top: '50vh', height: 'fit-content', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, paddingTop: 0 }}>
-            {deepFeatures.map((_, i) => (
-              <button
-                key={i}
-                className="dot-btn"
-                style={{ background: activeFeatureDot === i ? BLUE_DARK : BLUE, transform: activeFeatureDot === i ? 'scale(1.4)' : 'scale(1)' }}
-                onClick={() => {
-                  const items = document.querySelectorAll('.deep-item')
-                  items[i]?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-                }}
-              />
-            ))}
+          {/* Right: sticky nav labels */}
+          <div style={{ position: 'sticky', top: '30vh', height: 'fit-content', paddingTop: 80 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}>
+              {/* vertical line */}
+              <div style={{ position: 'absolute', right: -16, top: 0, bottom: 0, width: 2, background: BLUE, borderRadius: 2 }}>
+                <div style={{ position: 'absolute', top: `${(activeFeatureDot / (deepFeatures.length - 1)) * 100}%`, width: 2, height: `${100 / deepFeatures.length}%`, background: BLUE_DARK, borderRadius: 2, transition: 'top 0.4s ease' }} />
+              </div>
+              {deepFeatures.map((f, i) => (
+                <button
+                  key={i}
+                  className="nav-dot-label"
+                  style={{ color: activeFeatureDot === i ? INK : '#aac4d8', fontWeight: activeFeatureDot === i ? 600 : 400, fontSize: activeFeatureDot === i ? 14 : 13 }}
+                  onClick={() => {
+                    document.getElementById(`deep-${i}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                  }}
+                >
+                  {f.title}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </section>
