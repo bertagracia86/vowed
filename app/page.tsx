@@ -96,7 +96,7 @@ export default function Home() {
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: #e8f7ff; padding: 5px; }
-        main { border-radius: 24px; overflow: hidden; }
+        main { border-radius: 24px; }
         .nav-a { font-size: 14px; color: ${INK}; text-decoration: none; opacity: 0.7; transition: opacity 0.2s; font-family: ${F}; }
         .nav-a:hover { opacity: 1; }
         .btn-light { background: rgba(255,255,255,0.92); color: ${INK}; border: none; border-radius: 999px; padding: 14px 36px; font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; box-shadow: 0 2px 12px rgba(0,0,0,0.08); font-family: ${F}; }
@@ -124,7 +124,7 @@ export default function Home() {
       `}</style>
 
       {/* NAV */}
-      <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 300, background: scrollY > 20 ? 'rgba(255,255,255,0.98)' : 'white', borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '0 48px', height: 68, display: 'flex', alignItems: 'center', justifyContent: 'space-between', transition: 'all 0.3s', backdropFilter: 'blur(12px)' }}>
+      <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 300, background: scrollY > 20 ? 'rgba(255,255,255,0.98)' : 'white', borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '0 48px', height: 68, display: 'flex', alignItems: 'center', justifyContent: 'space-between', transition: 'all 0.3s', backdropFilter: 'blur(12px)', borderTopLeftRadius: 24, borderTopRightRadius: 24 }}>
         <Link href="/"><img src="/logo.png" alt="mylov3" style={{ height: 26, display: 'block', filter: 'brightness(0) saturate(100%) invert(62%) sepia(40%) saturate(400%) hue-rotate(180deg) brightness(1.1)' }} /></Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
           <span style={{ fontSize: 14, color: INK, opacity: 0.6, fontFamily: F }}>¿Ya tienes cuenta?</span>
@@ -427,7 +427,7 @@ export default function Home() {
       </section>
 
       {/* FOOTER */}
-      <footer style={{ borderTop: `1px solid ${BLUE}`, padding: '32px 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white' }}>
+      <footer style={{ borderTop: `1px solid ${BLUE}`, padding: '32px 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white', borderBottomLeftRadius: 24, borderBottomRightRadius: 24 }}>
         <img src="/logo.png" alt="mylov3" style={{ height: 22, display: 'block', filter: 'brightness(0) saturate(100%) invert(62%) sepia(40%) saturate(400%) hue-rotate(180deg) brightness(1.1)' }} />
         <p style={{ fontFamily: F, fontSize: 13, color: '#7ab8d0' }}>Hecho con ♡ para parejas que quieren disfrutar del proceso</p>
         <p style={{ fontFamily: F, fontSize: 12, color: '#a0d4e8' }}>2025</p>
