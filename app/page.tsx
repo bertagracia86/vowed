@@ -41,8 +41,7 @@ export default function Home() {
     { title: 'Invitados', sub: 'Gestiona confirmaciones, menús y mesas.', img: 'https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=600&q=80', badge: '♡ Confirmar asistencia' },
     { title: 'Web de boda', sub: 'Una página bonita y gratis para vuestros invitados.', img: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600&q=80', badge: '✦ veronicaymarcos.com' },
     { title: 'Proveedores', sub: 'Encuentra y gestiona a tu equipo soñado.', img: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&q=80', badge: '⭐⭐⭐⭐⭐ Estudio Luz' },
-    { title: 'Invitaciones', sub: 'Diseños únicos para personalizar y descargar.', img: 'https://images.unsplash.com/photo-1612630440053-cdc4458c79fd?w=600&q=80', badge: '✎ Personalizar diseño' },
-    { title: 'Lista de invitados', sub: 'Recoge direcciones y confirma asistencias fácilmente.', img: 'https://images.unsplash.com/photo-1546032996-6098e9b04e0a?w=600&q=80', badge: '48 invitados · 32 confirmados' },
+    { title: 'Invitaciones', sub: 'Diseños únicos para personalizar y descargar.', img: '/ChatGPT_Image_Jul_2__2026__12_17_10_PM.png', badge: '✎ Personalizar diseño' },    { title: 'Lista de invitados', sub: 'Recoge direcciones y confirma asistencias fácilmente.', img: 'https://images.unsplash.com/photo-1546032996-6098e9b04e0a?w=600&q=80', badge: '48 invitados · 32 confirmados' },
     { title: 'Presupuesto', sub: 'Controla cada gasto y mantente al día.', img: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?w=600&q=80', badge: '🔔 Recordatorio de pago' },
   ]
 
