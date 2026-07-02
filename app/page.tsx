@@ -179,47 +179,76 @@ export default function Home() {
         </div>
       </section>
 
-      {/* DEEP FEATURES — scroll con nav lateral */}
-      <section style={{ background: '#fafcff', borderTop: `1px solid ${BLUE}`, borderBottom: `1px solid ${BLUE}` }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 220px', maxWidth: 1200, margin: '0 auto', padding: '0 40px' }}>
+      {/* DEEP FEATURES */}
+<section className="deep-section" style={{ background: '#fafcff', borderTop: `1px solid ${BLUE}`, borderBottom: `1px solid ${BLUE}` }}>
+  <div style={{ display: 'grid', gridTemplateColumns: '1fr 280px', maxWidth: 1100, margin: '0 auto', padding: '0 48px', gap: 60 }}>
 
-          {/* Left: scrolling items */}
-          <div style={{ paddingRight: 60 }}>
-            {deepFeatures.map((f, i) => (
-              <div key={f.title} className="deep-item" id={`deep-${i}`} style={{ padding: '80px 0', borderBottom: i < deepFeatures.length - 1 ? `1px solid ${BLUE}` : 'none' }}>
-                <div style={{ width: 52, height: 52, borderRadius: 16, background: BLUE, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, marginBottom: 24 }}>
-                  {f.icon}
-                </div>
-                <h3 style={{ fontFamily: F, fontSize: 'clamp(1.6rem,2.5vw,2.2rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>{f.title}</h3>
-                <p style={{ fontFamily: F, fontSize: 16, color: '#5a7a9a', lineHeight: 1.85, marginBottom: 28, maxWidth: 560 }}>{f.body}</p>
-                <span style={{ fontFamily: F, fontSize: 11, fontWeight: 600, color: BLUE_DARK, letterSpacing: '0.14em' }}>{f.tag}</span>
-              </div>
-            ))}
+    {/* LEFT: scrolling content */}
+    <div>
+      {deepFeatures.map((f, i) => (
+        <div key={f.title} className="deep-item" id={`deep-${i}`} style={{ padding: '80px 0', borderBottom: i < deepFeatures.length - 1 ? `1px solid ${BLUE}` : 'none' }}>
+          <div style={{ width: 52, height: 52, borderRadius: 16, background: BLUE, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, marginBottom: 24 }}>
+            {f.icon}
           </div>
-
-          {/* Right: sticky nav labels */}
-          <div style={{ position: 'sticky', top: '30vh', height: 'fit-content', paddingTop: 80 }}>
-            <div style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}>
-              {/* vertical line */}
-              <div style={{ position: 'absolute', right: -16, top: 0, bottom: 0, width: 2, background: BLUE, borderRadius: 2 }}>
-                <div style={{ position: 'absolute', top: `${(activeFeatureDot / (deepFeatures.length - 1)) * 100}%`, width: 2, height: `${100 / deepFeatures.length}%`, background: BLUE_DARK, borderRadius: 2, transition: 'top 0.4s ease' }} />
-              </div>
-              {deepFeatures.map((f, i) => (
-                <button
-                  key={i}
-                  className="nav-dot-label"
-                  style={{ color: activeFeatureDot === i ? INK : '#aac4d8', fontWeight: activeFeatureDot === i ? 600 : 400, fontSize: activeFeatureDot === i ? 14 : 13 }}
-                  onClick={() => {
-                    document.getElementById(`deep-${i}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-                  }}
-                >
-                  {f.title}
-                </button>
-              ))}
-            </div>
-          </div>
+          <h3 style={{ fontFamily: F, fontSize: 'clamp(1.6rem,2.5vw,2.2rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>{f.title}</h3>
+          <p style={{ fontFamily: F, fontSize: 16, color: '#5a7a9a', lineHeight: 1.85, marginBottom: 28 }}>{f.body}</p>
+          <span style={{ fontFamily: F, fontSize: 11, fontWeight: 600, color: BLUE_DARK, letterSpacing: '0.14em' }}>{f.tag}</span>
         </div>
-      </section>
+      ))}
+    </div>
+
+    {/* RIGHT: sticky nav */}
+    <div style={{ position: 'sticky', top: '50vh', height: 'fit-content', transform: 'translateY(-50%)', paddingTop: 0 }}>
+      <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 0, borderLeft: `2px solid ${BLUE}`, paddingLeft: 20 }}>
+        {/* progress line */}
+        <div style={{
+          position: 'absolute',
+          left: -2,
+          top: `${(activeFeatureDot / deepFeatures.length) * 100}%`,
+          width: 2,
+          height: `${(1 / deepFeatures.length) * 100}%`,
+          background: BLUE_DARK,
+          borderRadius: 2,
+          transition: 'top 0.4s ease, height 0.4s ease'
+        }} />
+
+        {deepFeatures.map((f, i) => (
+          <button
+            key={i}
+            onClick={() => document.getElementById(`deep-${i}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              textAlign: 'left',
+              padding: '10px 0',
+              fontFamily: F,
+              fontSize: activeFeatureDot === i ? 14 : 12,
+              fontWeight: activeFeatureDot === i ? 600 : 400,
+              color: activeFeatureDot === i ? INK : '#aac4d8',
+              transition: 'all 0.3s',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 10,
+            }}
+          >
+            <div style={{
+              width: 8,
+              height: 8,
+              borderRadius: '50%',
+              flexShrink: 0,
+              background: activeFeatureDot === i ? BLUE_DARK : BLUE,
+              transform: activeFeatureDot === i ? 'scale(1.5)' : 'scale(1)',
+              transition: 'all 0.3s',
+            }} />
+            {f.title}
+          </button>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>
 
       {/* DASHBOARD DEMO */}
       <section style={{ padding: '80px 40px 120px', background: BLUE_LIGHT }}>
