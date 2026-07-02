@@ -32,8 +32,7 @@ function FluidCanvas() {
         float g=(h(uv*r*.5+t*99.)-.5)*.015;
         gl_FragColor=vec4(col+g,1.);
       }`
-    function mk(type:number,src:string){const s=gl.createShader(type)!;gl.shaderSource(s,src);gl.compileShader(s);return s}
-    const pg=gl.createProgram()!
+    function mk(type:number,src:string){const s=gl!.createShader(type)!;gl!.shaderSource(s,src);gl!.compileShader(s);return s}    const pg=gl.createProgram()!
     gl.attachShader(pg,mk(gl.VERTEX_SHADER,vert));gl.attachShader(pg,mk(gl.FRAGMENT_SHADER,frag));gl.linkProgram(pg);gl.useProgram(pg)
     const buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf)
     gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW)
