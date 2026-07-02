@@ -2,8 +2,8 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
-const BLUE = '#5bb8e8'
-const BLUE_LIGHT = '#e1f6ff'
+const BLUE = '#cbecff'
+const BLUE_LIGHT = '#e8f7ff'
 const INK = '#1a3a52'
 
 export default function Home() {
