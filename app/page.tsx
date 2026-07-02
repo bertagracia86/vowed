@@ -91,11 +91,11 @@ export default function Home() {
   ]
 
   return (
-    <main style={{ fontFamily: F, overflowX: 'hidden', background: '#f7fbff' }}>
+    <main style={{ fontFamily: F, background: '#f7fbff' }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { background: #e8f7ff; padding: 5px; }
+        html, body { background: #e8f7ff; padding: 5px; overflow-x: hidden; }
         main { border-radius: 24px; }
         .nav-a { font-size: 14px; color: ${INK}; text-decoration: none; opacity: 0.7; transition: opacity 0.2s; font-family: ${F}; }
         .nav-a:hover { opacity: 1; }
