@@ -80,8 +80,7 @@ export default function Home() {
       {/* HERO */}
       <section className="hero-sec" style={{ position: 'relative', height: '100vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 112 }}>
         <video className="hero-bg-video" autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '115%', objectFit: 'cover', marginTop: '-7%', filter: 'brightness(0.48)' }}>
-          <source src="https://assets.mixkit.co/videos/39787/39787-720.mp4" type="video/mp4" />          <img src="https://images.unsplash.com/photo-1605985687770-2e2e82c9b5f1?w=1800&q=80" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-        </video>
+          <source src="https://assets.mixkit.co/videos/11891/11891-720.mp4" type="video/mp4" />        </video>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%)' }} />
         <div className="hero-content" style={{ position: 'relative', zIndex: 10, textAlign: 'center', padding: '0 24px', maxWidth: 860, margin: '0 auto' }}>
           <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(2.2rem,5vw,4.5rem)', fontWeight: 600, color: 'white', lineHeight: 1.05, marginBottom: 28, letterSpacing: '-0.02em' }}>
