@@ -1,13 +1,12 @@
 'use client'
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const BLUE = '#8ec5f7'
 const INK = '#1e3a5f'
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0)
-  const bannerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const s1 = document.createElement('script')
@@ -19,61 +18,32 @@ export default function Home() {
         const { gsap, ScrollTrigger } = window as any
         gsap.registerPlugin(ScrollTrigger)
 
-        // Banner desaparece primero con parallax
         gsap.to('.banner', {
-          yPercent: -120,
-          opacity: 0,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '.hero-sec',
-            start: 'top top',
-            end: '15% top',
-            scrub: true,
-          },
+          yPercent: -120, opacity: 0, ease: 'none',
+          scrollTrigger: { trigger: '.hero-sec', start: 'top top', end: '15% top', scrub: true },
         })
-
-        // Texto hero sube lento
         gsap.to('.hero-content', {
-          yPercent: -18,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '.hero-sec',
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true,
-          },
+          yPercent: -18, ease: 'none',
+          scrollTrigger: { trigger: '.hero-sec', start: 'top top', end: 'bottom top', scrub: true },
         })
-
-        // Imagen de fondo drift
-        gsap.to('.hero-bg', {
-          yPercent: 20,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '.hero-sec',
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true,
-          },
+        gsap.to('.hero-bg-video', {
+          yPercent: 20, ease: 'none',
+          scrollTrigger: { trigger: '.hero-sec', start: 'top top', end: 'bottom top', scrub: true },
         })
-
-        // Secciones reveal
+        gsap.fromTo('.dash-wrap', { y: 80, opacity: 0 }, {
+          y: 0, opacity: 1, duration: 1.2, ease: 'power3.out',
+          scrollTrigger: { trigger: '.dash-wrap', start: 'top 85%' },
+        })
+        gsap.fromTo('.feat-c', { y: 50, opacity: 0 }, {
+          y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: 'power3.out',
+          scrollTrigger: { trigger: '.feats', start: 'top 80%' },
+        })
         gsap.utils.toArray('.sec-reveal').forEach((el: any) => {
           gsap.fromTo(el, { y: 40, opacity: 0 }, {
             y: 0, opacity: 1, duration: 0.9, ease: 'power3.out',
             scrollTrigger: { trigger: el, start: 'top 85%' },
           })
         })
-
-        gsap.fromTo('.feat-c', { y: 50, opacity: 0 }, {
-          y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: 'power3.out',
-          scrollTrigger: { trigger: '.feats', start: 'top 80%' },
-        })
-
-        gsap.fromTo('.dash-wrap', { y: 80, opacity: 0 }, {
-          y: 0, opacity: 1, duration: 1.2, ease: 'power3.out',
-          scrollTrigger: { trigger: '.dash-wrap', start: 'top 85%' },
-        })
-
         ScrollTrigger.refresh()
       }
       document.head.appendChild(s2)
@@ -92,36 +62,25 @@ export default function Home() {
         *{box-sizing:border-box;margin:0;padding:0}
         html,body{background:#8ec5f7;padding:5px;}
         main{border-radius:20px;overflow:hidden;}
-
         .nav-a{font-size:14px;color:${INK};text-decoration:none;opacity:0.7;transition:opacity 0.2s;}
         .nav-a:hover{opacity:1;}
-
         .btn-light{background:rgba(255,255,255,0.92);color:${INK};border:none;border-radius:999px;padding:14px 36px;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;transition:all 0.2s;box-shadow:0 2px 12px rgba(0,0,0,0.1);}
         .btn-light:hover{background:white;transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,0,0,0.15);}
-
         .btn-blue{background:${BLUE};color:white;border:none;border-radius:999px;padding:14px 36px;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;transition:all 0.2s;box-shadow:0 4px 20px rgba(142,197,247,0.5);}
         .btn-blue:hover{transform:translateY(-1px);box-shadow:0 8px 32px rgba(142,197,247,0.7);}
-
         .btn-blue-sm{background:${BLUE};color:white;border:none;border-radius:999px;padding:10px 24px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;transition:all 0.2s;}
         .btn-blue-sm:hover{opacity:0.9;transform:translateY(-1px);}
-
         .feat-c{background:white;border:1px solid rgba(142,197,247,0.2);border-radius:20px;padding:32px;transition:all 0.3s;}
         .feat-c:hover{border-color:rgba(142,197,247,0.5);transform:translateY(-4px);box-shadow:0 16px 48px rgba(142,197,247,0.12);}
-
         @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
         .floating{animation:float 6s ease-in-out infinite;}
-
         @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
         .ticker{display:flex;gap:48px;animation:ticker 24s linear infinite;width:max-content;align-items:center;}
-
-        @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
-        .live-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 2s ease-in-out infinite;flex-shrink:0;}
-
         .scroll-btn{width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.6);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:white;font-size:18px;transition:all 0.2s;}
         .scroll-btn:hover{background:rgba(255,255,255,0.1);}
       `}</style>
 
-      {/* ── NAV ── */}
+      {/* NAV */}
       <nav style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 300,
         background: scrollY > 20 ? 'rgba(255,255,255,0.98)' : 'white',
@@ -134,57 +93,58 @@ export default function Home() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
           <span style={{ fontSize: 14, color: INK, opacity: 0.6 }}>¿Ya tienes cuenta?</span>
           <a href="#" className="nav-a" style={{ textDecoration: 'underline', opacity: 0.8 }}>Inicia sesión</a>
-          <Link href="/dashboard" className="btn-blue-sm">Comience</Link>
+          <Link href="/dashboard" className="btn-blue-sm">¡Empezamos!</Link>
         </div>
       </nav>
 
-      {/* ── BANNER ── */}
+      {/* BANNER */}
       <div className="banner" style={{
         position: 'fixed', top: 68, left: 0, right: 0, zIndex: 200,
-        background: BLUE,
-        padding: '12px 24px',
+        background: BLUE, padding: '12px 24px',
         display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12,
         willChange: 'transform, opacity',
       }}>
         <span style={{ background: 'rgba(255,255,255,0.25)', color: 'white', fontSize: 11, fontWeight: 700, borderRadius: 4, padding: '2px 8px', letterSpacing: '0.04em' }}>Nuevo</span>
-        <span style={{ fontSize: 13, color: 'white', fontWeight: 500 }}>¡Todo gratis para siempre! Planificad vuestra boda sin coste alguno.</span>
+        <span style={{ fontSize: 13, color: 'white', fontWeight: 500 }}>Planifica tu boda.</span>
         <a href="#" style={{ fontSize: 13, color: 'white', fontWeight: 700, textDecoration: 'underline' }}>Pruébalo</a>
       </div>
 
-      {/* ── HERO ── */}
+      {/* HERO */}
       <section className="hero-sec" style={{
         position: 'relative', height: '100vh', overflow: 'hidden',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         paddingTop: 112,
       }}>
-        {/* BG photo */}
-        <img
-          className="hero-bg"
-          src="https://images.unsplash.com/photo-1605985687770-2e2e82c9b5f1?w=1800&q=80"
-          alt=""
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '115%', objectFit: 'cover', marginTop: '-7%', filter: 'brightness(0.52)' }}
-        />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.35) 100%)' }} />
+        {/* Video BG */}
+        <video
+          className="hero-bg-video"
+          autoPlay muted loop playsInline
+          style={{
+            position: 'absolute', inset: 0, width: '100%', height: '115%',
+            objectFit: 'cover', marginTop: '-7%', filter: 'brightness(0.48)',
+          }}
+        >
+          <source src="https://videos.pexels.com/video-files/3009812/3009812-hd_1920_1080_25fps.mp4" type="video/mp4" />
+          {/* Fallback image */}
+          <img src="https://images.unsplash.com/photo-1605985687770-2e2e82c9b5f1?w=1800&q=80" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        </video>
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%)' }} />
 
         {/* Content */}
-        <div className="hero-content" style={{ position: 'relative', zIndex: 10, textAlign: 'center', padding: '0 24px', maxWidth: 900, margin: '0 auto' }}>
+        <div className="hero-content" style={{ position: 'relative', zIndex: 10, textAlign: 'center', padding: '0 24px', maxWidth: 860, margin: '0 auto' }}>
           <h1 style={{
             fontFamily: "'Cormorant Garamond',serif",
-            fontSize: 'clamp(3rem,7vw,6.5rem)',
-            fontWeight: 600,
-            color: 'white',
-            lineHeight: 1.05,
-            marginBottom: 32,
+            fontSize: 'clamp(2.2rem,5vw,4.5rem)',
+            fontWeight: 600, color: 'white',
+            lineHeight: 1.05, marginBottom: 28,
             letterSpacing: '-0.02em',
           }}>
             La planificación de<br />la boda comienza aquí.
           </h1>
           <p style={{
-            fontSize: 'clamp(15px,2vw,19px)',
-            color: 'rgba(255,255,255,0.88)',
-            maxWidth: 560,
-            margin: '0 auto 48px',
-            lineHeight: 1.75,
+            fontSize: 'clamp(14px,1.8vw,18px)',
+            color: 'rgba(255,255,255,0.85)',
+            maxWidth: 520, margin: '0 auto 44px', lineHeight: 1.75,
           }}>
             Desde la finca y el catering hasta la web de boda y los invitados — mylov3 está con vosotros en cada paso del camino.
           </p>
@@ -194,13 +154,12 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Scroll indicator */}
         <div style={{ position: 'absolute', bottom: 36, left: '50%', transform: 'translateX(-50%)', zIndex: 10 }}>
           <button className="scroll-btn" onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}>↓</button>
         </div>
       </section>
 
-      {/* ── TICKER ── */}
+      {/* TICKER */}
       <div style={{ overflow: 'hidden', borderTop: '1px solid rgba(142,197,247,0.2)', borderBottom: '1px solid rgba(142,197,247,0.2)', padding: '18px 0', background: 'white' }}>
         <div className="ticker">
           {['Invitados', '·', 'Presupuesto', '·', 'Mesas', '·', 'Cronograma', '·', 'Proveedores', '·', 'Web de boda', '·', 'Notas', '·', 'Inspiración', '·', 'Invitados', '·', 'Presupuesto', '·', 'Mesas', '·', 'Cronograma', '·', 'Proveedores', '·', 'Web de boda', '·', 'Notas', '·', 'Inspiración', '·'].map((t, i) => (
@@ -209,7 +168,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ── FEATURES ── */}
+      {/* FEATURES */}
       <section style={{ padding: '120px 40px', background: '#f7fbff' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div className="sec-reveal" style={{ marginBottom: 72, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'end' }}>
@@ -239,7 +198,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── DASHBOARD DEMO ── */}
+      {/* DASHBOARD DEMO */}
       <section style={{ padding: '60px 40px 120px', background: '#eef6ff' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div className="sec-reveal" style={{ textAlign: 'center', marginBottom: 64 }}>
@@ -249,7 +208,6 @@ export default function Home() {
             </h2>
           </div>
           <div className="dash-wrap floating" style={{ background: 'white', borderRadius: 20, overflow: 'hidden', boxShadow: '0 40px 120px rgba(45,74,107,0.15)', border: '1px solid rgba(142,197,247,0.2)' }}>
-            {/* Topbar */}
             <div style={{ background: '#f4f8fd', borderBottom: '1px solid rgba(142,197,247,0.15)', padding: '12px 20px', display: 'flex', alignItems: 'center', gap: 12 }}>
               <div style={{ display: 'flex', gap: 6 }}>
                 {['#ff5f57', '#febc2e', '#28c840'].map(c => <div key={c} style={{ width: 10, height: 10, borderRadius: '50%', background: c }} />)}
@@ -312,7 +270,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── PARALLAX QUOTE ── */}
+      {/* PARALLAX QUOTE */}
       <section style={{ position: 'relative', height: '55vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1800&q=80" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '130%', objectFit: 'cover', marginTop: '-15%', filter: 'brightness(0.55)' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(238,246,255,0.15)' }} />
@@ -324,7 +282,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── TESTIMONIALS ── */}
+      {/* TESTIMONIALS */}
       <section style={{ padding: '120px 40px', background: 'white' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div className="sec-reveal" style={{ textAlign: 'center', marginBottom: 72 }}>
@@ -350,7 +308,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── CTA FINAL ── */}
+      {/* CTA FINAL */}
       <section style={{ padding: '120px 40px', background: '#eef6ff', textAlign: 'center' }}>
         <div className="sec-reveal" style={{ maxWidth: 700, margin: '0 auto' }}>
           <div style={{ fontSize: 32, color: BLUE, marginBottom: 24 }}>♡</div>
@@ -362,7 +320,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── FOOTER ── */}
+      {/* FOOTER */}
       <footer style={{ borderTop: '1px solid rgba(142,197,247,0.2)', padding: '32px 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white' }}>
         <img src="/logo.png" alt="mylov3" style={{ height: 22, display: 'block' }} />
         <p style={{ fontSize: 12, color: '#aac4d8' }}>Hecho con ♡ para parejas que quieren disfrutar del proceso</p>
