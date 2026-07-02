@@ -21,22 +21,28 @@ export default function Home() {
       s2.onload = () => {
         const { gsap, ScrollTrigger } = window as any
         gsap.registerPlugin(ScrollTrigger)
+
         gsap.to('.banner', { yPercent: -120, opacity: 0, ease: 'none', scrollTrigger: { trigger: '.hero-sec', start: 'top top', end: '15% top', scrub: true } })
         gsap.to('.hero-content', { yPercent: -18, ease: 'none', scrollTrigger: { trigger: '.hero-sec', start: 'top top', end: 'bottom top', scrub: true } })
         gsap.to('.hero-bg-video', { yPercent: 20, ease: 'none', scrollTrigger: { trigger: '.hero-sec', start: 'top top', end: 'bottom top', scrub: true } })
         gsap.fromTo('.dash-wrap', { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, ease: 'power3.out', scrollTrigger: { trigger: '.dash-wrap', start: 'top 85%' } })
         gsap.fromTo('.feat-grid', { scale: 0.88, opacity: 0 }, { scale: 1, opacity: 1, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: '.feat-grid', start: 'top 85%', toggleActions: 'play none none none' } })
+
+        // Update active dot based on which deep-item is in view
         ;(gsap.utils.toArray('.deep-item') as HTMLElement[]).forEach((el: any, i: number) => {
           gsap.fromTo(el, { opacity: 0, y: 30 }, {
             opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
             scrollTrigger: {
-              trigger: el, start: 'top 60%', end: 'bottom 40%',
+              trigger: el,
+              start: 'top 55%',
+              end: 'bottom 45%',
               toggleActions: 'play none none none',
               onEnter: () => setActiveFeatureDot(i),
               onEnterBack: () => setActiveFeatureDot(i),
             }
           })
         })
+
         gsap.utils.toArray('.sec-reveal').forEach((el: any) => {
           gsap.fromTo(el, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 85%' } })
         })
@@ -89,6 +95,9 @@ export default function Home() {
         .feat-card-sub { font-family: ${F}; font-size: 14px; color: #7a9ab5; line-height: 1.5; min-height: 44px; }
         .feat-badge { display: inline-flex; align-items: center; gap: 6px; background: white; border: 1px solid #eee; border-radius: 999px; padding: 7px 16px; font-size: 12px; font-weight: 500; color: ${INK}; position: absolute; bottom: 14px; left: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); white-space: nowrap; font-family: ${F}; }
         .feat-grid { will-change: transform, opacity; }
+        .deep-nav-btn { background: none; border: none; cursor: pointer; text-align: left; padding: 10px 0; display: flex; align-items: center; gap: 12px; width: 100%; transition: all 0.25s; }
+        .deep-nav-btn:hover span { color: ${INK} !important; }
+        .deep-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; transition: all 0.35s ease; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         .floating { animation: float 6s ease-in-out infinite; }
         @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -96,8 +105,6 @@ export default function Home() {
         .scroll-btn { width: 48px; height: 48px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.6); background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; font-size: 18px; transition: all 0.2s; }
         .scroll-btn:hover { background: rgba(255,255,255,0.1); }
         .review-card { background: ${BLUE_LIGHT}; border: 1px solid ${BLUE}; border-radius: 28px; padding: 32px; }
-        .deep-nav-btn { background: none; border: none; cursor: pointer; text-align: left; padding: 12px 0; display: flex; align-items: center; gap: 12px; width: 100%; transition: all 0.3s; }
-        .deep-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; transition: all 0.3s; }
       `}</style>
 
       {/* NAV */}
@@ -110,24 +117,24 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* BANNER */}
-      <div className="banner" style={{ position: 'fixed', top: 68, left: 0, right: 0, zIndex: 200, background: BLUE_DARK, padding: '12px 24px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, willChange: 'transform, opacity' }}>
-        <span style={{ background: 'rgba(255,255,255,0.25)', color: 'white', fontSize: 12, fontWeight: 600, borderRadius: 8, padding: '2px 10px', fontFamily: F }}>Nuevo</span>
-        <span style={{ fontSize: 14, color: 'white', fontWeight: 500, fontFamily: F }}>Planifica tu boda.</span>
-        <a href="#" style={{ fontSize: 14, color: 'white', fontWeight: 600, textDecoration: 'underline', fontFamily: F }}>Pruébalo</a>
+      {/* BANNER — fino */}
+      <div className="banner" style={{ position: 'fixed', top: 68, left: 0, right: 0, zIndex: 200, background: BLUE_DARK, padding: '7px 24px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, willChange: 'transform, opacity' }}>
+        <span style={{ background: 'rgba(255,255,255,0.25)', color: 'white', fontSize: 11, fontWeight: 600, borderRadius: 6, padding: '1px 8px', fontFamily: F }}>Nuevo</span>
+        <span style={{ fontSize: 13, color: 'white', fontWeight: 500, fontFamily: F }}>Planifica tu boda.</span>
+        <a href="#" style={{ fontSize: 13, color: 'white', fontWeight: 600, textDecoration: 'underline', fontFamily: F }}>Pruébalo</a>
       </div>
 
       {/* HERO */}
-      <section className="hero-sec" style={{ position: 'relative', height: '100vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 112 }}>
-        <video className="hero-bg-video" autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '115%', objectFit: 'cover', marginTop: '-7%', filter: 'brightness(0.62)' }}>
+      <section className="hero-sec" style={{ position: 'relative', height: '100vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 104 }}>
+        <video className="hero-bg-video" autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '115%', objectFit: 'cover', marginTop: '-7%', filter: 'brightness(0.72)' }}>
           <source src="/video.mp4" type="video/mp4" />
         </video>
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.3) 100%)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.22) 100%)' }} />
         <div className="hero-content" style={{ position: 'relative', zIndex: 10, textAlign: 'center', padding: '0 24px', maxWidth: 860, margin: '0 auto' }}>
           <h1 style={{ fontFamily: F, fontSize: 'clamp(2.2rem,5vw,4.5rem)', fontWeight: 600, color: 'white', lineHeight: 1.05, marginBottom: 28, letterSpacing: '-0.02em' }}>
             La planificación de<br />la boda comienza aquí.
           </h1>
-          <p style={{ fontFamily: F, fontSize: 'clamp(15px,1.8vw,19px)', color: 'rgba(255,255,255,0.85)', maxWidth: 520, margin: '0 auto 44px', lineHeight: 1.75 }}>
+          <p style={{ fontFamily: F, fontSize: 'clamp(15px,1.8vw,19px)', color: 'rgba(255,255,255,0.88)', maxWidth: 520, margin: '0 auto 44px', lineHeight: 1.75 }}>
             Desde la finca y el catering hasta la web de boda y los invitados — mylov3 está con vosotros en cada paso del camino.
           </p>
           <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -173,11 +180,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* DEEP FEATURES — 2 col, right sticky */}
+      {/* DEEP FEATURES — left scrolls, right sticky */}
       <section style={{ background: '#fafcff', borderTop: `1px solid ${BLUE}`, borderBottom: `1px solid ${BLUE}` }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 48px', display: 'grid', gridTemplateColumns: '1fr 240px', gap: 80, alignItems: 'start' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 48px', display: 'grid', gridTemplateColumns: '1fr 220px', gap: 80, alignItems: 'start' }}>
 
-          {/* LEFT: scrolling items */}
+          {/* LEFT — scrolls normally */}
           <div>
             {deepFeatures.map((f, i) => (
               <div key={f.title} className="deep-item" id={`deep-${i}`} style={{ padding: '80px 0', borderBottom: i < deepFeatures.length - 1 ? `1px solid ${BLUE}` : 'none' }}>
@@ -191,19 +198,19 @@ export default function Home() {
             ))}
           </div>
 
-          {/* RIGHT: sticky nav */}
+          {/* RIGHT — sticky, stays fixed while left scrolls */}
           <div style={{ position: 'sticky', top: '35vh', alignSelf: 'start' }}>
-            <div style={{ position: 'relative', paddingLeft: 24, borderLeft: `2px solid ${BLUE}` }}>
-              {/* active progress indicator */}
+            <div style={{ position: 'relative', paddingLeft: 22, borderLeft: `2px solid ${BLUE}` }}>
+              {/* progress bar */}
               <div style={{
                 position: 'absolute',
                 left: -2,
-                top: `calc(${(activeFeatureDot / deepFeatures.length) * 100}% + 12px)`,
+                top: `${(activeFeatureDot / deepFeatures.length) * 100}%`,
                 width: 2,
-                height: `calc(${(1 / deepFeatures.length) * 100}% - 8px)`,
+                height: `${(1 / deepFeatures.length) * 100}%`,
                 background: BLUE_DARK,
                 borderRadius: 2,
-                transition: 'top 0.4s ease',
+                transition: 'top 0.45s cubic-bezier(.16,1,.3,1)',
               }} />
               {deepFeatures.map((f, i) => (
                 <button
@@ -213,11 +220,11 @@ export default function Home() {
                 >
                   <div className="deep-dot" style={{
                     background: activeFeatureDot === i ? BLUE_DARK : BLUE,
-                    transform: activeFeatureDot === i ? 'scale(1.6)' : 'scale(1)',
+                    transform: activeFeatureDot === i ? 'scale(1.7)' : 'scale(1)',
                   }} />
                   <span style={{
                     fontFamily: F,
-                    fontSize: activeFeatureDot === i ? 14 : 13,
+                    fontSize: activeFeatureDot === i ? 14 : 12,
                     fontWeight: activeFeatureDot === i ? 600 : 400,
                     color: activeFeatureDot === i ? INK : '#aac4d8',
                     transition: 'all 0.3s',
