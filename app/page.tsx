@@ -22,7 +22,6 @@ export default function Home() {
         gsap.to('.hero-content', { yPercent: -18, ease: 'none', scrollTrigger: { trigger: '.hero-sec', start: 'top top', end: 'bottom top', scrub: true } })
         gsap.to('.hero-bg-video', { yPercent: 20, ease: 'none', scrollTrigger: { trigger: '.hero-sec', start: 'top top', end: 'bottom top', scrub: true } })
         gsap.fromTo('.dash-wrap', { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, ease: 'power3.out', scrollTrigger: { trigger: '.dash-wrap', start: 'top 85%' } })
-        gsap.fromTo('.feat-c', { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: 'power3.out', scrollTrigger: { trigger: '.feats', start: 'top 80%' } })
         gsap.utils.toArray('.sec-reveal').forEach((el: any) => {
           gsap.fromTo(el, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 85%' } })
         })
@@ -36,6 +35,15 @@ export default function Home() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  const features = [
+    { title: 'Invitados', arrow: '→', sub: 'Gestiona confirmaciones, menús y mesas.', img: 'https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=600&q=80', badge: '♡ Confirmar asistencia' },
+    { title: 'Web de boda', arrow: '→', sub: 'Una página bonita y gratis para vuestros invitados.', img: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600&q=80', badge: '✦ veronicaymarcos.com' },
+    { title: 'Proveedores', arrow: '→', sub: 'Encuentra y gestiona a tu equipo soñado.', img: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&q=80', badge: '⭐⭐⭐⭐⭐ Estudio Luz' },
+    { title: 'Invitaciones', arrow: '→', sub: 'Diseños únicos para personalizar y descargar.', img: 'https://images.unsplash.com/photo-1612630440053-cdc4458c79fd?w=600&q=80', badge: '✎ Personalizar diseño' },
+    { title: 'Lista de invitados', arrow: '→', sub: 'Recoge direcciones y confirma asistencias fácilmente.', img: 'https://images.unsplash.com/photo-1546032996-6098e9b04e0a?w=600&q=80', badge: '48 invitados · 32 confirmados' },
+    { title: 'Presupuesto', arrow: '→', sub: 'Controla cada gasto y mantente al día.', img: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?w=600&q=80', badge: '🔔 Recordatorio de pago' },
+  ]
+
   return (
     <main style={{ fontFamily: "'Inter',sans-serif", overflowX: 'hidden', background: '#f7fbff' }}>
       <style>{`
@@ -46,13 +54,17 @@ export default function Home() {
         .nav-a{font-size:14px;color:${INK};text-decoration:none;opacity:0.7;transition:opacity 0.2s;}
         .nav-a:hover{opacity:1;}
         .btn-light{background:rgba(255,255,255,0.92);color:${INK};border:none;border-radius:999px;padding:14px 36px;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;transition:all 0.2s;box-shadow:0 2px 12px rgba(0,0,0,0.1);}
-        .btn-light:hover{background:white;transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,0,0,0.15);}
+        .btn-light:hover{background:white;transform:translateY(-1px);}
         .btn-blue{background:${BLUE};color:white;border:none;border-radius:999px;padding:14px 36px;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;transition:all 0.2s;box-shadow:0 4px 20px rgba(91,184,232,0.4);}
         .btn-blue:hover{transform:translateY(-1px);box-shadow:0 8px 32px rgba(91,184,232,0.6);}
         .btn-blue-sm{background:${BLUE};color:white;border:none;border-radius:999px;padding:10px 24px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;transition:all 0.2s;}
         .btn-blue-sm:hover{opacity:0.9;transform:translateY(-1px);}
-        .feat-c{background:white;border:1px solid rgba(91,184,232,0.2);border-radius:20px;padding:32px;transition:all 0.3s;}
-        .feat-c:hover{border-color:rgba(91,184,232,0.4);transform:translateY(-4px);box-shadow:0 16px 48px rgba(91,184,232,0.1);}
+        .feat-card{border-right:1px solid #eee;border-bottom:1px solid #eee;padding:28px 24px;background:white;transition:background 0.2s;cursor:pointer;}
+        .feat-card:hover{background:#fafeff;}
+        .feat-card img{width:100%;border-radius:12px;object-fit:cover;height:180px;display:block;margin-top:16px;}
+        .feat-card-title{font-size:16px;font-weight:500;color:${INK};display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+        .feat-card-sub{font-size:13px;color:#7a9ab5;line-height:1.5;}
+        .feat-badge{display:inline-flex;align-items:center;gap:6px;background:white;border:1px solid #eee;border-radius:999px;padding:6px 14px;font-size:11px;font-weight:500;color:${INK};position:absolute;bottom:12px;left:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);white-space:nowrap;}
         @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
         .floating{animation:float 6s ease-in-out infinite;}
         @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -111,26 +123,30 @@ export default function Home() {
         </div>
       </div>
 
-      {/* FEATURES */}
-      <section style={{ padding: '120px 40px', background: '#f7fbff' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div className="sec-reveal" style={{ marginBottom: 72, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'end' }}>
-            <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(2rem,4vw,3.5rem)', fontWeight: 400, color: INK, lineHeight: 1.1, letterSpacing: '-0.02em' }}>Todo en un<br />solo lugar</h2>
-            <p style={{ fontSize: 15, color: '#7a9ab5', lineHeight: 1.85, paddingBottom: 4 }}>Sin hojas de cálculo. Sin apps separadas. Sin estrés. Cada herramienta diseñada para que disfrutéis del proceso.</p>
+      {/* ── ZOLA-STYLE FEATURES ── */}
+      <section style={{ background: 'white' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr' }}>
+
+          {/* Left sticky col */}
+          <div style={{ padding: '64px 48px', borderRight: '1px solid #eee', position: 'sticky', top: 68, height: 'fit-content' }}>
+            <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.8rem,2.5vw,2.6rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
+              Todo lo que necesitáis para planificar la boda que queréis
+            </h2>
+            <p style={{ fontSize: 14, color: '#7a9ab5', lineHeight: 1.7 }}>Para todos los días del camino</p>
           </div>
-          <div className="feats" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 16 }}>
-            {[
-              { icon: '♡', t: 'Invitados', d: 'RSVPs, menús y asignación de mesas. Todo junto.' },
-              { icon: '€', t: 'Presupuesto', d: 'Controla cada gasto y recibe alertas antes de pasarte.' },
-              { icon: '⊞', t: 'Mesas', d: 'Arrastra y suelta. El plano más sencillo que existe.' },
-              { icon: '📅', t: 'Cronograma', d: 'Cuenta atrás e hitos. Nunca os olvidaréis de nada.' },
-              { icon: '◎', t: 'Proveedores', d: 'Fotógrafo, catering, DJ. Estado y presupuesto de cada uno.' },
-              { icon: '✦', t: 'Web de boda', d: 'Una página bonita para vuestros invitados. Gratis.' },
-            ].map(f => (
-              <div key={f.t} className="feat-c">
-                <div style={{ fontSize: 24, marginBottom: 20, color: BLUE }}>{f.icon}</div>
-                <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 22, color: INK, marginBottom: 10, fontWeight: 400 }}>{f.t}</p>
-                <p style={{ fontSize: 13, color: '#7a9ab5', lineHeight: 1.75 }}>{f.d}</p>
+
+          {/* Right 2x3 grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)' }}>
+            {features.map((f, i) => (
+              <div key={f.title} className="feat-card" style={{ borderRight: (i + 1) % 3 === 0 ? 'none' : '1px solid #eee', borderBottom: i < 3 ? '1px solid #eee' : 'none' }}>
+                <div className="feat-card-title">
+                  {f.title} <span style={{ color: BLUE }}>{f.arrow}</span>
+                </div>
+                <p className="feat-card-sub">{f.sub}</p>
+                <div style={{ position: 'relative', marginTop: 16 }}>
+                  <img src={f.img} alt={f.title} style={{ width: '100%', height: 180, objectFit: 'cover', borderRadius: 12, display: 'block' }} />
+                  <div className="feat-badge">{f.badge}</div>
+                </div>
               </div>
             ))}
           </div>
@@ -138,7 +154,7 @@ export default function Home() {
       </section>
 
       {/* DASHBOARD DEMO */}
-      <section style={{ padding: '60px 40px 120px', background: BLUE_LIGHT }}>
+      <section style={{ padding: '80px 40px 120px', background: BLUE_LIGHT }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div className="sec-reveal" style={{ textAlign: 'center', marginBottom: 64 }}>
             <span style={{ display: 'inline-block', fontSize: 11, color: BLUE, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 16, fontWeight: 600 }}>Demo en vivo</span>
