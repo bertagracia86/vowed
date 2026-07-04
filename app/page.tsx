@@ -219,9 +219,10 @@ export default function Home() {
           <div>
             {features.map((f, i) => (
               <div key={f.title} className="mobile-step" id={`mobile-${i}`} style={{ padding: '48px 0' }}>
-                <div style={{ borderRadius: 24, overflow: 'hidden', boxShadow: '0 24px 70px rgba(142,197,247,0.2)' }}>
+                <div style={{ borderRadius: 24, overflow: 'hidden', boxShadow: '0 24px 70px rgba(142,197,247,0.2)', marginBottom: 24 }}>
                   <img src={f.img} alt={f.title} style={{ width: '100%', height: 480, objectFit: 'cover', display: 'block' }} />
                 </div>
+                <Link href="/dashboard" className="btn-blue">Probar {f.title}</Link>
               </div>
             ))}
           </div>
