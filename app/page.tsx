@@ -202,7 +202,7 @@ export default function Home() {
                 <div className="feat-card-title">{f.title} <span style={{ color: BLUE_DARK }}>→</span></div>
                 <p className="feat-card-sub">{f.sub}</p>
                 <div style={{ position: 'relative', marginTop: 16, flex: 1, overflow: 'hidden', borderRadius: 18 }}>
-                  <img src={f.img} alt={f.title} style={{ width: '100%', height: '100%', minHeight: 200, objectFit: 'cover', display: 'block', ...(f.imgStyle || {}) }} />
+                  <img src={f.img} alt={f.title} style={{ width: '100%', height: '100%', minHeight: 200, objectFit: 'cover', display: 'block' }} />
                   <div className="feat-badge">{f.badge}</div>
                 </div>
               </div>
@@ -220,7 +220,7 @@ export default function Home() {
             {features.map((f, i) => (
               <div key={f.title} className="mobile-step" id={`mobile-${i}`} style={{ padding: '48px 0' }}>
                 <div style={{ borderRadius: 24, overflow: 'hidden', boxShadow: '0 24px 70px rgba(142,197,247,0.2)' }}>
-                  <img src={f.img} alt={f.title} style={{ width: '100%', height: 480, objectFit: 'cover', display: 'block', ...(f.imgStyle || {}) }} />
+                  <img src={f.img} alt={f.title} style={{ width: '100%', height: 480, objectFit: 'cover', display: 'block' }} />
                 </div>
               </div>
             ))}
