@@ -10,7 +10,6 @@ const F = "'Cormorant Garamond', serif"
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0)
-  const [activeFeatureDot, setActiveFeatureDot] = useState(0)
   const [activeMobileDot, setActiveMobileDot] = useState(0)
 
   useEffect(() => {
@@ -28,21 +27,6 @@ export default function Home() {
         gsap.to('.hero-bg-video', { yPercent: 20, ease: 'none', scrollTrigger: { trigger: '.hero-sec', start: 'top top', end: 'bottom top', scrub: true } })
         gsap.fromTo('.dash-wrap', { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, ease: 'power3.out', scrollTrigger: { trigger: '.dash-wrap', start: 'top 85%' } })
         gsap.fromTo('.feat-grid', { scale: 0.88, opacity: 0 }, { scale: 1, opacity: 1, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: '.feat-grid', start: 'top 85%', toggleActions: 'play none none none' } })
-
-        // Update active dot based on which deep-item is in view
-        ;(gsap.utils.toArray('.deep-item') as HTMLElement[]).forEach((el: any, i: number) => {
-          gsap.fromTo(el, { opacity: 0, y: 30 }, {
-            opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
-            scrollTrigger: {
-              trigger: el,
-              start: 'top 55%',
-              end: 'bottom 45%',
-              toggleActions: 'play none none none',
-              onEnter: () => setActiveFeatureDot(i),
-              onEnterBack: () => setActiveFeatureDot(i),
-            }
-          })
-        })
 
         // Update active dot for the mobile showcase based on which mobile-step is in view
         ;(gsap.utils.toArray('.mobile-step') as HTMLElement[]).forEach((el: any, i: number) => {
@@ -71,8 +55,6 @@ export default function Home() {
           pin: '#mobile-nav-pin',
           pinSpacing: false,
         })
-        ScrollTrigger.create({ trigger: '#deep-features-grid', start: 'top top+=110', end: 'bottom bottom', pin: '#deep-nav-pin', pinSpacing: false })
-
         ScrollTrigger.refresh()
       }
       document.head.appendChild(s2)
@@ -92,15 +74,6 @@ export default function Home() {
     { title: 'Detalles', sub: 'Cada detalle de vuestra boda, organizado y a mano.', img: '/detalles.png', badge: '✦ Todo bajo control' },
   ]
 
-  const deepFeatures = [
-    { icon: '€', title: 'Calculadora de presupuesto', body: 'Controla los gastos de la boda con una asignación inteligente de categorías. Supervisa los pagos a proveedores, los depósitos y los costes finales con alertas presupuestarias en tiempo real.', tag: 'REGISTRA CADA GASTO' },
-    { icon: '♡', title: 'Gestor de invitados', body: 'Gestiona las confirmaciones de asistencia, controla los requisitos dietéticos, gestiona los acompañantes y exporta la lista completa de invitados para las invitaciones y las tarjetas de mesa.', tag: 'SEGUIMIENTO DE RSVP INTEGRADO' },
-    { icon: '⊞', title: 'Plano de asientos', body: 'Crea la distribución de las mesas de tu boda fácilmente con la función de arrastrar y soltar. Diseña la distribución de la recepción con mesas redondas, rectangulares y mesas principales.', tag: 'ARRASTRAR Y SOLTAR VISUALMENTE' },
-    { icon: '☑', title: 'Lista de verificación', body: 'No te pierdas ninguna fecha límite para tu boda gracias a las tareas sugeridas. Los elementos de la lista se vinculan con tus proveedores y categorías de presupuesto para una planificación completa.', tag: 'TODO ORGANIZADO Y A TIEMPO' },
-    { icon: '◎', title: 'Gestión de proveedores', body: 'Mantén todos los contactos, contratos y calendarios de pagos de los proveedores de tu boda en un solo lugar. Controla los depósitos y los pagos finales de cada proveedor.', tag: 'TODOS LOS VENDEDORES ORGANIZADOS' },
-    { icon: '📅', title: 'Cronograma de pagos', body: 'Visualiza los próximos pagos y fechas de vencimiento de tu boda. Recibe alertas sobre depósitos, cuotas y pagos finales para que nunca te pierdas una fecha límite.', tag: 'NUNCA TE PIERDAS UN PAGO' },
-  ]
-
   return (
     <main style={{ fontFamily: F, background: '#f7fbff' }}>
       <style>{`
@@ -110,6 +83,8 @@ export default function Home() {
         main { border-radius: 24px; }
         .nav-a { font-size: 14px; color: ${INK}; text-decoration: none; opacity: 0.7; transition: opacity 0.2s; font-family: ${F}; }
         .nav-a:hover { opacity: 1; }
+        .footer-a { display: block; font-family: ${F}; font-size: 14px; color: #5a7a9a; text-decoration: none; margin-bottom: 14px; transition: color 0.2s; }
+        .footer-a:hover { color: ${INK}; }
         .btn-light { background: rgba(255,255,255,0.92); color: ${INK}; border: none; border-radius: 999px; padding: 14px 36px; font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; box-shadow: 0 2px 12px rgba(0,0,0,0.08); font-family: ${F}; }
         .btn-light:hover { background: white; transform: translateY(-1px); }
         .btn-blue { background: ${BLUE_DARK}; color: white; border: none; border-radius: 999px; padding: 14px 36px; font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; box-shadow: 0 4px 20px rgba(142,197,247,0.35); font-family: ${F}; }
@@ -268,63 +243,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* DEEP FEATURES — left scrolls, right sticky */}
-      <section style={{ background: '#fafcff', borderTop: `1px solid ${BLUE}`, borderBottom: `1px solid ${BLUE}` }}>
-        <div id="deep-features-grid" style={{ maxWidth: 1100, margin: '0 auto', padding: '0 48px', display: 'grid', gridTemplateColumns: '1fr 220px', gap: 80 }}>
-
-          {/* LEFT — scrolls normally */}
-          <div>
-            {deepFeatures.map((f, i) => (
-              <div key={f.title} className="deep-item" id={`deep-${i}`} style={{ padding: '80px 0', borderBottom: i < deepFeatures.length - 1 ? `1px solid ${BLUE}` : 'none' }}>
-                <div style={{ width: 52, height: 52, borderRadius: 16, background: BLUE, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, marginBottom: 24 }}>
-                  {f.icon}
-                </div>
-                <h3 style={{ fontFamily: F, fontSize: 'clamp(1.6rem,2.5vw,2.2rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>{f.title}</h3>
-                <p style={{ fontFamily: F, fontSize: 16, color: '#5a7a9a', lineHeight: 1.85, marginBottom: 28 }}>{f.body}</p>
-                <span style={{ fontFamily: F, fontSize: 11, fontWeight: 600, color: BLUE_DARK, letterSpacing: '0.14em' }}>{f.tag}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* RIGHT — fijada por GSAP ScrollTrigger mientras la izquierda hace scroll */}
-          <div id="deep-nav-pin">
-            <div style={{ position: 'relative', paddingLeft: 22, borderLeft: `2px solid ${BLUE}` }}>
-              {/* progress bar */}
-              <div style={{
-                position: 'absolute',
-                left: -2,
-                top: `${(activeFeatureDot / deepFeatures.length) * 100}%`,
-                width: 2,
-                height: `${(1 / deepFeatures.length) * 100}%`,
-                background: BLUE_DARK,
-                borderRadius: 2,
-                transition: 'top 0.45s cubic-bezier(.16,1,.3,1)',
-              }} />
-              {deepFeatures.map((f, i) => (
-                <button
-                  key={i}
-                  className="deep-nav-btn"
-                  onClick={() => document.getElementById(`deep-${i}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
-                >
-                  <div className="deep-dot" style={{
-                    background: activeFeatureDot === i ? BLUE_DARK : BLUE,
-                    transform: activeFeatureDot === i ? 'scale(1.7)' : 'scale(1)',
-                  }} />
-                  <span style={{
-                    fontFamily: F,
-                    fontSize: activeFeatureDot === i ? 14 : 12,
-                    fontWeight: activeFeatureDot === i ? 600 : 400,
-                    color: activeFeatureDot === i ? INK : '#aac4d8',
-                    transition: 'all 0.3s',
-                  }}>{f.title}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-        </div>
-      </section>
-
       {/* DASHBOARD DEMO */}
       <section style={{ padding: '80px 40px 120px', background: BLUE_LIGHT }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
@@ -446,10 +364,47 @@ export default function Home() {
       </section>
 
       {/* FOOTER */}
-      <footer style={{ borderTop: `1px solid ${BLUE}`, padding: '32px 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white', borderBottomLeftRadius: 24, borderBottomRightRadius: 24 }}>
-        <img src="/logo.png" alt="mylov3" style={{ height: 22, display: 'block', filter: 'brightness(0) saturate(100%) invert(62%) sepia(40%) saturate(400%) hue-rotate(180deg) brightness(1.1)' }} />
-        <p style={{ fontFamily: F, fontSize: 13, color: '#7ab8d0' }}>Hecho con ♡ para parejas que quieren disfrutar del proceso</p>
-        <p style={{ fontFamily: F, fontSize: 12, color: '#a0d4e8' }}>2025</p>
+      <footer style={{ borderTop: `1px solid ${BLUE}`, background: BLUE_LIGHT, borderBottomLeftRadius: 24, borderBottomRightRadius: 24 }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '64px 48px 40px', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1.3fr', gap: 40 }}>
+          <div>
+            <p style={{ fontFamily: F, fontSize: 14, fontWeight: 600, color: INK, marginBottom: 20 }}>Producto</p>
+            {['Invitados', 'Web de boda', 'Proveedores', 'Invitaciones', 'Presupuesto', 'Detalles'].map(l => (
+              <a key={l} href="#" className="footer-a">{l}</a>
+            ))}
+          </div>
+          <div>
+            <p style={{ fontFamily: F, fontSize: 14, fontWeight: 600, color: INK, marginBottom: 20 }}>Ayuda y soporte</p>
+            <a href="#" className="footer-a">Preguntas frecuentes</a>
+            <a href="#" className="footer-a">Contacto</a>
+            <a href="#" className="footer-a">Política de privacidad</a>
+            <a href="#" className="footer-a">Términos y condiciones</a>
+          </div>
+          <div>
+            <p style={{ fontFamily: F, fontSize: 14, fontWeight: 600, color: INK, marginBottom: 20 }}>Sobre mylov3</p>
+            <a href="#" className="footer-a">Nuestra historia</a>
+            <a href="#" className="footer-a">Blog de bodas</a>
+            <a href="#" className="footer-a">Inspiración</a>
+          </div>
+          <div>
+            <div style={{ fontFamily: F, fontSize: 22, fontStyle: 'italic', fontWeight: 700, color: BLUE_DARK, marginBottom: 10 }}>mylov3 ♡</div>
+            <p style={{ fontFamily: F, fontSize: 14, color: '#5a7a9a', marginBottom: 20 }}>Para todos los días del camino</p>
+            <a href="#" className="footer-a">Iniciar sesión →</a>
+            <Link href="/dashboard" className="footer-a" style={{ display: 'block' }}>Encuentra vuestra boda →</Link>
+            <Link href="/dashboard" className="btn-blue" style={{ marginTop: 16, fontSize: 14, padding: '11px 28px' }}>Empezar gratis</Link>
+            <div style={{ display: 'flex', gap: 10, marginTop: 24 }}>
+              {['IG', 'FB', 'PIN', 'TT'].map(s => (
+                <a key={s} href="#" style={{ width: 34, height: 34, borderRadius: '50%', border: `1px solid ${BLUE}`, background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: F, fontSize: 10, fontWeight: 600, color: BLUE_DARK, textDecoration: 'none' }}>{s}</a>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div style={{ borderTop: `1px solid ${BLUE}`, padding: '20px 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+          <div style={{ display: 'flex', gap: 24 }}>
+            <a href="#" className="footer-a" style={{ marginBottom: 0 }}>Privacidad</a>
+            <a href="#" className="footer-a" style={{ marginBottom: 0 }}>Términos</a>
+          </div>
+          <p style={{ fontFamily: F, fontSize: 12, color: '#7ab8d0' }}>© 2026 mylov3. Todos los derechos reservados.</p>
+        </div>
       </footer>
     </main>
   )
