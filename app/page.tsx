@@ -89,7 +89,7 @@ export default function Home() {
 
   const features = [
     { title: 'Invitados', sub: 'Gestiona confirmaciones, menús y mesas.', img: '/invitados.png', badge: '♡ Confirmar asistencia' },
-    { title: 'Web de boda', sub: 'Una página bonita y gratis para vuestros invitados.', img: '/web-de-boda.png', badge: '✦ veronicaymarcos.com', imgStyle: { objectPosition: '50% 30%', transform: 'scale(2.3)', transformOrigin: '50% 38%' } },
+    { title: 'Web de boda', sub: 'Una página bonita y gratis para vuestros invitados.', img: '/web-de-boda.png', badge: '✦ veronicaymarcos.com' },
     { title: 'Proveedores', sub: 'Encuentra y gestiona a tu equipo soñado.', img: '/proveedores.png', badge: '⭐⭐⭐⭐⭐ Estudio Luz' },
     { title: 'Invitaciones', sub: 'Diseños únicos para personalizar y descargar.', img: '/invitaciones.png', badge: '✎ Personalizar diseño' },
     { title: 'Presupuesto', sub: 'Controla cada gasto y mantente al día.', img: '/presupuesto.png', badge: '🔔 Recordatorio de pago' },
