@@ -64,7 +64,17 @@ export default function Home() {
         })
 
         // Pin de las columnas de los 6 subapartados mientras la izquierda hace scroll
-        ScrollTrigger.create({ trigger: '#mobile-showcase-grid', start: 'top top', end: 'bottom bottom', pin: '#mobile-nav-pin', pinSpacing: false })
+        ScrollTrigger.create({
+          trigger: '#mobile-showcase-grid',
+          start: () => {
+            const el = document.getElementById('mobile-nav-pin')
+            const h = el ? el.offsetHeight : 0
+            return 'top top+=' + Math.max(0, (window.innerHeight - h) / 2)
+          },
+          end: 'bottom bottom',
+          pin: '#mobile-nav-pin',
+          pinSpacing: false,
+        })
         ScrollTrigger.create({ trigger: '#deep-features-grid', start: 'top top+=110', end: 'bottom bottom', pin: '#deep-nav-pin', pinSpacing: false })
 
         ScrollTrigger.refresh()
@@ -217,7 +227,7 @@ export default function Home() {
           </div>
 
           {/* RIGHT — fijada por GSAP ScrollTrigger y centrada verticalmente, 6 subapartados en negrita según scroll */}
-          <div id="mobile-nav-pin" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
+          <div id="mobile-nav-pin" style={{ alignSelf: 'start' }}>
             <div style={{ background: BLUE_LIGHT, border: `1px solid ${BLUE}`, borderRadius: 24, padding: '28px 24px' }}>
               <div style={{ position: 'relative', paddingLeft: 22, borderLeft: `2px solid ${BLUE}` }}>
                 <div style={{
