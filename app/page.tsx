@@ -62,6 +62,11 @@ export default function Home() {
         gsap.utils.toArray('.sec-reveal').forEach((el: any) => {
           gsap.fromTo(el, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 85%' } })
         })
+
+        // Pin de las columnas de los 6 subapartados mientras la izquierda hace scroll
+        ScrollTrigger.create({ trigger: '#mobile-showcase-grid', start: 'top top+=110', end: 'bottom bottom', pin: '#mobile-nav-pin', pinSpacing: false })
+        ScrollTrigger.create({ trigger: '#deep-features-grid', start: 'top top+=110', end: 'bottom bottom', pin: '#deep-nav-pin', pinSpacing: false })
+
         ScrollTrigger.refresh()
       }
       document.head.appendChild(s2)
@@ -95,7 +100,7 @@ export default function Home() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { background: #e8f7ff; padding: 5px; overflow-x: hidden; }
+        html, body { background: #e8f7ff; padding: 5px; }
         main { border-radius: 24px; }
         .nav-a { font-size: 14px; color: ${INK}; text-decoration: none; opacity: 0.7; transition: opacity 0.2s; font-family: ${F}; }
         .nav-a:hover { opacity: 1; }
@@ -198,7 +203,7 @@ export default function Home() {
 
       {/* MOBILE SHOWCASE — left desliza con las imágenes, right sticky con 6 subapartados en negrita */}
       <section style={{ background: 'white', borderTop: `1px solid ${BLUE}` }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 48px', display: 'grid', gridTemplateColumns: '1fr 220px', gap: 80 }}>
+        <div id="mobile-showcase-grid" style={{ maxWidth: 1100, margin: '0 auto', padding: '0 48px', display: 'grid', gridTemplateColumns: '1fr 220px', gap: 80 }}>
 
           {/* LEFT — se desliza con el scroll normal de la página */}
           <div>
@@ -211,8 +216,8 @@ export default function Home() {
             ))}
           </div>
 
-          {/* RIGHT — sticky, 6 subapartados en negrita según scroll */}
-          <div style={{ position: 'sticky', top: '35vh' }}>
+          {/* RIGHT — fijada por GSAP ScrollTrigger, 6 subapartados en negrita según scroll */}
+          <div id="mobile-nav-pin">
             <div style={{ position: 'relative', paddingLeft: 22, borderLeft: `2px solid ${BLUE}` }}>
               <div style={{
                 position: 'absolute',
@@ -251,7 +256,7 @@ export default function Home() {
 
       {/* DEEP FEATURES — left scrolls, right sticky */}
       <section style={{ background: '#fafcff', borderTop: `1px solid ${BLUE}`, borderBottom: `1px solid ${BLUE}` }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 48px', display: 'grid', gridTemplateColumns: '1fr 220px', gap: 80 }}>
+        <div id="deep-features-grid" style={{ maxWidth: 1100, margin: '0 auto', padding: '0 48px', display: 'grid', gridTemplateColumns: '1fr 220px', gap: 80 }}>
 
           {/* LEFT — scrolls normally */}
           <div>
@@ -267,8 +272,8 @@ export default function Home() {
             ))}
           </div>
 
-          {/* RIGHT — sticky, stays fixed while left scrolls */}
-          <div style={{ position: 'sticky', top: '35vh' }}>
+          {/* RIGHT — fijada por GSAP ScrollTrigger mientras la izquierda hace scroll */}
+          <div id="deep-nav-pin">
             <div style={{ position: 'relative', paddingLeft: 22, borderLeft: `2px solid ${BLUE}` }}>
               {/* progress bar */}
               <div style={{
