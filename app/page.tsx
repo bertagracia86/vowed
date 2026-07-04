@@ -66,11 +66,7 @@ export default function Home() {
         // Pin de las columnas de los 6 subapartados mientras la izquierda hace scroll
         ScrollTrigger.create({
           trigger: '#mobile-showcase-grid',
-          start: () => {
-            const el = document.getElementById('mobile-nav-pin')
-            const h = el ? el.offsetHeight : 0
-            return 'top top+=' + Math.max(0, (window.innerHeight - h) / 2)
-          },
+          start: 'top top',
           end: 'bottom bottom',
           pin: '#mobile-nav-pin',
           pinSpacing: false,
@@ -218,18 +214,23 @@ export default function Home() {
           {/* LEFT — se desliza con el scroll normal de la página */}
           <div>
             {features.map((f, i) => (
-              <div key={f.title} className="mobile-step" id={`mobile-${i}`} style={{ padding: '48px 0' }}>
-                <div style={{ borderRadius: 24, overflow: 'hidden', boxShadow: '0 24px 70px rgba(142,197,247,0.2)', marginBottom: 24 }}>
+              <div key={f.title} className="mobile-step" id={`mobile-${i}`} style={{ padding: '48px 0', display: 'flex', alignItems: 'center', gap: 40 }}>
+                <div style={{ flex: '1 1 55%', borderRadius: 24, overflow: 'hidden', boxShadow: '0 24px 70px rgba(142,197,247,0.2)' }}>
                   <img src={f.img} alt={f.title} style={{ width: '100%', height: 480, objectFit: 'cover', display: 'block' }} />
                 </div>
-                <Link href="/dashboard" className="btn-blue">Probar {f.title}</Link>
+                <div style={{ flex: '1 1 45%' }}>
+                  <p style={{ fontFamily: F, fontSize: 20, color: INK, lineHeight: 1.5, marginBottom: 24 }}>
+                    Descubre <strong>{f.title}</strong>: {f.sub}
+                  </p>
+                  <Link href="/dashboard" className="btn-blue">Probar {f.title}</Link>
+                </div>
               </div>
             ))}
           </div>
 
-          {/* RIGHT — fijada por GSAP ScrollTrigger y centrada verticalmente, 6 subapartados en negrita según scroll */}
+          {/* RIGHT — fijada por GSAP ScrollTrigger, rectángulo de arriba a abajo, 6 subapartados en negrita según scroll */}
           <div id="mobile-nav-pin" style={{ alignSelf: 'start' }}>
-            <div style={{ background: BLUE_LIGHT, border: `1px solid ${BLUE}`, borderRadius: 24, padding: '28px 24px' }}>
+            <div style={{ background: BLUE_LIGHT, height: '100vh', display: 'flex', alignItems: 'center', padding: '0 24px' }}>
               <div style={{ position: 'relative', paddingLeft: 22, borderLeft: `2px solid ${BLUE}` }}>
                 <div style={{
                   position: 'absolute',
