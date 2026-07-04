@@ -89,7 +89,7 @@ export default function Home() {
 
   const features = [
     { title: 'Invitados', sub: 'Gestiona confirmaciones, menús y mesas.', img: '/invitados.png', badge: '♡ Confirmar asistencia' },
-    { title: 'Web de boda', sub: 'Una página bonita y gratis para vuestros invitados.', img: '/web-de-boda.png', badge: '✦ veronicaymarcos.com' },
+    { title: 'Web de boda', sub: 'Una página bonita y gratis para vuestros invitados.', img: '/web-de-boda.png', badge: '✦ veronicaymarcos.com', imgStyle: { objectPosition: '50% 30%', transform: 'scale(2.3)', transformOrigin: '50% 38%' } },
     { title: 'Proveedores', sub: 'Encuentra y gestiona a tu equipo soñado.', img: '/proveedores.png', badge: '⭐⭐⭐⭐⭐ Estudio Luz' },
     { title: 'Invitaciones', sub: 'Diseños únicos para personalizar y descargar.', img: '/invitaciones.png', badge: '✎ Personalizar diseño' },
     { title: 'Presupuesto', sub: 'Controla cada gasto y mantente al día.', img: '/presupuesto.png', badge: '🔔 Recordatorio de pago' },
@@ -201,8 +201,8 @@ export default function Home() {
               <div key={f.title} className="feat-card" style={{ borderRight: (i + 1) % 3 === 0 ? 'none' : `1px solid ${BLUE}`, borderBottom: i < 3 ? `1px solid ${BLUE}` : 'none' }}>
                 <div className="feat-card-title">{f.title} <span style={{ color: BLUE_DARK }}>→</span></div>
                 <p className="feat-card-sub">{f.sub}</p>
-                <div style={{ position: 'relative', marginTop: 16, flex: 1 }}>
-                  <img src={f.img} alt={f.title} style={{ width: '100%', height: '100%', minHeight: 200, objectFit: 'cover', borderRadius: 18, display: 'block' }} />
+                <div style={{ position: 'relative', marginTop: 16, flex: 1, overflow: 'hidden', borderRadius: 18 }}>
+                  <img src={f.img} alt={f.title} style={{ width: '100%', height: '100%', minHeight: 200, objectFit: 'cover', display: 'block', ...(f.imgStyle || {}) }} />
                   <div className="feat-badge">{f.badge}</div>
                 </div>
               </div>
@@ -220,7 +220,7 @@ export default function Home() {
             {features.map((f, i) => (
               <div key={f.title} className="mobile-step" id={`mobile-${i}`} style={{ padding: '48px 0' }}>
                 <div style={{ borderRadius: 24, overflow: 'hidden', boxShadow: '0 24px 70px rgba(142,197,247,0.2)' }}>
-                  <img src={f.img} alt={f.title} style={{ width: '100%', height: 480, objectFit: 'cover', display: 'block' }} />
+                  <img src={f.img} alt={f.title} style={{ width: '100%', height: 480, objectFit: 'cover', display: 'block', ...(f.imgStyle || {}) }} />
                 </div>
               </div>
             ))}
