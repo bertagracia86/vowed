@@ -64,7 +64,7 @@ export default function Home() {
         })
 
         // Pin de las columnas de los 6 subapartados mientras la izquierda hace scroll
-        ScrollTrigger.create({ trigger: '#mobile-showcase-grid', start: 'top top+=110', end: 'bottom bottom', pin: '#mobile-nav-pin', pinSpacing: false })
+        ScrollTrigger.create({ trigger: '#mobile-showcase-grid', start: 'top top', end: 'bottom bottom', pin: '#mobile-nav-pin', pinSpacing: false })
         ScrollTrigger.create({ trigger: '#deep-features-grid', start: 'top top+=110', end: 'bottom bottom', pin: '#deep-nav-pin', pinSpacing: false })
 
         ScrollTrigger.refresh()
@@ -216,38 +216,40 @@ export default function Home() {
             ))}
           </div>
 
-          {/* RIGHT — fijada por GSAP ScrollTrigger, 6 subapartados en negrita según scroll */}
-          <div id="mobile-nav-pin">
-            <div style={{ position: 'relative', paddingLeft: 22, borderLeft: `2px solid ${BLUE}` }}>
-              <div style={{
-                position: 'absolute',
-                left: -2,
-                top: `${(activeMobileDot / features.length) * 100}%`,
-                width: 2,
-                height: `${(1 / features.length) * 100}%`,
-                background: BLUE_DARK,
-                borderRadius: 2,
-                transition: 'top 0.45s cubic-bezier(.16,1,.3,1)',
-              }} />
-              {features.map((f, i) => (
-                <button
-                  key={i}
-                  className="deep-nav-btn"
-                  onClick={() => document.getElementById(`mobile-${i}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
-                >
-                  <div className="deep-dot" style={{
-                    background: activeMobileDot === i ? BLUE_DARK : BLUE,
-                    transform: activeMobileDot === i ? 'scale(1.7)' : 'scale(1)',
-                  }} />
-                  <span style={{
-                    fontFamily: F,
-                    fontSize: activeMobileDot === i ? 14 : 12,
-                    fontWeight: activeMobileDot === i ? 600 : 400,
-                    color: activeMobileDot === i ? INK : '#aac4d8',
-                    transition: 'all 0.3s',
-                  }}>{f.title}</span>
-                </button>
-              ))}
+          {/* RIGHT — fijada por GSAP ScrollTrigger y centrada verticalmente, 6 subapartados en negrita según scroll */}
+          <div id="mobile-nav-pin" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
+            <div style={{ background: BLUE_LIGHT, border: `1px solid ${BLUE}`, borderRadius: 24, padding: '28px 24px' }}>
+              <div style={{ position: 'relative', paddingLeft: 22, borderLeft: `2px solid ${BLUE}` }}>
+                <div style={{
+                  position: 'absolute',
+                  left: -2,
+                  top: `${(activeMobileDot / features.length) * 100}%`,
+                  width: 2,
+                  height: `${(1 / features.length) * 100}%`,
+                  background: BLUE_DARK,
+                  borderRadius: 2,
+                  transition: 'top 0.45s cubic-bezier(.16,1,.3,1)',
+                }} />
+                {features.map((f, i) => (
+                  <button
+                    key={i}
+                    className="deep-nav-btn"
+                    onClick={() => document.getElementById(`mobile-${i}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+                  >
+                    <div className="deep-dot" style={{
+                      background: activeMobileDot === i ? BLUE_DARK : BLUE,
+                      transform: activeMobileDot === i ? 'scale(1.7)' : 'scale(1)',
+                    }} />
+                    <span style={{
+                      fontFamily: F,
+                      fontSize: activeMobileDot === i ? 14 : 12,
+                      fontWeight: activeMobileDot === i ? 600 : 400,
+                      color: activeMobileDot === i ? INK : '#aac4d8',
+                      transition: 'all 0.3s',
+                    }}>{f.title}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
