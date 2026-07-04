@@ -198,7 +198,7 @@ export default function Home() {
 
       {/* MOBILE SHOWCASE — left desliza con las imágenes, right sticky con 6 subapartados en negrita */}
       <section style={{ background: 'white', borderTop: `1px solid ${BLUE}` }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 48px', display: 'grid', gridTemplateColumns: '1fr 220px', gap: 80, alignItems: 'start' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 48px', display: 'grid', gridTemplateColumns: '1fr 220px', gap: 80 }}>
 
           {/* LEFT — se desliza con el scroll normal de la página */}
           <div>
@@ -212,7 +212,7 @@ export default function Home() {
           </div>
 
           {/* RIGHT — sticky, 6 subapartados en negrita según scroll */}
-          <div style={{ position: 'sticky', top: '35vh', alignSelf: 'start' }}>
+          <div style={{ position: 'sticky', top: '35vh' }}>
             <div style={{ position: 'relative', paddingLeft: 22, borderLeft: `2px solid ${BLUE}` }}>
               <div style={{
                 position: 'absolute',
@@ -251,7 +251,7 @@ export default function Home() {
 
       {/* DEEP FEATURES — left scrolls, right sticky */}
       <section style={{ background: '#fafcff', borderTop: `1px solid ${BLUE}`, borderBottom: `1px solid ${BLUE}` }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 48px', display: 'grid', gridTemplateColumns: '1fr 220px', gap: 80, alignItems: 'start' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 48px', display: 'grid', gridTemplateColumns: '1fr 220px', gap: 80 }}>
 
           {/* LEFT — scrolls normally */}
           <div>
@@ -268,7 +268,7 @@ export default function Home() {
           </div>
 
           {/* RIGHT — sticky, stays fixed while left scrolls */}
-          <div style={{ position: 'sticky', top: '35vh', alignSelf: 'start' }}>
+          <div style={{ position: 'sticky', top: '35vh' }}>
             <div style={{ position: 'relative', paddingLeft: 22, borderLeft: `2px solid ${BLUE}` }}>
               {/* progress bar */}
               <div style={{
