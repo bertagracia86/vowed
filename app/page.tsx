@@ -392,8 +392,18 @@ export default function Home() {
             <Link href="/dashboard" className="footer-a" style={{ display: 'block' }}>Encuentra vuestra boda →</Link>
             <Link href="/dashboard" className="btn-blue" style={{ marginTop: 16, fontSize: 14, padding: '11px 28px' }}>Empezar gratis</Link>
             <div style={{ display: 'flex', gap: 10, marginTop: 24 }}>
-              {['IG', 'FB', 'PIN', 'TT'].map(s => (
-                <a key={s} href="#" style={{ width: 34, height: 34, borderRadius: '50%', border: `1px solid ${BLUE}`, background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: F, fontSize: 10, fontWeight: 600, color: BLUE_DARK, textDecoration: 'none' }}>{s}</a>
+              {[
+                { name: 'Instagram', icon: (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/></svg>
+                ) },
+                { name: 'Facebook', icon: (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M15 3h-2a4 4 0 0 0-4 4v3H7v4h2v7h4v-7h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                ) },
+                { name: 'TikTok', icon: (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M14 3v10.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 3c0 2.5 2 4.5 4.5 4.5"/></svg>
+                ) },
+              ].map(s => (
+                <a key={s.name} href="#" aria-label={s.name} style={{ width: 34, height: 34, borderRadius: '50%', border: `1px solid ${BLUE}`, background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', color: BLUE_DARK, textDecoration: 'none' }}>{s.icon}</a>
               ))}
             </div>
           </div>
