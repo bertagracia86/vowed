@@ -115,7 +115,7 @@ export default function Home() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
           <span style={{ fontSize: 14, color: INK, opacity: 0.6, fontFamily: F }}>¿Ya tienes cuenta?</span>
           <a href="#" className="nav-a" style={{ textDecoration: 'underline', opacity: 0.8 }}>Inicia sesión</a>
-          <Link href="/dashboard" className="btn-blue-sm">¡Empezamos!</Link>
+          <Link href="/start" className="btn-blue-sm">¡Empezamos!</Link>
         </div>
       </nav>
 
@@ -140,7 +140,7 @@ export default function Home() {
             Desde la finca y el catering hasta la web de boda y los invitados — mylov3 está con vosotros en cada paso del camino.
           </p>
           <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/dashboard" className="btn-light">¡Empezamos!</Link>
+            <Link href="/start" className="btn-light">¡Empezamos!</Link>
             <Link href="/dashboard" className="btn-blue">Ver demo</Link>
           </div>
         </div>
@@ -321,7 +321,7 @@ export default function Home() {
           <p style={{ fontFamily: F, fontSize: 'clamp(2rem,5vw,4.5rem)', fontWeight: 400, fontStyle: 'italic', color: 'white', lineHeight: 1.2, marginBottom: 32, textShadow: '0 2px 20px rgba(0,0,0,0.2)' }}>
             "El día más bonito<br />empieza con el mejor plan"
           </p>
-          <Link href="/dashboard" className="btn-blue">Empezar ahora</Link>
+          <Link href="/start" className="btn-blue">Empezar ahora</Link>
         </div>
       </section>
 
@@ -359,7 +359,7 @@ export default function Home() {
             Vuestra historia de amor merece el mejor comienzo
           </h2>
           <p style={{ fontFamily: F, fontSize: 16, color: '#7a9ab5', marginBottom: 48, lineHeight: 1.8 }}>Gratis para siempre. Sin tarjeta de crédito.</p>
-          <Link href="/dashboard" className="btn-blue">Empezar a planificar gratis</Link>
+          <Link href="/start" className="btn-blue">Empezar a planificar gratis</Link>
         </div>
       </section>
 
@@ -390,7 +390,7 @@ export default function Home() {
             <p style={{ fontFamily: F, fontSize: 14, color: '#5a7a9a', marginBottom: 20 }}>Para todos los días del camino</p>
             <a href="#" className="footer-a">Iniciar sesión →</a>
             <Link href="/dashboard" className="footer-a" style={{ display: 'block' }}>Encuentra vuestra boda →</Link>
-            <Link href="/dashboard" className="btn-blue" style={{ marginTop: 16, fontSize: 14, padding: '11px 28px' }}>Empezar gratis</Link>
+            <Link href="/start" className="btn-blue" style={{ marginTop: 16, fontSize: 14, padding: '11px 28px' }}>Empezar gratis</Link>
             <div style={{ display: 'flex', gap: 10, marginTop: 24 }}>
               {[
                 { name: 'Instagram', icon: (
