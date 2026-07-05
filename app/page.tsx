@@ -6,6 +6,7 @@ const BLUE = '#cbecff'
 const BLUE_DARK = '#8ec5f7'
 const BLUE_LIGHT = '#f0f9ff'
 const INK = '#1a3a52'
+const NEUTRAL = '#f7f6f3'
 const F = "'Cormorant Garamond', serif"
 
 export default function Home() {
@@ -75,11 +76,11 @@ export default function Home() {
   ]
 
   return (
-    <main style={{ fontFamily: F, background: '#f7fbff' }}>
+    <main style={{ fontFamily: F, background: NEUTRAL }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { background: #e8f7ff; padding: 5px; }
+        html, body { background: ${NEUTRAL}; padding: 5px; }
         main { border-radius: 24px; }
         .nav-a { font-size: 14px; color: ${INK}; text-decoration: none; opacity: 0.7; transition: opacity 0.2s; font-family: ${F}; }
         .nav-a:hover { opacity: 1; }
@@ -157,6 +158,23 @@ export default function Home() {
           ))}
         </div>
       </div>
+
+      {/* EDITORIAL QUOTE — dos columnas, mucho espacio, revelado con scroll */}
+      <section style={{ background: NEUTRAL, padding: '140px 40px' }}>
+        <div style={{ maxWidth: 980, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64 }}>
+          <div className="sec-reveal" style={{ borderRight: `1px solid ${BLUE}`, paddingRight: 64 }}>
+            <p style={{ fontFamily: F, fontStyle: 'italic', fontSize: 'clamp(1.6rem,3vw,2.3rem)', color: BLUE_DARK, lineHeight: 1.35 }}>
+              En un mundo lleno de listas, dejad que la organización sea invisible.
+            </p>
+          </div>
+          <div className="sec-reveal" style={{ paddingLeft: 8 }}>
+            <span style={{ fontFamily: F, fontSize: 12, color: BLUE_DARK, letterSpacing: '0.16em', textTransform: 'uppercase', fontWeight: 600 }}>Nuestra filosofía</span>
+            <p style={{ fontFamily: F, fontSize: 17, color: '#5a7a9a', lineHeight: 1.8, marginTop: 16 }}>
+              Creemos que planificar una boda debería sentirse tan especial como el propio día. Por eso simplificamos lo complicado, para que solo tengáis que preocuparos de disfrutar.
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* FEATURES GRID */}
       <section style={{ background: 'white' }}>

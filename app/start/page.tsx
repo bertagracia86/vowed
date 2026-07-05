@@ -9,7 +9,9 @@ const BLUE_LIGHT = '#f0f9ff'
 const INK = '#1a3a52'
 const F = "'Cormorant Garamond', serif"
 
-const STEPS = ['Empezar', 'Vosotros', 'Vuestra boda']
+// grupo del stepper al que pertenece cada paso (0-indexed)
+const STEPS = ['Empezar', 'Lo básico', 'Últimos detalles']
+const STEP_GROUP = [0, 1, 2, 2, 2]
 
 const STAGES = [
   { icon: '💍', label: 'Aún no estamos prometidos' },
@@ -19,12 +21,34 @@ const STAGES = [
   { icon: '🎉', label: 'Casi listo, solo quedan los detalles' },
 ]
 
+const SOURCES = [
+  'Blog o artículo', 'Anuncio en la calle', 'Recomendación de amigos o familia', 'Instagram',
+  'TikTok', 'Búsqueda con IA (ChatGPT, Gemini...)', 'Facebook', 'YouTube',
+  'Búsqueda en Google', 'En las noticias', 'Proveedor de bodas', 'Pinterest', 'Podcast', 'Otro',
+]
+
 export default function Start() {
   const router = useRouter()
   const [step, setStep] = useState(0)
-  const [names, setNames] = useState('')
-  const [weddingName, setWeddingName] = useState('')
   const [stage, setStage] = useState<string | null>(null)
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [partnerFirstName, setPartnerFirstName] = useState('')
+  const [partnerLastName, setPartnerLastName] = useState('')
+  const [weddingDate, setWeddingDate] = useState('')
+  const [dateUndecided, setDateUndecided] = useState(false)
+  const [location, setLocation] = useState('')
+  const [locationUndecided, setLocationUndecided] = useState(false)
+  const [guestCount, setGuestCount] = useState('')
+  const [guestUndecided, setGuestUndecided] = useState(false)
+  const [sources, setSources] = useState<string[]>([])
+
+  const totalSteps = 5
+  const group = STEP_GROUP[step]
+
+  const toggleSource = (s: string) => {
+    setSources(prev => prev.includes(s) ? prev.filter(x => x !== s) : [...prev, s])
+  }
 
   return (
     <main style={{ fontFamily: F, background: 'white' }}>
@@ -37,6 +61,8 @@ export default function Start() {
         .start-input:focus { border-color: ${BLUE_DARK}; }
         .stage-btn { width: 100%; text-align: left; padding: 16px 18px; border-radius: 14px; background: white; cursor: pointer; display: flex; align-items: center; gap: 14px; font-family: ${F}; font-size: 16px; color: ${INK}; transition: all 0.2s; margin-bottom: 12px; }
         .stage-btn:hover { background: ${BLUE_LIGHT}; }
+        .check-row { display: flex; align-items: center; gap: 10px; font-family: ${F}; font-size: 15px; color: ${INK}; cursor: pointer; user-select: none; }
+        .source-chip { padding: 10px 16px; border-radius: 999px; border: 1.5px solid ${BLUE}; background: white; font-family: ${F}; font-size: 14px; color: ${INK}; cursor: pointer; transition: all 0.2s; }
         @media (max-width: 860px) { .start-photo { display: none !important; } }
       `}</style>
 
@@ -58,49 +84,28 @@ export default function Start() {
           <Link href="/" aria-label="Cerrar" style={{ position: 'absolute', top: 28, right: 32, width: 34, height: 34, borderRadius: '50%', border: `1px solid ${BLUE}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: INK, textDecoration: 'none', fontSize: 16 }}>✕</Link>
 
           {/* stepper */}
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: 48, maxWidth: 440 }}>
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: 48, maxWidth: 460 }}>
             {STEPS.map((s, i) => (
               <div key={s} style={{ display: 'flex', alignItems: 'center', flex: i < STEPS.length - 1 ? 1 : 'none' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
                   <div style={{
                     width: 26, height: 26, borderRadius: '50%', flexShrink: 0,
-                    border: `1.5px solid ${i <= step ? BLUE_DARK : BLUE}`,
-                    background: i < step ? BLUE_DARK : 'white',
-                    color: i < step ? 'white' : (i === step ? BLUE_DARK : '#aac4d8'),
+                    border: `1.5px solid ${i <= group ? BLUE_DARK : BLUE}`,
+                    background: i < group ? BLUE_DARK : 'white',
+                    color: i < group ? 'white' : (i === group ? BLUE_DARK : '#aac4d8'),
                     display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 600, fontFamily: F,
-                  }}>{i + 1}</div>
-                  <span style={{ fontSize: 13, fontFamily: F, color: i === step ? INK : '#aac4d8' }}>{s}</span>
+                  }}>{i < group ? '✓' : i + 1}</div>
+                  <span style={{ fontSize: 13, fontFamily: F, color: i === group ? INK : '#aac4d8' }}>{s}</span>
                 </div>
                 {i < STEPS.length - 1 && <div style={{ flex: 1, height: 1, background: BLUE, margin: '0 10px' }} />}
               </div>
             ))}
           </div>
 
-          <div style={{ maxWidth: 440 }}>
+          <div style={{ maxWidth: 460 }}>
+
+            {/* PASO 1 — etapa de planificación */}
             {step === 0 && (
-              <>
-                <h1 style={{ fontFamily: F, fontSize: 'clamp(1.8rem,3vw,2.4rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
-                  Planifiquemos juntos la boda perfecta.
-                </h1>
-                <p style={{ fontFamily: F, fontSize: 16, color: '#7a9ab5', lineHeight: 1.6, marginBottom: 36 }}>
-                  Unas cuantas preguntas rápidas para personalizar vuestro presupuesto, lista de tareas y herramientas de planificación.
-                </p>
-
-                <label style={{ display: 'block', fontFamily: F, fontSize: 14, fontWeight: 600, color: INK, marginBottom: 8 }}>Tu nombre (o nombres)</label>
-                <input className="start-input" value={names} onChange={e => setNames(e.target.value)} placeholder="Sarah y James" style={{ marginBottom: 8 }} />
-                <p style={{ fontFamily: F, fontSize: 12, color: '#aac4d8', marginBottom: 24 }}>Se usa para el saludo y las exportaciones de tu panel. Opcional.</p>
-
-                <label style={{ display: 'block', fontFamily: F, fontSize: 14, fontWeight: 600, color: INK, marginBottom: 8 }}>¿Cómo deberíamos llamar a vuestra boda?</label>
-                <input className="start-input" value={weddingName} onChange={e => setWeddingName(e.target.value)} placeholder="Nuestro gran día" style={{ marginBottom: 8 }} />
-                <p style={{ fontFamily: F, fontSize: 12, color: '#aac4d8', marginBottom: 32 }}>Si se deja en blanco, se mostrará &quot;Nuestra boda&quot; por defecto.</p>
-
-                <button onClick={() => setStep(1)} className="btn-blue" style={{ width: '100%', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
-                  Comience →
-                </button>
-              </>
-            )}
-
-            {step === 1 && (
               <>
                 <h1 style={{ fontFamily: F, fontSize: 'clamp(1.8rem,3vw,2.4rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
                   ¿En qué punto estáis de la planificación?
@@ -121,12 +126,129 @@ export default function Start() {
                 ))}
 
                 <button
-                  onClick={() => router.push('/dashboard')}
+                  onClick={() => setStep(1)}
                   disabled={!stage}
                   className="btn-blue"
                   style={{ width: '100%', border: 'none', marginTop: 12, opacity: stage ? 1 : 0.5, cursor: stage ? 'pointer' : 'not-allowed' }}
                 >
                   Siguiente
+                </button>
+              </>
+            )}
+
+            {/* PASO 2 — datos básicos */}
+            {step === 1 && (
+              <>
+                <h1 style={{ fontFamily: F, fontSize: 'clamp(1.8rem,3vw,2.4rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
+                  Como en toda gran relación, esto empieza por lo básico
+                </h1>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
+                  <div>
+                    <label style={{ display: 'block', fontFamily: F, fontSize: 14, fontWeight: 600, color: INK, marginBottom: 8 }}>Tu nombre</label>
+                    <input className="start-input" value={firstName} onChange={e => setFirstName(e.target.value)} placeholder="Sarah" />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontFamily: F, fontSize: 14, fontWeight: 600, color: INK, marginBottom: 8 }}>Tus apellidos</label>
+                    <input className="start-input" value={lastName} onChange={e => setLastName(e.target.value)} placeholder="García" />
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 20 }}>
+                  <div>
+                    <label style={{ display: 'block', fontFamily: F, fontSize: 14, fontWeight: 600, color: INK, marginBottom: 8 }}>Nombre de tu pareja</label>
+                    <input className="start-input" value={partnerFirstName} onChange={e => setPartnerFirstName(e.target.value)} placeholder="James" />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontFamily: F, fontSize: 14, fontWeight: 600, color: INK, marginBottom: 8 }}>Apellidos de tu pareja</label>
+                    <input className="start-input" value={partnerLastName} onChange={e => setPartnerLastName(e.target.value)} placeholder="López" />
+                  </div>
+                </div>
+
+                <label style={{ display: 'block', fontFamily: F, fontSize: 14, fontWeight: 600, color: INK, marginBottom: 8 }}>Fecha de la boda <span style={{ fontWeight: 400, color: '#aac4d8' }}>(podéis cambiarla luego)</span></label>
+                <input className="start-input" type="text" value={weddingDate} onChange={e => setWeddingDate(e.target.value)} placeholder="DD/MM/AAAA" disabled={dateUndecided} style={{ marginBottom: 14, opacity: dateUndecided ? 0.5 : 1 }} />
+
+                <label className="check-row" style={{ marginBottom: 28 }}>
+                  <input type="checkbox" checked={dateUndecided} onChange={e => setDateUndecided(e.target.checked)} />
+                  Aún lo estamos decidiendo
+                </label>
+
+                <button onClick={() => setStep(2)} className="btn-blue" style={{ width: '100%', border: 'none' }}>
+                  Siguiente
+                </button>
+              </>
+            )}
+
+            {/* PASO 3 — dónde os casáis */}
+            {step === 2 && (
+              <>
+                <h1 style={{ fontFamily: F, fontSize: 'clamp(1.8rem,3vw,2.4rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
+                  Ahora, hablemos del gran día ✨
+                </h1>
+                <p style={{ fontFamily: F, fontSize: 16, color: '#7a9ab5', lineHeight: 1.6, marginBottom: 32 }}>
+                  Os ayudamos a planificar la boda que queráis, pequeña o grande, cerca o lejos.
+                </p>
+
+                <label style={{ display: 'block', fontFamily: F, fontSize: 14, fontWeight: 600, color: INK, marginBottom: 8 }}>¿Dónde os casáis? <span style={{ fontWeight: 400, color: '#aac4d8' }}>(vale con una idea aproximada)</span></label>
+                <input className="start-input" value={location} onChange={e => setLocation(e.target.value)} placeholder="Ciudad o zona" disabled={locationUndecided} style={{ marginBottom: 14, opacity: locationUndecided ? 0.5 : 1 }} />
+
+                <label className="check-row" style={{ marginBottom: 28 }}>
+                  <input type="checkbox" checked={locationUndecided} onChange={e => setLocationUndecided(e.target.checked)} />
+                  Aún lo estamos decidiendo
+                </label>
+
+                <button onClick={() => setStep(3)} className="btn-blue" style={{ width: '100%', border: 'none' }}>
+                  Siguiente
+                </button>
+              </>
+            )}
+
+            {/* PASO 4 — número de invitados */}
+            {step === 3 && (
+              <>
+                <h1 style={{ fontFamily: F, fontSize: 'clamp(1.8rem,3vw,2.4rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
+                  ¡Suena a fiesta! ¿Quién estará en la lista?
+                </h1>
+                <p style={{ fontFamily: F, fontSize: 16, color: '#7a9ab5', lineHeight: 1.6, marginBottom: 32 }}>
+                  Una aproximación nos vale para empezar a organizar mesas y presupuesto.
+                </p>
+
+                <label style={{ display: 'block', fontFamily: F, fontSize: 14, fontWeight: 600, color: INK, marginBottom: 8 }}>Número aproximado de invitados</label>
+                <input className="start-input" type="number" value={guestCount} onChange={e => setGuestCount(e.target.value)} placeholder="Ej. 80" disabled={guestUndecided} style={{ marginBottom: 14, opacity: guestUndecided ? 0.5 : 1 }} />
+
+                <label className="check-row" style={{ marginBottom: 28 }}>
+                  <input type="checkbox" checked={guestUndecided} onChange={e => setGuestUndecided(e.target.checked)} />
+                  Aún lo estamos decidiendo
+                </label>
+
+                <button onClick={() => setStep(4)} className="btn-blue" style={{ width: '100%', border: 'none' }}>
+                  Siguiente
+                </button>
+              </>
+            )}
+
+            {/* PASO 5 — cómo nos conociste */}
+            {step === 4 && (
+              <>
+                <h1 style={{ fontFamily: F, fontSize: 'clamp(1.8rem,3vw,2.4rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
+                  Una última cosa. ¿Cómo nos conociste?
+                </h1>
+
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 32 }}>
+                  {SOURCES.map(s => (
+                    <button
+                      key={s}
+                      onClick={() => toggleSource(s)}
+                      className="source-chip"
+                      style={{ borderColor: sources.includes(s) ? BLUE_DARK : BLUE, background: sources.includes(s) ? BLUE_LIGHT : 'white' }}
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
+
+                <button onClick={() => router.push('/dashboard')} className="btn-blue" style={{ width: '100%', border: 'none' }}>
+                  Empezar a planificar
                 </button>
               </>
             )}
