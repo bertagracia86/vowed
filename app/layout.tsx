@@ -5,7 +5,7 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Vowed — Organizador de bodas gratuito',
+  title: 'mylove',
   description: 'Planificad toda vuestra boda en un solo lugar. Presupuesto, invitados, mesas, cronograma y más. Gratis.',
 }
 

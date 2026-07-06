@@ -15,16 +15,19 @@ import Notas from './modules/Notas'
 import Invitaciones from './modules/Invitaciones'
 
 const NAV_TOP = [
-  { id: 'resumen', label: 'Resumen', icon: 'M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z' },
-  { id: 'cronograma', label: 'Cronograma', icon: 'M8 3v4M16 3v4M3 10h18M5 5h14a2 2 0 012 2v13a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2z' },
-  { id: 'tareas', label: 'Tareas', icon: 'M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11' },
+  { id: 'resumen', label: 'Vuestra boda', icon: 'M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9zM9 22V12h6v10' },
+  { id: 'proveedores', label: 'Espacio y proveedores', icon: 'M20.59 13.41L13.42 20.58a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82zM7 7h.01' },
+  { id: 'web-boda', label: 'Web de la boda', icon: 'M12 2a10 10 0 100 20A10 10 0 0012 2zM2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20' },
+  { id: 'invitaciones', label: 'Invitaciones y papelería', icon: 'M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zM22 6l-10 7L2 6' },
   { id: 'presupuesto', label: 'Presupuesto', icon: 'M12 3a9 9 0 100 18A9 9 0 0012 3zM12 8v8M9 10.5c0-1.5 1.5-2 3-2s3 .8 3 2-1 1.5-3 2-3 1-3 2.5 1.5 2 3 2 3-.6 3-2' },
-  { id: 'invitados', label: 'Invitados', icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75' },
-  { id: 'mesas', label: 'Mesas', icon: 'M3 3h8v8H3zM13 3h8v8h-8zM3 13h8v8H3zM13 13h8v8h-8z' },
-  { id: 'proveedores', label: 'Proveedores', icon: 'M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9zM9 22V12h6v10' },
-  { id: 'web-boda', label: 'Web de boda', icon: 'M12 2a10 10 0 100 20A10 10 0 0012 2zM2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20' },
+  { id: 'invitados', label: 'Invitados y RSVP', icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75' },
+  { id: 'mesas', label: 'Plano de mesas', icon: 'M3 3h8v8H3zM13 3h8v8h-8zM3 13h8v8H3zM13 13h8v8h-8z' },
+]
+
+const NAV_SECONDARY = [
+  { id: 'tareas', label: 'Lista de tareas', icon: 'M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11' },
+  { id: 'cronograma', label: 'Cronograma', icon: 'M8 3v4M16 3v4M3 10h18M5 5h14a2 2 0 012 2v13a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2z' },
   { id: 'notas', label: 'Notas', icon: 'M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18 2l4 4-10 10H8v-4L18 2z' },
-  { id: 'invitaciones', label: 'Invitaciones', icon: 'M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zM22 6l-10 7L2 6' },
 ]
 
 const NAV_BOTTOM = [
@@ -68,7 +71,7 @@ export default function Dashboard() {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: BG, fontFamily: "'Inter',sans-serif" }}>
         <form onSubmit={checkPw} style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 18, padding: '40px 36px', width: 320, textAlign: 'center' }}>
-          <div style={{ fontFamily: F, fontSize: 26, fontStyle: 'italic', fontWeight: 700, color: BLUE, marginBottom: 6 }}>vowed</div>
+          <div style={{ fontFamily: F, fontSize: 26, fontStyle: 'italic', fontWeight: 700, color: BLUE, marginBottom: 6 }}>mylov3</div>
           <p style={{ fontSize: 12, color: MUTE, marginBottom: 24 }}>Introduce la contraseña para entrar</p>
           <input type="password" value={pw} onChange={e => setPw(e.target.value)} placeholder="••••" autoFocus
             style={{ width: '100%', border: '1px solid #DCE7F4', borderRadius: 12, padding: '12px 16px', fontSize: 14, outline: 'none', textAlign: 'center', marginBottom: 12 }} />
@@ -85,10 +88,22 @@ export default function Dashboard() {
       <aside style={{ width: 220, background: 'white', borderRight: '1px solid #ECE9E4', padding: '20px 14px', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 8px 20px' }}>
           <div style={{ width: 30, height: 30, borderRadius: 9, background: '#F4EFE7', display: 'flex', alignItems: 'center', justifyContent: 'center', color: BLUE, fontSize: 15 }}>♡</div>
-          <span style={{ fontFamily: F, fontSize: 18, fontWeight: 700, fontStyle: 'italic', color: BLUE }}>vowed</span>
+          <span style={{ fontFamily: F, fontSize: 18, fontWeight: 700, fontStyle: 'italic', color: BLUE }}>mylov3</span>
         </div>
 
         {NAV_TOP.map(n => (
+          <button key={n.id} onClick={() => setTab(n.id)} style={{
+            display: 'flex', alignItems: 'center', gap: 10, textAlign: 'left', padding: '9px 10px', borderRadius: 9, border: 'none',
+            background: tab === n.id ? '#F4F2EE' : 'transparent', color: tab === n.id ? INK : MUTE,
+            fontWeight: tab === n.id ? 600 : 400, fontSize: 13, cursor: 'pointer', marginBottom: 1
+          }}>
+            <SideIcon d={n.icon} />{n.label}
+          </button>
+        ))}
+
+        <div style={{ height: 1, background: '#ECE9E4', margin: '12px 10px' }} />
+
+        {NAV_SECONDARY.map(n => (
           <button key={n.id} onClick={() => setTab(n.id)} style={{
             display: 'flex', alignItems: 'center', gap: 10, textAlign: 'left', padding: '9px 10px', borderRadius: 9, border: 'none',
             background: tab === n.id ? '#F4F2EE' : 'transparent', color: tab === n.id ? INK : MUTE,
