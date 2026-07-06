@@ -136,7 +136,7 @@ export default function Dashboard() {
         </header>
 
         <main style={{ flex: 1, padding: '32px 36px', overflowY: 'auto' }}>
-          {tab === 'resumen' && <Resumen tasks={tasks} guests={guests} budget={budget} vendors={vendors} weddingDate={weddingDate} setTab={setTab} />}
+          {tab === 'resumen' && <Resumen tasks={tasks} guests={guests} budget={budget} vendors={vendors} weddingInfo={weddingInfo} weddingDate={weddingDate} setTab={setTab} />}
           {tab === 'tareas' && <Tareas tasks={tasks} setTasks={setTasks} />}
           {tab === 'presupuesto' && <Presupuesto budget={budget} setBudget={setBudget} guestCount={guests.length} />}
           {tab === 'invitados' && <Invitados guests={guests} setGuests={setGuests} />}
