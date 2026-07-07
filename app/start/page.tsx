@@ -3,11 +3,11 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-const BLUE = '#cbecff'
-const BLUE_DARK = '#8ec5f7'
-const BLUE_LIGHT = '#f0f9ff'
-const INK = '#1a3a52'
-const F = "'Cormorant Garamond', serif"
+const BLUE = '#AAA396'
+const BLUE_DARK = '#5C4A3D'
+const BLUE_LIGHT = '#CEC1A8'
+const INK = '#4A3B32'
+const F = "'Cormorant', serif"
 
 // grupo del stepper al que pertenece cada paso (0-indexed)
 const STEPS = ['Empezar', 'Lo básico', 'Últimos detalles']
@@ -53,10 +53,10 @@ export default function Start() {
   return (
     <main style={{ fontFamily: F, background: 'white' }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap');
         * { box-sizing: border-box; }
-        .btn-blue { background: ${BLUE_DARK}; color: white; border-radius: 999px; padding: 14px 36px; font-size: 16px; font-weight: 500; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 20px rgba(142,197,247,0.35); font-family: ${F}; }
-        .btn-blue:hover { transform: translateY(-1px); box-shadow: 0 8px 32px rgba(142,197,247,0.55); }
+        .btn-blue { background: ${BLUE_DARK}; color: white; border-radius: 999px; padding: 14px 36px; font-size: 16px; font-weight: 500; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 20px rgba(43,42,38,0.35); font-family: ${F}; }
+        .btn-blue:hover { transform: translateY(-1px); box-shadow: 0 8px 32px rgba(43,42,38,0.55); }
         .start-input { width: 100%; padding: 16px 18px; border: 1px solid ${BLUE}; border-radius: 14px; font-family: ${F}; font-size: 16px; color: ${INK}; background: ${BLUE_LIGHT}; outline: none; transition: border-color 0.2s; }
         .start-input:focus { border-color: ${BLUE_DARK}; }
         .stage-btn { width: 100%; text-align: left; padding: 16px 18px; border-radius: 14px; background: white; cursor: pointer; display: flex; align-items: center; gap: 14px; font-family: ${F}; font-size: 16px; color: ${INK}; transition: all 0.2s; margin-bottom: 12px; }
@@ -70,7 +70,7 @@ export default function Start() {
         {/* LEFT — foto */}
         <div className="start-photo" style={{ position: 'relative', overflow: 'hidden' }}>
           <img src="/invitados.png" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,58,82,0.55) 0%, rgba(26,58,82,0.05) 50%)' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(43,42,38,0.55) 0%, rgba(43,42,38,0.05) 50%)' }} />
           <div style={{ position: 'absolute', bottom: 48, left: 48, right: 48 }}>
             <p style={{ fontFamily: F, fontSize: 'clamp(1.8rem,3vw,2.6rem)', fontWeight: 600, fontStyle: 'italic', color: 'white', lineHeight: 1.2, marginBottom: 20 }}>
               Para el día en que todo empieza
@@ -92,10 +92,10 @@ export default function Start() {
                     width: 26, height: 26, borderRadius: '50%', flexShrink: 0,
                     border: `1.5px solid ${i <= group ? BLUE_DARK : BLUE}`,
                     background: i < group ? BLUE_DARK : 'white',
-                    color: i < group ? 'white' : (i === group ? BLUE_DARK : '#aac4d8'),
+                    color: i < group ? 'white' : (i === group ? BLUE_DARK : '#AAA396'),
                     display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 600, fontFamily: F,
                   }}>{i < group ? '✓' : i + 1}</div>
-                  <span style={{ fontSize: 13, fontFamily: F, color: i === group ? INK : '#aac4d8' }}>{s}</span>
+                  <span style={{ fontSize: 13, fontFamily: F, color: i === group ? INK : '#AAA396' }}>{s}</span>
                 </div>
                 {i < STEPS.length - 1 && <div style={{ flex: 1, height: 1, background: BLUE, margin: '0 10px' }} />}
               </div>
@@ -110,7 +110,7 @@ export default function Start() {
                 <h1 style={{ fontFamily: F, fontSize: 'clamp(1.8rem,3vw,2.4rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
                   ¿En qué punto estáis de la planificación?
                 </h1>
-                <p style={{ fontFamily: F, fontSize: 16, color: '#7a9ab5', lineHeight: 1.6, marginBottom: 32 }}>
+                <p style={{ fontFamily: F, fontSize: 16, color: '#8a7358', lineHeight: 1.6, marginBottom: 32 }}>
                   Tanto si estáis empezando a mirar como si estáis en la cuenta atrás final, os acompañamos.
                 </p>
 
@@ -165,7 +165,7 @@ export default function Start() {
                   </div>
                 </div>
 
-                <label style={{ display: 'block', fontFamily: F, fontSize: 14, fontWeight: 600, color: INK, marginBottom: 8 }}>Fecha de la boda <span style={{ fontWeight: 400, color: '#aac4d8' }}>(podéis cambiarla luego)</span></label>
+                <label style={{ display: 'block', fontFamily: F, fontSize: 14, fontWeight: 600, color: INK, marginBottom: 8 }}>Fecha de la boda <span style={{ fontWeight: 400, color: '#AAA396' }}>(podéis cambiarla luego)</span></label>
                 <input className="start-input" type="text" value={weddingDate} onChange={e => setWeddingDate(e.target.value)} placeholder="DD/MM/AAAA" disabled={dateUndecided} style={{ marginBottom: 14, opacity: dateUndecided ? 0.5 : 1 }} />
 
                 <label className="check-row" style={{ marginBottom: 28 }}>
@@ -185,11 +185,11 @@ export default function Start() {
                 <h1 style={{ fontFamily: F, fontSize: 'clamp(1.8rem,3vw,2.4rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
                   Ahora, hablemos del gran día ✨
                 </h1>
-                <p style={{ fontFamily: F, fontSize: 16, color: '#7a9ab5', lineHeight: 1.6, marginBottom: 32 }}>
+                <p style={{ fontFamily: F, fontSize: 16, color: '#8a7358', lineHeight: 1.6, marginBottom: 32 }}>
                   Os ayudamos a planificar la boda que queráis, pequeña o grande, cerca o lejos.
                 </p>
 
-                <label style={{ display: 'block', fontFamily: F, fontSize: 14, fontWeight: 600, color: INK, marginBottom: 8 }}>¿Dónde os casáis? <span style={{ fontWeight: 400, color: '#aac4d8' }}>(vale con una idea aproximada)</span></label>
+                <label style={{ display: 'block', fontFamily: F, fontSize: 14, fontWeight: 600, color: INK, marginBottom: 8 }}>¿Dónde os casáis? <span style={{ fontWeight: 400, color: '#AAA396' }}>(vale con una idea aproximada)</span></label>
                 <input className="start-input" value={location} onChange={e => setLocation(e.target.value)} placeholder="Ciudad o zona" disabled={locationUndecided} style={{ marginBottom: 14, opacity: locationUndecided ? 0.5 : 1 }} />
 
                 <label className="check-row" style={{ marginBottom: 28 }}>
@@ -209,7 +209,7 @@ export default function Start() {
                 <h1 style={{ fontFamily: F, fontSize: 'clamp(1.8rem,3vw,2.4rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
                   ¡Suena a fiesta! ¿Quién estará en la lista?
                 </h1>
-                <p style={{ fontFamily: F, fontSize: 16, color: '#7a9ab5', lineHeight: 1.6, marginBottom: 32 }}>
+                <p style={{ fontFamily: F, fontSize: 16, color: '#8a7358', lineHeight: 1.6, marginBottom: 32 }}>
                   Una aproximación nos vale para empezar a organizar mesas y presupuesto.
                 </p>
 
