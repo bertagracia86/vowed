@@ -206,6 +206,59 @@ export default function Home() {
         </div>
       </section>
 
+      {/* SOBRE NOSOTROS + SERVICIOS + PORTFOLIO */}
+      <section className="sec-reveal" style={{ background: NEUTRAL, padding: '100px 64px', borderTop: `1px solid ${BLUE}` }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+
+          {/* Fila 1: sobre nosotros + foto + servicios + foto */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 24, marginBottom: 90, alignItems: 'start' }}>
+            <div>
+              <span style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#8a7358' }}>Sobre nosotros</span>
+              <h3 style={{ fontFamily: F, fontSize: 28, color: INK, lineHeight: 1.2, margin: '14px 0 18px' }}>Tu visión, perfectamente diseñada</h3>
+              <p style={{ fontFamily: F, fontSize: 14, color: '#6b5a4a', lineHeight: 1.7, marginBottom: 26 }}>
+                Somos una herramienta de planificación de bodas pensada para parejas que quieren celebraciones a medida, con su propia historia y estilo.
+              </p>
+              <a href="#" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: BLUE_DARK, border: `1px solid ${BLUE_DARK}`, padding: '13px 22px', textDecoration: 'none', display: 'inline-block' }}>Conoce nuestra historia</a>
+            </div>
+
+            <div style={{ height: 340 }}>
+              <img src="/showcase-1.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
+
+            <div>
+              <span style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#8a7358' }}>Nuestros servicios</span>
+              <h3 style={{ fontFamily: F, fontSize: 28, color: INK, lineHeight: 1.2, margin: '14px 0 22px' }}>Experiencias a tu medida</h3>
+              {['Planificación completa', 'Planificación parcial', 'Bodas en cualquier destino', 'Diseño y estilismo'].map(s => (
+                <a key={s} href="#" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 0', borderTop: `1px solid ${BLUE}`, fontFamily: F, fontSize: 14, color: INK, textDecoration: 'none' }}>
+                  {s} <span style={{ color: BLUE_DARK }}>→</span>
+                </a>
+              ))}
+            </div>
+
+            <div style={{ height: 340 }}>
+              <img src="/showcase-2.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
+          </div>
+
+          {/* Fila 2: bodas destacadas + 4 fotos */}
+          <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', gap: 40, alignItems: 'center' }}>
+            <div>
+              <span style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#8a7358' }}>Bodas destacadas</span>
+              <h3 style={{ fontFamily: F, fontSize: 26, color: INK, lineHeight: 1.25, margin: '14px 0 22px' }}>Historias de amor que tuvimos el honor de acompañar</h3>
+              <a href="#" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: BLUE_DARK, border: `1px solid ${BLUE_DARK}`, padding: '13px 22px', textDecoration: 'none', display: 'inline-block' }}>Ver portfolio</a>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }}>
+              {['/showcase-3.png', '/invitados.png', '/detalles.png', '/presupuesto.png'].map(src => (
+                <div key={src} style={{ height: 260 }}>
+                  <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </section>
+
       {/* MOBILE SHOWCASE — left desliza con las imágenes, right sticky con 6 subapartados en negrita */}
       <section style={{ background: 'white', borderTop: `1px solid ${BLUE}` }}>
         <div id="mobile-showcase-grid" style={{ maxWidth: 1100, margin: '0 auto', padding: '0 48px', display: 'grid', gridTemplateColumns: '1fr 220px', gap: 80 }}>
