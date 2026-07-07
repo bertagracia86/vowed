@@ -119,7 +119,7 @@ export default function Home() {
       </nav>
 
       {/* HERO — banner de la terraza */}
-      <section className="hero-sec" style={{ position: 'relative', height: '100vh', overflow: 'hidden', paddingTop: 68 }}>
+      <section className="hero-sec" style={{ position: 'relative', height: '88vh', overflow: 'hidden', paddingTop: 68 }}>
         <img src="/banner-terraza.png" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(241,234,218,0.85) 0%, rgba(241,234,218,0.35) 45%, rgba(241,234,218,0) 70%)' }} />
         <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', padding: '0 64px' }}>
@@ -133,7 +133,7 @@ export default function Home() {
             </p>
             <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
               <Link href="/start" style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: NEUTRAL, background: BLUE_DARK, padding: '16px 28px', textDecoration: 'none', display: 'inline-block' }}>
-                Descubre nuestros servicios
+                ¡Empezamos!
               </Link>
               <Link href="/dashboard" style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: BLUE_DARK, border: `1px solid ${BLUE_DARK}`, padding: '16px 28px', textDecoration: 'none', display: 'inline-block' }}>
                 Ver demo
