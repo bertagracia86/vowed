@@ -128,25 +128,29 @@ export default function Home() {
       </div>
 
       {/* HERO */}
-      <section className="hero-sec" style={{ position: 'relative', height: '100vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 104 }}>
-        <video className="hero-bg-video" autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '115%', objectFit: 'cover', marginTop: '-7%', filter: 'brightness(0.72)' }}>
-          <source src="/video.mp4" type="video/mp4" />
-        </video>
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.22) 100%)' }} />
-        <div className="hero-content" style={{ position: 'relative', zIndex: 10, textAlign: 'center', padding: '0 24px', maxWidth: 860, margin: '0 auto' }}>
-          <h1 style={{ fontFamily: F, fontSize: 'clamp(2.2rem,5vw,4.5rem)', fontWeight: 600, color: 'white', lineHeight: 1.05, marginBottom: 28, letterSpacing: '-0.02em' }}>
+      <section className="hero-sec" style={{ position: 'relative', height: '100vh', overflow: 'hidden', display: 'grid', gridTemplateColumns: '1fr 1fr', alignItems: 'center', paddingTop: 104, background: NEUTRAL }}>
+        <div className="hero-content" style={{ position: 'relative', zIndex: 10, padding: '0 24px 0 64px', maxWidth: 620 }}>
+          <h1 style={{ fontFamily: F, fontSize: 'clamp(2.2rem,4vw,3.8rem)', fontWeight: 600, color: INK, lineHeight: 1.05, marginBottom: 28, letterSpacing: '-0.02em' }}>
             La planificación de<br />la boda comienza aquí.
           </h1>
-          <p style={{ fontFamily: F, fontSize: 'clamp(15px,1.8vw,19px)', color: 'rgba(255,255,255,0.88)', maxWidth: 520, margin: '0 auto 44px', lineHeight: 1.75 }}>
+          <p style={{ fontFamily: F, fontSize: 'clamp(15px,1.8vw,19px)', color: '#8a7358', maxWidth: 480, margin: '0 0 44px', lineHeight: 1.75 }}>
             Desde la finca y el catering hasta la web de boda y los invitados — mylov3 está con vosotros en cada paso del camino.
           </p>
-          <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/start" className="btn-light">¡Empezamos!</Link>
+          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+            <Link href="/start" className="btn-light" style={{ boxShadow: 'none', border: `1px solid ${BLUE}` }}>¡Empezamos!</Link>
             <Link href="/dashboard" className="btn-blue">Ver demo</Link>
           </div>
         </div>
+
+        <div style={{ position: 'absolute', inset: 0, left: '42%', overflow: 'hidden', clipPath: 'polygon(8% 0, 100% 0, 100% 100%, 0% 100%)' }}>
+          <video className="hero-bg-video" autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '115%', objectFit: 'cover', marginTop: '-7%', filter: 'brightness(0.82)' }}>
+            <source src="/video.mp4" type="video/mp4" />
+          </video>
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.22) 100%)' }} />
+        </div>
+
         <div style={{ position: 'absolute', bottom: 36, left: '50%', transform: 'translateX(-50%)', zIndex: 10 }}>
-          <button className="scroll-btn" onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}>↓</button>
+          <button className="scroll-btn" style={{ borderColor: 'rgba(74,59,50,0.4)', color: INK }} onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}>↓</button>
         </div>
       </section>
 
