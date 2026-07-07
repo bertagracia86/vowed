@@ -83,25 +83,23 @@ export default function Home() {
         .nav-a:hover { opacity: 1; }
         .footer-a { display: block; font-family: ${F}; font-size: 14px; color: rgba(241,234,218,0.75); text-decoration: none; margin-bottom: 14px; transition: color 0.2s; }
         .footer-a:hover { color: ${NEUTRAL}; }
-        .btn-light { background: rgba(255,255,255,0.92); color: ${INK}; border: none; border-radius: 999px; padding: 14px 36px; font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; font-family: ${F}; }
+        .btn-light { background: rgba(255,255,255,0.92); color: ${INK}; border: none; border-radius: 0; padding: 14px 36px; font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; font-family: ${F}; }
         .btn-light:hover { background: white; transform: translateY(-1px); }
-        .btn-blue { background: ${BLUE_DARK}; color: white; border: none; border-radius: 999px; padding: 14px 36px; font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; font-family: ${F}; }
+        .btn-blue { background: ${BLUE_DARK}; color: white; border: none; border-radius: 0; padding: 14px 36px; font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; font-family: ${F}; }
         .btn-blue:hover { transform: translateY(-1px); }
-        .btn-blue-sm { background: ${BLUE_DARK}; color: white; border: none; border-radius: 999px; padding: 10px 24px; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; font-family: ${F}; }
+        .btn-blue-sm { background: ${BLUE_DARK}; color: white; border: none; border-radius: 0; padding: 10px 24px; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; font-family: ${F}; }
         .btn-blue-sm:hover { opacity: 0.9; transform: translateY(-1px); }
         .feat-card { padding: 32px 28px; background: white; transition: background 0.2s; cursor: pointer; display: flex; flex-direction: column; }
         .feat-card:hover { background: #faf8f2; }
         .feat-card-title { font-family: ${F}; font-size: 18px; font-weight: 500; color: ${INK}; display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
         .feat-card-sub { font-family: ${F}; font-size: 14px; color: #8a7358; line-height: 1.5; min-height: 44px; }
-        .feat-badge { display: inline-flex; align-items: center; gap: 6px; background: white; border: 1px solid #eee; border-radius: 999px; padding: 7px 16px; font-size: 12px; font-weight: 500; color: ${INK}; position: absolute; bottom: 14px; left: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); white-space: nowrap; font-family: ${F}; }
+        .feat-badge { display: inline-flex; align-items: center; gap: 6px; background: white; border: 1px solid #eee; border-radius: 4px; padding: 7px 16px; font-size: 12px; font-weight: 500; color: ${INK}; position: absolute; bottom: 14px; left: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); white-space: nowrap; font-family: ${F}; }
         .feat-grid { will-change: transform, opacity; }
         .deep-nav-btn { background: none; border: none; cursor: pointer; text-align: left; padding: 10px 0; display: flex; align-items: center; gap: 12px; width: 100%; transition: all 0.25s; }
         .deep-nav-btn:hover span { color: ${INK} !important; }
         .deep-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; transition: all 0.35s ease; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         .floating { animation: float 6s ease-in-out infinite; }
-        @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        .ticker { display: flex; gap: 48px; animation: ticker 24s linear infinite; width: max-content; align-items: center; }
         .scroll-btn { width: 48px; height: 48px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.6); background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; font-size: 18px; transition: all 0.2s; }
         .scroll-btn:hover { background: rgba(255,255,255,0.1); }
         .review-card { background: ${BLUE_LIGHT}; border: 1px solid ${BLUE}; border-radius: 28px; padding: 32px; }
@@ -111,22 +109,22 @@ export default function Home() {
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 300, background: scrollY > 20 ? 'rgba(241,234,218,0.98)' : NEUTRAL, borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '0 48px', height: 68, display: 'flex', alignItems: 'center', justifyContent: 'space-between', transition: 'all 0.3s', backdropFilter: 'blur(12px)', borderTopLeftRadius: 24, borderTopRightRadius: 24 }}>
         <Link href="/" style={{ fontFamily: F, fontSize: 26, fontStyle: 'italic', fontWeight: 700, color: '#4A3323', textDecoration: 'none' }}>mylov3</Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
-          {[{ l: 'Inicio', a: true }, { l: 'Nosotros' }, { l: 'Funciones' }, { l: 'Precios' }, { l: 'Inspiración' }, { l: 'Contacto' }].map(n => (
+          {[{ l: 'Inicio', a: true }, { l: 'Nosotros' }, { l: 'Servicios' }, { l: 'Precios' }, { l: 'Inspiración' }, { l: 'Contacto' }].map(n => (
             <a key={n.l} href="#" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', textDecoration: 'none', color: n.a ? BLUE_DARK : INK, opacity: n.a ? 1 : 0.65, fontWeight: n.a ? 600 : 400 }}>{n.l}</a>
           ))}
         </div>
-        <Link href="/start" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: BLUE_DARK, border: `1px solid ${BLUE_DARK}`, borderRadius: 4, padding: '10px 22px', textDecoration: 'none' }}>Empezar</Link>
+        <Link href="/start" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: BLUE_DARK, border: `1px solid ${BLUE_DARK}`, borderRadius: 0, padding: '10px 22px', textDecoration: 'none' }}>Empezar</Link>
       </nav>
 
       {/* HERO — banner de la terraza */}
       <section className="hero-sec" style={{ position: 'relative', height: '88vh', overflow: 'hidden', paddingTop: 68 }}>
-        <img src="/banner-terraza.png" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+        <img src="/banner-terraza.png" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(1.12)' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(241,234,218,0.85) 0%, rgba(241,234,218,0.35) 45%, rgba(241,234,218,0) 70%)' }} />
         <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', padding: '0 64px' }}>
           <div style={{ maxWidth: 480 }}>
             <span style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.16em', textTransform: 'uppercase', color: BLUE_DARK, fontWeight: 600 }}>Planificamos. Vosotros celebráis.</span>
             <h2 style={{ fontFamily: F, fontSize: 'clamp(2rem,4vw,3.2rem)', color: INK, lineHeight: 1.15, margin: '18px 0 22px' }}>
-              Bodas atemporales,<br />momentos con significado
+              Planifica tu boda,<br />sé tu wedding planner
             </h2>
             <p style={{ fontFamily: F, fontSize: 16, color: '#6b5a4a', lineHeight: 1.7, marginBottom: 32, maxWidth: 400 }}>
               Creamos celebraciones cuidadas e inolvidables, en los lugares más bonitos del mundo.
@@ -135,7 +133,7 @@ export default function Home() {
               <Link href="/start" style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: NEUTRAL, background: BLUE_DARK, padding: '16px 28px', textDecoration: 'none', display: 'inline-block' }}>
                 ¡Empezamos!
               </Link>
-              <Link href="/dashboard" style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: BLUE_DARK, border: `1px solid ${BLUE_DARK}`, padding: '16px 28px', textDecoration: 'none', display: 'inline-block' }}>
+              <Link href="/dashboard" style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: BLUE_DARK, background: 'rgba(241,234,218,0.9)', border: `1px solid ${BLUE_DARK}`, padding: '16px 28px', textDecoration: 'none', display: 'inline-block' }}>
                 Ver demo
               </Link>
             </div>
@@ -151,11 +149,19 @@ export default function Home() {
         </div>
       </section>
 
-      {/* TICKER */}
-      <div style={{ overflow: 'hidden', borderTop: `1px solid ${BLUE}`, borderBottom: `1px solid ${BLUE}`, padding: '18px 0', background: 'white' }}>
-        <div className="ticker">
-          {['Invitados','·','Presupuesto','·','Mesas','·','Cronograma','·','Proveedores','·','Web de boda','·','Notas','·','Inspiración','·','Invitados','·','Presupuesto','·','Mesas','·','Cronograma','·','Proveedores','·','Web de boda','·','Notas','·','Inspiración','·'].map((t, i) => (
-            <span key={i} style={{ fontFamily: F, fontSize: 13, color: t === '·' ? '#CEC1A8' : '#AAA396', letterSpacing: '0.1em', textTransform: 'uppercase', whiteSpace: 'nowrap', flexShrink: 0 }}>{t}</span>
+      {/* ESTADÍSTICAS */}
+      <div style={{ borderTop: `1px solid ${BLUE}`, borderBottom: `1px solid ${BLUE}`, padding: '32px 0', background: NEUTRAL }}>
+        <div style={{ maxWidth: 1000, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', textAlign: 'center' }}>
+          {[
+            { n: '1200+', l: 'Parejas felices' },
+            { n: '1500+', l: 'Bodas' },
+            { n: '25+', l: 'Destinos' },
+            { n: '16+', l: 'Años de experiencia' },
+          ].map(s => (
+            <div key={s.l}>
+              <p style={{ fontFamily: F, fontSize: 30, color: BLUE_DARK, marginBottom: 6 }}>{s.n}</p>
+              <p style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#8a7358' }}>{s.l}</p>
+            </div>
           ))}
         </div>
       </div>
@@ -409,7 +415,7 @@ export default function Home() {
             <p style={{ fontFamily: F, fontSize: 14, color: 'rgba(241,234,218,0.75)', marginBottom: 20 }}>Para todos los días del camino</p>
             <a href="#" className="footer-a">Iniciar sesión →</a>
             <Link href="/dashboard" className="footer-a" style={{ display: 'block' }}>Encuentra vuestra boda →</Link>
-            <Link href="/start" style={{ marginTop: 16, fontSize: 14, padding: '11px 28px', background: NEUTRAL, color: BLUE_DARK, borderRadius: 999, fontWeight: 500, textDecoration: 'none', display: 'inline-block', fontFamily: F }}>Empezar gratis</Link>
+            <Link href="/start" style={{ marginTop: 16, fontSize: 14, padding: '11px 28px', background: NEUTRAL, color: BLUE_DARK, borderRadius: 0, fontWeight: 500, textDecoration: 'none', display: 'inline-block', fontFamily: F }}>Empezar gratis</Link>
             <div style={{ display: 'flex', gap: 10, marginTop: 24 }}>
               {[
                 { name: 'Instagram', icon: (
