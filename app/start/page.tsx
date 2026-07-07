@@ -5,7 +5,7 @@ import { useState } from 'react'
 
 const BLUE = '#AAA396'
 const BLUE_DARK = '#5C4A3D'
-const BLUE_LIGHT = '#EDE4D3'
+const BLUE_LIGHT = '#F3ECDE'
 const INK = '#4A3B32'
 const F = "'Cormorant', serif"
 
