@@ -148,6 +148,31 @@ export default function Home() {
         </div>
       </section>
 
+      {/* BANNER TERRAZA */}
+      <section className="sec-reveal" style={{ position: 'relative', height: '58vh', overflow: 'hidden' }}>
+        <img src="/banner-terraza.png" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(241,234,218,0.85) 0%, rgba(241,234,218,0.35) 45%, rgba(241,234,218,0) 70%)' }} />
+        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', padding: '0 64px' }}>
+          <div style={{ maxWidth: 480 }}>
+            <span style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.16em', textTransform: 'uppercase', color: BLUE_DARK, fontWeight: 600 }}>Planificamos. Vosotros celebráis.</span>
+            <h2 style={{ fontFamily: F, fontSize: 'clamp(2rem,4vw,3.2rem)', color: INK, lineHeight: 1.15, margin: '18px 0 22px' }}>
+              Bodas atemporales,<br />momentos con significado
+            </h2>
+            <p style={{ fontFamily: F, fontSize: 16, color: '#6b5a4a', lineHeight: 1.7, marginBottom: 32, maxWidth: 400 }}>
+              Creamos celebraciones cuidadas e inolvidables, en los lugares más bonitos del mundo.
+            </p>
+            <Link href="/start" style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: NEUTRAL, background: BLUE_DARK, padding: '16px 28px', textDecoration: 'none', display: 'inline-block' }}>
+              Descubre nuestros servicios
+            </Link>
+          </div>
+        </div>
+        <div style={{ position: 'absolute', right: 28, top: 0, bottom: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+          <span style={{ fontFamily: F, fontSize: 11, color: INK }}>01</span>
+          <div style={{ width: 1, height: 60, background: 'rgba(74,59,50,0.4)' }} />
+          <span style={{ fontFamily: F, fontSize: 11, color: INK }}>03</span>
+        </div>
+      </section>
+
       {/* TICKER */}
       <div style={{ overflow: 'hidden', borderTop: `1px solid ${BLUE}`, borderBottom: `1px solid ${BLUE}`, padding: '18px 0', background: 'white' }}>
         <div className="ticker">
