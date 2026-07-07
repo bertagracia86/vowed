@@ -84,8 +84,8 @@ export default function Home() {
         main { border-radius: 24px; }
         .nav-a { font-size: 14px; color: ${INK}; text-decoration: none; opacity: 0.7; transition: opacity 0.2s; font-family: ${F}; }
         .nav-a:hover { opacity: 1; }
-        .footer-a { display: block; font-family: ${F}; font-size: 14px; color: #8a7358; text-decoration: none; margin-bottom: 14px; transition: color 0.2s; }
-        .footer-a:hover { color: ${INK}; }
+        .footer-a { display: block; font-family: ${F}; font-size: 14px; color: rgba(241,234,218,0.75); text-decoration: none; margin-bottom: 14px; transition: color 0.2s; }
+        .footer-a:hover { color: ${NEUTRAL}; }
         .btn-light { background: rgba(255,255,255,0.92); color: ${INK}; border: none; border-radius: 999px; padding: 14px 36px; font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; font-family: ${F}; }
         .btn-light:hover { background: white; transform: translateY(-1px); }
         .btn-blue { background: ${BLUE_DARK}; color: white; border: none; border-radius: 999px; padding: 14px 36px; font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; font-family: ${F}; }
@@ -119,15 +119,8 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* BANNER — fino */}
-      <div className="banner" style={{ position: 'fixed', top: 68, left: 0, right: 0, zIndex: 200, background: BLUE_DARK, padding: '7px 24px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, willChange: 'transform, opacity' }}>
-        <span style={{ background: 'rgba(255,255,255,0.25)', color: 'white', fontSize: 11, fontWeight: 600, borderRadius: 6, padding: '1px 8px', fontFamily: F }}>Nuevo</span>
-        <span style={{ fontSize: 13, color: 'white', fontWeight: 500, fontFamily: F }}>Planifica tu boda.</span>
-        <a href="#" style={{ fontSize: 13, color: 'white', fontWeight: 600, fontFamily: F }}>Pruébalo</a>
-      </div>
-
       {/* HERO */}
-      <section className="hero-sec" style={{ position: 'relative', height: '100vh', overflow: 'hidden', display: 'grid', gridTemplateColumns: '1fr 1fr', alignItems: 'center', paddingTop: 104, background: NEUTRAL }}>
+      <section className="hero-sec" style={{ position: 'relative', height: '100vh', overflow: 'hidden', display: 'grid', gridTemplateColumns: '1fr 1fr', alignItems: 'center', paddingTop: 68, background: NEUTRAL }}>
         <div className="hero-content" style={{ position: 'relative', zIndex: 10, padding: '0 24px 0 64px', maxWidth: 620 }}>
           <h1 style={{ fontFamily: F, fontSize: 'clamp(2.2rem,4vw,3.8rem)', fontWeight: 600, color: INK, lineHeight: 1.05, marginBottom: 28, letterSpacing: '-0.02em' }}>
             La planificación de<br />la boda comienza aquí.
@@ -385,33 +378,33 @@ export default function Home() {
       </section>
 
       {/* FOOTER */}
-      <footer style={{ borderTop: `1px solid ${BLUE}`, background: BLUE_LIGHT, borderBottomLeftRadius: 24, borderBottomRightRadius: 24 }}>
+      <footer style={{ borderTop: `1px solid ${BLUE_DARK}`, background: BLUE_DARK, borderBottomLeftRadius: 24, borderBottomRightRadius: 24 }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '64px 48px 40px', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1.3fr', gap: 40 }}>
           <div>
-            <p style={{ fontFamily: F, fontSize: 14, fontWeight: 600, color: INK, marginBottom: 20 }}>Producto</p>
+            <p style={{ fontFamily: F, fontSize: 14, fontWeight: 600, color: NEUTRAL, marginBottom: 20 }}>Producto</p>
             {['Invitados', 'Web de boda', 'Proveedores', 'Invitaciones', 'Presupuesto', 'Detalles'].map(l => (
               <a key={l} href="#" className="footer-a">{l}</a>
             ))}
           </div>
           <div>
-            <p style={{ fontFamily: F, fontSize: 14, fontWeight: 600, color: INK, marginBottom: 20 }}>Ayuda y soporte</p>
+            <p style={{ fontFamily: F, fontSize: 14, fontWeight: 600, color: NEUTRAL, marginBottom: 20 }}>Ayuda y soporte</p>
             <a href="#" className="footer-a">Preguntas frecuentes</a>
             <a href="#" className="footer-a">Contacto</a>
             <a href="#" className="footer-a">Política de privacidad</a>
             <a href="#" className="footer-a">Términos y condiciones</a>
           </div>
           <div>
-            <p style={{ fontFamily: F, fontSize: 14, fontWeight: 600, color: INK, marginBottom: 20 }}>Sobre mylov3</p>
+            <p style={{ fontFamily: F, fontSize: 14, fontWeight: 600, color: NEUTRAL, marginBottom: 20 }}>Sobre mylov3</p>
             <a href="#" className="footer-a">Nuestra historia</a>
             <a href="#" className="footer-a">Blog de bodas</a>
             <a href="#" className="footer-a">Inspiración</a>
           </div>
           <div>
-            <div style={{ fontFamily: F, fontSize: 22, fontWeight: 500, letterSpacing: '0.04em', color: BLUE_DARK, marginBottom: 10 }}>mylov3 ♡</div>
-            <p style={{ fontFamily: F, fontSize: 14, color: '#8a7358', marginBottom: 20 }}>Para todos los días del camino</p>
+            <div style={{ fontFamily: F, fontSize: 22, fontWeight: 500, letterSpacing: '0.04em', color: NEUTRAL, marginBottom: 10 }}>mylov3 ♡</div>
+            <p style={{ fontFamily: F, fontSize: 14, color: 'rgba(241,234,218,0.75)', marginBottom: 20 }}>Para todos los días del camino</p>
             <a href="#" className="footer-a">Iniciar sesión →</a>
             <Link href="/dashboard" className="footer-a" style={{ display: 'block' }}>Encuentra vuestra boda →</Link>
-            <Link href="/start" className="btn-blue" style={{ marginTop: 16, fontSize: 14, padding: '11px 28px' }}>Empezar gratis</Link>
+            <Link href="/start" style={{ marginTop: 16, fontSize: 14, padding: '11px 28px', background: NEUTRAL, color: BLUE_DARK, borderRadius: 999, fontWeight: 500, textDecoration: 'none', display: 'inline-block', fontFamily: F }}>Empezar gratis</Link>
             <div style={{ display: 'flex', gap: 10, marginTop: 24 }}>
               {[
                 { name: 'Instagram', icon: (
@@ -424,17 +417,17 @@ export default function Home() {
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M14 3v10.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 3c0 2.5 2 4.5 4.5 4.5"/></svg>
                 ) },
               ].map(s => (
-                <a key={s.name} href="#" aria-label={s.name} style={{ width: 34, height: 34, borderRadius: '50%', border: `1px solid ${BLUE}`, background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', color: BLUE_DARK, textDecoration: 'none' }}>{s.icon}</a>
+                <a key={s.name} href="#" aria-label={s.name} style={{ width: 34, height: 34, borderRadius: '50%', border: '1px solid rgba(241,234,218,0.35)', background: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', color: NEUTRAL, textDecoration: 'none' }}>{s.icon}</a>
               ))}
             </div>
           </div>
         </div>
-        <div style={{ borderTop: `1px solid ${BLUE}`, padding: '20px 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+        <div style={{ borderTop: '1px solid rgba(241,234,218,0.2)', padding: '20px 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
           <div style={{ display: 'flex', gap: 24 }}>
             <a href="#" className="footer-a" style={{ marginBottom: 0 }}>Privacidad</a>
             <a href="#" className="footer-a" style={{ marginBottom: 0 }}>Términos</a>
           </div>
-          <p style={{ fontFamily: F, fontSize: 12, color: '#B59E7D' }}>© 2026 mylov3. Todos los derechos reservados.</p>
+          <p style={{ fontFamily: F, fontSize: 12, color: 'rgba(241,234,218,0.6)' }}>© 2026 mylov3. Todos los derechos reservados.</p>
         </div>
       </footer>
     </main>
