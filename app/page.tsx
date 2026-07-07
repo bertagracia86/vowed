@@ -118,10 +118,9 @@ export default function Home() {
 
       {/* HERO — banner de la terraza */}
       <section className="hero-sec" style={{ position: 'relative', height: '88vh', overflow: 'hidden', paddingTop: 68 }}>
-        <img src="/banner-terraza.png" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(1.12)' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(241,234,218,0.85) 0%, rgba(241,234,218,0.35) 45%, rgba(241,234,218,0) 70%)' }} />
+        <img src="/banner-terraza.png" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
         <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', padding: '0 64px' }}>
-          <div style={{ maxWidth: 480 }}>
+          <div style={{ maxWidth: 480, background: 'rgba(250,249,247,0.88)', padding: '32px 36px' }}>
             <span style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.16em', textTransform: 'uppercase', color: BLUE_DARK, fontWeight: 600 }}>Planificamos. Vosotros celebráis.</span>
             <h2 style={{ fontFamily: F, fontSize: 'clamp(2rem,4vw,3.2rem)', color: INK, lineHeight: 1.15, margin: '18px 0 22px' }}>
               Planifica tu boda,<br />sé tu wedding planner
