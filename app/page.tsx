@@ -3,10 +3,10 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 const BLUE = '#AAA396'
-const BLUE_DARK = '#5C4A3D'
-const BLUE_LIGHT = '#EFEAE4'
+const BLUE_DARK = '#9f7b5d'
+const BLUE_LIGHT = '#efe9e3'
 const INK = '#4A3B32'
-const NEUTRAL = '#F1EADA'
+const NEUTRAL = '#faf9f7'
 const F = "'Cormorant', serif"
 
 export default function Home() {
@@ -150,7 +150,7 @@ export default function Home() {
       </section>
 
       {/* ESTADÍSTICAS */}
-      <div style={{ borderTop: `1px solid ${BLUE}`, borderBottom: `1px solid ${BLUE}`, padding: '32px 0', background: NEUTRAL }}>
+      <div style={{ borderTop: `1px solid ${BLUE}`, borderBottom: `1px solid ${BLUE}`, padding: '32px 0', background: BLUE_LIGHT }}>
         <div style={{ maxWidth: 1000, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', textAlign: 'center' }}>
           {[
             { n: '1200+', l: 'Parejas felices' },
