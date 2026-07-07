@@ -7,7 +7,7 @@ const BLUE_DARK = '#7c8f74'
 const BLUE_LIGHT = '#f2efe4'
 const INK = '#2b2a26'
 const NEUTRAL = '#f5f2ea'
-const F = "'Jost', sans-serif"
+const F = "'Playfair Display', serif"
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0)
@@ -78,7 +78,7 @@ export default function Home() {
   return (
     <main style={{ fontFamily: F, background: NEUTRAL }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: ${NEUTRAL}; padding: 5px; }
         main { border-radius: 24px; }
