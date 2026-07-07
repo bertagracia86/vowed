@@ -112,11 +112,13 @@ export default function Home() {
 
       {/* NAV */}
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 300, background: scrollY > 20 ? 'rgba(241,234,218,0.98)' : NEUTRAL, borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '0 48px', height: 68, display: 'flex', alignItems: 'center', justifyContent: 'space-between', transition: 'all 0.3s', backdropFilter: 'blur(12px)', borderTopLeftRadius: 24, borderTopRightRadius: 24 }}>
-        <Link href="/"><img src="/logo.png" alt="mylov3" style={{ height: 26, display: 'block', filter: 'brightness(0) saturate(100%)' }} /></Link>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
-          <a href="#" className="nav-a" style={{ opacity: 0.8 }}>Inicia sesión</a>
-          <Link href="/start" className="btn-blue-sm">¡Empezamos!</Link>
+        <Link href="/" style={{ fontFamily: F, fontSize: 24, fontStyle: 'italic', color: BLUE_DARK, textDecoration: 'none' }}>mylov3</Link>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
+          {[{ l: 'Inicio', a: true }, { l: 'Nosotros' }, { l: 'Funciones' }, { l: 'Precios' }, { l: 'Inspiración' }, { l: 'Contacto' }].map(n => (
+            <a key={n.l} href="#" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', textDecoration: 'none', color: n.a ? BLUE_DARK : INK, opacity: n.a ? 1 : 0.65, fontWeight: n.a ? 600 : 400 }}>{n.l}</a>
+          ))}
         </div>
+        <Link href="/start" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: BLUE_DARK, border: `1px solid ${BLUE_DARK}`, borderRadius: 4, padding: '10px 22px', textDecoration: 'none' }}>Empezar</Link>
       </nav>
 
       {/* HERO */}
