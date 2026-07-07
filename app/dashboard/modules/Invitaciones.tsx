@@ -15,7 +15,7 @@ export default function Invitaciones() {
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20 }}>
         {TEMPLATES.map(t => (
-          <div key={t.name} style={{ border: '1px solid #EEF2F7', borderRadius: 18, overflow: 'hidden' }}>
+          <div key={t.name} style={{ border: '1px solid #F5EFE0', borderRadius: 18, overflow: 'hidden' }}>
             <div style={{ aspectRatio: '4/3', overflow: 'hidden' }}>
               <img src={t.img} alt={t.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>

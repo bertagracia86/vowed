@@ -58,14 +58,14 @@ export default function Presupuesto({ budget, setBudget, guestCount }: Props) {
       </div>
 
       <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
-        <input value={newCat} onChange={e => setNewCat(e.target.value)} placeholder="Categoría" style={{ flex: 1, border: '1px solid #DCE7F4', borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }} />
-        <input value={newEst} onChange={e => setNewEst(e.target.value)} type="number" placeholder="Presupuesto €" style={{ width: 140, border: '1px solid #DCE7F4', borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }} />
-        <input value={newPaid} onChange={e => setNewPaid(e.target.value)} type="number" placeholder="Pagado €" style={{ width: 120, border: '1px solid #DCE7F4', borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }} />
+        <input value={newCat} onChange={e => setNewCat(e.target.value)} placeholder="Categoría" style={{ flex: 1, border: '1px solid #E3DCC9', borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }} />
+        <input value={newEst} onChange={e => setNewEst(e.target.value)} type="number" placeholder="Presupuesto €" style={{ width: 140, border: '1px solid #E3DCC9', borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }} />
+        <input value={newPaid} onChange={e => setNewPaid(e.target.value)} type="number" placeholder="Pagado €" style={{ width: 120, border: '1px solid #E3DCC9', borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }} />
         <button onClick={add} style={{ background: BLUE, color: 'white', border: 'none', borderRadius: 12, padding: '11px 22px', fontSize: 13, cursor: 'pointer' }}>Añadir</button>
       </div>
 
-      <div style={{ border: '1px solid #EEF2F7', borderRadius: 16, overflow: 'hidden' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr auto', padding: '10px 18px', background: '#FAFBFD', borderBottom: '1px solid #EEF2F7' }}>
+      <div style={{ border: '1px solid #F5EFE0', borderRadius: 16, overflow: 'hidden' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr auto', padding: '10px 18px', background: '#FBF9F5', borderBottom: '1px solid #F5EFE0' }}>
           {['CATEGORÍA', 'PRESUPUESTO', 'PAGADO', 'RESTANTE', ''].map(h => (
             <span key={h} style={{ fontSize: 10, color: MUTE, letterSpacing: '0.04em' }}>{h}</span>
           ))}
@@ -73,16 +73,16 @@ export default function Presupuesto({ budget, setBudget, guestCount }: Props) {
         {budget.length === 0 ? (
           <p style={{ fontSize: 13, color: MUTE, textAlign: 'center', padding: '30px 0' }}>Sin partidas todavía.</p>
         ) : budget.map((b, i) => (
-          <div key={b.id} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr auto', alignItems: 'center', padding: '12px 18px', borderBottom: i < budget.length - 1 ? '1px solid #F0F3F8' : 'none' }}>
+          <div key={b.id} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr auto', alignItems: 'center', padding: '12px 18px', borderBottom: i < budget.length - 1 ? '1px solid #F5EFE0' : 'none' }}>
             <span style={{ fontSize: 13, color: INK }}>{b.category}</span>
             <span style={{ fontSize: 12, color: MUTE }}>{b.estimated.toLocaleString('es-ES')} €</span>
             <input
               type="number" value={b.paid}
               onChange={e => updatePaid(b.id, Number(e.target.value))}
-              style={{ border: '1px solid #EEF2F7', borderRadius: 8, padding: '5px 8px', fontSize: 12, width: 90, outline: 'none' }}
+              style={{ border: '1px solid #F5EFE0', borderRadius: 8, padding: '5px 8px', fontSize: 12, width: 90, outline: 'none' }}
             />
             <span style={{ fontSize: 12, color: b.estimated - b.paid < 0 ? '#C0594F' : MUTE }}>{Math.max(0, b.estimated - b.paid).toLocaleString('es-ES')} €</span>
-            <button onClick={() => remove(b.id)} style={{ background: 'none', border: 'none', color: '#C7D2E0', cursor: 'pointer', fontSize: 16 }}>×</button>
+            <button onClick={() => remove(b.id)} style={{ background: 'none', border: 'none', color: '#C9BCA8', cursor: 'pointer', fontSize: 16 }}>×</button>
           </div>
         ))}
       </div>

@@ -28,7 +28,7 @@ export default function WebBoda({ info, setInfo }: Props) {
               value={info[f.field as keyof WeddingInfo]}
               onChange={e => update(f.field as keyof WeddingInfo, e.target.value)}
               placeholder={f.placeholder}
-              style={{ width: '100%', border: '1px solid #DCE7F4', borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }}
+              style={{ width: '100%', border: '1px solid #E3DCC9', borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }}
             />
           </div>
         ))}
@@ -41,13 +41,13 @@ export default function WebBoda({ info, setInfo }: Props) {
           onChange={e => update('message', e.target.value)}
           rows={4}
           placeholder="Nos casamos y queremos celebrarlo con vosotros..."
-          style={{ width: '100%', border: '1px solid #DCE7F4', borderRadius: 12, padding: '13px 16px', fontSize: 13, outline: 'none', resize: 'vertical', lineHeight: 1.7 }}
+          style={{ width: '100%', border: '1px solid #E3DCC9', borderRadius: 12, padding: '13px 16px', fontSize: 13, outline: 'none', resize: 'vertical', lineHeight: 1.7 }}
         />
       </div>
 
       <p style={{ fontSize: 12, color: MUTE, marginBottom: 16 }}>Vista previa de cómo lo verán vuestros invitados:</p>
-      <div style={{ border: '1px solid #EEF2F7', borderRadius: 20, overflow: 'hidden' }}>
-        <div style={{ background: 'linear-gradient(135deg, #EAF1FA, #F3F7FC)', padding: '48px 40px', textAlign: 'center' }}>
+      <div style={{ border: '1px solid #F5EFE0', borderRadius: 20, overflow: 'hidden' }}>
+        <div style={{ background: 'linear-gradient(135deg, #F1E7D0, #F8F3E8)', padding: '48px 40px', textAlign: 'center' }}>
           <p style={{ fontFamily: F, fontSize: 14, color: MUTE, marginBottom: 8 }}>Os invitamos a nuestra boda</p>
           <h2 style={{ fontFamily: F, fontSize: 42, fontWeight: 400, color: INK, marginBottom: 12 }}>
             {info.partner1 || 'Laura'} <span style={{ color: BLUE }}>♡</span> {info.partner2 || 'Marcos'}

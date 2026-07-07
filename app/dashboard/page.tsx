@@ -69,12 +69,12 @@ export default function Dashboard() {
 
   if (!authed) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: BG, fontFamily: "'Inter',sans-serif" }}>
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: BG, fontFamily: F }}>
         <form onSubmit={checkPw} style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 18, padding: '40px 36px', width: 320, textAlign: 'center' }}>
           <div style={{ fontFamily: F, fontSize: 26, fontStyle: 'italic', fontWeight: 700, color: BLUE, marginBottom: 6 }}>mylov3</div>
           <p style={{ fontSize: 12, color: MUTE, marginBottom: 24 }}>Introduce la contraseña para entrar</p>
           <input type="password" value={pw} onChange={e => setPw(e.target.value)} placeholder="••••" autoFocus
-            style={{ width: '100%', border: '1px solid #DCE7F4', borderRadius: 12, padding: '12px 16px', fontSize: 14, outline: 'none', textAlign: 'center', marginBottom: 12 }} />
+            style={{ width: '100%', border: '1px solid #E3DCC9', borderRadius: 12, padding: '12px 16px', fontSize: 14, outline: 'none', textAlign: 'center', marginBottom: 12 }} />
           {pwErr && <p style={{ fontSize: 12, color: '#C0594F', marginBottom: 12 }}>{pwErr}</p>}
           <button type="submit" style={{ width: '100%', background: BLUE, color: 'white', border: 'none', borderRadius: 12, padding: '12px 0', fontSize: 14, cursor: 'pointer' }}>Entrar</button>
         </form>
@@ -83,7 +83,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', background: BG, fontFamily: "'Inter',sans-serif" }}>
+    <div style={{ minHeight: '100vh', display: 'flex', background: BG, fontFamily: F }}>
 
       <aside style={{ width: 220, background: 'white', borderRight: '1px solid #ECE9E4', padding: '20px 14px', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 8px 20px' }}>

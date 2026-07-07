@@ -41,7 +41,7 @@ export default function Resumen({ tasks, guests, budget, vendors, weddingInfo, w
       {/* IZQUIERDA — foto, nombres, pills, QR */}
       <div>
         <div style={{ position: 'relative', height: 200, borderRadius: 14, border: '1.5px dashed #DDD8D0', background: '#F4F2EE', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', marginBottom: 14 }}>
-          <span style={{ fontSize: 12, color: MUTE }}>📷 Subir foto de portada</span>
+          <span style={{ fontSize: 12, color: MUTE }}>Subir foto de portada</span>
         </div>
 
         <p style={{ fontFamily: F, fontSize: 24, fontWeight: 600, color: INK, textAlign: 'center', marginBottom: 12 }}>
@@ -49,8 +49,8 @@ export default function Resumen({ tasks, guests, budget, vendors, weddingInfo, w
         </p>
 
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: 'center', marginBottom: 16 }}>
-          <span style={{ border: '1px solid #ECE9E4', borderRadius: 999, padding: '5px 12px', fontSize: 11, color: MUTE }}>📅 {dateLabel}</span>
-          <span style={{ border: '1px solid #ECE9E4', borderRadius: 999, padding: '5px 12px', fontSize: 11, color: MUTE }}>📍 {weddingInfo.venue || 'Sin definir'}</span>
+          <span style={{ border: '1px solid #ECE9E4', borderRadius: 999, padding: '5px 12px', fontSize: 11, color: MUTE }}>{dateLabel}</span>
+          <span style={{ border: '1px solid #ECE9E4', borderRadius: 999, padding: '5px 12px', fontSize: 11, color: MUTE }}>{weddingInfo.venue || 'Sin definir'}</span>
           <span style={{ border: '1px solid #ECE9E4', borderRadius: 999, padding: '5px 12px', fontSize: 11, color: MUTE }}>{hashtag}</span>
         </div>
 

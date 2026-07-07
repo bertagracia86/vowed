@@ -1,7 +1,7 @@
-export const F = "'Cormorant Garamond',serif"
-export const BLUE = '#6E8FC9'
-export const BLUE_DARK = '#3D5A80'
-export const INK = '#2C2A26'
-export const MUTE = '#8A8580'
-export const BG = '#FAF9F7'
+export const F = "'Cormorant', serif"
+export const BLUE = '#AAA396'
+export const BLUE_DARK = '#5C4A3D'
+export const INK = '#4A3B32'
+export const MUTE = '#8a7358'
+export const BG = '#F1EADA'
 export const PASSWORD = '1234'

@@ -34,8 +34,8 @@ export default function Mesas({ tables, setTables, guests, setGuests }: Props) {
       <p style={{ fontSize: 12, color: MUTE, marginBottom: 24 }}>{tables.length} mesas · {guests.length - unassigned.length} invitados asignados</p>
 
       <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
-        <input value={newName} onChange={e => setNewName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addTable()} placeholder="Nombre de la mesa (ej: Mesa 1)" style={{ flex: 1, border: '1px solid #DCE7F4', borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }} />
-        <select value={newShape} onChange={e => setNewShape(e.target.value as any)} style={{ border: '1px solid #DCE7F4', borderRadius: 12, padding: '11px 14px', fontSize: 13, outline: 'none', background: 'white' }}>
+        <input value={newName} onChange={e => setNewName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addTable()} placeholder="Nombre de la mesa (ej: Mesa 1)" style={{ flex: 1, border: '1px solid #E3DCC9', borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }} />
+        <select value={newShape} onChange={e => setNewShape(e.target.value as any)} style={{ border: '1px solid #E3DCC9', borderRadius: 12, padding: '11px 14px', fontSize: 13, outline: 'none', background: 'white' }}>
           <option value="round">Redonda</option>
           <option value="rect">Rectangular</option>
           <option value="standing">Zona de pie</option>
@@ -55,30 +55,30 @@ export default function Mesas({ tables, setTables, guests, setGuests }: Props) {
                 key={table.id}
                 onDragOver={e => e.preventDefault()}
                 onDrop={() => { if (draggedGuest && !isStanding) assignGuest(draggedGuest, table.name) }}
-                style={{ border: `1.5px ${isStanding ? 'dashed' : 'solid'} ${isStanding ? '#C9BCE8' : '#DCE7F4'}`, borderRadius: 14, padding: 16, minHeight: 100, background: isStanding ? '#F8F5FE' : 'white' }}
+                style={{ border: `1.5px ${isStanding ? 'dashed' : 'solid'} ${isStanding ? '#C9BCE8' : '#E3DCC9'}`, borderRadius: 14, padding: 16, minHeight: 100, background: isStanding ? '#F8F5FE' : 'white' }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
                   <p style={{ fontFamily: F, fontSize: 15, color: INK }}>{table.name}</p>
-                  <button onClick={() => removeTable(table.id, table.name)} style={{ background: 'none', border: 'none', color: '#C7D2E0', cursor: 'pointer', fontSize: 16 }}>×</button>
+                  <button onClick={() => removeTable(table.id, table.name)} style={{ background: 'none', border: 'none', color: '#C9BCA8', cursor: 'pointer', fontSize: 16 }}>×</button>
                 </div>
                 {!isStanding && seated.map(g => (
-                  <div key={g.id} draggable onDragStart={() => setDraggedGuest(g.id)} style={{ background: '#F3F7FC', borderRadius: 8, padding: '4px 10px', fontSize: 11, color: INK, marginBottom: 4, cursor: 'grab' }}>
+                  <div key={g.id} draggable onDragStart={() => setDraggedGuest(g.id)} style={{ background: '#F8F3E8', borderRadius: 8, padding: '4px 10px', fontSize: 11, color: INK, marginBottom: 4, cursor: 'grab' }}>
                     {g.name}
                   </div>
                 ))}
-                {!isStanding && seated.length === 0 && <p style={{ fontSize: 11, color: '#C7D2E0' }}>Arrastra invitados aquí</p>}
+                {!isStanding && seated.length === 0 && <p style={{ fontSize: 11, color: '#C9BCA8' }}>Arrastra invitados aquí</p>}
                 {isStanding && <p style={{ fontSize: 11, color: '#9B8EC4' }}>Zona de pie</p>}
               </div>
             )
           })}
         </div>
 
-        <div style={{ border: '1px solid #EEF2F7', borderRadius: 14, padding: 16, alignSelf: 'flex-start', maxHeight: 500, overflowY: 'auto' }}>
+        <div style={{ border: '1px solid #F5EFE0', borderRadius: 14, padding: 16, alignSelf: 'flex-start', maxHeight: 500, overflowY: 'auto' }}>
           <p style={{ fontSize: 11, color: MUTE, marginBottom: 10 }}>Sin asignar ({unassigned.length})</p>
           {unassigned.length === 0 ? (
-            <p style={{ fontSize: 11, color: '#C7D2E0' }}>Todos asignados ♡</p>
+            <p style={{ fontSize: 11, color: '#C9BCA8' }}>Todos asignados ♡</p>
           ) : unassigned.map(g => (
-            <div key={g.id} draggable onDragStart={() => setDraggedGuest(g.id)} style={{ background: 'white', border: '1px solid #EEF2F7', borderRadius: 8, padding: '7px 10px', fontSize: 12, color: INK, marginBottom: 6, cursor: 'grab' }}>
+            <div key={g.id} draggable onDragStart={() => setDraggedGuest(g.id)} style={{ background: 'white', border: '1px solid #F5EFE0', borderRadius: 8, padding: '7px 10px', fontSize: 12, color: INK, marginBottom: 6, cursor: 'grab' }}>
               {g.name}
             </div>
           ))}
