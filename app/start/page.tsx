@@ -5,7 +5,7 @@ import { useState } from 'react'
 
 const BLUE = '#AAA396'
 const BLUE_DARK = '#5C4A3D'
-const BLUE_LIGHT = '#CEC1A8'
+const BLUE_LIGHT = '#EDE4D3'
 const INK = '#4A3B32'
 const F = "'Cormorant', serif"
 
@@ -14,11 +14,11 @@ const STEPS = ['Empezar', 'Lo básico', 'Últimos detalles']
 const STEP_GROUP = [0, 1, 2, 2, 2]
 
 const STAGES = [
-  { icon: '💍', label: 'Aún no estamos prometidos' },
-  { icon: '✨', label: 'Recién prometidos, explorando' },
-  { icon: '📋', label: 'Planificando, sin finca reservada' },
-  { icon: '🏛️', label: 'Planificando y con finca ya reservada' },
-  { icon: '🎉', label: 'Casi listo, solo quedan los detalles' },
+  { label: 'Aún no estamos prometidos' },
+  { label: 'Recién prometidos, explorando' },
+  { label: 'Planificando, sin finca reservada' },
+  { label: 'Planificando y con finca ya reservada' },
+  { label: 'Casi listo, solo quedan los detalles' },
 ]
 
 const SOURCES = [
@@ -121,7 +121,7 @@ export default function Start() {
                     className="stage-btn"
                     style={{ border: `1.5px solid ${stage === s.label ? BLUE_DARK : BLUE}`, background: stage === s.label ? BLUE_LIGHT : 'white' }}
                   >
-                    <span style={{ fontSize: 18 }}>{s.icon}</span> {s.label}
+                    {s.label}
                   </button>
                 ))}
 
@@ -183,7 +183,7 @@ export default function Start() {
             {step === 2 && (
               <>
                 <h1 style={{ fontFamily: F, fontSize: 'clamp(1.8rem,3vw,2.4rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
-                  Ahora, hablemos del gran día ✨
+                  Ahora, hablemos del gran día
                 </h1>
                 <p style={{ fontFamily: F, fontSize: 16, color: '#8a7358', lineHeight: 1.6, marginBottom: 32 }}>
                   Os ayudamos a planificar la boda que queráis, pequeña o grande, cerca o lejos.

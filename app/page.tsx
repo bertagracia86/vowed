@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 
 const BLUE = '#AAA396'
 const BLUE_DARK = '#5C4A3D'
-const BLUE_LIGHT = '#CEC1A8'
+const BLUE_LIGHT = '#EDE4D3'
 const INK = '#4A3B32'
 const NEUTRAL = '#F1EADA'
 const F = "'Cormorant', serif"
@@ -69,9 +69,9 @@ export default function Home() {
   const features = [
     { title: 'Invitados', sub: 'Gestiona confirmaciones, menús y mesas.', img: '/invitados.png', badge: '♡ Confirmar asistencia' },
     { title: 'Web de boda', sub: 'Una página bonita y gratis para vuestros invitados.', img: '/web-de-boda.png', badge: '✦ veronicaymarcos.com' },
-    { title: 'Proveedores', sub: 'Encuentra y gestiona a tu equipo soñado.', img: '/proveedores.png', badge: '⭐⭐⭐⭐⭐ Estudio Luz' },
+    { title: 'Proveedores', sub: 'Encuentra y gestiona a tu equipo soñado.', img: '/proveedores.png', badge: '✦ Estudio Luz' },
     { title: 'Invitaciones', sub: 'Diseños únicos para personalizar y descargar.', img: '/invitaciones.png', badge: '✎ Personalizar diseño' },
-    { title: 'Presupuesto', sub: 'Controla cada gasto y mantente al día.', img: '/presupuesto.png', badge: '🔔 Recordatorio de pago' },
+    { title: 'Presupuesto', sub: 'Controla cada gasto y mantente al día.', img: '/presupuesto.png', badge: '✦ Recordatorio de pago' },
     { title: 'Detalles', sub: 'Cada detalle de vuestra boda, organizado y a mano.', img: '/detalles.png', badge: '✦ Todo bajo control' },
   ]
 
@@ -86,10 +86,10 @@ export default function Home() {
         .nav-a:hover { opacity: 1; }
         .footer-a { display: block; font-family: ${F}; font-size: 14px; color: #8a7358; text-decoration: none; margin-bottom: 14px; transition: color 0.2s; }
         .footer-a:hover { color: ${INK}; }
-        .btn-light { background: rgba(255,255,255,0.92); color: ${INK}; border: none; border-radius: 999px; padding: 14px 36px; font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; box-shadow: 0 2px 12px rgba(0,0,0,0.08); font-family: ${F}; }
+        .btn-light { background: rgba(255,255,255,0.92); color: ${INK}; border: none; border-radius: 999px; padding: 14px 36px; font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; font-family: ${F}; }
         .btn-light:hover { background: white; transform: translateY(-1px); }
-        .btn-blue { background: ${BLUE_DARK}; color: white; border: none; border-radius: 999px; padding: 14px 36px; font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; box-shadow: 0 4px 20px rgba(43,42,38,0.35); font-family: ${F}; }
-        .btn-blue:hover { transform: translateY(-1px); box-shadow: 0 8px 32px rgba(43,42,38,0.55); }
+        .btn-blue { background: ${BLUE_DARK}; color: white; border: none; border-radius: 999px; padding: 14px 36px; font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; font-family: ${F}; }
+        .btn-blue:hover { transform: translateY(-1px); }
         .btn-blue-sm { background: ${BLUE_DARK}; color: white; border: none; border-radius: 999px; padding: 10px 24px; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; font-family: ${F}; }
         .btn-blue-sm:hover { opacity: 0.9; transform: translateY(-1px); }
         .feat-card { padding: 32px 28px; background: white; transition: background 0.2s; cursor: pointer; display: flex; flex-direction: column; }
@@ -111,11 +111,10 @@ export default function Home() {
       `}</style>
 
       {/* NAV */}
-      <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 300, background: scrollY > 20 ? 'rgba(255,255,255,0.98)' : 'white', borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '0 48px', height: 68, display: 'flex', alignItems: 'center', justifyContent: 'space-between', transition: 'all 0.3s', backdropFilter: 'blur(12px)', borderTopLeftRadius: 24, borderTopRightRadius: 24 }}>
+      <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 300, background: scrollY > 20 ? 'rgba(241,234,218,0.98)' : NEUTRAL, borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '0 48px', height: 68, display: 'flex', alignItems: 'center', justifyContent: 'space-between', transition: 'all 0.3s', backdropFilter: 'blur(12px)', borderTopLeftRadius: 24, borderTopRightRadius: 24 }}>
         <Link href="/"><img src="/logo.png" alt="mylov3" style={{ height: 26, display: 'block', filter: 'brightness(0) saturate(100%)' }} /></Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
-          <span style={{ fontSize: 14, color: INK, opacity: 0.6, fontFamily: F }}>¿Ya tienes cuenta?</span>
-          <a href="#" className="nav-a" style={{ textDecoration: 'underline', opacity: 0.8 }}>Inicia sesión</a>
+          <a href="#" className="nav-a" style={{ opacity: 0.8 }}>Inicia sesión</a>
           <Link href="/start" className="btn-blue-sm">¡Empezamos!</Link>
         </div>
       </nav>
@@ -124,7 +123,7 @@ export default function Home() {
       <div className="banner" style={{ position: 'fixed', top: 68, left: 0, right: 0, zIndex: 200, background: BLUE_DARK, padding: '7px 24px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, willChange: 'transform, opacity' }}>
         <span style={{ background: 'rgba(255,255,255,0.25)', color: 'white', fontSize: 11, fontWeight: 600, borderRadius: 6, padding: '1px 8px', fontFamily: F }}>Nuevo</span>
         <span style={{ fontSize: 13, color: 'white', fontWeight: 500, fontFamily: F }}>Planifica tu boda.</span>
-        <a href="#" style={{ fontSize: 13, color: 'white', fontWeight: 600, textDecoration: 'underline', fontFamily: F }}>Pruébalo</a>
+        <a href="#" style={{ fontSize: 13, color: 'white', fontWeight: 600, fontFamily: F }}>Pruébalo</a>
       </div>
 
       {/* HERO */}
@@ -142,7 +141,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div style={{ position: 'absolute', inset: 0, left: '42%', overflow: 'hidden', clipPath: 'polygon(8% 0, 100% 0, 100% 100%, 0% 100%)' }}>
+        <div style={{ position: 'absolute', inset: 0, left: '54%', overflow: 'hidden', clipPath: 'polygon(8% 0, 100% 0, 100% 100%, 0% 100%)' }}>
           <video className="hero-bg-video" autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '115%', objectFit: 'cover', marginTop: '-7%', filter: 'brightness(0.82)' }}>
             <source src="/video.mp4" type="video/mp4" />
           </video>
@@ -282,7 +281,7 @@ export default function Home() {
             <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr', minHeight: 400 }}>
               <div style={{ background: BLUE_LIGHT, borderRight: `1px solid ${BLUE}`, padding: '20px 12px' }}>
                 <img src="/logo.png" alt="" style={{ height: 18, marginBottom: 28, marginLeft: 8, filter: 'brightness(0) saturate(100%)' }} />
-                {[{icon:'⊞',l:'Resumen',a:true},{icon:'☑',l:'Tareas'},{icon:'€',l:'Presupuesto'},{icon:'♡',l:'Invitados'},{icon:'◉',l:'Mesas'},{icon:'📅',l:'Cronograma'}].map(n => (
+                {[{icon:'⊞',l:'Resumen',a:true},{icon:'☑',l:'Tareas'},{icon:'€',l:'Presupuesto'},{icon:'♡',l:'Invitados'},{icon:'◉',l:'Mesas'},{icon:'▤',l:'Cronograma'}].map(n => (
                   <div key={n.l} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 10px', borderRadius: 12, marginBottom: 2, background: n.a ? BLUE : 'transparent', cursor: 'pointer' }}>
                     <span style={{ fontSize: 13, color: n.a ? BLUE_DARK : '#AAA396' }}>{n.icon}</span>
                     <span style={{ fontFamily: F, fontSize: 13, color: n.a ? INK : '#AAA396', fontWeight: n.a ? 600 : 400 }}>{n.l}</span>
