@@ -23,9 +23,6 @@ export default function Home() {
         const { gsap, ScrollTrigger } = window as any
         gsap.registerPlugin(ScrollTrigger)
 
-        gsap.to('.banner', { yPercent: -120, opacity: 0, ease: 'none', scrollTrigger: { trigger: '.hero-sec', start: 'top top', end: '15% top', scrub: true } })
-        gsap.to('.hero-content', { yPercent: -18, ease: 'none', scrollTrigger: { trigger: '.hero-sec', start: 'top top', end: 'bottom top', scrub: true } })
-        gsap.to('.hero-bg-video', { yPercent: 20, ease: 'none', scrollTrigger: { trigger: '.hero-sec', start: 'top top', end: 'bottom top', scrub: true } })
         gsap.fromTo('.dash-wrap', { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, ease: 'power3.out', scrollTrigger: { trigger: '.dash-wrap', start: 'top 85%' } })
         gsap.fromTo('.feat-grid', { scale: 0.88, opacity: 0 }, { scale: 1, opacity: 1, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: '.feat-grid', start: 'top 85%', toggleActions: 'play none none none' } })
 
@@ -121,35 +118,8 @@ export default function Home() {
         <Link href="/start" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: BLUE_DARK, border: `1px solid ${BLUE_DARK}`, borderRadius: 4, padding: '10px 22px', textDecoration: 'none' }}>Empezar</Link>
       </nav>
 
-      {/* HERO */}
-      <section className="hero-sec" style={{ position: 'relative', height: '100vh', overflow: 'hidden', display: 'grid', gridTemplateColumns: '1fr 1fr', alignItems: 'center', paddingTop: 68, background: NEUTRAL }}>
-        <div className="hero-content" style={{ position: 'relative', zIndex: 10, padding: '0 24px 0 64px', maxWidth: 620 }}>
-          <h1 style={{ fontFamily: F, fontSize: 'clamp(2.2rem,4vw,3.8rem)', fontWeight: 600, color: INK, lineHeight: 1.05, marginBottom: 28, letterSpacing: '-0.02em' }}>
-            La planificación de<br />la boda comienza aquí.
-          </h1>
-          <p style={{ fontFamily: F, fontSize: 'clamp(15px,1.8vw,19px)', color: '#8a7358', maxWidth: 480, margin: '0 0 44px', lineHeight: 1.75 }}>
-            Desde la finca y el catering hasta la web de boda y los invitados — mylov3 está con vosotros en cada paso del camino.
-          </p>
-          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-            <Link href="/start" className="btn-light" style={{ boxShadow: 'none', border: `1px solid ${BLUE}` }}>¡Empezamos!</Link>
-            <Link href="/dashboard" className="btn-blue">Ver demo</Link>
-          </div>
-        </div>
-
-        <div style={{ position: 'absolute', inset: 0, left: '54%', overflow: 'hidden', clipPath: 'polygon(8% 0, 100% 0, 100% 100%, 0% 100%)' }}>
-          <video className="hero-bg-video" autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '115%', objectFit: 'cover', marginTop: '-7%', filter: 'brightness(0.82)' }}>
-            <source src="/video.mp4" type="video/mp4" />
-          </video>
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.22) 100%)' }} />
-        </div>
-
-        <div style={{ position: 'absolute', bottom: 36, left: '50%', transform: 'translateX(-50%)', zIndex: 10 }}>
-          <button className="scroll-btn" style={{ borderColor: 'rgba(74,59,50,0.4)', color: INK }} onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}>↓</button>
-        </div>
-      </section>
-
-      {/* BANNER TERRAZA */}
-      <section className="sec-reveal" style={{ position: 'relative', height: '58vh', overflow: 'hidden' }}>
+      {/* HERO — banner de la terraza */}
+      <section className="hero-sec" style={{ position: 'relative', height: '100vh', overflow: 'hidden', paddingTop: 68 }}>
         <img src="/banner-terraza.png" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(241,234,218,0.85) 0%, rgba(241,234,218,0.35) 45%, rgba(241,234,218,0) 70%)' }} />
         <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', padding: '0 64px' }}>
@@ -161,15 +131,23 @@ export default function Home() {
             <p style={{ fontFamily: F, fontSize: 16, color: '#6b5a4a', lineHeight: 1.7, marginBottom: 32, maxWidth: 400 }}>
               Creamos celebraciones cuidadas e inolvidables, en los lugares más bonitos del mundo.
             </p>
-            <Link href="/start" style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: NEUTRAL, background: BLUE_DARK, padding: '16px 28px', textDecoration: 'none', display: 'inline-block' }}>
-              Descubre nuestros servicios
-            </Link>
+            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+              <Link href="/start" style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: NEUTRAL, background: BLUE_DARK, padding: '16px 28px', textDecoration: 'none', display: 'inline-block' }}>
+                Descubre nuestros servicios
+              </Link>
+              <Link href="/dashboard" style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: BLUE_DARK, border: `1px solid ${BLUE_DARK}`, padding: '16px 28px', textDecoration: 'none', display: 'inline-block' }}>
+                Ver demo
+              </Link>
+            </div>
           </div>
         </div>
-        <div style={{ position: 'absolute', right: 28, top: 0, bottom: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+        <div style={{ position: 'absolute', right: 28, top: 68, bottom: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
           <span style={{ fontFamily: F, fontSize: 11, color: INK }}>01</span>
           <div style={{ width: 1, height: 60, background: 'rgba(74,59,50,0.4)' }} />
           <span style={{ fontFamily: F, fontSize: 11, color: INK }}>03</span>
+        </div>
+        <div style={{ position: 'absolute', bottom: 36, left: '50%', transform: 'translateX(-50%)', zIndex: 10 }}>
+          <button className="scroll-btn" style={{ borderColor: 'rgba(74,59,50,0.4)', color: INK }} onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}>↓</button>
         </div>
       </section>
 
