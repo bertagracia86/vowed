@@ -130,7 +130,7 @@ export default function Home() {
       </div>
 
       {/* SOBRE NOSOTROS + SERVICIOS + PORTFOLIO */}
-      <section className="sec-reveal" style={{ background: NEUTRAL, padding: '100px 64px', borderTop: `1px solid ${BLUE}` }}>
+      <section className="sec-reveal" style={{ background: NEUTRAL, padding: '100px 64px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
 
           {/* Fila 1: sobre nosotros + foto + servicios + foto */}
