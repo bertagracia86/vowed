@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { F, BLUE, INK, MUTE } from '@/lib/constants'
 import { WeddingInfo } from '@/lib/types'
 
@@ -32,6 +32,10 @@ export default function Regalos({ weddingInfo }: Props) {
   const [tab, setTab] = useState(TABS[0])
   const [gifts, setGifts] = useState(CATALOG)
   const [added, setAdded] = useState<Set<string>>(new Set(gifts.filter(g => g.reserved).map(g => g.id)))
+  const [activeCat, setActiveCat] = useState<string | null>(null)
+  const [coverPhoto, setCoverPhoto] = useState<string | null>(null)
+  const [copied, setCopied] = useState(false)
+  const photoInputRef = useRef<HTMLInputElement | null>(null)
   const reserved = gifts.filter(g => g.reserved).length
 
   function toggleAdded(id: string) {
@@ -39,6 +43,23 @@ export default function Regalos({ weddingInfo }: Props) {
       const next = new Set(prev)
       next.has(id) ? next.delete(id) : next.add(id)
       return next
+    })
+  }
+
+  function handlePhoto(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = () => setCoverPhoto(String(reader.result))
+    reader.readAsDataURL(file)
+  }
+
+  function copyLink() {
+    const slug = `${(weddingInfo.partner1 || 'vosotros').toLowerCase()}y${(weddingInfo.partner2 || 'dos').toLowerCase()}`.replace(/\s/g, '')
+    const url = `https://mylov3.com/r/${slug}`
+    navigator.clipboard?.writeText(url).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
     })
   }
 
@@ -65,25 +86,29 @@ export default function Regalos({ weddingInfo }: Props) {
           {/* CATEGORIAS estilo proveedores */}
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 28 }}>
             {CATEGORIES.map(c => (
-              <div key={c.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, cursor: 'pointer', flexShrink: 0 }}>
-                <div style={{ width: 46, height: 46, borderRadius: '50%', border: '1.3px solid #8b5f3e', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div key={c.label} onClick={() => setActiveCat(activeCat === c.label ? null : c.label)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, cursor: 'pointer', flexShrink: 0 }}>
+                <div style={{ width: 46, height: 46, borderRadius: '50%', border: '1.3px solid #8b5f3e', background: activeCat === c.label ? '#F4E7D8' : 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#8b5f3e" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d={c.icon} /></svg>
                 </div>
-                <span style={{ fontSize: 10.5, color: MUTE, whiteSpace: 'nowrap' }}>{c.label}</span>
+                <span style={{ fontSize: 10.5, color: activeCat === c.label ? '#8b5f3e' : MUTE, whiteSpace: 'nowrap', fontWeight: activeCat === c.label ? 600 : 400 }}>{c.label}</span>
               </div>
             ))}
           </div>
 
           {/* PORTADA */}
-          <div style={{ border: '1.5px dashed #DDD8D0', borderRadius: 16, padding: '40px 24px', textAlign: 'center', marginBottom: 28, background: '#FBF9F5' }}>
-            <p style={{ fontFamily: F, fontSize: 24, color: INK, marginBottom: 6 }}>
-              {weddingInfo.partner1 || 'Vosotros'} &amp; {weddingInfo.partner2 || 'dos'}
-            </p>
-            <p style={{ fontSize: 12, color: MUTE, marginBottom: 16 }}>{weddingInfo.date ? new Date(weddingInfo.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Fecha por confirmar'}</p>
-            <button style={{ border: '1px solid #ECE9E4', background: 'white', borderRadius: 999, padding: '8px 18px', fontSize: 11.5, color: INK, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth="1.8"><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M8 7l2-3h4l2 3" /></svg>
-              Subir foto
-            </button>
+          <div style={{ border: '1.5px dashed #DDD8D0', borderRadius: 16, padding: coverPhoto ? 0 : '40px 24px', textAlign: 'center', marginBottom: 28, background: '#FBF9F5', overflow: 'hidden', position: 'relative' }}>
+            {coverPhoto && <img src={coverPhoto} alt="" style={{ width: '100%', height: 220, objectFit: 'cover', display: 'block' }} />}
+            <div style={{ padding: coverPhoto ? '20px 24px' : 0, position: coverPhoto ? 'absolute' : 'static', bottom: 0, left: 0, right: 0, background: coverPhoto ? 'linear-gradient(transparent, rgba(0,0,0,0.55))' : 'transparent' }}>
+              <p style={{ fontFamily: F, fontSize: 24, color: coverPhoto ? 'white' : INK, marginBottom: 6 }}>
+                {weddingInfo.partner1 || 'Vosotros'} &amp; {weddingInfo.partner2 || 'dos'}
+              </p>
+              <p style={{ fontSize: 12, color: coverPhoto ? 'rgba(255,255,255,0.85)' : MUTE, marginBottom: 16 }}>{weddingInfo.date ? new Date(weddingInfo.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Fecha por confirmar'}</p>
+              <input ref={photoInputRef} type="file" accept="image/*" onChange={handlePhoto} style={{ display: 'none' }} />
+              <button onClick={() => photoInputRef.current?.click()} style={{ border: '1px solid #ECE9E4', background: 'white', borderRadius: 999, padding: '8px 18px', fontSize: 11.5, color: INK, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth="1.8"><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M8 7l2-3h4l2 3" /></svg>
+                {coverPhoto ? 'Cambiar foto' : 'Subir foto'}
+              </button>
+            </div>
           </div>
 
           {/* INSTANT REGISTRY */}
@@ -126,8 +151,8 @@ export default function Regalos({ weddingInfo }: Props) {
           <p style={{ fontFamily: F, fontSize: 17, color: INK, marginBottom: 4 }}>Compartid vuestra lista</p>
           <p style={{ fontSize: 11.5, color: MUTE }}>Enviad el enlace a vuestros invitados para que reserven un regalo.</p>
         </div>
-        <button style={{ background: '#8b5f3e', color: 'white', border: 'none', borderRadius: 999, padding: '10px 20px', fontSize: 12, cursor: 'pointer', whiteSpace: 'nowrap' }}>
-          Copiar enlace
+        <button onClick={copyLink} style={{ background: copied ? '#3A6B3A' : '#8b5f3e', color: 'white', border: 'none', borderRadius: 999, padding: '10px 20px', fontSize: 12, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+          {copied ? '¡Copiado!' : 'Copiar enlace'}
         </button>
       </div>
 

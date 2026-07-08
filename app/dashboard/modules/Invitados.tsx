@@ -1,9 +1,9 @@
 'use client'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { F, BLUE, INK, MUTE } from '@/lib/constants'
 import { Guest } from '@/lib/types'
 
-interface Props { guests: Guest[]; setGuests: (g: Guest[]) => void }
+interface Props { guests: Guest[]; setGuests: (g: Guest[]) => void; onNavigate?: (t: string) => void }
 
 function Tooltip({ children, text, width = 190, align = 'center' }: { children: React.ReactNode; text: string; width?: number; align?: 'center' | 'left' | 'right' }) {
   const [show, setShow] = useState(false)
@@ -132,11 +132,23 @@ function AddGuestsModal({ onClose, onSave }: { onClose: () => void; onSave: (g: 
   )
 }
 
-export default function Invitados({ guests, setGuests }: Props) {
+const TABS = ['Lista de invitados', 'Recopilar contactos', 'Eventos', 'Plano de mesas', 'Mensajería', 'Agradecimientos', 'Bloques de hotel']
+const SUBTABS = ['Gestionar lista', 'Invitar a eventos', 'Direcciones de sobres', 'Seguimiento RSVP']
+
+export default function Invitados({ guests, setGuests, onNavigate }: Props) {
   const [showModal, setShowModal] = useState(false)
+  const [tab, setTab] = useState(TABS[0])
+  const [subtab, setSubtab] = useState(SUBTABS[0])
+  const [query, setQuery] = useState('')
+  const [showFilter, setShowFilter] = useState(false)
+  const [filterInvited, setFilterInvited] = useState(false)
+  const [filterMissing, setFilterMissing] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
+
   const confirmed = guests.filter(g => g.rsvp === 'Sí').length
   const pending = guests.filter(g => g.rsvp === 'Pendiente').length
   const missing = guests.filter(g => !g.contact).length
+  const activeFilters = (filterInvited ? 1 : 0) + (filterMissing ? 1 : 0)
 
   function update(id: string, field: keyof Guest, value: string) {
     setGuests(guests.map(g => g.id === id ? { ...g, [field]: value } : g))
@@ -146,32 +158,83 @@ export default function Invitados({ guests, setGuests }: Props) {
     setGuests(guests.filter(g => g.id !== id))
   }
 
+  function exportCsv() {
+    const header = 'Nombre,Contacto,Mesa,Menu,Asistencia\n'
+    const rows = guests.map(g => `${g.name},${g.contact},${g.table_name || ''},${g.menu},${g.rsvp}`).join('\n')
+    const blob = new Blob([header + rows], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'invitados.csv'
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  function importCsv(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = () => {
+      const text = String(reader.result || '')
+      const lines = text.split('\n').map(l => l.trim()).filter(Boolean)
+      const newGuests: Guest[] = lines
+        .filter(l => !l.toLowerCase().startsWith('nombre'))
+        .map(line => {
+          const [name, contact] = line.split(',').map(s => s?.trim() || '')
+          return { id: Date.now().toString() + Math.random(), name: name || line, contact: contact || '', rsvp: 'Pendiente' as const, table_name: null, menu: '', group: '', avoid: [] }
+        })
+        .filter(g => g.name)
+      if (newGuests.length) setGuests([...guests, ...newGuests])
+    }
+    reader.readAsText(file)
+    e.target.value = ''
+  }
+
   const adults = guests.length
   const children = 0
-  const TABS = ['Lista de invitados', 'Recopilar contactos', 'Eventos', 'Plano de mesas', 'Mensajería', 'Agradecimientos', 'Bloques de hotel']
-  const SUBTABS = ['Gestionar lista', 'Invitar a eventos', 'Direcciones de sobres', 'Seguimiento RSVP']
+
+  const visibleGuests = guests
+    .filter(g => g.name.toLowerCase().includes(query.toLowerCase()))
+    .filter(g => !filterInvited || g.rsvp !== 'No')
+    .filter(g => !filterMissing || !g.contact)
 
   return (
     <div>
       <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: INK, marginBottom: 16 }}>Invitados y RSVP</h1>
 
       <div style={{ display: 'flex', gap: 20, borderBottom: '1px solid #ECE9E4', marginBottom: 14, overflowX: 'auto' }}>
-        {TABS.map((t, i) => (
-          <button key={t} style={{
+        {TABS.map(t => (
+          <button key={t} onClick={() => setTab(t)} style={{
             background: 'none', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap', padding: '0 0 10px', fontSize: 13, fontFamily: F,
-            color: i === 0 ? INK : MUTE, fontWeight: i === 0 ? 600 : 400, borderBottom: i === 0 ? '2px solid #8b5f3e' : '2px solid transparent'
+            color: tab === t ? INK : MUTE, fontWeight: tab === t ? 600 : 400, borderBottom: tab === t ? '2px solid #8b5f3e' : '2px solid transparent'
           }}>{t}</button>
         ))}
       </div>
 
       <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
-        {SUBTABS.map((t, i) => (
-          <button key={t} style={{
-            background: i === 0 ? '#F4E7D8' : 'transparent', border: 'none', borderRadius: 8, cursor: 'pointer',
-            padding: '8px 14px', fontSize: 12.5, color: i === 0 ? '#6b4226' : MUTE, fontWeight: i === 0 ? 600 : 400
+        {SUBTABS.map(t => (
+          <button key={t} onClick={() => setSubtab(t)} style={{
+            background: subtab === t ? '#F4E7D8' : 'transparent', border: 'none', borderRadius: 8, cursor: 'pointer',
+            padding: '8px 14px', fontSize: 12.5, color: subtab === t ? '#6b4226' : MUTE, fontWeight: subtab === t ? 600 : 400
           }}>{t}</button>
         ))}
       </div>
+
+      {tab !== 'Lista de invitados' && (
+        <div style={{ background: '#F7F4EF', borderRadius: 16, padding: '30px 24px', textAlign: 'center', marginBottom: 20 }}>
+          <p style={{ fontFamily: F, fontSize: 17, color: INK, marginBottom: 4 }}>{tab}</p>
+          <p style={{ fontSize: 12, color: MUTE }}>Muy pronto podréis gestionar esto desde aquí.</p>
+        </div>
+      )}
+      {tab === 'Lista de invitados' && subtab !== 'Gestionar lista' && (
+        <div style={{ background: '#F7F4EF', borderRadius: 16, padding: '30px 24px', textAlign: 'center', marginBottom: 20 }}>
+          <p style={{ fontFamily: F, fontSize: 17, color: INK, marginBottom: 4 }}>{subtab}</p>
+          <p style={{ fontSize: 12, color: MUTE }}>Muy pronto podréis gestionar esto desde aquí.</p>
+        </div>
+      )}
+
+      {tab === 'Lista de invitados' && subtab === 'Gestionar lista' && (
+      <>
 
       <div style={{ display: 'grid', gridTemplateColumns: '0.7fr 0.7fr 0.7fr 1fr 1.6fr', gap: 12, marginBottom: 20 }}>
         <div style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 14, padding: '14px 18px', textAlign: 'center' }}>
@@ -205,32 +268,43 @@ export default function Invitados({ guests, setGuests }: Props) {
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 20 }}>
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 14 }}>
-            <div style={{ display: 'flex', gap: 8 }}>
-              <Tooltip text="Ved grupos concretos de invitados y aplicad acciones en bloque.">
-                <button style={{ border: '1px solid #ECE9E4', background: 'white', borderRadius: 999, padding: '9px 16px', fontSize: 12, color: INK, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
-                  Filtrar
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="2"><path d="M6 9l6 6 6-6" /></svg>
-                </button>
-              </Tooltip>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 14, flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: 8, position: 'relative' }}>
+              <button onClick={() => setShowFilter(s => !s)} style={{ border: activeFilters ? `1px solid #8b5f3e` : '1px solid #ECE9E4', background: activeFilters ? '#F4E7D8' : 'white', borderRadius: 999, padding: '9px 16px', fontSize: 12, color: INK, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
+                Filtrar{activeFilters > 0 && ` (${activeFilters})`}
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="2"><path d="M6 9l6 6 6-6" /></svg>
+              </button>
+              {showFilter && (
+                <div style={{ position: 'absolute', top: '115%', left: 0, background: 'white', border: '1px solid #ECE9E4', borderRadius: 12, boxShadow: '0 8px 20px rgba(0,0,0,0.08)', padding: 14, zIndex: 30, width: 220 }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12.5, color: INK, marginBottom: 10, cursor: 'pointer' }}>
+                    <input type="checkbox" checked={filterInvited} onChange={e => setFilterInvited(e.target.checked)} />
+                    Definitivamente invitados
+                  </label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12.5, color: INK, cursor: 'pointer' }}>
+                    <input type="checkbox" checked={filterMissing} onChange={e => setFilterMissing(e.target.checked)} />
+                    Con contacto pendiente
+                  </label>
+                </div>
+              )}
               <div style={{ border: '1px solid #ECE9E4', background: 'white', borderRadius: 999, padding: '9px 16px', fontSize: 12, color: MUTE, display: 'flex', alignItems: 'center', gap: 6 }}>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="2"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4-4" /></svg>
-                Buscar por nombre
+                <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Buscar por nombre" style={{ border: 'none', outline: 'none', fontSize: 12, color: INK, background: 'transparent', fontFamily: F, width: 130 }} />
               </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <button style={{ border: '1px solid #241c17', background: 'white', borderRadius: 999, padding: '9px 18px', fontSize: 12, cursor: 'pointer' }}>Subir hoja de cálculo</button>
+              <input ref={fileInputRef} type="file" accept=".csv,.txt" onChange={importCsv} style={{ display: 'none' }} />
+              <button onClick={() => fileInputRef.current?.click()} style={{ border: '1px solid #241c17', background: 'white', borderRadius: 999, padding: '9px 18px', fontSize: 12, cursor: 'pointer' }}>Subir hoja de cálculo</button>
               <button onClick={() => setShowModal(true)} style={{ background: '#241c17', color: 'white', border: 'none', borderRadius: 999, padding: '9px 20px', fontSize: 12, cursor: 'pointer' }}>Añadir invitados</button>
             </div>
           </div>
 
-          {guests.length === 0 ? (
-            <p style={{ fontSize: 13, color: MUTE, textAlign: 'center', padding: '40px 0' }}>Sin invitados todavía.</p>
+          {visibleGuests.length === 0 ? (
+            <p style={{ fontSize: 13, color: MUTE, textAlign: 'center', padding: '40px 0' }}>{guests.length === 0 ? 'Sin invitados todavía.' : 'Ningún invitado coincide con la búsqueda o filtros.'}</p>
           ) : (
             <div style={{ border: '1px solid #F5EFE0', borderRadius: 16, overflow: 'visible' }}>
               <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '8px 14px 0' }}>
                 <Tooltip text="Exporta la información de los invitados a una hoja de cálculo." align="right">
-                  <button style={{ background: 'none', border: 'none', color: MUTE, cursor: 'pointer', fontSize: 16, letterSpacing: 1 }}>⋯</button>
+                  <button onClick={exportCsv} style={{ background: 'none', border: 'none', color: MUTE, cursor: 'pointer', fontSize: 16, letterSpacing: 1 }}>⋯</button>
                 </Tooltip>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '0.5fr 1.3fr 1.5fr 1.4fr auto', padding: '10px 18px', background: '#FBF9F5', borderBottom: '1px solid #F5EFE0' }}>
@@ -245,8 +319,8 @@ export default function Invitados({ guests, setGuests }: Props) {
                 ))}
                 <span />
               </div>
-              {guests.map((g, i) => (
-                <div key={g.id} style={{ display: 'grid', gridTemplateColumns: '0.5fr 1.3fr 1.5fr 1.4fr auto', alignItems: 'center', padding: '12px 18px', borderBottom: i < guests.length - 1 ? '1px solid #F5EFE0' : 'none' }}>
+              {visibleGuests.map((g, i) => (
+                <div key={g.id} style={{ display: 'grid', gridTemplateColumns: '0.5fr 1.3fr 1.5fr 1.4fr auto', alignItems: 'center', padding: '12px 18px', borderBottom: i < visibleGuests.length - 1 ? '1px solid #F5EFE0' : 'none' }}>
                   <span style={{ fontSize: 12, color: MUTE }}>{i + 1}</span>
                   <span style={{ fontSize: 13, color: INK }}>{g.name}</span>
                   {g.contact ? (
@@ -270,8 +344,8 @@ export default function Invitados({ guests, setGuests }: Props) {
                     </label>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <Tooltip text="Añade el email del invitado para enviarle un mensaje." align="right">
-                      <span style={{ display: 'flex', color: '#C9BCA8', cursor: 'pointer' }}>
+                    <Tooltip text={g.contact.includes('@') ? `Enviar email a ${g.contact}` : 'Añade el email del invitado para enviarle un mensaje.'} align="right">
+                      <span onClick={() => { if (g.contact.includes('@')) window.location.href = `mailto:${g.contact}` }} style={{ display: 'flex', color: g.contact.includes('@') ? '#8b5f3e' : '#C9BCA8', cursor: g.contact.includes('@') ? 'pointer' : 'default' }}>
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 7l9 6 9-6" /></svg>
                       </span>
                     </Tooltip>
@@ -296,11 +370,14 @@ export default function Invitados({ guests, setGuests }: Props) {
           <p style={{ fontSize: 11.5, color: MUTE, marginBottom: 14, lineHeight: 1.5 }}>
             Nuestros diseños están hechos en casa e impresos en papel premium.
           </p>
-          <button style={{ background: '#241c17', color: 'white', border: 'none', borderRadius: 999, padding: '10px 20px', fontSize: 12, cursor: 'pointer' }}>
+          <button onClick={() => onNavigate && onNavigate('invitaciones')} style={{ background: '#241c17', color: 'white', border: 'none', borderRadius: 999, padding: '10px 20px', fontSize: 12, cursor: 'pointer' }}>
             Explorar diseños
           </button>
         </div>
       </div>
+
+      </>
+      )}
 
       {showModal && (
         <AddGuestsModal

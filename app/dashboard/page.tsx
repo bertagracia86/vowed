@@ -45,6 +45,14 @@ const NAV_BOTTOM = [
   { id: 'ajustes', label: 'Ajustes', icon: 'M12 15a3 3 0 100-6 3 3 0 000 6zM19 12a7 7 0 01-.1 1.2l2 1.6-2 3.4-2.4-.7a7 7 0 01-2 1.2l-.4 2.5H10l-.4-2.5a7 7 0 01-2-1.2l-2.4.7-2-3.4 2-1.6A7 7 0 015 12a7 7 0 01.1-1.2l-2-1.6 2-3.4 2.4.7a7 7 0 012-1.2L10 2.5h4l.4 2.5a7 7 0 012 1.2l2.4-.7 2 3.4-2 1.6A7 7 0 0119 12z' },
 ]
 
+const ALL_NAV = [...NAV_TOP, ...NAV_SECONDARY, ...NAV_BOTTOM]
+
+const NOTIFICATIONS = [
+  { id: '1', text: 'Ana Martínez aún no ha confirmado su asistencia.', time: 'Hace 2 días' },
+  { id: '2', text: 'Recordatorio: pago pendiente a Catering Saborea.', time: 'Hace 4 días' },
+  { id: '3', text: 'Faltan 3 direcciones por recopilar para las invitaciones.', time: 'Hace 1 semana' },
+]
+
 function SideIcon({ d }: { d: string }) {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
@@ -61,6 +69,8 @@ export default function Dashboard() {
   const [pwErr, setPwErr] = useState('')
   const [tab, setTab] = useState('resumen')
   const [collapsed, setCollapsed] = useState(false)
+  const [search, setSearch] = useState('')
+  const [showNotifs, setShowNotifs] = useState(false)
 
   const [tasks, setTasks] = useState(DEFAULT_TASKS)
   const [guests, setGuests] = useState(DEFAULT_GUESTS)
@@ -144,19 +154,47 @@ export default function Dashboard() {
       <div onMouseEnter={() => setCollapsed(true)} style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         <header style={{ borderBottom: '1px solid #ECE9E4', padding: '10px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, background: 'white', flexShrink: 0 }}>
           <span style={{ fontFamily: F, fontSize: 19, fontWeight: 600, color: INK, flexShrink: 0 }}>Vuestra boda</span>
-          <div style={{ border: '1px solid #ECE9E4', borderRadius: 10, padding: '8px 14px', fontSize: 12, color: MUTE, display: 'flex', alignItems: 'center', gap: 8, flex: 1, maxWidth: 420 }}>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.8"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4-4" /></svg>
-            Buscar productos, marcas, parejas, proveedores...
+          <div style={{ position: 'relative', flex: 1, maxWidth: 420 }}>
+            <div style={{ border: '1px solid #ECE9E4', borderRadius: 10, padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.8"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4-4" /></svg>
+              <input
+                value={search} onChange={e => setSearch(e.target.value)}
+                placeholder="Buscar secciones del panel..."
+                style={{ border: 'none', outline: 'none', fontSize: 12, color: INK, flex: 1, background: 'transparent', fontFamily: F }}
+              />
+            </div>
+            {search.trim() && (
+              <div style={{ position: 'absolute', top: '110%', left: 0, right: 0, background: 'white', border: '1px solid #ECE9E4', borderRadius: 10, boxShadow: '0 8px 20px rgba(0,0,0,0.08)', zIndex: 40, overflow: 'hidden' }}>
+                {ALL_NAV.filter(n => n.label.toLowerCase().includes(search.toLowerCase())).length === 0 ? (
+                  <p style={{ padding: '10px 14px', fontSize: 12, color: MUTE }}>Sin resultados</p>
+                ) : ALL_NAV.filter(n => n.label.toLowerCase().includes(search.toLowerCase())).map(n => (
+                  <button key={n.id} onClick={() => { setTab(n.id); setSearch('') }} style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', textAlign: 'left', padding: '9px 14px', border: 'none', background: 'white', cursor: 'pointer', fontSize: 12.5, color: INK }}>
+                    <SideIcon d={n.icon} />{n.label}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexShrink: 0 }}>
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.6"><path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zM22 6l-10 7L2 6"/></svg>
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.6"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg>
+            <svg onClick={() => setTab('mensajes')} width="19" height="19" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.6" style={{ cursor: 'pointer' }}><path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zM22 6l-10 7L2 6"/></svg>
+            <svg onClick={() => setTab('regalos')} width="19" height="19" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.6" style={{ cursor: 'pointer' }}><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg>
             <div style={{ position: 'relative' }}>
-              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.6"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0"/></svg>
-              <span style={{ position: 'absolute', top: -6, right: -6, background: '#c0594f', color: 'white', fontSize: 9, width: 15, height: 15, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>2</span>
+              <svg onClick={() => setShowNotifs(s => !s)} width="19" height="19" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.6" style={{ cursor: 'pointer' }}><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0"/></svg>
+              <span onClick={() => setShowNotifs(s => !s)} style={{ position: 'absolute', top: -6, right: -6, background: '#c0594f', color: 'white', fontSize: 9, width: 15, height: 15, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>{NOTIFICATIONS.length}</span>
+              {showNotifs && (
+                <div style={{ position: 'absolute', top: '140%', right: 0, width: 280, background: 'white', border: '1px solid #ECE9E4', borderRadius: 12, boxShadow: '0 8px 20px rgba(0,0,0,0.1)', zIndex: 40, overflow: 'hidden' }}>
+                  <p style={{ fontFamily: F, fontSize: 13, color: INK, padding: '10px 14px', borderBottom: '1px solid #F5EFE0' }}>Notificaciones</p>
+                  {NOTIFICATIONS.map(n => (
+                    <div key={n.id} style={{ padding: '10px 14px', borderBottom: '1px solid #F5EFE0' }}>
+                      <p style={{ fontSize: 12, color: INK, marginBottom: 2, lineHeight: 1.4 }}>{n.text}</p>
+                      <p style={{ fontSize: 10.5, color: MUTE }}>{n.time}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.6"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
-            <div style={{ width: 30, height: 30, borderRadius: '50%', background: '#F4EFE7', border: `1px solid ${BLUE}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 600, color: BLUE_DARK, fontFamily: F }}>LM</div>
+            <svg onClick={() => setTab('precios')} width="19" height="19" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.6" style={{ cursor: 'pointer' }}><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+            <div onClick={() => setTab('ajustes')} style={{ width: 30, height: 30, borderRadius: '50%', background: '#F4EFE7', border: `1px solid ${BLUE}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 600, color: BLUE_DARK, fontFamily: F, cursor: 'pointer' }}>LM</div>
           </div>
         </header>
 
@@ -164,7 +202,7 @@ export default function Dashboard() {
           {tab === 'resumen' && <Resumen tasks={tasks} guests={guests} budget={budget} vendors={vendors} weddingInfo={weddingInfo} weddingDate={weddingDate} setTab={setTab} />}
           {tab === 'tareas' && <Tareas tasks={tasks} setTasks={setTasks} />}
           {tab === 'presupuesto' && <Presupuesto budget={budget} setBudget={setBudget} guestCount={guests.length} />}
-          {tab === 'invitados' && <Invitados guests={guests} setGuests={setGuests} />}
+          {tab === 'invitados' && <Invitados guests={guests} setGuests={setGuests} onNavigate={setTab} />}
           {tab === 'mesas' && <Mesas tables={tables} setTables={setTables} guests={guests} setGuests={setGuests} />}
           {tab === 'cronograma' && <Cronograma milestones={milestones} setMilestones={setMilestones} weddingDate={weddingDate} setWeddingDate={setWeddingDate} />}
           {tab === 'proveedores' && <Proveedores vendors={vendors} setVendors={setVendors} />}
