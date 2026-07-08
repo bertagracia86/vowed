@@ -165,47 +165,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* EDITORIAL QUOTE — dos columnas, mucho espacio, revelado con scroll */}
-      <section style={{ background: NEUTRAL, padding: '140px 40px' }}>
-        <div style={{ maxWidth: 980, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64 }}>
-          <div className="sec-reveal" style={{ borderRight: `1px solid ${BLUE}`, paddingRight: 64 }}>
-            <p style={{ fontFamily: F, fontStyle: 'italic', fontSize: 'clamp(1.6rem,3vw,2.3rem)', color: BLUE_DARK, lineHeight: 1.35 }}>
-              En un mundo lleno de listas, dejad que la organización sea invisible.
-            </p>
-          </div>
-          <div className="sec-reveal" style={{ paddingLeft: 8 }}>
-            <span style={{ fontFamily: F, fontSize: 12, color: BLUE_DARK, letterSpacing: '0.16em', textTransform: 'uppercase', fontWeight: 600 }}>Nuestra filosofía</span>
-            <p style={{ fontFamily: F, fontSize: 17, color: '#8a7358', lineHeight: 1.8, marginTop: 16 }}>
-              Creemos que planificar una boda debería sentirse tan especial como el propio día. Por eso simplificamos lo complicado, para que solo tengáis que preocuparos de disfrutar.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* FEATURES GRID */}
-      <section style={{ background: 'white' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr' }}>
-          <div style={{ padding: '64px 40px', borderRight: `1px solid ${BLUE}`, position: 'sticky', top: 68, height: 'fit-content' }}>
-            <h2 style={{ fontFamily: F, fontSize: 'clamp(1.8rem,2.5vw,2.4rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
-              Todo lo que necesitáis para planificar la boda que queréis
-            </h2>
-            <p style={{ fontFamily: F, fontSize: 15, color: '#8a7358', lineHeight: 1.7 }}>Para todos los días del camino</p>
-          </div>
-          <div className="feat-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gridAutoRows: '1fr' }}>
-            {features.map((f, i) => (
-              <div key={f.title} className="feat-card" style={{ borderRight: (i + 1) % 3 === 0 ? 'none' : `1px solid ${BLUE}`, borderBottom: i < 3 ? `1px solid ${BLUE}` : 'none' }}>
-                <div className="feat-card-title">{f.title} <span style={{ color: BLUE_DARK }}>→</span></div>
-                <p className="feat-card-sub">{f.sub}</p>
-                <div style={{ position: 'relative', marginTop: 16, flex: 1, overflow: 'hidden', borderRadius: 18 }}>
-                  <img src={f.img} alt={f.title} style={{ width: '100%', height: '100%', minHeight: 200, objectFit: 'cover', display: 'block' }} />
-                  <div className="feat-badge">{f.badge}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* SOBRE NOSOTROS + SERVICIOS + PORTFOLIO */}
       <section className="sec-reveal" style={{ background: NEUTRAL, padding: '100px 64px', borderTop: `1px solid ${BLUE}` }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
@@ -256,6 +215,47 @@ export default function Home() {
             </div>
           </div>
 
+        </div>
+      </section>
+
+      {/* EDITORIAL QUOTE — dos columnas, mucho espacio, revelado con scroll */}
+      <section style={{ background: NEUTRAL, padding: '140px 40px' }}>
+        <div style={{ maxWidth: 980, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64 }}>
+          <div className="sec-reveal" style={{ borderRight: `1px solid ${BLUE}`, paddingRight: 64 }}>
+            <p style={{ fontFamily: F, fontStyle: 'italic', fontSize: 'clamp(1.6rem,3vw,2.3rem)', color: BLUE_DARK, lineHeight: 1.35 }}>
+              En un mundo lleno de listas, dejad que la organización sea invisible.
+            </p>
+          </div>
+          <div className="sec-reveal" style={{ paddingLeft: 8 }}>
+            <span style={{ fontFamily: F, fontSize: 12, color: BLUE_DARK, letterSpacing: '0.16em', textTransform: 'uppercase', fontWeight: 600 }}>Nuestra filosofía</span>
+            <p style={{ fontFamily: F, fontSize: 17, color: '#8a7358', lineHeight: 1.8, marginTop: 16 }}>
+              Creemos que planificar una boda debería sentirse tan especial como el propio día. Por eso simplificamos lo complicado, para que solo tengáis que preocuparos de disfrutar.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* FEATURES GRID */}
+      <section style={{ background: 'white' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr' }}>
+          <div style={{ padding: '64px 40px', borderRight: `1px solid ${BLUE}`, position: 'sticky', top: 68, height: 'fit-content' }}>
+            <h2 style={{ fontFamily: F, fontSize: 'clamp(1.8rem,2.5vw,2.4rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
+              Todo lo que necesitáis para planificar la boda que queréis
+            </h2>
+            <p style={{ fontFamily: F, fontSize: 15, color: '#8a7358', lineHeight: 1.7 }}>Para todos los días del camino</p>
+          </div>
+          <div className="feat-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gridAutoRows: '1fr' }}>
+            {features.map((f, i) => (
+              <div key={f.title} className="feat-card" style={{ borderRight: (i + 1) % 3 === 0 ? 'none' : `1px solid ${BLUE}`, borderBottom: i < 3 ? `1px solid ${BLUE}` : 'none' }}>
+                <div className="feat-card-title">{f.title} <span style={{ color: BLUE_DARK }}>→</span></div>
+                <p className="feat-card-sub">{f.sub}</p>
+                <div style={{ position: 'relative', marginTop: 16, flex: 1, overflow: 'hidden', borderRadius: 18 }}>
+                  <img src={f.img} alt={f.title} style={{ width: '100%', height: '100%', minHeight: 200, objectFit: 'cover', display: 'block' }} />
+                  <div className="feat-badge">{f.badge}</div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
