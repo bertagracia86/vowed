@@ -171,7 +171,7 @@ export default function Dashboard() {
           {tab === 'web-boda' && <WebBoda info={weddingInfo} setInfo={setWeddingInfo} />}
           {tab === 'notas' && <Notas notes={notes} setNotes={setNotes} />}
           {tab === 'invitaciones' && <Invitaciones />}
-          {tab === 'regalos' && <Regalos />}
+          {tab === 'regalos' && <Regalos weddingInfo={weddingInfo} />}
           {tab === 'mensajes' && <Mensajes guests={guests} />}
           {tab === 'consejos' && <Consejos />}
           {tab === 'lunas-miel' && <LunasMiel />}
