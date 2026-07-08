@@ -70,7 +70,7 @@ export default function Proveedores({ vendors, setVendors }: Props) {
       {tab === 'Explorar proveedores' && (
         <>
           {/* CATEGORIAS */}
-          <div style={{ display: 'flex', gap: 22, marginBottom: 24, overflowX: 'auto', paddingBottom: 4 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
             {EXPLORE_CATS.map(c => (
               <div key={c.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, cursor: 'pointer', flexShrink: 0 }}>
                 <div style={{ width: 46, height: 46, borderRadius: '50%', background: '#F4EFE8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

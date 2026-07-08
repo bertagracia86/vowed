@@ -41,6 +41,7 @@ export interface TableRow {
   id: string
   name: string
   shape: 'round' | 'rect' | 'standing'
+  capacity: number
 }
 
 export interface WeddingInfo {

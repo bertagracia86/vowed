@@ -38,9 +38,9 @@ export const DEFAULT_MILESTONES: Milestone[] = [
 ]
 
 export const DEFAULT_TABLES: TableRow[] = [
-  { id: '1', name: 'Mesa 1', shape: 'round' },
-  { id: '2', name: 'Mesa 2', shape: 'round' },
-  { id: '3', name: 'Mesa 3', shape: 'rect' },
+  { id: '1', name: 'Mesa 1', shape: 'round', capacity: 8 },
+  { id: '2', name: 'Mesa 2', shape: 'round', capacity: 8 },
+  { id: '3', name: 'Mesa 3', shape: 'rect', capacity: 10 },
 ]
 
 export const DEFAULT_WEDDING: WeddingInfo = {
