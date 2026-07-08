@@ -306,7 +306,7 @@ export default function Invitados({ guests, setGuests }: Props) {
         <AddGuestsModal
           onClose={() => setShowModal(false)}
           onSave={({ name, contact }) => {
-            setGuests([...guests, { id: Date.now().toString(), name, contact, rsvp: 'Pendiente', table_name: null, menu: '' }])
+            setGuests([...guests, { id: Date.now().toString(), name, contact, rsvp: 'Pendiente', table_name: null, menu: '', group: '', avoid: [] }])
             setShowModal(false)
           }}
         />

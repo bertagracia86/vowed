@@ -12,6 +12,8 @@ export interface Guest {
   rsvp: 'Pendiente' | 'Sí' | 'No'
   table_name: string | null
   menu: string
+  group: string
+  avoid: string[]
 }
 
 export interface BudgetItem {
