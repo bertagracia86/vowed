@@ -100,9 +100,11 @@ export default function Dashboard() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', background: BG, fontFamily: F }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: BG, fontFamily: F, overflowX: 'hidden' }}>
+      <div style={{ height: 5, background: BLUE_DARK, flexShrink: 0 }} />
+      <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
 
-      <aside style={{ width: 220, background: 'white', borderRight: '1px solid #ECE9E4', padding: '20px 14px', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
+      <aside style={{ width: 220, minWidth: 220, background: 'white', borderRight: '1px solid #ECE9E4', padding: '20px 14px', display: 'flex', flexDirection: 'column', flexShrink: 0, overflowY: 'auto' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 8px 20px' }}>
           <div style={{ width: 30, height: 30, borderRadius: 9, background: '#F4EFE7', display: 'flex', alignItems: 'center', justifyContent: 'center', color: BLUE, fontSize: 15 }}>♡</div>
           <span style={{ fontFamily: F, fontSize: 18, fontWeight: 700, fontStyle: 'italic', color: BLUE }}>mylov3</span>
@@ -144,15 +146,25 @@ export default function Dashboard() {
       </aside>
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <header style={{ borderBottom: '1px solid #ECE9E4', padding: '16px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white' }}>
-          <span style={{ fontFamily: F, fontSize: 17, fontWeight: 600, color: INK }}>Nuestra Boda</span>
-          <div style={{ border: '1px solid #ECE9E4', borderRadius: 10, padding: '8px 14px', fontSize: 12, color: MUTE, display: 'flex', alignItems: 'center', gap: 8, width: 220 }}>
+        <header style={{ borderBottom: '1px solid #ECE9E4', padding: '16px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, background: 'white' }}>
+          <span style={{ fontFamily: F, fontSize: 22, fontWeight: 600, color: INK, flexShrink: 0 }}>Vuestra boda</span>
+          <div style={{ border: '1px solid #ECE9E4', borderRadius: 10, padding: '8px 14px', fontSize: 12, color: MUTE, display: 'flex', alignItems: 'center', gap: 8, flex: 1, maxWidth: 420 }}>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.8"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4-4" /></svg>
-            Buscar...
+            Buscar productos, marcas, parejas, proveedores...
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexShrink: 0 }}>
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.6"><path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zM22 6l-10 7L2 6"/></svg>
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.6"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg>
+            <div style={{ position: 'relative' }}>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.6"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0"/></svg>
+              <span style={{ position: 'absolute', top: -6, right: -6, background: '#c0594f', color: 'white', fontSize: 9, width: 15, height: 15, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>2</span>
+            </div>
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.6"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+            <div style={{ width: 30, height: 30, borderRadius: '50%', background: '#F4EFE7', border: `1px solid ${BLUE}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 600, color: BLUE_DARK, fontFamily: F }}>LM</div>
           </div>
         </header>
 
-        <main style={{ flex: 1, padding: '32px 36px', overflowY: 'auto' }}>
+        <main style={{ flex: 1, minWidth: 0, padding: '32px 36px', overflowY: 'auto', overflowX: 'auto' }}>
           {tab === 'resumen' && <Resumen tasks={tasks} guests={guests} budget={budget} vendors={vendors} weddingInfo={weddingInfo} weddingDate={weddingDate} setTab={setTab} />}
           {tab === 'tareas' && <Tareas tasks={tasks} setTasks={setTasks} />}
           {tab === 'presupuesto' && <Presupuesto budget={budget} setBudget={setBudget} guestCount={guests.length} />}
@@ -197,6 +209,7 @@ export default function Dashboard() {
             </div>
           )}
         </main>
+      </div>
       </div>
     </div>
   )
