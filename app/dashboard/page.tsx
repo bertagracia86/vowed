@@ -95,10 +95,9 @@ export default function Dashboard() {
 
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: BG, fontFamily: F, overflow: 'hidden' }}>
-      <div style={{ height: 5, background: BLUE_DARK, flexShrink: 0 }} />
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
 
-      <aside style={{ width: collapsed ? 60 : 210, minWidth: collapsed ? 60 : 210, background: '#fcf9f6', borderRight: '1px solid #ECE9E4', padding: collapsed ? '14px 8px' : '14px 12px', display: 'flex', flexDirection: 'column', flexShrink: 0, overflow: 'hidden', transition: 'width 0.18s ease, min-width 0.18s ease, padding 0.18s ease' }}>
+      <aside onMouseEnter={() => setCollapsed(false)} style={{ width: collapsed ? 60 : 210, minWidth: collapsed ? 60 : 210, background: '#fcf9f6', borderRight: '1px solid #ECE9E4', padding: collapsed ? '14px 8px' : '14px 12px', display: 'flex', flexDirection: 'column', flexShrink: 0, overflow: 'hidden', transition: 'width 0.18s ease, min-width 0.18s ease, padding 0.18s ease' }}>
         <button onClick={() => setCollapsed(c => !c)} style={{ display: 'flex', alignItems: 'center', justifyContent: collapsed ? 'center' : 'flex-start', gap: 8, padding: '2px 8px 8px', background: 'none', border: 'none', cursor: 'pointer' }}>
           {collapsed
             ? <span style={{ fontSize: 18, color: '#4A3323' }}>♡</span>
@@ -106,7 +105,7 @@ export default function Dashboard() {
         </button>
 
         {NAV_TOP.map(n => (
-          <button key={n.id} onClick={() => { setTab(n.id); setCollapsed(true) }} title={n.label} style={{
+          <button key={n.id} onClick={() => setTab(n.id)} title={n.label} style={{
             display: 'flex', alignItems: 'center', justifyContent: collapsed ? 'center' : 'flex-start', gap: 8, textAlign: 'left', padding: collapsed ? '9px 0' : '7px 10px', borderRadius: 10, border: 'none',
             background: tab === n.id ? '#F4E7D8' : 'transparent', color: tab === n.id ? '#6b4226' : '#a4816a',
             fontWeight: tab === n.id ? 700 : 400, fontSize: 12.5, cursor: 'pointer', marginBottom: 2
@@ -120,7 +119,7 @@ export default function Dashboard() {
         {!collapsed && <span style={{ fontSize: 12.5, fontWeight: 700, color: '#8b5f3e', padding: '2px 10px 6px' }}>Consejos de expertos</span>}
 
         {!collapsed && NAV_SECONDARY.map(n => (
-          <button key={n.id} onClick={() => { setTab(n.id); setCollapsed(true) }} style={{
+          <button key={n.id} onClick={() => setTab(n.id)} style={{
             display: 'block', textAlign: 'left', padding: '6px 10px', borderRadius: 8, border: 'none',
             background: 'transparent', color: '#8b5f3e',
             fontWeight: tab === n.id ? 600 : 400, fontSize: 12.5, cursor: 'pointer'
@@ -131,7 +130,7 @@ export default function Dashboard() {
 
         <div style={{ marginTop: 'auto' }}>
           {NAV_BOTTOM.map(n => (
-            <button key={n.id} onClick={() => { setTab(n.id); setCollapsed(true) }} title={n.label} style={{
+            <button key={n.id} onClick={() => setTab(n.id)} title={n.label} style={{
               display: 'flex', alignItems: 'center', justifyContent: collapsed ? 'center' : 'flex-start', gap: 10, textAlign: 'left', padding: collapsed ? '9px 0' : '7px 10px', borderRadius: 9, border: 'none',
               background: tab === n.id ? '#F4EFE8' : 'transparent', color: '#8b5f3e',
               fontWeight: tab === n.id ? 600 : 400, fontSize: 12.5, cursor: 'pointer', marginBottom: 1
@@ -142,7 +141,7 @@ export default function Dashboard() {
         </div>
       </aside>
 
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+      <div onMouseEnter={() => setCollapsed(true)} style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         <header style={{ borderBottom: '1px solid #ECE9E4', padding: '10px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, background: 'white', flexShrink: 0 }}>
           <span style={{ fontFamily: F, fontSize: 19, fontWeight: 600, color: INK, flexShrink: 0 }}>Vuestra boda</span>
           <div style={{ border: '1px solid #ECE9E4', borderRadius: 10, padding: '8px 14px', fontSize: 12, color: MUTE, display: 'flex', alignItems: 'center', gap: 8, flex: 1, maxWidth: 420 }}>
@@ -161,7 +160,7 @@ export default function Dashboard() {
           </div>
         </header>
 
-        <main style={{ flex: 1, minWidth: 0, padding: '12px 32px', overflowY: 'auto', overflowX: 'hidden' }}>
+        <main onMouseEnter={() => setCollapsed(true)} style={{ flex: 1, minWidth: 0, padding: '12px 32px', overflowY: 'auto', overflowX: 'hidden' }}>
           {tab === 'resumen' && <Resumen tasks={tasks} guests={guests} budget={budget} vendors={vendors} weddingInfo={weddingInfo} weddingDate={weddingDate} setTab={setTab} />}
           {tab === 'tareas' && <Tareas tasks={tasks} setTasks={setTasks} />}
           {tab === 'presupuesto' && <Presupuesto budget={budget} setBudget={setBudget} guestCount={guests.length} />}
