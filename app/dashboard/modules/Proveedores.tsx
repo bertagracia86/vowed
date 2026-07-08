@@ -9,12 +9,28 @@ const CATEGORIES = ['Fotografía', 'Vídeo', 'Catering', 'Finca', 'Música/DJ', 
 const STATUS_COLORS: Record<string, string> = { Buscando: '#EFE0C2', Contactado: '#E3DCC9', Contratado: '#D9E8D9' }
 const STATUS_TEXT: Record<string, string> = { Buscando: '#B8862F', Contactado: '#5C4A3D', Contratado: '#3A6B3A' }
 
+const TABS = ['Explorar proveedores', 'Bandeja', 'Contratados', 'Favoritos', 'Presupuesto', 'Asesor de espacios', 'Bodas de destino']
+
+const EXPLORE_CATS = [
+  { label: 'Espacios', icon: 'M3 21h18M5 21V9l7-6 7 6v12M9 21v-6h6v6' },
+  { label: 'Fotografía', icon: 'M4 8h3l2-3h6l2 3h3a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V9a1 1 0 011-1zM12 17a4 4 0 100-8 4 4 0 000 8z' },
+  { label: 'Belleza', icon: 'M12 2v6M12 22c3-3 5-6 5-10a5 5 0 00-10 0c0 4 2 7 5 10z' },
+  { label: 'Música y DJ', icon: 'M9 18V5l12-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zM21 16a3 3 0 11-6 0 3 3 0 016 0z' },
+  { label: 'Floristería', icon: 'M12 2a4 4 0 014 4c0 2-2 4-4 6-2-2-4-4-4-6a4 4 0 014-4zM12 12v10' },
+  { label: 'Catering', icon: 'M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3' },
+  { label: 'Planners', icon: 'M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11' },
+  { label: 'Tartas y dulces', icon: 'M20 21v-8a8 8 0 00-16 0v8M4 21h16M12 3v3' },
+  { label: 'Vídeo', icon: 'M23 7l-7 5 7 5V7zM1 5h15v14H1z' },
+  { label: 'Barra libre', icon: 'M5 3h14l-2 9a5 5 0 01-10 0L5 3zM12 15v6M8 21h8' },
+]
+
 export default function Proveedores({ vendors, setVendors }: Props) {
   const [newName, setNewName] = useState('')
   const [newCat, setNewCat] = useState('Fotografía')
   const [newContact, setNewContact] = useState('')
   const [newBudget, setNewBudget] = useState('')
   const [expanded, setExpanded] = useState<string | null>(null)
+  const [tab, setTab] = useState(TABS[0])
 
   function add() {
     if (!newName.trim()) return
@@ -32,10 +48,92 @@ export default function Proveedores({ vendors, setVendors }: Props) {
 
   return (
     <div>
-      <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: INK, marginBottom: 4 }}>Proveedores</h1>
-      <p style={{ fontSize: 12, color: MUTE, marginBottom: 24 }}>
+      <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: INK, marginBottom: 4 }}>Espacio y proveedores</h1>
+      <p style={{ fontSize: 12, color: MUTE, marginBottom: 16 }}>
         {vendors.filter(v => v.status === 'Contratado').length} contratados · {vendors.filter(v => v.status === 'Buscando').length} buscando
       </p>
+
+      {/* TABS */}
+      <div style={{ display: 'flex', gap: 20, borderBottom: '1px solid #ECE9E4', marginBottom: 20, overflowX: 'auto' }}>
+        {TABS.map(t => (
+          <button key={t} onClick={() => setTab(t)} style={{
+            background: 'none', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap',
+            padding: '0 0 10px', fontSize: 13, fontFamily: F,
+            color: tab === t ? INK : MUTE, fontWeight: tab === t ? 600 : 400,
+            borderBottom: tab === t ? '2px solid #8b5f3e' : '2px solid transparent'
+          }}>
+            {t}
+          </button>
+        ))}
+      </div>
+
+      {tab === 'Explorar proveedores' && (
+        <>
+          {/* CATEGORIAS */}
+          <div style={{ display: 'flex', gap: 22, marginBottom: 24, overflowX: 'auto', paddingBottom: 4 }}>
+            {EXPLORE_CATS.map(c => (
+              <div key={c.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, cursor: 'pointer', flexShrink: 0 }}>
+                <div style={{ width: 46, height: 46, borderRadius: '50%', background: '#F4EFE8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#8b5f3e" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d={c.icon} /></svg>
+                </div>
+                <span style={{ fontSize: 10.5, color: MUTE, whiteSpace: 'nowrap' }}>{c.label}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* DOS TARJETAS */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 28 }}>
+            <div style={{ background: '#F7F4EF', borderRadius: 16, padding: '36px 24px', textAlign: 'center' }}>
+              <p style={{ fontFamily: F, fontSize: 20, color: INK, marginBottom: 6 }}>Explorad espacios en</p>
+              <p style={{ fontFamily: F, fontSize: 20, color: INK, textDecoration: 'underline', marginBottom: 18 }}>{vendors.find(v => v.category === 'Finca')?.contact || 'vuestra ciudad'}</p>
+              <button style={{ background: '#241c17', color: 'white', border: 'none', borderRadius: 999, padding: '12px 28px', fontSize: 13, cursor: 'pointer', marginBottom: 12 }}>Ver espacios</button>
+              <p style={{ fontSize: 11, color: MUTE, textDecoration: 'underline', cursor: 'pointer' }}>¿Ya tenéis espacio? Añadidlo aquí</p>
+            </div>
+
+            <div style={{ background: 'linear-gradient(135deg, #F4EFE8, #EFE6F5)', border: `1.5px solid ${BLUE}`, borderRadius: 16, padding: '28px 24px' }}>
+              <p style={{ fontFamily: F, fontSize: 20, color: INK, textAlign: 'center', marginBottom: 6 }}>Encontrad vuestro espacio en segundos</p>
+              <p style={{ fontSize: 11.5, color: MUTE, textAlign: 'center', marginBottom: 16 }}>Contadnos qué buscáis y os lo emparejamos con el espacio perfecto.</p>
+              <div style={{ display: 'flex', gap: 8, background: 'white', border: '1px solid #ECE9E4', borderRadius: 999, padding: '10px 8px 10px 16px', alignItems: 'center', marginBottom: 12 }}>
+                <span style={{ flex: 1, fontSize: 12, color: MUTE }}>Un espacio con jardín en Madrid para 100 invitados...</span>
+                <span style={{ width: 30, height: 30, borderRadius: '50%', background: BLUE, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" /></svg>
+                </span>
+              </div>
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                {['¿Presupuesto realista para 150 invitados?', 'Espacios con ceremonia al aire libre'].map(q => (
+                  <span key={q} style={{ border: '1px solid #ECE9E4', background: 'white', borderRadius: 999, padding: '6px 12px', fontSize: 10.5, color: MUTE }}>{q}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* GALERIA */}
+          <p style={{ fontFamily: F, fontSize: 18, color: INK, marginBottom: 12 }}>Los espacios más populares</p>
+          <div style={{ display: 'flex', gap: 14, overflowX: 'auto', marginBottom: 32, paddingBottom: 4 }}>
+            {[
+              { img: '/showcase-1.png', name: 'Jardines del Rey', loc: 'Madrid', price: '7.500 €' },
+              { img: '/showcase-2.png', name: 'The Sanctuary', loc: 'Sitges', price: '15.000 €' },
+              { img: '/showcase-3.png', name: 'Finca Brooklyn', loc: 'Girona', price: '20.000 €' },
+              { img: '/detalles.png', name: 'Sound River', loc: 'Valencia', price: '8.200 €' },
+            ].map(v => (
+              <div key={v.name} style={{ width: 220, flexShrink: 0 }}>
+                <div style={{ position: 'relative', height: 150, borderRadius: 12, overflow: 'hidden', marginBottom: 8 }}>
+                  <img src={v.img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <span style={{ position: 'absolute', top: 8, right: 8, width: 26, height: 26, borderRadius: '50%', background: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth="1.8"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z" /></svg>
+                  </span>
+                </div>
+                <p style={{ fontSize: 13, fontWeight: 600, color: INK, marginBottom: 2 }}>{v.name}</p>
+                <p style={{ fontSize: 11, color: MUTE, marginBottom: 2 }}>{v.loc}</p>
+                <p style={{ fontSize: 11, color: MUTE }}>Desde {v.price}</p>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      {/* VUESTROS PROVEEDORES — gestion existente */}
+      <p style={{ fontFamily: F, fontSize: 18, color: INK, marginBottom: 12 }}>Vuestros proveedores</p>
 
       <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
         <input value={newName} onChange={e => setNewName(e.target.value)} placeholder="Nombre del proveedor" style={{ flex: 1, minWidth: 160, border: '1px solid #E3DCC9', borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }} />
