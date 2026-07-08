@@ -100,7 +100,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: BG, fontFamily: F, overflowX: 'hidden' }}>
+    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: BG, fontFamily: F, overflow: 'hidden' }}>
       <div style={{ height: 5, background: BLUE_DARK, flexShrink: 0 }} />
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
 
@@ -121,6 +121,8 @@ export default function Dashboard() {
         ))}
 
         <div style={{ height: 1, background: '#ECE9E4', margin: '12px 10px' }} />
+
+        <span style={{ fontSize: 11, fontWeight: 600, color: MUTE, textTransform: 'uppercase', letterSpacing: 0.5, padding: '4px 10px 6px' }}>Consejos de expertos</span>
 
         {NAV_SECONDARY.map(n => (
           <button key={n.id} onClick={() => setTab(n.id)} style={{
@@ -146,7 +148,7 @@ export default function Dashboard() {
       </aside>
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <header style={{ borderBottom: '1px solid #ECE9E4', padding: '16px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, background: 'white' }}>
+        <header style={{ borderBottom: '1px solid #ECE9E4', padding: '12px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, background: 'white' }}>
           <span style={{ fontFamily: F, fontSize: 22, fontWeight: 600, color: INK, flexShrink: 0 }}>Vuestra boda</span>
           <div style={{ border: '1px solid #ECE9E4', borderRadius: 10, padding: '8px 14px', fontSize: 12, color: MUTE, display: 'flex', alignItems: 'center', gap: 8, flex: 1, maxWidth: 420 }}>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.8"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4-4" /></svg>
@@ -164,7 +166,7 @@ export default function Dashboard() {
           </div>
         </header>
 
-        <main style={{ flex: 1, minWidth: 0, padding: '32px 36px', overflowY: 'auto', overflowX: 'auto' }}>
+        <main style={{ flex: 1, minWidth: 0, padding: '14px 32px', overflowY: 'auto', overflowX: 'auto' }}>
           {tab === 'resumen' && <Resumen tasks={tasks} guests={guests} budget={budget} vendors={vendors} weddingInfo={weddingInfo} weddingDate={weddingDate} setTab={setTab} />}
           {tab === 'tareas' && <Tareas tasks={tasks} setTasks={setTasks} />}
           {tab === 'presupuesto' && <Presupuesto budget={budget} setBudget={setBudget} guestCount={guests.length} />}

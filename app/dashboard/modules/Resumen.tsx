@@ -14,12 +14,12 @@ interface Props {
 
 function Row({ title, sub, cta, onClick }: { title: string; sub: string; cta: string; onClick: () => void }) {
   return (
-    <div style={{ padding: '14px 0', borderBottom: '1px solid #ECE9E4', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+    <div style={{ padding: '9px 0', borderBottom: '1px solid #ECE9E4', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
       <div style={{ minWidth: 0 }}>
-        <p style={{ fontFamily: F, fontSize: 15, fontWeight: 600, color: INK, marginBottom: 2 }}>{title}</p>
-        <p style={{ fontSize: 12, color: MUTE, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{sub}</p>
+        <p style={{ fontFamily: F, fontSize: 14, fontWeight: 600, color: INK, marginBottom: 1 }}>{title}</p>
+        <p style={{ fontSize: 11, color: MUTE, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{sub}</p>
       </div>
-      <button onClick={onClick} style={{ flexShrink: 0, border: '1px solid #ECE9E4', borderRadius: 8, padding: '7px 14px', background: 'white', fontSize: 12, color: INK, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+      <button onClick={onClick} style={{ flexShrink: 0, border: '1px solid #ECE9E4', borderRadius: 8, padding: '6px 12px', background: 'white', fontSize: 11, color: INK, cursor: 'pointer', whiteSpace: 'nowrap' }}>
         {cta}
       </button>
     </div>
@@ -36,28 +36,28 @@ export default function Resumen({ tasks, guests, budget, vendors, weddingInfo, w
   const dateLabel = weddingDate ? new Date(weddingDate).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Sin definir'
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', gap: 28, height: '100%' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: 20, height: '100%' }}>
 
       {/* IZQUIERDA — foto, nombres, pills, QR */}
       <div>
-        <div style={{ position: 'relative', height: 200, borderRadius: 14, border: '1.5px dashed #DDD8D0', background: '#F4F2EE', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', marginBottom: 14 }}>
-          <span style={{ fontSize: 12, color: MUTE }}>Subir foto de portada</span>
+        <div style={{ position: 'relative', height: 130, borderRadius: 14, border: '1.5px dashed #DDD8D0', background: '#F4F2EE', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', marginBottom: 10 }}>
+          <span style={{ fontSize: 11, color: MUTE }}>Subir foto de portada</span>
         </div>
 
-        <p style={{ fontFamily: F, fontSize: 24, fontWeight: 600, color: INK, textAlign: 'center', marginBottom: 12 }}>
+        <p style={{ fontFamily: F, fontSize: 19, fontWeight: 600, color: INK, textAlign: 'center', marginBottom: 8 }}>
           {weddingInfo.partner1 || 'Vosotros'} &amp; {weddingInfo.partner2 || 'dos'}
         </p>
 
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: 'center', marginBottom: 16 }}>
-          <span style={{ border: '1px solid #ECE9E4', borderRadius: 999, padding: '5px 12px', fontSize: 11, color: MUTE }}>{dateLabel}</span>
-          <span style={{ border: '1px solid #ECE9E4', borderRadius: 999, padding: '5px 12px', fontSize: 11, color: MUTE }}>{weddingInfo.venue || 'Sin definir'}</span>
-          <span style={{ border: '1px solid #ECE9E4', borderRadius: 999, padding: '5px 12px', fontSize: 11, color: MUTE }}>{hashtag}</span>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, justifyContent: 'center', marginBottom: 10 }}>
+          <span style={{ border: '1px solid #ECE9E4', borderRadius: 999, padding: '4px 10px', fontSize: 10, color: MUTE }}>{dateLabel}</span>
+          <span style={{ border: '1px solid #ECE9E4', borderRadius: 999, padding: '4px 10px', fontSize: 10, color: MUTE }}>{weddingInfo.venue || 'Sin definir'}</span>
+          <span style={{ border: '1px solid #ECE9E4', borderRadius: 999, padding: '4px 10px', fontSize: 10, color: MUTE }}>{hashtag}</span>
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <div style={{ width: 76, height: 76, borderRadius: 10, background: `repeating-linear-gradient(45deg, ${INK} 0 4px, white 4px 8px)`, opacity: 0.85 }} />
+          <div style={{ width: 56, height: 56, borderRadius: 10, background: `repeating-linear-gradient(45deg, ${INK} 0 4px, white 4px 8px)`, opacity: 0.85 }} />
         </div>
-        <p style={{ fontSize: 11, color: MUTE, textAlign: 'center', marginTop: 8 }}>Compartid vuestro progreso</p>
+        <p style={{ fontSize: 10, color: MUTE, textAlign: 'center', marginTop: 6 }}>Compartid vuestro progreso</p>
       </div>
 
       {/* DERECHA — secciones, todo visible sin scroll */}
