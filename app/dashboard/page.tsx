@@ -111,9 +111,9 @@ export default function Dashboard() {
 
         {NAV_TOP.map(n => (
           <button key={n.id} onClick={() => setTab(n.id)} style={{
-            display: 'flex', alignItems: 'center', gap: 8, textAlign: 'left', padding: '7px 10px', borderRadius: 8, border: 'none',
-            background: tab === n.id ? '#F4EFE8' : 'transparent', color: '#8b5f3e',
-            fontWeight: tab === n.id ? 600 : 400, fontSize: 12.5, cursor: 'pointer', marginBottom: 2
+            display: 'flex', alignItems: 'center', gap: 8, textAlign: 'left', padding: '7px 10px', borderRadius: 10, border: 'none',
+            background: tab === n.id ? '#F4E7D8' : 'transparent', color: tab === n.id ? '#6b4226' : '#a4816a',
+            fontWeight: tab === n.id ? 700 : 400, fontSize: 12.5, cursor: 'pointer', marginBottom: 2
           }}>
             <SideIcon d={n.icon} />{n.label}
           </button>
@@ -121,15 +121,15 @@ export default function Dashboard() {
 
         <div style={{ height: 1, background: '#ECE9E4', margin: '9px 10px' }} />
 
-        <span style={{ fontSize: 10, fontWeight: 700, color: '#8b5f3e', textTransform: 'uppercase', letterSpacing: 0.5, padding: '2px 10px 6px' }}>Consejos de expertos</span>
+        <span style={{ fontSize: 12.5, fontWeight: 700, color: '#8b5f3e', padding: '2px 10px 6px' }}>Consejos de expertos</span>
 
         {NAV_SECONDARY.map(n => (
           <button key={n.id} onClick={() => setTab(n.id)} style={{
-            display: 'flex', alignItems: 'center', gap: 8, textAlign: 'left', padding: '7px 10px', borderRadius: 8, border: 'none',
-            background: tab === n.id ? '#F4EFE8' : 'transparent', color: '#8b5f3e',
-            fontWeight: tab === n.id ? 600 : 400, fontSize: 12.5, cursor: 'pointer', marginBottom: 2
+            display: 'block', textAlign: 'left', padding: '6px 10px', borderRadius: 8, border: 'none',
+            background: 'transparent', color: '#8b5f3e',
+            fontWeight: tab === n.id ? 600 : 400, fontSize: 12.5, cursor: 'pointer'
           }}>
-            <SideIcon d={n.icon} />{n.label}
+            {n.label}
           </button>
         ))}
 
