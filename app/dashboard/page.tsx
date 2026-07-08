@@ -42,7 +42,7 @@ const NAV_BOTTOM = [
 
 function SideIcon({ d }: { d: string }) {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
       <path d={d} />
     </svg>
   )
@@ -104,30 +104,30 @@ export default function Dashboard() {
       <div style={{ height: 5, background: BLUE_DARK, flexShrink: 0 }} />
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
 
-      <aside style={{ width: 220, minWidth: 220, background: 'white', borderRight: '1px solid #ECE9E4', padding: '20px 14px', display: 'flex', flexDirection: 'column', flexShrink: 0, overflowY: 'auto' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 8px 14px' }}>
-          <span style={{ fontFamily: F, fontSize: 22, fontWeight: 700, fontStyle: 'italic', color: '#4A3323' }}>mylov3</span>
+      <aside style={{ width: 210, minWidth: 210, background: 'white', borderRight: '1px solid #ECE9E4', padding: '14px 12px', display: 'flex', flexDirection: 'column', flexShrink: 0, overflow: 'hidden' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '2px 8px 8px' }}>
+          <span style={{ fontFamily: F, fontSize: 20, fontWeight: 700, fontStyle: 'italic', color: '#4A3323' }}>mylov3</span>
         </div>
 
         {NAV_TOP.map(n => (
           <button key={n.id} onClick={() => setTab(n.id)} style={{
-            display: 'flex', alignItems: 'center', gap: 10, textAlign: 'left', padding: '7px 10px', borderRadius: 9, border: 'none',
+            display: 'flex', alignItems: 'center', gap: 8, textAlign: 'left', padding: '5px 10px', borderRadius: 8, border: 'none',
             background: tab === n.id ? '#F4F2EE' : 'transparent', color: tab === n.id ? INK : MUTE,
-            fontWeight: tab === n.id ? 600 : 400, fontSize: 12.5, cursor: 'pointer', marginBottom: 1
+            fontWeight: tab === n.id ? 600 : 400, fontSize: 12, cursor: 'pointer', marginBottom: 0
           }}>
             <SideIcon d={n.icon} />{n.label}
           </button>
         ))}
 
-        <div style={{ height: 1, background: '#ECE9E4', margin: '12px 10px' }} />
+        <div style={{ height: 1, background: '#ECE9E4', margin: '7px 10px' }} />
 
-        <span style={{ fontSize: 11, fontWeight: 600, color: MUTE, textTransform: 'uppercase', letterSpacing: 0.5, padding: '4px 10px 6px' }}>Consejos de expertos</span>
+        <span style={{ fontSize: 10, fontWeight: 600, color: MUTE, textTransform: 'uppercase', letterSpacing: 0.5, padding: '2px 10px 4px' }}>Consejos de expertos</span>
 
         {NAV_SECONDARY.map(n => (
           <button key={n.id} onClick={() => setTab(n.id)} style={{
-            display: 'flex', alignItems: 'center', gap: 10, textAlign: 'left', padding: '7px 10px', borderRadius: 9, border: 'none',
+            display: 'flex', alignItems: 'center', gap: 8, textAlign: 'left', padding: '5px 10px', borderRadius: 8, border: 'none',
             background: tab === n.id ? '#F4F2EE' : 'transparent', color: tab === n.id ? INK : MUTE,
-            fontWeight: tab === n.id ? 600 : 400, fontSize: 12.5, cursor: 'pointer', marginBottom: 1
+            fontWeight: tab === n.id ? 600 : 400, fontSize: 12, cursor: 'pointer', marginBottom: 0
           }}>
             <SideIcon d={n.icon} />{n.label}
           </button>
