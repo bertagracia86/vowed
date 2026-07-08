@@ -1,13 +1,23 @@
 import { Task, Guest, BudgetItem, Vendor, Milestone, TableRow, WeddingInfo } from './types'
 
+export const TASK_PHASES = ['12+ meses antes', '9-11 meses antes', '6-8 meses antes', '3-5 meses antes', '1-2 meses antes', 'Última semana']
+
 export const DEFAULT_TASKS: Task[] = [
-  { id: '1', title: 'Definir el presupuesto total', done: true },
-  { id: '2', title: 'Elegir la fecha tentativa', done: true },
-  { id: '3', title: 'Visitar y reservar el espacio', done: false },
-  { id: '4', title: 'Contratar al fotógrafo', done: false },
-  { id: '5', title: 'Buscar y contratar catering', done: false },
-  { id: '6', title: 'Enviar invitaciones', done: false },
-  { id: '7', title: 'Elegir el vestido', done: false },
+  { id: '1', title: 'Definir el presupuesto total', done: true, phase: '12+ meses antes' },
+  { id: '2', title: 'Elegir la fecha tentativa', done: true, phase: '12+ meses antes' },
+  { id: '3', title: 'Confeccionar la primera lista de invitados', done: false, phase: '12+ meses antes' },
+  { id: '4', title: 'Visitar y reservar el espacio', done: false, phase: '9-11 meses antes' },
+  { id: '5', title: 'Contratar al fotógrafo', done: false, phase: '9-11 meses antes' },
+  { id: '6', title: 'Elegir el vestido', done: false, phase: '9-11 meses antes' },
+  { id: '7', title: 'Buscar y contratar catering', done: false, phase: '6-8 meses antes' },
+  { id: '8', title: 'Reservar música / DJ', done: false, phase: '6-8 meses antes' },
+  { id: '9', title: 'Diseñar y encargar invitaciones', done: false, phase: '3-5 meses antes' },
+  { id: '10', title: 'Enviar invitaciones', done: false, phase: '3-5 meses antes' },
+  { id: '11', title: 'Confirmar menú con catering', done: false, phase: '1-2 meses antes' },
+  { id: '12', title: 'Hacer el plano de mesas', done: false, phase: '1-2 meses antes' },
+  { id: '13', title: 'Prueba final del vestido', done: false, phase: '1-2 meses antes' },
+  { id: '14', title: 'Confirmar asistencia final con el espacio', done: false, phase: 'Última semana' },
+  { id: '15', title: 'Preparar los pagos pendientes a proveedores', done: false, phase: 'Última semana' },
 ]
 
 export const DEFAULT_GUESTS: Guest[] = [

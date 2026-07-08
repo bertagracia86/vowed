@@ -2,6 +2,7 @@ export interface Task {
   id: string
   title: string
   done: boolean
+  phase: string
 }
 
 export interface Guest {
