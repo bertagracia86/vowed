@@ -146,22 +146,45 @@ export default function Invitados({ guests, setGuests }: Props) {
     setGuests(guests.filter(g => g.id !== id))
   }
 
+  const adults = guests.length
+  const children = 0
+  const TABS = ['Lista de invitados', 'Recopilar contactos', 'Eventos', 'Plano de mesas', 'Mensajería', 'Agradecimientos', 'Bloques de hotel']
+  const SUBTABS = ['Gestionar lista', 'Invitar a eventos', 'Direcciones de sobres', 'Seguimiento RSVP']
+
   return (
     <div>
       <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: INK, marginBottom: 16 }}>Invitados y RSVP</h1>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 20 }}>
+      <div style={{ display: 'flex', gap: 20, borderBottom: '1px solid #ECE9E4', marginBottom: 14, overflowX: 'auto' }}>
+        {TABS.map((t, i) => (
+          <button key={t} style={{
+            background: 'none', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap', padding: '0 0 10px', fontSize: 13, fontFamily: F,
+            color: i === 0 ? INK : MUTE, fontWeight: i === 0 ? 600 : 400, borderBottom: i === 0 ? '2px solid #8b5f3e' : '2px solid transparent'
+          }}>{t}</button>
+        ))}
+      </div>
+
+      <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
+        {SUBTABS.map((t, i) => (
+          <button key={t} style={{
+            background: i === 0 ? '#F4E7D8' : 'transparent', border: 'none', borderRadius: 8, cursor: 'pointer',
+            padding: '8px 14px', fontSize: 12.5, color: i === 0 ? '#6b4226' : MUTE, fontWeight: i === 0 ? 600 : 400
+          }}>{t}</button>
+        ))}
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '0.7fr 0.7fr 0.7fr 1fr 1.6fr', gap: 12, marginBottom: 20 }}>
         <div style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 14, padding: '14px 18px', textAlign: 'center' }}>
           <p style={{ fontFamily: F, fontSize: 22, color: INK }}>{guests.length}</p>
           <p style={{ fontSize: 11, color: MUTE }}>Invitados</p>
         </div>
         <div style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 14, padding: '14px 18px', textAlign: 'center' }}>
-          <p style={{ fontFamily: F, fontSize: 22, color: '#3A6B3A' }}>{confirmed}</p>
-          <p style={{ fontSize: 11, color: MUTE }}>Confirmados</p>
+          <p style={{ fontFamily: F, fontSize: 22, color: INK }}>{adults}</p>
+          <p style={{ fontSize: 11, color: MUTE }}>Adultos</p>
         </div>
         <div style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 14, padding: '14px 18px', textAlign: 'center' }}>
-          <p style={{ fontFamily: F, fontSize: 22, color: '#B8862F' }}>{pending}</p>
-          <p style={{ fontSize: 11, color: MUTE }}>Pendientes</p>
+          <p style={{ fontFamily: F, fontSize: 22, color: INK }}>{children}</p>
+          <p style={{ fontSize: 11, color: MUTE }}>Niños</p>
         </div>
         <div style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 14, padding: '14px 18px', textAlign: 'center' }}>
           <p style={{ fontFamily: F, fontSize: 22, color: '#C0594F' }}>{missing}</p>
@@ -169,73 +192,115 @@ export default function Invitados({ guests, setGuests }: Props) {
             <span style={{ fontSize: 11, color: '#8b5f3e', textDecoration: 'underline', cursor: 'pointer' }}>Direcciones pendientes</span>
           </Tooltip>
         </div>
-      </div>
-
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 14 }}>
-        <Tooltip text="Ved grupos concretos de invitados y aplicad acciones en bloque.">
-          <button style={{ border: '1px solid #ECE9E4', background: 'white', borderRadius: 999, padding: '9px 16px', fontSize: 12, color: INK, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
-            Filtrar
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="2"><path d="M6 9l6 6 6-6" /></svg>
-          </button>
-        </Tooltip>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <button style={{ border: '1px solid #241c17', background: 'white', borderRadius: 999, padding: '9px 18px', fontSize: 12, cursor: 'pointer' }}>Subir hoja de cálculo</button>
-          <button onClick={() => setShowModal(true)} style={{ background: '#241c17', color: 'white', border: 'none', borderRadius: 999, padding: '9px 20px', fontSize: 12, cursor: 'pointer' }}>Añadir invitados</button>
+        <div style={{ background: '#F4EFE8', border: '1px solid #ECE9E4', borderRadius: 14, padding: '14px 18px', display: 'flex', alignItems: 'center', gap: 14 }}>
+          <div style={{ width: 54, height: 54, borderRadius: 10, background: '#e7dcc9', flexShrink: 0, overflow: 'hidden' }}>
+            <img src="/invitaciones.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          </div>
+          <div>
+            <p style={{ fontFamily: F, fontSize: 13.5, color: INK, marginBottom: 6, lineHeight: 1.2 }}>Recopilad las direcciones de vuestros invitados</p>
+            <button style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 999, padding: '6px 12px', fontSize: 11, cursor: 'pointer' }}>Configurar recopilador</button>
+          </div>
         </div>
       </div>
 
-      {guests.length === 0 ? (
-        <p style={{ fontSize: 13, color: MUTE, textAlign: 'center', padding: '40px 0' }}>Sin invitados todavía.</p>
-      ) : (
-        <div style={{ border: '1px solid #F5EFE0', borderRadius: 16, overflow: 'visible' }}>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '8px 14px 0' }}>
-            <Tooltip text="Exporta la información de los invitados a una hoja de cálculo." align="right">
-              <button style={{ background: 'none', border: 'none', color: MUTE, cursor: 'pointer', fontSize: 16, letterSpacing: 1 }}>⋯</button>
-            </Tooltip>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '0.5fr 1.3fr 1.5fr 0.8fr 1fr 1fr auto', padding: '10px 18px', background: '#FBF9F5', borderBottom: '1px solid #F5EFE0' }}>
-            <Tooltip text="Total de invitados en el grupo." align="left">
-              <span style={{ fontSize: 10, color: MUTE, letterSpacing: '0.04em', cursor: 'default' }}>N.º</span>
-            </Tooltip>
-            <Tooltip text="Ordena por apellido, ascendente o descendente." align="left">
-              <span style={{ fontSize: 10, color: MUTE, letterSpacing: '0.04em', cursor: 'default' }}>NOMBRE ↑</span>
-            </Tooltip>
-            {['CONTACTO', 'MESA', 'MENÚ', 'ASISTENCIA', ''].map(h => (
-              <span key={h} style={{ fontSize: 10, color: MUTE, letterSpacing: '0.04em' }}>{h}</span>
-            ))}
-          </div>
-          {guests.map((g, i) => (
-            <div key={g.id} style={{ display: 'grid', gridTemplateColumns: '0.5fr 1.3fr 1.5fr 0.8fr 1fr 1fr auto', alignItems: 'center', padding: '10px 18px', borderBottom: i < guests.length - 1 ? '1px solid #F5EFE0' : 'none' }}>
-              <span style={{ fontSize: 12, color: MUTE }}>{i + 1}</span>
-              <span style={{ fontSize: 13, color: INK }}>{g.name}</span>
-              {g.contact ? (
-                <input value={g.contact} onChange={e => update(g.id, 'contact', e.target.value)} placeholder="Email o teléfono" style={{ border: 'none', background: 'transparent', fontSize: 12, color: MUTE, outline: 'none' }} />
-              ) : (
-                <Tooltip text="¿Falta la dirección o el contacto de un invitado? Os ayudamos a recopilarlo." align="left">
-                  <span style={{ fontSize: 12, color: '#8b5f3e', textDecoration: 'underline', cursor: 'pointer' }}>Solicitar datos</span>
-                </Tooltip>
-              )}
-              <input value={g.table_name || ''} onChange={e => update(g.id, 'table_name', e.target.value)} placeholder="—" style={{ border: 'none', background: 'transparent', fontSize: 12, color: MUTE, outline: 'none', width: '100%' }} />
-              <input value={g.menu} onChange={e => update(g.id, 'menu', e.target.value)} placeholder="Normal" style={{ border: 'none', background: 'transparent', fontSize: 12, color: MUTE, outline: 'none' }} />
-              <select value={g.rsvp} onChange={e => update(g.id, 'rsvp', e.target.value)} style={{ border: '1px solid #F5EFE0', borderRadius: 8, padding: '5px 8px', fontSize: 11, color: INK, background: 'white', outline: 'none' }}>
-                <option>Pendiente</option><option>Sí</option><option>No</option>
-              </select>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <Tooltip text="Añade el email del invitado para enviarle un mensaje." align="right">
-                  <span style={{ display: 'flex', color: '#C9BCA8', cursor: 'pointer' }}>
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 7l9 6 9-6" /></svg>
-                  </span>
-                </Tooltip>
-                <Tooltip text="Eliminar invitado." align="right">
-                  <span onClick={() => remove(g.id)} style={{ display: 'flex', color: '#C9BCA8', cursor: 'pointer' }}>
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0l-1 14a2 2 0 01-2 2H7a2 2 0 01-2-2L4 6" /></svg>
-                  </span>
-                </Tooltip>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 20 }}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 14 }}>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <Tooltip text="Ved grupos concretos de invitados y aplicad acciones en bloque.">
+                <button style={{ border: '1px solid #ECE9E4', background: 'white', borderRadius: 999, padding: '9px 16px', fontSize: 12, color: INK, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
+                  Filtrar
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="2"><path d="M6 9l6 6 6-6" /></svg>
+                </button>
+              </Tooltip>
+              <div style={{ border: '1px solid #ECE9E4', background: 'white', borderRadius: 999, padding: '9px 16px', fontSize: 12, color: MUTE, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="2"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4-4" /></svg>
+                Buscar por nombre
               </div>
             </div>
-          ))}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <button style={{ border: '1px solid #241c17', background: 'white', borderRadius: 999, padding: '9px 18px', fontSize: 12, cursor: 'pointer' }}>Subir hoja de cálculo</button>
+              <button onClick={() => setShowModal(true)} style={{ background: '#241c17', color: 'white', border: 'none', borderRadius: 999, padding: '9px 20px', fontSize: 12, cursor: 'pointer' }}>Añadir invitados</button>
+            </div>
+          </div>
+
+          {guests.length === 0 ? (
+            <p style={{ fontSize: 13, color: MUTE, textAlign: 'center', padding: '40px 0' }}>Sin invitados todavía.</p>
+          ) : (
+            <div style={{ border: '1px solid #F5EFE0', borderRadius: 16, overflow: 'visible' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '8px 14px 0' }}>
+                <Tooltip text="Exporta la información de los invitados a una hoja de cálculo." align="right">
+                  <button style={{ background: 'none', border: 'none', color: MUTE, cursor: 'pointer', fontSize: 16, letterSpacing: 1 }}>⋯</button>
+                </Tooltip>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '0.5fr 1.3fr 1.5fr 1.4fr auto', padding: '10px 18px', background: '#FBF9F5', borderBottom: '1px solid #F5EFE0' }}>
+                <Tooltip text="Total de invitados en el grupo." align="left">
+                  <span style={{ fontSize: 10, color: MUTE, letterSpacing: '0.04em', cursor: 'default' }}>N.º</span>
+                </Tooltip>
+                <Tooltip text="Ordena por apellido, ascendente o descendente." align="left">
+                  <span style={{ fontSize: 10, color: MUTE, letterSpacing: '0.04em', cursor: 'default' }}>NOMBRE ↑</span>
+                </Tooltip>
+                {['CONTACTO', 'ESTADO'].map(h => (
+                  <span key={h} style={{ fontSize: 10, color: MUTE, letterSpacing: '0.04em' }}>{h}</span>
+                ))}
+                <span />
+              </div>
+              {guests.map((g, i) => (
+                <div key={g.id} style={{ display: 'grid', gridTemplateColumns: '0.5fr 1.3fr 1.5fr 1.4fr auto', alignItems: 'center', padding: '12px 18px', borderBottom: i < guests.length - 1 ? '1px solid #F5EFE0' : 'none' }}>
+                  <span style={{ fontSize: 12, color: MUTE }}>{i + 1}</span>
+                  <span style={{ fontSize: 13, color: INK }}>{g.name}</span>
+                  {g.contact ? (
+                    <input value={g.contact} onChange={e => update(g.id, 'contact', e.target.value)} placeholder="Email o teléfono" style={{ border: 'none', background: 'transparent', fontSize: 12, color: MUTE, outline: 'none' }} />
+                  ) : (
+                    <div>
+                      <p style={{ fontSize: 11.5, color: '#C0594F', marginBottom: 2 }}>Sin email · Sin móvil</p>
+                      <Tooltip text="¿Falta la dirección o el contacto de un invitado? Os ayudamos a recopilarlo." align="left">
+                        <span style={{ fontSize: 11.5, color: '#8b5f3e', textDecoration: 'underline', cursor: 'pointer' }}>Solicitar datos</span>
+                      </Tooltip>
+                    </div>
+                  )}
+                  <div style={{ display: 'flex', gap: 14 }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 12, color: INK, cursor: 'pointer' }}>
+                      <input type="radio" name={`inv-${g.id}`} checked={g.rsvp !== 'No'} onChange={() => update(g.id, 'rsvp', 'Pendiente')} />
+                      Definitivamente
+                    </label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 12, color: INK, cursor: 'pointer' }}>
+                      <input type="radio" name={`inv-${g.id}`} checked={g.rsvp === 'No'} onChange={() => update(g.id, 'rsvp', 'No')} />
+                      Quizás
+                    </label>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <Tooltip text="Añade el email del invitado para enviarle un mensaje." align="right">
+                      <span style={{ display: 'flex', color: '#C9BCA8', cursor: 'pointer' }}>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 7l9 6 9-6" /></svg>
+                      </span>
+                    </Tooltip>
+                    <Tooltip text="Eliminar invitado." align="right">
+                      <span onClick={() => remove(g.id)} style={{ display: 'flex', color: '#C9BCA8', cursor: 'pointer' }}>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0l-1 14a2 2 0 01-2 2H7a2 2 0 01-2-2L4 6" /></svg>
+                      </span>
+                    </Tooltip>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-      )}
+
+        <div style={{ background: '#F4EFE8', border: '1px solid #ECE9E4', borderRadius: 16, padding: 18, alignSelf: 'flex-start' }}>
+          <div style={{ background: 'white', borderRadius: 12, padding: 12, marginBottom: 14, boxShadow: '0 6px 16px rgba(0,0,0,0.06)' }}>
+            <img src="/pareja-portada.png" alt="" style={{ width: '100%', height: 150, objectFit: 'cover', borderRadius: 8, marginBottom: 8 }} />
+            <p style={{ fontFamily: F, fontSize: 13, color: INK, textAlign: 'center' }}>15 de junio de 2025</p>
+          </div>
+          <p style={{ fontFamily: F, fontSize: 18, color: INK, marginBottom: 8, lineHeight: 1.25 }}>Habéis empezado vuestros Save the Dates</p>
+          <p style={{ fontSize: 11.5, color: MUTE, marginBottom: 14, lineHeight: 1.5 }}>
+            Nuestros diseños están hechos en casa e impresos en papel premium.
+          </p>
+          <button style={{ background: '#241c17', color: 'white', border: 'none', borderRadius: 999, padding: '10px 20px', fontSize: 12, cursor: 'pointer' }}>
+            Explorar diseños
+          </button>
+        </div>
+      </div>
 
       {showModal && (
         <AddGuestsModal
