@@ -14,12 +14,12 @@ interface Props {
 
 function Row({ title, sub, cta, onClick }: { title: string; sub: string; cta: string; onClick: () => void }) {
   return (
-    <div style={{ padding: '9px 0', borderBottom: '1px solid #ECE9E4', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+    <div style={{ padding: '6px 0', borderBottom: '1px solid #ECE9E4', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
       <div style={{ minWidth: 0 }}>
-        <p style={{ fontFamily: F, fontSize: 14, fontWeight: 600, color: INK, marginBottom: 1 }}>{title}</p>
-        <p style={{ fontSize: 11, color: MUTE, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{sub}</p>
+        <p style={{ fontFamily: F, fontSize: 13, fontWeight: 600, color: INK, marginBottom: 1 }}>{title}</p>
+        <p style={{ fontSize: 10, color: MUTE, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{sub}</p>
       </div>
-      <button onClick={onClick} style={{ flexShrink: 0, border: '1px solid #ECE9E4', borderRadius: 8, padding: '6px 12px', background: 'white', fontSize: 11, color: INK, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+      <button onClick={onClick} style={{ flexShrink: 0, border: '1px solid #ECE9E4', borderRadius: 8, padding: '5px 11px', background: 'white', fontSize: 10, color: INK, cursor: 'pointer', whiteSpace: 'nowrap' }}>
         {cta}
       </button>
     </div>
@@ -40,24 +40,24 @@ export default function Resumen({ tasks, guests, budget, vendors, weddingInfo, w
 
       {/* IZQUIERDA — foto, nombres, pills, QR */}
       <div>
-        <div style={{ position: 'relative', height: 130, borderRadius: 14, border: '1.5px dashed #DDD8D0', background: '#F4F2EE', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', marginBottom: 10 }}>
-          <span style={{ fontSize: 11, color: MUTE }}>Subir foto de portada</span>
+        <div style={{ position: 'relative', height: 100, borderRadius: 14, border: '1.5px dashed #DDD8D0', background: '#F4F2EE', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', marginBottom: 8 }}>
+          <span style={{ fontSize: 10, color: MUTE }}>Subir foto de portada</span>
         </div>
 
-        <p style={{ fontFamily: F, fontSize: 19, fontWeight: 600, color: INK, textAlign: 'center', marginBottom: 8 }}>
+        <p style={{ fontFamily: F, fontSize: 17, fontWeight: 600, color: INK, textAlign: 'center', marginBottom: 6 }}>
           {weddingInfo.partner1 || 'Vosotros'} &amp; {weddingInfo.partner2 || 'dos'}
         </p>
 
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, justifyContent: 'center', marginBottom: 10 }}>
-          <span style={{ border: '1px solid #ECE9E4', borderRadius: 999, padding: '4px 10px', fontSize: 10, color: MUTE }}>{dateLabel}</span>
-          <span style={{ border: '1px solid #ECE9E4', borderRadius: 999, padding: '4px 10px', fontSize: 10, color: MUTE }}>{weddingInfo.venue || 'Sin definir'}</span>
-          <span style={{ border: '1px solid #ECE9E4', borderRadius: 999, padding: '4px 10px', fontSize: 10, color: MUTE }}>{hashtag}</span>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, justifyContent: 'center', marginBottom: 8 }}>
+          <span style={{ border: '1px solid #ECE9E4', borderRadius: 999, padding: '3px 9px', fontSize: 9, color: MUTE }}>{dateLabel}</span>
+          <span style={{ border: '1px solid #ECE9E4', borderRadius: 999, padding: '3px 9px', fontSize: 9, color: MUTE }}>{weddingInfo.venue || 'Sin definir'}</span>
+          <span style={{ border: '1px solid #ECE9E4', borderRadius: 999, padding: '3px 9px', fontSize: 9, color: MUTE }}>{hashtag}</span>
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <div style={{ width: 56, height: 56, borderRadius: 10, background: `repeating-linear-gradient(45deg, ${INK} 0 4px, white 4px 8px)`, opacity: 0.85 }} />
+          <div style={{ width: 44, height: 44, borderRadius: 10, background: `repeating-linear-gradient(45deg, ${INK} 0 4px, white 4px 8px)`, opacity: 0.85 }} />
         </div>
-        <p style={{ fontSize: 10, color: MUTE, textAlign: 'center', marginTop: 6 }}>Compartid vuestro progreso</p>
+        <p style={{ fontSize: 9, color: MUTE, textAlign: 'center', marginTop: 5 }}>Compartid vuestro progreso</p>
       </div>
 
       {/* DERECHA — secciones, todo visible sin scroll */}

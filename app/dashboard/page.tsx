@@ -105,16 +105,15 @@ export default function Dashboard() {
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
 
       <aside style={{ width: 220, minWidth: 220, background: 'white', borderRight: '1px solid #ECE9E4', padding: '20px 14px', display: 'flex', flexDirection: 'column', flexShrink: 0, overflowY: 'auto' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 8px 20px' }}>
-          <div style={{ width: 30, height: 30, borderRadius: 9, background: '#F4EFE7', display: 'flex', alignItems: 'center', justifyContent: 'center', color: BLUE, fontSize: 15 }}>♡</div>
-          <span style={{ fontFamily: F, fontSize: 18, fontWeight: 700, fontStyle: 'italic', color: BLUE }}>mylov3</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 8px 14px' }}>
+          <span style={{ fontFamily: F, fontSize: 22, fontWeight: 700, fontStyle: 'italic', color: '#4A3323' }}>mylov3</span>
         </div>
 
         {NAV_TOP.map(n => (
           <button key={n.id} onClick={() => setTab(n.id)} style={{
-            display: 'flex', alignItems: 'center', gap: 10, textAlign: 'left', padding: '9px 10px', borderRadius: 9, border: 'none',
+            display: 'flex', alignItems: 'center', gap: 10, textAlign: 'left', padding: '7px 10px', borderRadius: 9, border: 'none',
             background: tab === n.id ? '#F4F2EE' : 'transparent', color: tab === n.id ? INK : MUTE,
-            fontWeight: tab === n.id ? 600 : 400, fontSize: 13, cursor: 'pointer', marginBottom: 1
+            fontWeight: tab === n.id ? 600 : 400, fontSize: 12.5, cursor: 'pointer', marginBottom: 1
           }}>
             <SideIcon d={n.icon} />{n.label}
           </button>
@@ -126,9 +125,9 @@ export default function Dashboard() {
 
         {NAV_SECONDARY.map(n => (
           <button key={n.id} onClick={() => setTab(n.id)} style={{
-            display: 'flex', alignItems: 'center', gap: 10, textAlign: 'left', padding: '9px 10px', borderRadius: 9, border: 'none',
+            display: 'flex', alignItems: 'center', gap: 10, textAlign: 'left', padding: '7px 10px', borderRadius: 9, border: 'none',
             background: tab === n.id ? '#F4F2EE' : 'transparent', color: tab === n.id ? INK : MUTE,
-            fontWeight: tab === n.id ? 600 : 400, fontSize: 13, cursor: 'pointer', marginBottom: 1
+            fontWeight: tab === n.id ? 600 : 400, fontSize: 12.5, cursor: 'pointer', marginBottom: 1
           }}>
             <SideIcon d={n.icon} />{n.label}
           </button>
@@ -137,9 +136,9 @@ export default function Dashboard() {
         <div style={{ marginTop: 'auto' }}>
           {NAV_BOTTOM.map(n => (
             <button key={n.id} onClick={() => setTab(n.id)} style={{
-              display: 'flex', alignItems: 'center', gap: 10, textAlign: 'left', padding: '9px 10px', borderRadius: 9, border: 'none',
+              display: 'flex', alignItems: 'center', gap: 10, textAlign: 'left', padding: '7px 10px', borderRadius: 9, border: 'none',
               background: tab === n.id ? '#F4F2EE' : 'transparent', color: tab === n.id ? INK : MUTE,
-              fontWeight: tab === n.id ? 600 : 400, fontSize: 13, cursor: 'pointer', marginBottom: 1
+              fontWeight: tab === n.id ? 600 : 400, fontSize: 12.5, cursor: 'pointer', marginBottom: 1
             }}>
               <SideIcon d={n.icon} />{n.label}
             </button>
@@ -148,8 +147,8 @@ export default function Dashboard() {
       </aside>
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <header style={{ borderBottom: '1px solid #ECE9E4', padding: '12px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, background: 'white' }}>
-          <span style={{ fontFamily: F, fontSize: 22, fontWeight: 600, color: INK, flexShrink: 0 }}>Vuestra boda</span>
+        <header style={{ borderBottom: '1px solid #ECE9E4', padding: '10px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, background: 'white', flexShrink: 0 }}>
+          <span style={{ fontFamily: F, fontSize: 19, fontWeight: 600, color: INK, flexShrink: 0 }}>Vuestra boda</span>
           <div style={{ border: '1px solid #ECE9E4', borderRadius: 10, padding: '8px 14px', fontSize: 12, color: MUTE, display: 'flex', alignItems: 'center', gap: 8, flex: 1, maxWidth: 420 }}>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.8"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4-4" /></svg>
             Buscar productos, marcas, parejas, proveedores...
@@ -166,7 +165,7 @@ export default function Dashboard() {
           </div>
         </header>
 
-        <main style={{ flex: 1, minWidth: 0, padding: '14px 32px', overflowY: 'auto', overflowX: 'auto' }}>
+        <main style={{ flex: 1, minWidth: 0, padding: '12px 32px', overflow: 'hidden' }}>
           {tab === 'resumen' && <Resumen tasks={tasks} guests={guests} budget={budget} vendors={vendors} weddingInfo={weddingInfo} weddingDate={weddingDate} setTab={setTab} />}
           {tab === 'tareas' && <Tareas tasks={tasks} setTasks={setTasks} />}
           {tab === 'presupuesto' && <Presupuesto budget={budget} setBudget={setBudget} guestCount={guests.length} />}
