@@ -5,6 +5,10 @@ import { BudgetItem } from '@/lib/types'
 
 interface Props { budget: BudgetItem[]; setBudget: (b: BudgetItem[]) => void; guestCount: number }
 
+const SUGGESTED = ['Espacio', 'Catering', 'Fotografía', 'Vídeo', 'Música/DJ', 'Flores', 'Vestido', 'Traje', 'Invitaciones', 'Pastel', 'Transporte', 'Maquillaje y peluquería']
+
+const CAT_COLORS = [BLUE, '#C9A876', '#9BAA96', '#B08BC4', '#D19A6A', '#7FA3B8', '#C4849A', '#8FA88F']
+
 export default function Presupuesto({ budget, setBudget, guestCount }: Props) {
   const [newCat, setNewCat] = useState('')
   const [newEst, setNewEst] = useState('')
@@ -56,6 +60,39 @@ export default function Presupuesto({ budget, setBudget, guestCount }: Props) {
           <p style={{ fontSize: 11, color: MUTE, marginTop: 6 }}>{pct}% gastado</p>
         </div>
       </div>
+
+      {budget.length > 0 && (
+        <div style={{ marginBottom: 24 }}>
+          <p style={{ fontSize: 11, color: MUTE, marginBottom: 8 }}>REPARTO POR CATEGORÍA</p>
+          <div style={{ display: 'flex', height: 14, borderRadius: 999, overflow: 'hidden', marginBottom: 10 }}>
+            {budget.map((b, i) => (
+              <div key={b.id} title={b.category} style={{ width: `${totalEst > 0 ? (b.estimated / totalEst) * 100 : 0}%`, background: CAT_COLORS[i % CAT_COLORS.length] }} />
+            ))}
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 16px' }}>
+            {budget.map((b, i) => (
+              <span key={b.id} style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, color: MUTE }}>
+                <span style={{ width: 8, height: 8, borderRadius: '50%', background: CAT_COLORS[i % CAT_COLORS.length] }} />
+                {b.category} · {totalEst > 0 ? Math.round((b.estimated / totalEst) * 100) : 0}%
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {SUGGESTED.filter(s => !budget.some(b => b.category === s)).length > 0 && (
+        <div style={{ marginBottom: 14 }}>
+          <p style={{ fontSize: 11, color: MUTE, marginBottom: 8 }}>CATEGORÍAS SUGERIDAS</p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+            {SUGGESTED.filter(s => !budget.some(b => b.category === s)).map(s => (
+              <button key={s} onClick={() => setBudget([...budget, { id: Date.now().toString() + s, category: s, estimated: 0, paid: 0 }])}
+                style={{ border: '1px solid #ECE9E4', background: 'white', borderRadius: 999, padding: '6px 12px', fontSize: 11.5, color: INK, cursor: 'pointer' }}>
+                + {s}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
         <input value={newCat} onChange={e => setNewCat(e.target.value)} placeholder="Categoría" style={{ flex: 1, border: '1px solid #E3DCC9', borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }} />
