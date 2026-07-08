@@ -13,6 +13,11 @@ import Proveedores from './modules/Proveedores'
 import WebBoda from './modules/WebBoda'
 import Notas from './modules/Notas'
 import Invitaciones from './modules/Invitaciones'
+import Regalos from './modules/Regalos'
+import Mensajes from './modules/Mensajes'
+import Consejos from './modules/Consejos'
+import LunasMiel from './modules/LunasMiel'
+import BodasDestino from './modules/BodasDestino'
 
 const NAV_TOP = [
   { id: 'resumen', label: 'Vuestra boda', icon: 'M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9zM9 22V12h6v10' },
@@ -45,18 +50,6 @@ function SideIcon({ d }: { d: string }) {
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
       <path d={d} />
     </svg>
-  )
-}
-
-function Proximamente({ title, body }: { title: string; body: string }) {
-  return (
-    <div>
-      <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: INK, marginBottom: 8 }}>{title}</h1>
-      <p style={{ fontSize: 13, color: MUTE, marginBottom: 24, maxWidth: 420 }}>{body}</p>
-      <div style={{ background: 'white', border: '1px dashed #ECE9E4', borderRadius: 16, padding: 40, textAlign: 'center' }}>
-        <p style={{ fontSize: 13, color: MUTE }}>Muy pronto podrás gestionar esto desde aquí.</p>
-      </div>
-    </div>
   )
 }
 
@@ -179,11 +172,11 @@ export default function Dashboard() {
           {tab === 'web-boda' && <WebBoda info={weddingInfo} setInfo={setWeddingInfo} />}
           {tab === 'notas' && <Notas notes={notes} setNotes={setNotes} />}
           {tab === 'invitaciones' && <Invitaciones />}
-          {tab === 'regalos' && <Proximamente title="Regalos" body="Crea vuestra lista de regalos y compartidla con los invitados." />}
-          {tab === 'mensajes' && <Proximamente title="Mensajes a invitados" body="Enviad recordatorios y novedades a todos vuestros invitados desde un solo sitio." />}
-          {tab === 'consejos' && <Proximamente title="Consejos de expertos" body="Ideas y consejos de wedding planners para cada etapa de la organización." />}
-          {tab === 'lunas-miel' && <Proximamente title="Lunas de miel" body="Inspiración y ofertas para vuestro viaje de luna de miel." />}
-          {tab === 'bodas-destino' && <Proximamente title="Bodas de destino" body="Todo lo que necesitáis para organizar una boda fuera de casa." />}
+          {tab === 'regalos' && <Regalos />}
+          {tab === 'mensajes' && <Mensajes guests={guests} />}
+          {tab === 'consejos' && <Consejos />}
+          {tab === 'lunas-miel' && <LunasMiel />}
+          {tab === 'bodas-destino' && <BodasDestino />}
 
           {tab === 'precios' && (
             <div>

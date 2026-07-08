@@ -64,8 +64,8 @@ export default function Resumen({ tasks, guests, budget, vendors, weddingInfo, w
 
         {/* IZQUIERDA — foto, nombres, pills, QR */}
         <div style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 16, padding: 14 }}>
-          <div style={{ position: 'relative', height: 190, borderRadius: 12, overflow: 'hidden', marginBottom: 12 }}>
-            <img src="/banner-terraza.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <div style={{ position: 'relative', height: 230, borderRadius: 12, overflow: 'hidden', marginBottom: 12 }}>
+            <img src="/pareja-portada.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             <span style={{ position: 'absolute', left: 8, bottom: 8, background: 'rgba(255,255,255,0.9)', borderRadius: 999, padding: '4px 10px', fontSize: 9, color: INK, display: 'flex', alignItems: 'center', gap: 4 }}>
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth="2"><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M8 7l2-3h4l2 3" /></svg>
               Subir foto
@@ -78,9 +78,9 @@ export default function Resumen({ tasks, guests, budget, vendors, weddingInfo, w
           <p style={{ textAlign: 'center', color: BLUE, fontSize: 12, marginBottom: 10 }}>♡</p>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, justifyContent: 'center', marginBottom: 12 }}>
-            <Pill icon="M8 2v4M16 2v4M3 10h18M5 5h14a2 2 0 012 2v13a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2z">{dateLabel}</Pill>
-            <Pill icon="M12 2C8 2 5 5.5 5 9.5 5 15 12 22 12 22s7-7 7-12.5C19 5.5 16 2 12 2zM12 12a2.5 2.5 0 100-5 2.5 2.5 0 000 5z">{weddingInfo.venue || 'Sin definir'}</Pill>
-            <Pill icon="M5 9h14M5 15h14M10 3L8 21M16 3l-2 18">{hashtag}</Pill>
+            <Pill icon="M8 2v4M16 2v4M3 10h18M5 5h14a2 2 0 012 2v13a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2z">{weddingDate ? dateLabel : 'Fecha de la boda'}</Pill>
+            <Pill icon="M12 2C8 2 5 5.5 5 9.5 5 15 12 22 12 22s7-7 7-12.5C19 5.5 16 2 12 2zM12 12a2.5 2.5 0 100-5 2.5 2.5 0 000 5z">{weddingInfo.venue || 'Tu ubicación'}</Pill>
+            <Pill icon="M5 9h14M5 15h14M10 3L8 21M16 3l-2 18">{weddingInfo.partner1 ? hashtag : 'Tu hashtag'}</Pill>
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'center' }}>
