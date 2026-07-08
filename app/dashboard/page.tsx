@@ -67,6 +67,7 @@ export default function Dashboard() {
   const [pw, setPw] = useState('')
   const [pwErr, setPwErr] = useState('')
   const [tab, setTab] = useState('resumen')
+  const [collapsed, setCollapsed] = useState(false)
 
   const [tasks, setTasks] = useState(DEFAULT_TASKS)
   const [guests, setGuests] = useState(DEFAULT_GUESTS)
@@ -104,27 +105,29 @@ export default function Dashboard() {
       <div style={{ height: 5, background: BLUE_DARK, flexShrink: 0 }} />
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
 
-      <aside style={{ width: 210, minWidth: 210, background: '#fcf9f6', borderRight: '1px solid #ECE9E4', padding: '14px 12px', display: 'flex', flexDirection: 'column', flexShrink: 0, overflow: 'hidden' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '2px 8px 8px' }}>
-          <span style={{ fontFamily: F, fontSize: 20, fontWeight: 700, fontStyle: 'italic', color: '#4A3323' }}>mylov3</span>
-        </div>
+      <aside style={{ width: collapsed ? 60 : 210, minWidth: collapsed ? 60 : 210, background: '#fcf9f6', borderRight: '1px solid #ECE9E4', padding: collapsed ? '14px 8px' : '14px 12px', display: 'flex', flexDirection: 'column', flexShrink: 0, overflow: 'hidden', transition: 'width 0.18s ease, min-width 0.18s ease, padding 0.18s ease' }}>
+        <button onClick={() => setCollapsed(c => !c)} style={{ display: 'flex', alignItems: 'center', justifyContent: collapsed ? 'center' : 'flex-start', gap: 8, padding: '2px 8px 8px', background: 'none', border: 'none', cursor: 'pointer' }}>
+          {collapsed
+            ? <span style={{ fontSize: 18, color: '#4A3323' }}>♡</span>
+            : <span style={{ fontFamily: F, fontSize: 20, fontWeight: 700, fontStyle: 'italic', color: '#4A3323' }}>mylov3</span>}
+        </button>
 
         {NAV_TOP.map(n => (
-          <button key={n.id} onClick={() => setTab(n.id)} style={{
-            display: 'flex', alignItems: 'center', gap: 8, textAlign: 'left', padding: '7px 10px', borderRadius: 10, border: 'none',
+          <button key={n.id} onClick={() => { setTab(n.id); setCollapsed(true) }} title={n.label} style={{
+            display: 'flex', alignItems: 'center', justifyContent: collapsed ? 'center' : 'flex-start', gap: 8, textAlign: 'left', padding: collapsed ? '9px 0' : '7px 10px', borderRadius: 10, border: 'none',
             background: tab === n.id ? '#F4E7D8' : 'transparent', color: tab === n.id ? '#6b4226' : '#a4816a',
             fontWeight: tab === n.id ? 700 : 400, fontSize: 12.5, cursor: 'pointer', marginBottom: 2
           }}>
-            <SideIcon d={n.icon} />{n.label}
+            <SideIcon d={n.icon} />{!collapsed && n.label}
           </button>
         ))}
 
         <div style={{ height: 1, background: '#ECE9E4', margin: '9px 10px' }} />
 
-        <span style={{ fontSize: 12.5, fontWeight: 700, color: '#8b5f3e', padding: '2px 10px 6px' }}>Consejos de expertos</span>
+        {!collapsed && <span style={{ fontSize: 12.5, fontWeight: 700, color: '#8b5f3e', padding: '2px 10px 6px' }}>Consejos de expertos</span>}
 
-        {NAV_SECONDARY.map(n => (
-          <button key={n.id} onClick={() => setTab(n.id)} style={{
+        {!collapsed && NAV_SECONDARY.map(n => (
+          <button key={n.id} onClick={() => { setTab(n.id); setCollapsed(true) }} style={{
             display: 'block', textAlign: 'left', padding: '6px 10px', borderRadius: 8, border: 'none',
             background: 'transparent', color: '#8b5f3e',
             fontWeight: tab === n.id ? 600 : 400, fontSize: 12.5, cursor: 'pointer'
@@ -135,12 +138,12 @@ export default function Dashboard() {
 
         <div style={{ marginTop: 'auto' }}>
           {NAV_BOTTOM.map(n => (
-            <button key={n.id} onClick={() => setTab(n.id)} style={{
-              display: 'flex', alignItems: 'center', gap: 10, textAlign: 'left', padding: '7px 10px', borderRadius: 9, border: 'none',
+            <button key={n.id} onClick={() => { setTab(n.id); setCollapsed(true) }} title={n.label} style={{
+              display: 'flex', alignItems: 'center', justifyContent: collapsed ? 'center' : 'flex-start', gap: 10, textAlign: 'left', padding: collapsed ? '9px 0' : '7px 10px', borderRadius: 9, border: 'none',
               background: tab === n.id ? '#F4EFE8' : 'transparent', color: '#8b5f3e',
               fontWeight: tab === n.id ? 600 : 400, fontSize: 12.5, cursor: 'pointer', marginBottom: 1
             }}>
-              <SideIcon d={n.icon} />{n.label}
+              <SideIcon d={n.icon} />{!collapsed && n.label}
             </button>
           ))}
         </div>
@@ -165,7 +168,7 @@ export default function Dashboard() {
           </div>
         </header>
 
-        <main style={{ flex: 1, minWidth: 0, padding: '12px 32px', overflow: 'hidden' }}>
+        <main style={{ flex: 1, minWidth: 0, padding: '12px 32px', overflowY: 'auto', overflowX: 'hidden' }}>
           {tab === 'resumen' && <Resumen tasks={tasks} guests={guests} budget={budget} vendors={vendors} weddingInfo={weddingInfo} weddingDate={weddingDate} setTab={setTab} />}
           {tab === 'tareas' && <Tareas tasks={tasks} setTasks={setTasks} />}
           {tab === 'presupuesto' && <Presupuesto budget={budget} setBudget={setBudget} guestCount={guests.length} />}
