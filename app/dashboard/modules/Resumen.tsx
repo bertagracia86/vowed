@@ -47,7 +47,7 @@ function Section({ title, badge, open, onToggle, children }: { title: string; ba
 }
 
 export default function Resumen({ tasks, guests, budget, vendors, weddingInfo, weddingDate, setTab }: Props) {
-  const [openSections, setOpenSections] = useState<Record<string, boolean>>({ 'web-boda': true, invitados: true })
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({ invitados: true })
   const toggle = (id: string) => setOpenSections(s => ({ ...s, [id]: !s[id] }))
 
   const confirmedGuests = guests.filter(g => g.rsvp === 'Sí').length
@@ -91,15 +91,6 @@ export default function Resumen({ tasks, guests, budget, vendors, weddingInfo, w
 
         {/* DERECHA — acordeón de secciones */}
         <div style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 16, padding: '4px 20px' }}>
-          <Section title="Web de la boda" badge="Oculta" open={!!openSections['web-boda']} onToggle={() => toggle('web-boda')}>
-            <p style={{ fontSize: 11.5, color: MUTE, margin: '6px 0 10px', lineHeight: 1.5 }}>
-              Cuando tengáis lo esencial, ¡hacedla visible! Id añadiendo el resto poco a poco.
-            </p>
-            <button onClick={() => setTab('web-boda')} style={{ background: '#8b5f3e', color: 'white', border: 'none', borderRadius: 8, padding: '8px 16px', fontSize: 11.5, cursor: 'pointer' }}>
-              Seguir editando
-            </button>
-          </Section>
-
           <Section title="Espacio y proveedores" open={!!openSections['proveedores']} onToggle={() => toggle('proveedores')}>
             <div onClick={() => setTab('proveedores')} style={{ marginTop: 8, marginBottom: 4, background: '#FBF6EF', borderRadius: 10, padding: '9px 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, color: INK, cursor: 'pointer' }}>
               <span>{vendorsContratados}/{vendors.length} contratados. ¿Buscamos más?</span>

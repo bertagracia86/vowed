@@ -10,7 +10,6 @@ import Invitados from './modules/Invitados'
 import Mesas from './modules/Mesas'
 import Cronograma from './modules/Cronograma'
 import Proveedores from './modules/Proveedores'
-import WebBoda from './modules/WebBoda'
 import Notas from './modules/Notas'
 import Invitaciones from './modules/Invitaciones'
 import Regalos from './modules/Regalos'
@@ -22,7 +21,6 @@ import BodasDestino from './modules/BodasDestino'
 const NAV_TOP = [
   { id: 'resumen', label: 'Vuestra boda', icon: 'M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9zM9 22V12h6v10' },
   { id: 'proveedores', label: 'Espacio y proveedores', icon: 'M20.59 13.41L13.42 20.58a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82zM7 7h.01' },
-  { id: 'web-boda', label: 'Web de la boda', icon: 'M12 2a10 10 0 100 20A10 10 0 0012 2zM2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20' },
   { id: 'regalos', label: 'Regalos', icon: 'M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z' },
   { id: 'invitaciones', label: 'Invitaciones y papelería', icon: 'M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zM22 6l-10 7L2 6' },
   { id: 'presupuesto', label: 'Presupuesto', icon: 'M12 3a9 9 0 100 18A9 9 0 0012 3zM12 8v8M9 10.5c0-1.5 1.5-2 3-2s3 .8 3 2-1 1.5-3 2-3 1-3 2.5 1.5 2 3 2 3-.6 3-2' },
@@ -206,7 +204,6 @@ export default function Dashboard() {
           {tab === 'mesas' && <Mesas tables={tables} setTables={setTables} guests={guests} setGuests={setGuests} />}
           {tab === 'cronograma' && <Cronograma milestones={milestones} setMilestones={setMilestones} weddingDate={weddingDate} setWeddingDate={setWeddingDate} />}
           {tab === 'proveedores' && <Proveedores vendors={vendors} setVendors={setVendors} />}
-          {tab === 'web-boda' && <WebBoda info={weddingInfo} setInfo={setWeddingInfo} />}
           {tab === 'notas' && <Notas notes={notes} setNotes={setNotes} />}
           {tab === 'invitaciones' && <Invitaciones />}
           {tab === 'regalos' && <Regalos weddingInfo={weddingInfo} />}
