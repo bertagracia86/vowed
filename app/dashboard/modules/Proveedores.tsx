@@ -82,13 +82,18 @@ export default function Proveedores({ vendors, setVendors }: Props) {
           </div>
 
           {/* DOS TARJETAS */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 28 }}>
-            <div style={{ background: '#F7F4EF', borderRadius: 16, padding: '36px 24px', textAlign: 'center' }}>
+          <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 28 }}>
+            <div style={{ background: '#F7F4EF', borderRadius: 16, padding: '36px 24px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
               <p style={{ fontFamily: F, fontSize: 20, color: INK, marginBottom: 6 }}>Explorad espacios en</p>
-              <p style={{ fontFamily: F, fontSize: 20, color: INK, textDecoration: 'underline', marginBottom: 18 }}>{vendors.find(v => v.category === 'Finca')?.contact || 'vuestra ciudad'}</p>
+              <p style={{ fontFamily: F, fontSize: 20, color: INK, marginBottom: 18, display: 'flex', alignItems: 'center', gap: 6, textDecoration: 'underline', cursor: 'pointer' }}>
+                {vendors.find(v => v.category === 'Finca')?.contact || 'vuestra ciudad'}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth="1.8"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
+              </p>
               <button style={{ background: '#241c17', color: 'white', border: 'none', borderRadius: 999, padding: '12px 28px', fontSize: 13, cursor: 'pointer', marginBottom: 12 }}>Ver espacios</button>
               <p style={{ fontSize: 11, color: MUTE, textDecoration: 'underline', cursor: 'pointer' }}>¿Ya tenéis espacio? Añadidlo aquí</p>
             </div>
+
+            <span style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%,-50%)', background: 'white', border: '1px solid #ECE9E4', borderRadius: '50%', width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, color: MUTE, zIndex: 2 }}>o</span>
 
             <div style={{ background: 'linear-gradient(135deg, #F4EFE8, #EFE6F5)', border: `1.5px solid ${BLUE}`, borderRadius: 16, padding: '28px 24px' }}>
               <p style={{ fontFamily: F, fontSize: 20, color: INK, textAlign: 'center', marginBottom: 6 }}>Encontrad vuestro espacio en segundos</p>
@@ -108,7 +113,10 @@ export default function Proveedores({ vendors, setVendors }: Props) {
           </div>
 
           {/* GALERIA */}
-          <p style={{ fontFamily: F, fontSize: 18, color: INK, marginBottom: 12 }}>Los espacios más populares</p>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+            <p style={{ fontFamily: F, fontSize: 18, color: INK }}>Los espacios más populares</p>
+            <button style={{ background: '#241c17', color: 'white', border: 'none', borderRadius: 999, padding: '8px 18px', fontSize: 11.5, cursor: 'pointer' }}>Ver todos</button>
+          </div>
           <div style={{ display: 'flex', gap: 14, overflowX: 'auto', marginBottom: 32, paddingBottom: 4 }}>
             {[
               { img: '/showcase-1.png', name: 'Jardines del Rey', loc: 'Madrid', price: '7.500 €' },
