@@ -59,14 +59,14 @@ export default function Start() {
         .btn-blue:hover { transform: translateY(-1px); box-shadow: 0 8px 32px rgba(43,42,38,0.55); }
         .start-input { width: 100%; padding: 16px 18px; border: 1px solid ${BLUE}; border-radius: 14px; font-family: ${F}; font-size: 16px; color: ${INK}; background: ${BLUE_LIGHT}; outline: none; transition: border-color 0.2s; }
         .start-input:focus { border-color: ${BLUE_DARK}; }
-        .stage-btn { width: 100%; text-align: left; padding: 16px 18px; border-radius: 14px; background: white; cursor: pointer; display: flex; align-items: center; gap: 14px; font-family: ${F}; font-size: 16px; color: ${INK}; transition: all 0.2s; margin-bottom: 12px; }
+        .stage-btn { width: 100%; text-align: left; padding: 12px 18px; border-radius: 14px; background: white; cursor: pointer; display: flex; align-items: center; gap: 14px; font-family: ${F}; font-size: 15px; color: ${INK}; transition: all 0.2s; margin-bottom: 8px; }
         .stage-btn:hover { background: ${BLUE_LIGHT}; }
         .check-row { display: flex; align-items: center; gap: 10px; font-family: ${F}; font-size: 15px; color: ${INK}; cursor: pointer; user-select: none; }
         .source-chip { padding: 10px 16px; border-radius: 999px; border: 1.5px solid ${BLUE}; background: white; font-family: ${F}; font-size: 14px; color: ${INK}; cursor: pointer; transition: all 0.2s; }
         @media (max-width: 860px) { .start-photo { display: none !important; } }
       `}</style>
 
-      <div style={{ minHeight: '100vh', display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+      <div style={{ height: '100vh', overflow: 'hidden', display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
         {/* LEFT — foto */}
         <div className="start-photo" style={{ position: 'relative', overflow: 'hidden' }}>
           <img src="/invitados.png" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -80,11 +80,11 @@ export default function Start() {
         </div>
 
         {/* RIGHT — panel */}
-        <div style={{ position: 'relative', padding: '56px 64px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ position: 'relative', padding: '32px 64px', display: 'flex', flexDirection: 'column', justifyContent: 'center', overflow: 'hidden', height: '100vh' }}>
           <Link href="/" aria-label="Cerrar" style={{ position: 'absolute', top: 28, right: 32, width: 34, height: 34, borderRadius: '50%', border: `1px solid ${BLUE}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: INK, textDecoration: 'none', fontSize: 16 }}>✕</Link>
 
           {/* stepper */}
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: 48, maxWidth: 460 }}>
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: 24, maxWidth: 460 }}>
             {STEPS.map((s, i) => (
               <div key={s} style={{ display: 'flex', alignItems: 'center', flex: i < STEPS.length - 1 ? 1 : 'none' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
@@ -107,10 +107,10 @@ export default function Start() {
             {/* PASO 1 — etapa de planificación */}
             {step === 0 && (
               <>
-                <h1 style={{ fontFamily: F, fontSize: 'clamp(1.8rem,3vw,2.4rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
+                <h1 style={{ fontFamily: F, fontSize: 'clamp(1.5rem,2.6vw,2rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
                   ¿En qué punto estáis de la planificación?
                 </h1>
-                <p style={{ fontFamily: F, fontSize: 16, color: '#8a7358', lineHeight: 1.6, marginBottom: 32 }}>
+                <p style={{ fontFamily: F, fontSize: 16, color: '#8a7358', lineHeight: 1.5, marginBottom: 20 }}>
                   Tanto si estáis empezando a mirar como si estáis en la cuenta atrás final, os acompañamos.
                 </p>
 
@@ -139,7 +139,7 @@ export default function Start() {
             {/* PASO 2 — datos básicos */}
             {step === 1 && (
               <>
-                <h1 style={{ fontFamily: F, fontSize: 'clamp(1.8rem,3vw,2.4rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
+                <h1 style={{ fontFamily: F, fontSize: 'clamp(1.5rem,2.6vw,2rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
                   Como en toda gran relación, esto empieza por lo básico
                 </h1>
 
@@ -168,7 +168,7 @@ export default function Start() {
                 <label style={{ display: 'block', fontFamily: F, fontSize: 14, fontWeight: 600, color: INK, marginBottom: 8 }}>Fecha de la boda <span style={{ fontWeight: 400, color: '#AAA396' }}>(podéis cambiarla luego)</span></label>
                 <input className="start-input" type="text" value={weddingDate} onChange={e => setWeddingDate(e.target.value)} placeholder="DD/MM/AAAA" disabled={dateUndecided} style={{ marginBottom: 14, opacity: dateUndecided ? 0.5 : 1 }} />
 
-                <label className="check-row" style={{ marginBottom: 28 }}>
+                <label className="check-row" style={{ marginBottom: 16 }}>
                   <input type="checkbox" checked={dateUndecided} onChange={e => setDateUndecided(e.target.checked)} />
                   Aún lo estamos decidiendo
                 </label>
@@ -182,17 +182,17 @@ export default function Start() {
             {/* PASO 3 — dónde os casáis */}
             {step === 2 && (
               <>
-                <h1 style={{ fontFamily: F, fontSize: 'clamp(1.8rem,3vw,2.4rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
+                <h1 style={{ fontFamily: F, fontSize: 'clamp(1.5rem,2.6vw,2rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
                   Ahora, hablemos del gran día
                 </h1>
-                <p style={{ fontFamily: F, fontSize: 16, color: '#8a7358', lineHeight: 1.6, marginBottom: 32 }}>
+                <p style={{ fontFamily: F, fontSize: 16, color: '#8a7358', lineHeight: 1.5, marginBottom: 20 }}>
                   Os ayudamos a planificar la boda que queráis, pequeña o grande, cerca o lejos.
                 </p>
 
                 <label style={{ display: 'block', fontFamily: F, fontSize: 14, fontWeight: 600, color: INK, marginBottom: 8 }}>¿Dónde os casáis? <span style={{ fontWeight: 400, color: '#AAA396' }}>(vale con una idea aproximada)</span></label>
                 <input className="start-input" value={location} onChange={e => setLocation(e.target.value)} placeholder="Ciudad o zona" disabled={locationUndecided} style={{ marginBottom: 14, opacity: locationUndecided ? 0.5 : 1 }} />
 
-                <label className="check-row" style={{ marginBottom: 28 }}>
+                <label className="check-row" style={{ marginBottom: 16 }}>
                   <input type="checkbox" checked={locationUndecided} onChange={e => setLocationUndecided(e.target.checked)} />
                   Aún lo estamos decidiendo
                 </label>
@@ -206,17 +206,17 @@ export default function Start() {
             {/* PASO 4 — número de invitados */}
             {step === 3 && (
               <>
-                <h1 style={{ fontFamily: F, fontSize: 'clamp(1.8rem,3vw,2.4rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
+                <h1 style={{ fontFamily: F, fontSize: 'clamp(1.5rem,2.6vw,2rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
                   ¡Suena a fiesta! ¿Quién estará en la lista?
                 </h1>
-                <p style={{ fontFamily: F, fontSize: 16, color: '#8a7358', lineHeight: 1.6, marginBottom: 32 }}>
+                <p style={{ fontFamily: F, fontSize: 16, color: '#8a7358', lineHeight: 1.5, marginBottom: 20 }}>
                   Una aproximación nos vale para empezar a organizar mesas y presupuesto.
                 </p>
 
                 <label style={{ display: 'block', fontFamily: F, fontSize: 14, fontWeight: 600, color: INK, marginBottom: 8 }}>Número aproximado de invitados</label>
                 <input className="start-input" type="number" value={guestCount} onChange={e => setGuestCount(e.target.value)} placeholder="Ej. 80" disabled={guestUndecided} style={{ marginBottom: 14, opacity: guestUndecided ? 0.5 : 1 }} />
 
-                <label className="check-row" style={{ marginBottom: 28 }}>
+                <label className="check-row" style={{ marginBottom: 16 }}>
                   <input type="checkbox" checked={guestUndecided} onChange={e => setGuestUndecided(e.target.checked)} />
                   Aún lo estamos decidiendo
                 </label>
@@ -230,7 +230,7 @@ export default function Start() {
             {/* PASO 5 — cómo nos conociste */}
             {step === 4 && (
               <>
-                <h1 style={{ fontFamily: F, fontSize: 'clamp(1.8rem,3vw,2.4rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
+                <h1 style={{ fontFamily: F, fontSize: 'clamp(1.5rem,2.6vw,2rem)', fontWeight: 600, color: INK, lineHeight: 1.2, marginBottom: 16 }}>
                   Una última cosa. ¿Cómo nos conociste?
                 </h1>
 
