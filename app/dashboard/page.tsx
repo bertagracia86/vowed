@@ -18,16 +18,21 @@ const NAV_TOP = [
   { id: 'resumen', label: 'Vuestra boda', icon: 'M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9zM9 22V12h6v10' },
   { id: 'proveedores', label: 'Espacio y proveedores', icon: 'M20.59 13.41L13.42 20.58a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82zM7 7h.01' },
   { id: 'web-boda', label: 'Web de la boda', icon: 'M12 2a10 10 0 100 20A10 10 0 0012 2zM2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20' },
+  { id: 'regalos', label: 'Regalos', icon: 'M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z' },
   { id: 'invitaciones', label: 'Invitaciones y papelería', icon: 'M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zM22 6l-10 7L2 6' },
   { id: 'presupuesto', label: 'Presupuesto', icon: 'M12 3a9 9 0 100 18A9 9 0 0012 3zM12 8v8M9 10.5c0-1.5 1.5-2 3-2s3 .8 3 2-1 1.5-3 2-3 1-3 2.5 1.5 2 3 2 3-.6 3-2' },
   { id: 'invitados', label: 'Invitados y RSVP', icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75' },
+  { id: 'mensajes', label: 'Mensajes a invitados', icon: 'M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z' },
   { id: 'mesas', label: 'Plano de mesas', icon: 'M3 3h8v8H3zM13 3h8v8h-8zM3 13h8v8H3zM13 13h8v8h-8z' },
 ]
 
 const NAV_SECONDARY = [
-  { id: 'tareas', label: 'Lista de tareas', icon: 'M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11' },
+  { id: 'tareas', label: 'Checklist', icon: 'M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11' },
   { id: 'cronograma', label: 'Cronograma', icon: 'M8 3v4M16 3v4M3 10h18M5 5h14a2 2 0 012 2v13a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2z' },
   { id: 'notas', label: 'Notas', icon: 'M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18 2l4 4-10 10H8v-4L18 2z' },
+  { id: 'consejos', label: 'Consejos de expertos', icon: 'M12 2a7 7 0 00-4 12.7V17h8v-2.3A7 7 0 0012 2zM9 21h6M10 18h4' },
+  { id: 'lunas-miel', label: 'Lunas de miel', icon: 'M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z' },
+  { id: 'bodas-destino', label: 'Bodas de destino', icon: 'M12 2C8 2 5 5.5 5 9.5 5 15 12 22 12 22s7-7 7-12.5C19 5.5 16 2 12 2zM12 12a2.5 2.5 0 100-5 2.5 2.5 0 000 5z' },
 ]
 
 const NAV_BOTTOM = [
@@ -40,6 +45,18 @@ function SideIcon({ d }: { d: string }) {
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
       <path d={d} />
     </svg>
+  )
+}
+
+function Proximamente({ title, body }: { title: string; body: string }) {
+  return (
+    <div>
+      <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: INK, marginBottom: 8 }}>{title}</h1>
+      <p style={{ fontSize: 13, color: MUTE, marginBottom: 24, maxWidth: 420 }}>{body}</p>
+      <div style={{ background: 'white', border: '1px dashed #ECE9E4', borderRadius: 16, padding: 40, textAlign: 'center' }}>
+        <p style={{ fontSize: 13, color: MUTE }}>Muy pronto podrás gestionar esto desde aquí.</p>
+      </div>
+    </div>
   )
 }
 
@@ -146,6 +163,11 @@ export default function Dashboard() {
           {tab === 'web-boda' && <WebBoda info={weddingInfo} setInfo={setWeddingInfo} />}
           {tab === 'notas' && <Notas notes={notes} setNotes={setNotes} />}
           {tab === 'invitaciones' && <Invitaciones />}
+          {tab === 'regalos' && <Proximamente title="Regalos" body="Crea vuestra lista de regalos y compartidla con los invitados." />}
+          {tab === 'mensajes' && <Proximamente title="Mensajes a invitados" body="Enviad recordatorios y novedades a todos vuestros invitados desde un solo sitio." />}
+          {tab === 'consejos' && <Proximamente title="Consejos de expertos" body="Ideas y consejos de wedding planners para cada etapa de la organización." />}
+          {tab === 'lunas-miel' && <Proximamente title="Lunas de miel" body="Inspiración y ofertas para vuestro viaje de luna de miel." />}
+          {tab === 'bodas-destino' && <Proximamente title="Bodas de destino" body="Todo lo que necesitáis para organizar una boda fuera de casa." />}
 
           {tab === 'precios' && (
             <div>
