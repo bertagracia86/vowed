@@ -160,7 +160,7 @@ export default function Dashboard() {
           </div>
         </header>
 
-        <main onMouseEnter={() => setCollapsed(true)} style={{ flex: 1, minWidth: 0, padding: '12px 32px', overflowY: 'auto', overflowX: 'hidden' }}>
+        <main onMouseEnter={() => setCollapsed(true)} style={{ flex: 1, minWidth: 0, padding: '12px 32px', overflowY: 'auto', overflowX: 'hidden', background: 'white' }}>
           {tab === 'resumen' && <Resumen tasks={tasks} guests={guests} budget={budget} vendors={vendors} weddingInfo={weddingInfo} weddingDate={weddingDate} setTab={setTab} />}
           {tab === 'tareas' && <Tareas tasks={tasks} setTasks={setTasks} />}
           {tab === 'presupuesto' && <Presupuesto budget={budget} setBudget={setBudget} guestCount={guests.length} />}
