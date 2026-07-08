@@ -111,23 +111,23 @@ export default function Dashboard() {
 
         {NAV_TOP.map(n => (
           <button key={n.id} onClick={() => setTab(n.id)} style={{
-            display: 'flex', alignItems: 'center', gap: 8, textAlign: 'left', padding: '5px 10px', borderRadius: 8, border: 'none',
+            display: 'flex', alignItems: 'center', gap: 8, textAlign: 'left', padding: '7px 10px', borderRadius: 8, border: 'none',
             background: tab === n.id ? '#F4EFE8' : 'transparent', color: '#8b5f3e',
-            fontWeight: tab === n.id ? 600 : 400, fontSize: 12, cursor: 'pointer', marginBottom: 0
+            fontWeight: tab === n.id ? 600 : 400, fontSize: 12.5, cursor: 'pointer', marginBottom: 2
           }}>
             <SideIcon d={n.icon} />{n.label}
           </button>
         ))}
 
-        <div style={{ height: 1, background: '#ECE9E4', margin: '7px 10px' }} />
+        <div style={{ height: 1, background: '#ECE9E4', margin: '9px 10px' }} />
 
-        <span style={{ fontSize: 10, fontWeight: 600, color: '#8b5f3e', textTransform: 'uppercase', letterSpacing: 0.5, padding: '2px 10px 4px' }}>Consejos de expertos</span>
+        <span style={{ fontSize: 10, fontWeight: 700, color: '#8b5f3e', textTransform: 'uppercase', letterSpacing: 0.5, padding: '2px 10px 6px' }}>Consejos de expertos</span>
 
         {NAV_SECONDARY.map(n => (
           <button key={n.id} onClick={() => setTab(n.id)} style={{
-            display: 'flex', alignItems: 'center', gap: 8, textAlign: 'left', padding: '5px 10px', borderRadius: 8, border: 'none',
+            display: 'flex', alignItems: 'center', gap: 8, textAlign: 'left', padding: '7px 10px', borderRadius: 8, border: 'none',
             background: tab === n.id ? '#F4EFE8' : 'transparent', color: '#8b5f3e',
-            fontWeight: tab === n.id ? 600 : 400, fontSize: 12, cursor: 'pointer', marginBottom: 0
+            fontWeight: tab === n.id ? 600 : 400, fontSize: 12.5, cursor: 'pointer', marginBottom: 2
           }}>
             <SideIcon d={n.icon} />{n.label}
           </button>
