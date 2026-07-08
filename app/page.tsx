@@ -120,7 +120,7 @@ export default function Home() {
       <section className="hero-sec" style={{ position: 'relative', height: '88vh', overflow: 'hidden', paddingTop: 68 }}>
         <img src="/banner-terraza.png" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
         <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', padding: '0 64px' }}>
-          <div style={{ maxWidth: 480, background: 'rgba(250,249,247,0.88)', padding: '32px 36px' }}>
+          <div style={{ maxWidth: 480 }}>
             <span style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.16em', textTransform: 'uppercase', color: BLUE_DARK, fontWeight: 600 }}>Planificamos. Vosotros celebráis.</span>
             <h2 style={{ fontFamily: F, fontSize: 'clamp(2rem,4vw,3.2rem)', color: INK, lineHeight: 1.15, margin: '18px 0 22px' }}>
               Planifica tu boda,<br />sé tu wedding planner
@@ -149,7 +149,7 @@ export default function Home() {
       </section>
 
       {/* ESTADÍSTICAS */}
-      <div style={{ borderTop: `1px solid ${BLUE}`, borderBottom: `1px solid ${BLUE}`, padding: '32px 0', background: BLUE_LIGHT }}>
+      <div style={{ borderTop: `1px solid ${BLUE}`, padding: '32px 0', background: BLUE_LIGHT }}>
         <div style={{ maxWidth: 1000, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', textAlign: 'center' }}>
           {[
             { n: '1200+', l: 'Parejas felices' },
