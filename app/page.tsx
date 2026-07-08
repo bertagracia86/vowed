@@ -96,7 +96,7 @@ export default function Home() {
               <Link href="/start" style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: NEUTRAL, background: BLUE_DARK, padding: '11px 26px', textDecoration: 'none', display: 'inline-block' }}>
                 ¡Empezamos!
               </Link>
-              <Link href="/dashboard" style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: BLUE_DARK, background: 'rgba(241,234,218,0.9)', border: `1px solid ${BLUE_DARK}`, padding: '11px 26px', textDecoration: 'none', display: 'inline-block' }}>
+              <Link href="/dashboard" style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: NEUTRAL, background: BLUE_DARK, padding: '11px 26px', textDecoration: 'none', display: 'inline-block' }}>
                 Ver demo
               </Link>
             </div>
