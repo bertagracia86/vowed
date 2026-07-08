@@ -70,7 +70,7 @@ export default function Home() {
       `}</style>
 
       {/* NAV */}
-      <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 300, background: scrollY > 20 ? 'rgba(241,234,218,0.98)' : NEUTRAL, borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '0 48px', height: 68, display: 'flex', alignItems: 'center', justifyContent: 'space-between', transition: 'all 0.3s', backdropFilter: 'blur(12px)', borderTopLeftRadius: 24, borderTopRightRadius: 24 }}>
+      <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 300, background: NEUTRAL, borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '0 48px', height: 68, display: 'flex', alignItems: 'center', justifyContent: 'space-between', backdropFilter: 'blur(12px)', borderTopLeftRadius: 24, borderTopRightRadius: 24 }}>
         <Link href="/" style={{ fontFamily: F, fontSize: 26, fontStyle: 'italic', fontWeight: 700, color: '#4A3323', textDecoration: 'none' }}>mylov3</Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
           {[{ l: 'Inicio', a: true }, { l: 'Nosotros' }, { l: 'Servicios' }, { l: 'Precios' }, { l: 'Inspiración' }, { l: 'Contacto' }].map(n => (
@@ -96,7 +96,7 @@ export default function Home() {
               <Link href="/start" style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: NEUTRAL, background: BLUE_DARK, padding: '11px 26px', textDecoration: 'none', display: 'inline-block' }}>
                 ¡Empezamos!
               </Link>
-              <Link href="/dashboard" style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: NEUTRAL, background: BLUE_DARK, padding: '11px 26px', textDecoration: 'none', display: 'inline-block' }}>
+              <Link href="/dashboard" style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: BLUE_DARK, background: 'transparent', border: `1px solid ${BLUE_DARK}`, padding: '10px 25px', textDecoration: 'none', display: 'inline-block' }}>
                 Ver demo
               </Link>
             </div>
