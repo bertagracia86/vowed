@@ -134,6 +134,12 @@ function AddGuestsModal({ onClose, onSave }: { onClose: () => void; onSave: (g: 
 
 const TABS = ['Lista de invitados', 'Recopilar contactos', 'Eventos', 'Plano de mesas', 'Mensajería', 'Agradecimientos', 'Bloques de hotel']
 const SUBTABS = ['Gestionar lista', 'Invitar a eventos', 'Direcciones de sobres', 'Seguimiento RSVP']
+const EVENTS = ['Ceremonia', 'Cóctel', 'Banquete', 'Fiesta']
+
+interface HotelBlock { id: string; hotel: string; code: string; rooms: number }
+const DEFAULT_BLOCKS: HotelBlock[] = [
+  { id: '1', hotel: 'Hotel Jardines del Rey', code: 'BODA2025', rooms: 20 },
+]
 
 const CARD = '#FFFDFB'
 const BROWN = '#8B5E3C'
@@ -167,7 +173,43 @@ export default function Invitados({ guests, setGuests, onNavigate }: Props) {
   const [showFilter, setShowFilter] = useState(false)
   const [filterInvited, setFilterInvited] = useState(false)
   const [filterMissing, setFilterMissing] = useState(false)
+  const [blocks, setBlocks] = useState<HotelBlock[]>(DEFAULT_BLOCKS)
+  const [newBlockHotel, setNewBlockHotel] = useState('')
+  const [newBlockCode, setNewBlockCode] = useState('')
+  const [newBlockRooms, setNewBlockRooms] = useState('')
+  const [copiedCollect, setCopiedCollect] = useState(false)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
+
+  function selectTab(t: string) {
+    if (t === 'Plano de mesas') { onNavigate && onNavigate('mesas'); return }
+    if (t === 'Mensajería') { onNavigate && onNavigate('mensajes'); return }
+    setTab(t)
+  }
+
+  function toggleEvent(guestId: string, ev: string) {
+    setGuests(guests.map(g => g.id === guestId ? { ...g, events: g.events.includes(ev) ? g.events.filter(e => e !== ev) : [...g.events, ev] } : g))
+  }
+
+  function toggleThanked(guestId: string) {
+    setGuests(guests.map(g => g.id === guestId ? { ...g, thanked: !g.thanked } : g))
+  }
+
+  function addBlock() {
+    if (!newBlockHotel.trim()) return
+    setBlocks([...blocks, { id: Date.now().toString(), hotel: newBlockHotel, code: newBlockCode, rooms: Number(newBlockRooms) || 0 }])
+    setNewBlockHotel(''); setNewBlockCode(''); setNewBlockRooms('')
+  }
+
+  function removeBlock(id: string) {
+    setBlocks(blocks.filter(b => b.id !== id))
+  }
+
+  function copyCollectLink() {
+    navigator.clipboard?.writeText('https://mylov3.com/contactos').then(() => {
+      setCopiedCollect(true)
+      setTimeout(() => setCopiedCollect(false), 2000)
+    })
+  }
 
   const confirmed = guests.filter(g => g.rsvp === 'Sí').length
   const pending = guests.filter(g => g.rsvp === 'Pendiente').length
@@ -206,7 +248,7 @@ export default function Invitados({ guests, setGuests, onNavigate }: Props) {
         .filter(l => !l.toLowerCase().startsWith('nombre'))
         .map(line => {
           const [name, contact] = line.split(',').map(s => s?.trim() || '')
-          return { id: Date.now().toString() + Math.random(), name: name || line, contact: contact || '', rsvp: 'Pendiente' as const, table_name: null, seat: null, menu: '', group: '', avoid: [] }
+          return { id: Date.now().toString() + Math.random(), name: name || line, contact: contact || '', rsvp: 'Pendiente' as const, table_name: null, seat: null, menu: '', group: '', avoid: [], address: '', thanked: false, events: [] }
         })
         .filter(g => g.name)
       if (newGuests.length) setGuests([...guests, ...newGuests])
@@ -229,32 +271,155 @@ export default function Invitados({ guests, setGuests, onNavigate }: Props) {
 
       <div style={{ display: 'flex', gap: 20, borderBottom: '1px solid #ECE9E4', marginBottom: 14, overflowX: 'auto' }}>
         {TABS.map(t => (
-          <button key={t} onClick={() => setTab(t)} style={{
+          <button key={t} onClick={() => selectTab(t)} style={{
             background: 'none', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap', padding: '0 0 10px', fontSize: 13, fontFamily: F,
             color: tab === t ? INK : MUTE, fontWeight: tab === t ? 600 : 400, borderBottom: tab === t ? '2px solid #8b5f3e' : '2px solid transparent'
           }}>{t}</button>
         ))}
       </div>
 
-      <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
-        {SUBTABS.map(t => (
-          <button key={t} onClick={() => setSubtab(t)} style={{
-            background: subtab === t ? '#F4E7D8' : 'transparent', border: 'none', borderRadius: 8, cursor: 'pointer',
-            padding: '8px 14px', fontSize: 12.5, color: subtab === t ? '#6b4226' : MUTE, fontWeight: subtab === t ? 600 : 400
-          }}>{t}</button>
-        ))}
-      </div>
-
-      {tab !== 'Lista de invitados' && (
-        <div style={{ background: '#F7F4EF', borderRadius: 16, padding: '30px 24px', textAlign: 'center', marginBottom: 20 }}>
-          <p style={{ fontFamily: F, fontSize: 17, color: INK, marginBottom: 4 }}>{tab}</p>
-          <p style={{ fontSize: 12, color: MUTE }}>Muy pronto podréis gestionar esto desde aquí.</p>
+      {tab === 'Lista de invitados' && (
+        <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
+          {SUBTABS.map(t => (
+            <button key={t} onClick={() => setSubtab(t)} style={{
+              background: subtab === t ? '#F4E7D8' : 'transparent', border: 'none', borderRadius: 8, cursor: 'pointer',
+              padding: '8px 14px', fontSize: 12.5, color: subtab === t ? '#6b4226' : MUTE, fontWeight: subtab === t ? 600 : 400
+            }}>{t}</button>
+          ))}
         </div>
       )}
-      {tab === 'Lista de invitados' && subtab !== 'Gestionar lista' && (
-        <div style={{ background: '#F7F4EF', borderRadius: 16, padding: '30px 24px', textAlign: 'center', marginBottom: 20 }}>
-          <p style={{ fontFamily: F, fontSize: 17, color: INK, marginBottom: 4 }}>{subtab}</p>
-          <p style={{ fontSize: 12, color: MUTE }}>Muy pronto podréis gestionar esto desde aquí.</p>
+
+      {tab === 'Recopilar contactos' && (
+        <div>
+          <div style={{ background: 'linear-gradient(135deg, #F4EFE8, #EFE6F5)', border: '1px solid #ECE9E4', borderRadius: 16, padding: '20px 24px', marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
+            <div>
+              <p style={{ fontFamily: F, fontSize: 17, color: INK, marginBottom: 4 }}>Recopilad los datos que faltan</p>
+              <p style={{ fontSize: 11.5, color: MUTE }}>Compartid este enlace para que vuestros invitados rellenen su email, teléfono y dirección.</p>
+            </div>
+            <button onClick={copyCollectLink} style={{ background: copiedCollect ? '#3A6B3A' : '#8b5f3e', color: 'white', border: 'none', borderRadius: 999, padding: '10px 20px', fontSize: 12, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+              {copiedCollect ? '¡Copiado!' : 'Copiar enlace'}
+            </button>
+          </div>
+          <p style={{ fontSize: 11, color: MUTE, marginBottom: 10 }}>Pendientes de completar ({guests.filter(g => !g.contact || !g.address).length})</p>
+          <div style={{ border: '1px solid #F5EFE0', borderRadius: 16, overflow: 'hidden' }}>
+            {guests.filter(g => !g.contact || !g.address).length === 0 ? (
+              <p style={{ fontSize: 13, color: MUTE, textAlign: 'center', padding: '30px 0' }}>Todos vuestros invitados tienen sus datos completos ♡</p>
+            ) : guests.filter(g => !g.contact || !g.address).map((g, i, arr) => (
+              <div key={g.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 18px', borderBottom: i < arr.length - 1 ? '1px solid #F5EFE0' : 'none' }}>
+                <span style={{ fontSize: 13, color: INK }}>{g.name}</span>
+                <span style={{ fontSize: 11, color: '#C0594F' }}>{[!g.contact && 'Sin contacto', !g.address && 'Sin dirección'].filter(Boolean).join(' · ')}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {(tab === 'Eventos' || subtab === 'Invitar a eventos') && tab !== 'Recopilar contactos' && tab !== 'Agradecimientos' && tab !== 'Bloques de hotel' && tab !== 'Lista de invitados' && (
+        <div style={{ border: '1px solid #F5EFE0', borderRadius: 16, overflow: 'hidden' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: `1.5fr repeat(${EVENTS.length}, 1fr)`, padding: '10px 18px', background: '#FBF9F5', borderBottom: '1px solid #F5EFE0' }}>
+            <span style={{ fontSize: 10, color: MUTE, letterSpacing: '0.04em' }}>INVITADO</span>
+            {EVENTS.map(ev => <span key={ev} style={{ fontSize: 10, color: MUTE, letterSpacing: '0.04em', textAlign: 'center' }}>{ev}</span>)}
+          </div>
+          {guests.map((g, i) => (
+            <div key={g.id} style={{ display: 'grid', gridTemplateColumns: `1.5fr repeat(${EVENTS.length}, 1fr)`, alignItems: 'center', padding: '10px 18px', borderBottom: i < guests.length - 1 ? '1px solid #F5EFE0' : 'none' }}>
+              <span style={{ fontSize: 13, color: INK }}>{g.name}</span>
+              {EVENTS.map(ev => (
+                <span key={ev} style={{ display: 'flex', justifyContent: 'center' }}>
+                  <input type="checkbox" checked={g.events.includes(ev)} onChange={() => toggleEvent(g.id, ev)} />
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {tab === 'Agradecimientos' && (
+        <div style={{ border: '1px solid #F5EFE0', borderRadius: 16, overflow: 'hidden' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1.5fr auto', padding: '10px 18px', background: '#FBF9F5', borderBottom: '1px solid #F5EFE0' }}>
+            <span style={{ fontSize: 10, color: MUTE, letterSpacing: '0.04em' }}>INVITADO</span>
+            <span style={{ fontSize: 10, color: MUTE, letterSpacing: '0.04em' }}>ESTADO</span>
+            <span style={{ fontSize: 10, color: MUTE, letterSpacing: '0.04em' }}>AGRADECIDO</span>
+          </div>
+          {guests.length === 0 ? (
+            <p style={{ fontSize: 13, color: MUTE, textAlign: 'center', padding: '30px 0' }}>Sin invitados todavía.</p>
+          ) : guests.map((g, i) => (
+            <div key={g.id} style={{ display: 'grid', gridTemplateColumns: '2fr 1.5fr auto', alignItems: 'center', padding: '10px 18px', borderBottom: i < guests.length - 1 ? '1px solid #F5EFE0' : 'none' }}>
+              <span style={{ fontSize: 13, color: INK }}>{g.name}</span>
+              <span style={{ fontSize: 11, color: g.rsvp === 'Sí' ? '#3A6B3A' : g.rsvp === 'No' ? '#C0594F' : '#B8862F' }}>{g.rsvp}</span>
+              <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: INK, cursor: 'pointer' }}>
+                <input type="checkbox" checked={g.thanked} onChange={() => toggleThanked(g.id)} />
+                {g.thanked ? 'Sí' : 'No'}
+              </label>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {tab === 'Bloques de hotel' && (
+        <div>
+          <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
+            <input value={newBlockHotel} onChange={e => setNewBlockHotel(e.target.value)} placeholder="Nombre del hotel" style={{ flex: 1, minWidth: 160, border: '1px solid #E3DCC9', borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }} />
+            <input value={newBlockCode} onChange={e => setNewBlockCode(e.target.value)} placeholder="Código de reserva" style={{ width: 160, border: '1px solid #E3DCC9', borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }} />
+            <input value={newBlockRooms} onChange={e => setNewBlockRooms(e.target.value)} type="number" placeholder="Habitaciones" style={{ width: 130, border: '1px solid #E3DCC9', borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }} />
+            <button onClick={addBlock} style={{ background: BLUE, color: 'white', border: 'none', borderRadius: 12, padding: '11px 22px', fontSize: 13, cursor: 'pointer' }}>Añadir</button>
+          </div>
+          {blocks.length === 0 ? (
+            <p style={{ fontSize: 13, color: MUTE, textAlign: 'center', padding: '30px 0' }}>Sin bloques de hotel todavía.</p>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {blocks.map(b => (
+                <div key={b.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white', border: '1px solid #ECE9E4', borderRadius: 14, padding: '14px 18px' }}>
+                  <div>
+                    <p style={{ fontSize: 14, fontWeight: 500, color: INK }}>{b.hotel}</p>
+                    <p style={{ fontSize: 11, color: MUTE }}>Código: {b.code || '—'} · {b.rooms} habitaciones reservadas</p>
+                  </div>
+                  <button onClick={() => removeBlock(b.id)} style={{ background: 'none', border: 'none', color: '#C9BCA8', cursor: 'pointer', fontSize: 18 }}>×</button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {tab === 'Lista de invitados' && subtab === 'Direcciones de sobres' && (
+        <div style={{ border: '1px solid #F5EFE0', borderRadius: 16, overflow: 'hidden' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 2fr', padding: '10px 18px', background: '#FBF9F5', borderBottom: '1px solid #F5EFE0' }}>
+            <span style={{ fontSize: 10, color: MUTE, letterSpacing: '0.04em' }}>INVITADO</span>
+            <span style={{ fontSize: 10, color: MUTE, letterSpacing: '0.04em' }}>DIRECCIÓN POSTAL</span>
+          </div>
+          {guests.map((g, i) => (
+            <div key={g.id} style={{ display: 'grid', gridTemplateColumns: '1.5fr 2fr', alignItems: 'center', padding: '10px 18px', borderBottom: i < guests.length - 1 ? '1px solid #F5EFE0' : 'none' }}>
+              <span style={{ fontSize: 13, color: INK }}>{g.name}</span>
+              <input value={g.address} onChange={e => update(g.id, 'address', e.target.value)} placeholder="Calle, ciudad, código postal..." style={{ border: 'none', background: 'transparent', fontSize: 12, color: MUTE, outline: 'none' }} />
+            </div>
+          ))}
+        </div>
+      )}
+
+      {tab === 'Lista de invitados' && subtab === 'Seguimiento RSVP' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+          {(['Sí', 'Pendiente', 'No'] as const).map(status => {
+            const list = guests.filter(g => g.rsvp === status)
+            const label = status === 'Sí' ? 'Confirmados' : status === 'Pendiente' ? 'Pendientes' : 'Declinados'
+            const color = status === 'Sí' ? '#3A6B3A' : status === 'Pendiente' ? '#B8862F' : '#C0594F'
+            return (
+              <div key={status}>
+                <p style={{ fontFamily: F, fontSize: 15, color, marginBottom: 8 }}>{label} ({list.length})</p>
+                {list.length === 0 ? (
+                  <p style={{ fontSize: 12, color: MUTE, paddingLeft: 4 }}>Nadie en este grupo todavía.</p>
+                ) : (
+                  <div style={{ border: '1px solid #F5EFE0', borderRadius: 14, overflow: 'hidden' }}>
+                    {list.map((g, i) => (
+                      <div key={g.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 18px', borderBottom: i < list.length - 1 ? '1px solid #F5EFE0' : 'none' }}>
+                        <span style={{ fontSize: 13, color: INK }}>{g.name}</span>
+                        <span style={{ fontSize: 12, color: MUTE }}>{g.contact || 'Sin contacto'}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )
+          })}
         </div>
       )}
 
@@ -434,7 +599,7 @@ export default function Invitados({ guests, setGuests, onNavigate }: Props) {
         <AddGuestsModal
           onClose={() => setShowModal(false)}
           onSave={({ name, contact }) => {
-            setGuests([...guests, { id: Date.now().toString(), name, contact, rsvp: 'Pendiente', table_name: null, seat: null, menu: '', group: '', avoid: [] }])
+            setGuests([...guests, { id: Date.now().toString(), name, contact, rsvp: 'Pendiente', table_name: null, seat: null, menu: '', group: '', avoid: [], address: '', thanked: false, events: [] }])
             setShowModal(false)
           }}
         />

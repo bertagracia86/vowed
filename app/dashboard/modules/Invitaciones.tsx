@@ -20,22 +20,22 @@ const IMG_COUPLE = 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92
 const IMG_BOUQUET = 'https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?w=300&q=70'
 
 const CATEGORIES = [
-  { label: 'Save the dates', img: IMG_COUPLE },
-  { label: 'Invitaciones', img: IMG_PAPER },
-  { label: 'Fundas', img: IMG_PAPER },
-  { label: 'Complementos de papel', img: IMG_BOWS },
-  { label: 'Tarjetas de mesa', img: IMG_TABLE },
-  { label: 'Números de mesa', img: IMG_TABLE },
-  { label: 'Menús', img: IMG_TABLE },
-  { label: 'Programas', img: IMG_HANDS },
-  { label: 'Servilletas', img: IMG_TABLE },
-  { label: 'Carteles', img: IMG_COUPLE },
-  { label: 'Pegatinas', img: IMG_BOWS },
-  { label: 'Tarjetas de agradecimiento', img: IMG_HANDS },
-  { label: 'Agradecimientos al instante', img: IMG_HANDS },
-  { label: 'Save the dates digitales', img: IMG_COUPLE },
-  { label: 'Invitaciones despedida', img: IMG_BOUQUET },
-  { label: 'Subir tu diseño', img: IMG_PAPER },
+  { label: 'Save the dates', img: '/cat-save-the-dates.png', real: true },
+  { label: 'Invitaciones', img: '/cat-invitaciones.png', real: true },
+  { label: 'Fundas', img: IMG_PAPER, real: false },
+  { label: 'Complementos de papel', img: '/cat-complementos.png', real: true },
+  { label: 'Tarjetas de mesa', img: IMG_TABLE, real: false },
+  { label: 'Números de mesa', img: IMG_TABLE, real: false },
+  { label: 'Menús', img: IMG_TABLE, real: false },
+  { label: 'Programas', img: IMG_HANDS, real: false },
+  { label: 'Servilletas', img: IMG_TABLE, real: false },
+  { label: 'Carteles', img: IMG_COUPLE, real: false },
+  { label: 'Pegatinas', img: IMG_BOWS, real: false },
+  { label: 'Tarjetas de agradecimiento', img: IMG_HANDS, real: false },
+  { label: 'Agradecimientos al instante', img: IMG_HANDS, real: false },
+  { label: 'Save the dates digitales', img: IMG_COUPLE, real: false },
+  { label: 'Invitaciones despedida', img: IMG_BOUQUET, real: false },
+  { label: 'Subir tu diseño', img: IMG_PAPER, real: false },
 ]
 
 interface ProgramItem { id: string; time: string; title: string; desc: string }
@@ -182,8 +182,8 @@ export default function Invitaciones({ weddingInfo }: Props) {
               position: 'relative', width: '100%', aspectRatio: '1', borderRadius: 14, overflow: 'hidden',
               border: cat === c.label ? `2px solid ${BROWN}` : `1px solid ${BEIGE}`, transition: 'border-color 0.15s'
             }}>
-              <img src={c.img} alt={c.label} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'sepia(0.55) saturate(1.4) brightness(0.92) contrast(1.05)' }} />
-              <div style={{ position: 'absolute', inset: 0, background: cat === c.label ? 'rgba(139,94,60,0.15)' : 'rgba(139,94,60,0.28)', transition: 'background 0.15s' }} />
+              <img src={c.img} alt={c.label} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: c.real ? 'none' : 'sepia(0.55) saturate(1.4) brightness(0.92) contrast(1.05)' }} />
+              {!c.real && <div style={{ position: 'absolute', inset: 0, background: cat === c.label ? 'rgba(139,94,60,0.15)' : 'rgba(139,94,60,0.28)', transition: 'background 0.15s' }} />}
             </div>
             <span style={{ fontSize: 10.5, color: cat === c.label ? BROWN : SUBTEXT, textAlign: 'center', lineHeight: 1.25, fontWeight: cat === c.label ? 600 : 400 }}>{c.label}</span>
           </div>

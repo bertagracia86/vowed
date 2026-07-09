@@ -15,6 +15,9 @@ export interface Guest {
   menu: string
   group: string
   avoid: string[]
+  address: string
+  thanked: boolean
+  events: string[]
 }
 
 export interface BudgetItem {
