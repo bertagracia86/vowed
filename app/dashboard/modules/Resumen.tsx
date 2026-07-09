@@ -37,7 +37,7 @@ function Section({ title, badge, open, onToggle, children }: { title: string; ba
       <div onClick={onToggle} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <span style={{ fontFamily: F, fontSize: 14, fontWeight: 600, color: INK }}>{title}</span>
-          {badge && <span style={{ background: '#F4EFE8', color: '#8b5f3e', fontSize: 9, fontWeight: 600, borderRadius: 999, padding: '2px 8px' }}>{badge}</span>}
+          {badge && <span style={{ background: '#F4EFE8', color: '#898a76', fontSize: 9, fontWeight: 600, borderRadius: 999, padding: '2px 8px' }}>{badge}</span>}
         </div>
         <Chevron open={open} />
       </div>
@@ -94,7 +94,7 @@ export default function Resumen({ tasks, guests, budget, vendors, weddingInfo, w
           <Section title="Espacio y proveedores" open={!!openSections['proveedores']} onToggle={() => toggle('proveedores')}>
             <div onClick={() => setTab('proveedores')} style={{ marginTop: 8, marginBottom: 4, background: '#FBF6EF', borderRadius: 10, padding: '9px 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, color: INK, cursor: 'pointer' }}>
               <span>{vendorsContratados}/{vendors.length} contratados. ¿Buscamos más?</span>
-              <span style={{ color: '#8b5f3e', fontWeight: 600, whiteSpace: 'nowrap' }}>Ver más →</span>
+              <span style={{ color: '#898a76', fontWeight: 600, whiteSpace: 'nowrap' }}>Ver más →</span>
             </div>
           </Section>
 
@@ -112,7 +112,7 @@ export default function Resumen({ tasks, guests, budget, vendors, weddingInfo, w
                 <p style={{ fontSize: 11.5, color: MUTE, marginBottom: 8, lineHeight: 1.5, maxWidth: 300 }}>
                   Una lista de invitados completa es la mejor forma de tener un recuento preciso. ¡Seguid así!
                 </p>
-                <button onClick={() => setTab('invitados')} style={{ background: '#8b5f3e', color: 'white', border: 'none', borderRadius: 8, padding: '8px 16px', fontSize: 11.5, cursor: 'pointer' }}>
+                <button onClick={() => setTab('invitados')} style={{ background: '#898a76', color: 'white', border: 'none', borderRadius: 8, padding: '8px 16px', fontSize: 11.5, cursor: 'pointer' }}>
                   Añadir invitados
                 </button>
               </div>
@@ -138,7 +138,7 @@ export default function Resumen({ tasks, guests, budget, vendors, weddingInfo, w
       {/* FEATURED INSPIRATION */}
       <div style={{ marginTop: 18, background: 'white', border: '1px solid #ECE9E4', borderRadius: 16, padding: 16, display: 'grid', gridTemplateColumns: '220px repeat(4, 1fr)', gap: 12, alignItems: 'stretch' }}>
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <span style={{ fontSize: 9, fontWeight: 700, color: '#8b5f3e', letterSpacing: 0.5, marginBottom: 6 }}>INSPIRACIÓN DESTACADA</span>
+          <span style={{ fontSize: 9, fontWeight: 700, color: '#898a76', letterSpacing: 0.5, marginBottom: 6 }}>INSPIRACIÓN DESTACADA</span>
           <p style={{ fontFamily: F, fontSize: 17, color: INK, lineHeight: 1.25, marginBottom: 10 }}>
             Historias de amor que tuvimos el honor de acompañar
           </p>

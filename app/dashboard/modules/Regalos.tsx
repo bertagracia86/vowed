@@ -106,7 +106,7 @@ export default function Regalos({ weddingInfo }: Props) {
             background: 'none', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap',
             padding: '0 0 10px', fontSize: 13, fontFamily: F,
             color: tab === t ? INK : MUTE, fontWeight: tab === t ? 600 : 400,
-            borderBottom: tab === t ? '2px solid #8b5f3e' : '2px solid transparent'
+            borderBottom: tab === t ? '2px solid #898a76' : '2px solid transparent'
           }}>
             {t}
           </button>
@@ -119,17 +119,17 @@ export default function Regalos({ weddingInfo }: Props) {
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
             {CATEGORIES.map(c => (
               <div key={c.label} onClick={() => setActiveCat(activeCat === c.label ? null : c.label)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, cursor: 'pointer', flexShrink: 0 }}>
-                <div style={{ width: 46, height: 46, borderRadius: '50%', border: '1.3px solid #8b5f3e', background: activeCat === c.label ? '#F4E7D8' : 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#8b5f3e" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d={c.icon} /></svg>
+                <div style={{ width: 46, height: 46, borderRadius: '50%', border: '1.3px solid #898a76', background: activeCat === c.label ? '#F4E7D8' : 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#898a76" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d={c.icon} /></svg>
                 </div>
-                <span style={{ fontSize: 10.5, color: activeCat === c.label ? '#8b5f3e' : MUTE, whiteSpace: 'nowrap', fontWeight: activeCat === c.label ? 600 : 400 }}>{c.label}</span>
+                <span style={{ fontSize: 10.5, color: activeCat === c.label ? '#898a76' : MUTE, whiteSpace: 'nowrap', fontWeight: activeCat === c.label ? 600 : 400 }}>{c.label}</span>
               </div>
             ))}
           </div>
           {activeCat && (
             <p style={{ fontSize: 11.5, color: MUTE, marginBottom: 20 }}>
               Explorad {activeCat.toLowerCase()} en{' '}
-              <a href={CATEGORIES.find(c => c.label === activeCat)?.url} target="_blank" rel="noopener noreferrer" style={{ color: '#8b5f3e', fontWeight: 600, textDecoration: 'underline' }}>
+              <a href={CATEGORIES.find(c => c.label === activeCat)?.url} target="_blank" rel="noopener noreferrer" style={{ color: '#898a76', fontWeight: 600, textDecoration: 'underline' }}>
                 {CATEGORIES.find(c => c.label === activeCat)?.store} ↗
               </a>
             </p>
@@ -175,7 +175,7 @@ export default function Regalos({ weddingInfo }: Props) {
                   <p style={{ fontSize: 13, fontWeight: 500, color: INK, marginBottom: 4 }}>{g.name}</p>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <p style={{ fontFamily: F, fontSize: 16, color: INK }}>{g.price} €</p>
-                    <a href={g.url} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{ fontSize: 10.5, color: '#8b5f3e', textDecoration: 'underline' }}>
+                    <a href={g.url} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{ fontSize: 10.5, color: '#898a76', textDecoration: 'underline' }}>
                       Ver en {g.store} ↗
                     </a>
                   </div>
@@ -194,7 +194,7 @@ export default function Regalos({ weddingInfo }: Props) {
               <p style={{ fontFamily: F, fontSize: 17, color: INK, marginBottom: 4 }}>Compartid vuestra lista</p>
               <p style={{ fontSize: 11.5, color: MUTE }}>Enviad el enlace a vuestros invitados para que reserven un regalo.</p>
             </div>
-            <button onClick={copyLink} style={{ background: copied ? '#3A6B3A' : '#8b5f3e', color: 'white', border: 'none', borderRadius: 999, padding: '10px 20px', fontSize: 12, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+            <button onClick={copyLink} style={{ background: copied ? '#3A6B3A' : '#898a76', color: 'white', border: 'none', borderRadius: 999, padding: '10px 20px', fontSize: 12, cursor: 'pointer', whiteSpace: 'nowrap' }}>
               {copied ? '¡Copiado!' : 'Copiar enlace'}
             </button>
           </div>
@@ -220,7 +220,7 @@ export default function Regalos({ weddingInfo }: Props) {
                   <p style={{ fontSize: 13, fontWeight: 500, color: INK, marginBottom: 4 }}>{g.name}</p>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <p style={{ fontFamily: F, fontSize: 16, color: INK }}>{g.price} €</p>
-                    <a href={g.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 10.5, color: '#8b5f3e', textDecoration: 'underline' }}>{g.store} ↗</a>
+                    <a href={g.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 10.5, color: '#898a76', textDecoration: 'underline' }}>{g.store} ↗</a>
                   </div>
                 </div>
               </div>

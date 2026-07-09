@@ -77,7 +77,7 @@ export default function Proveedores({ vendors, setVendors }: Props) {
             background: 'none', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap',
             padding: '0 0 10px', fontSize: 13, fontFamily: F,
             color: tab === t ? INK : MUTE, fontWeight: tab === t ? 600 : 400,
-            borderBottom: tab === t ? '2px solid #8b5f3e' : '2px solid transparent'
+            borderBottom: tab === t ? '2px solid #898a76' : '2px solid transparent'
           }}>
             {t}
           </button>
@@ -91,7 +91,7 @@ export default function Proveedores({ vendors, setVendors }: Props) {
             {EXPLORE_CATS.map(c => (
               <div key={c.label} onClick={() => goToForm(c.cat)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, cursor: 'pointer', flexShrink: 0 }}>
                 <div style={{ width: 46, height: 46, borderRadius: '50%', background: newCat === c.cat ? '#F4E7D8' : '#F4EFE8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#8b5f3e" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d={c.icon} /></svg>
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#898a76" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d={c.icon} /></svg>
                 </div>
                 <span style={{ fontSize: 10.5, color: MUTE, whiteSpace: 'nowrap' }}>{c.label}</span>
               </div>

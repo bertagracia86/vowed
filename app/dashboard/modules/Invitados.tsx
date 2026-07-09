@@ -55,7 +55,7 @@ function AddGuestsModal({ onClose, onSave }: { onClose: () => void; onSave: (g: 
             <button key={t} onClick={() => setTab(t)} style={{
               background: 'none', border: 'none', cursor: 'pointer', padding: '0 0 10px', fontSize: 13, fontFamily: F,
               color: tab === t ? INK : MUTE, fontWeight: tab === t ? 600 : 400,
-              borderBottom: tab === t ? '2px solid #8b5f3e' : '2px solid transparent'
+              borderBottom: tab === t ? '2px solid #898a76' : '2px solid transparent'
             }}>
               {t === 'info' ? 'Datos del invitado' : 'Dirección postal'}
             </button>
@@ -273,7 +273,7 @@ export default function Invitados({ guests, setGuests, onNavigate }: Props) {
         {TABS.map(t => (
           <button key={t} onClick={() => selectTab(t)} style={{
             background: 'none', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap', padding: '0 0 10px', fontSize: 13, fontFamily: F,
-            color: tab === t ? INK : MUTE, fontWeight: tab === t ? 600 : 400, borderBottom: tab === t ? '2px solid #8b5f3e' : '2px solid transparent'
+            color: tab === t ? INK : MUTE, fontWeight: tab === t ? 600 : 400, borderBottom: tab === t ? '2px solid #898a76' : '2px solid transparent'
           }}>{t}</button>
         ))}
       </div>
@@ -296,7 +296,7 @@ export default function Invitados({ guests, setGuests, onNavigate }: Props) {
               <p style={{ fontFamily: F, fontSize: 17, color: INK, marginBottom: 4 }}>Recopilad los datos que faltan</p>
               <p style={{ fontSize: 11.5, color: MUTE }}>Compartid este enlace para que vuestros invitados rellenen su email, teléfono y dirección.</p>
             </div>
-            <button onClick={copyCollectLink} style={{ background: copiedCollect ? '#3A6B3A' : '#8b5f3e', color: 'white', border: 'none', borderRadius: 999, padding: '10px 20px', fontSize: 12, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+            <button onClick={copyCollectLink} style={{ background: copiedCollect ? '#3A6B3A' : '#898a76', color: 'white', border: 'none', borderRadius: 999, padding: '10px 20px', fontSize: 12, cursor: 'pointer', whiteSpace: 'nowrap' }}>
               {copiedCollect ? '¡Copiado!' : 'Copiar enlace'}
             </button>
           </div>
@@ -449,7 +449,7 @@ export default function Invitados({ guests, setGuests, onNavigate }: Props) {
         <div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 14, flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', gap: 8, position: 'relative' }}>
-              <button onClick={() => setShowFilter(s => !s)} style={{ border: activeFilters ? `1px solid #8b5f3e` : '1px solid #ECE9E4', background: activeFilters ? '#F4E7D8' : 'white', borderRadius: 999, padding: '9px 16px', fontSize: 12, color: INK, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
+              <button onClick={() => setShowFilter(s => !s)} style={{ border: activeFilters ? `1px solid #898a76` : '1px solid #ECE9E4', background: activeFilters ? '#F4E7D8' : 'white', borderRadius: 999, padding: '9px 16px', fontSize: 12, color: INK, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
                 Filtrar{activeFilters > 0 && ` (${activeFilters})`}
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="2"><path d="M6 9l6 6 6-6" /></svg>
               </button>
@@ -508,7 +508,7 @@ export default function Invitados({ guests, setGuests, onNavigate }: Props) {
                     <div>
                       <p style={{ fontSize: 11.5, color: '#C0594F', marginBottom: 2 }}>Sin email · Sin móvil</p>
                       <Tooltip text="¿Falta la dirección o el contacto de un invitado? Os ayudamos a recopilarlo." align="left">
-                        <span style={{ fontSize: 11.5, color: '#8b5f3e', textDecoration: 'underline', cursor: 'pointer' }}>Solicitar datos</span>
+                        <span style={{ fontSize: 11.5, color: '#898a76', textDecoration: 'underline', cursor: 'pointer' }}>Solicitar datos</span>
                       </Tooltip>
                     </div>
                   )}
@@ -524,7 +524,7 @@ export default function Invitados({ guests, setGuests, onNavigate }: Props) {
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                     <Tooltip text={g.contact.includes('@') ? `Enviar email a ${g.contact}` : 'Añade el email del invitado para enviarle un mensaje.'} align="right">
-                      <span onClick={() => { if (g.contact.includes('@')) window.location.href = `mailto:${g.contact}` }} style={{ display: 'flex', color: g.contact.includes('@') ? '#8b5f3e' : '#C9BCA8', cursor: g.contact.includes('@') ? 'pointer' : 'default' }}>
+                      <span onClick={() => { if (g.contact.includes('@')) window.location.href = `mailto:${g.contact}` }} style={{ display: 'flex', color: g.contact.includes('@') ? '#898a76' : '#C9BCA8', cursor: g.contact.includes('@') ? 'pointer' : 'default' }}>
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 7l9 6 9-6" /></svg>
                       </span>
                     </Tooltip>

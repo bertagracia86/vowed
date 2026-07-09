@@ -22,7 +22,7 @@ export default function Consejos() {
               <img src={a.img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
             <div style={{ padding: '14px 16px' }}>
-              <span style={{ fontSize: 9.5, fontWeight: 700, color: '#8b5f3e', letterSpacing: 0.5, textTransform: 'uppercase' }}>{a.tag}</span>
+              <span style={{ fontSize: 9.5, fontWeight: 700, color: '#898a76', letterSpacing: 0.5, textTransform: 'uppercase' }}>{a.tag}</span>
               <p style={{ fontFamily: F, fontSize: 15, color: INK, lineHeight: 1.3, marginTop: 6 }}>{a.title}</p>
             </div>
           </div>

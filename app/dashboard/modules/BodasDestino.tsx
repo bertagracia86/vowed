@@ -17,7 +17,7 @@ export default function BodasDestino() {
           <p style={{ fontFamily: F, fontSize: 20, color: INK, marginBottom: 6 }}>¿Buscáis wedding planner en destino?</p>
           <p style={{ fontSize: 12, color: MUTE }}>Os conectamos con profesionales locales especializados en bodas internacionales.</p>
         </div>
-        <button style={{ background: '#8b5f3e', color: 'white', border: 'none', borderRadius: 999, padding: '12px 22px', fontSize: 13, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+        <button style={{ background: '#898a76', color: 'white', border: 'none', borderRadius: 999, padding: '12px 22px', fontSize: 13, cursor: 'pointer', whiteSpace: 'nowrap' }}>
           Solicitar ayuda
         </button>
       </div>

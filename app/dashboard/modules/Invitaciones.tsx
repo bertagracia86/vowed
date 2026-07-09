@@ -137,7 +137,7 @@ function ProgramaCeremonia({ weddingInfo }: Props) {
           {items.map(item => (
             <div key={item.id} style={{ marginBottom: 14 }}>
               <div style={{ display: 'flex', gap: 10, alignItems: 'baseline' }}>
-                {item.time && <span style={{ fontFamily: F, fontSize: 12, color: '#8b5f3e', minWidth: 40 }}>{item.time}</span>}
+                {item.time && <span style={{ fontFamily: F, fontSize: 12, color: '#898a76', minWidth: 40 }}>{item.time}</span>}
                 <span style={{ fontFamily: F, fontSize: 15, color: INK }}>{item.title}</span>
               </div>
               {item.desc && <p style={{ fontSize: 11, color: MUTE, marginLeft: item.time ? 50 : 0, marginTop: 2 }}>{item.desc}</p>}

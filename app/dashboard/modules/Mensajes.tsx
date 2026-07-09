@@ -53,7 +53,7 @@ export default function Mensajes({ guests }: Props) {
       </div>
 
       <button disabled={!selected} style={{
-        background: selected ? '#8b5f3e' : '#DCD4C8', color: 'white', border: 'none', borderRadius: 999, padding: '12px 26px', fontSize: 13,
+        background: selected ? '#898a76' : '#DCD4C8', color: 'white', border: 'none', borderRadius: 999, padding: '12px 26px', fontSize: 13,
         cursor: selected ? 'pointer' : 'default'
       }}>
         Enviar a {pending > 0 ? `${pending} pendientes` : 'todos los invitados'}

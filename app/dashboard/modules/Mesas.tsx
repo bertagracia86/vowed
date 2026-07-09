@@ -30,7 +30,7 @@ function Seat({ guest, onDrop, onDragStart, onDragOverSeat, isOver, conflict }: 
       title={guest?.name}
       style={{
         width: 54, height: 54, borderRadius: '50%',
-        border: conflict ? '2px solid #C0594F' : isOver ? `2px solid ${BLUE}` : guest ? '2px solid #8b5f3e' : '2px dashed #DDD8D0',
+        border: conflict ? '2px solid #C0594F' : isOver ? `2px solid ${BLUE}` : guest ? '2px solid #898a76' : '2px dashed #DDD8D0',
         background: conflict ? '#FBEAE7' : guest ? '#F8F3E8' : isOver ? '#F4EFE8' : 'white',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         cursor: guest ? 'grab' : 'default', flexShrink: 0, position: 'relative', transition: 'background 0.15s, border-color 0.15s'
