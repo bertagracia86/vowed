@@ -135,6 +135,30 @@ function AddGuestsModal({ onClose, onSave }: { onClose: () => void; onSave: (g: 
 const TABS = ['Lista de invitados', 'Recopilar contactos', 'Eventos', 'Plano de mesas', 'Mensajería', 'Agradecimientos', 'Bloques de hotel']
 const SUBTABS = ['Gestionar lista', 'Invitar a eventos', 'Direcciones de sobres', 'Seguimiento RSVP']
 
+const CARD = '#FFFDFB'
+const BROWN = '#8B5E3C'
+const BEIGE = '#E7DDD2'
+const SUBTEXT = '#7C6858'
+
+function RsvpDonut({ confirmed, pending, declined }: { confirmed: number; pending: number; declined: number }) {
+  const total = confirmed + pending + declined
+  const pct = total > 0 ? Math.round((confirmed / total) * 100) : 0
+  const r = 46, circ = 2 * Math.PI * r
+  const cSeg = total > 0 ? (confirmed / total) * circ : 0
+  const pSeg = total > 0 ? (pending / total) * circ : 0
+  const dSeg = total > 0 ? (declined / total) * circ : 0
+  return (
+    <svg width="120" height="120" viewBox="0 0 120 120">
+      <circle cx="60" cy="60" r={r} fill="none" stroke={BEIGE} strokeWidth="11" />
+      <circle cx="60" cy="60" r={r} fill="none" stroke="#3A6B3A" strokeWidth="11" strokeDasharray={`${cSeg} ${circ - cSeg}`} strokeDashoffset={0} transform="rotate(-90 60 60)" strokeLinecap="round" />
+      <circle cx="60" cy="60" r={r} fill="none" stroke="#B8862F" strokeWidth="11" strokeDasharray={`${pSeg} ${circ - pSeg}`} strokeDashoffset={-cSeg} transform="rotate(-90 60 60)" strokeLinecap="round" />
+      <circle cx="60" cy="60" r={r} fill="none" stroke="#C0594F" strokeWidth="11" strokeDasharray={`${dSeg} ${circ - dSeg}`} strokeDashoffset={-(cSeg + pSeg)} transform="rotate(-90 60 60)" strokeLinecap="round" />
+      <text x="60" y="56" textAnchor="middle" fontSize="22" fontFamily={F} fill={INK}>{pct}%</text>
+      <text x="60" y="74" textAnchor="middle" fontSize="9.5" fill={SUBTEXT}>Confirmado</text>
+    </svg>
+  )
+}
+
 export default function Invitados({ guests, setGuests, onNavigate }: Props) {
   const [showModal, setShowModal] = useState(false)
   const [tab, setTab] = useState(TABS[0])
@@ -147,6 +171,7 @@ export default function Invitados({ guests, setGuests, onNavigate }: Props) {
 
   const confirmed = guests.filter(g => g.rsvp === 'Sí').length
   const pending = guests.filter(g => g.rsvp === 'Pendiente').length
+  const declined = guests.filter(g => g.rsvp === 'No').length
   const missing = guests.filter(g => !g.contact).length
   const activeFilters = (filterInvited ? 1 : 0) + (filterMissing ? 1 : 0)
 
@@ -236,34 +261,23 @@ export default function Invitados({ guests, setGuests, onNavigate }: Props) {
       {tab === 'Lista de invitados' && subtab === 'Gestionar lista' && (
       <>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '0.7fr 0.7fr 0.7fr 1fr 1.6fr', gap: 12, marginBottom: 20 }}>
-        <div style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 14, padding: '14px 18px', textAlign: 'center' }}>
-          <p style={{ fontFamily: F, fontSize: 22, color: INK }}>{guests.length}</p>
-          <p style={{ fontSize: 11, color: MUTE }}>Invitados</p>
-        </div>
-        <div style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 14, padding: '14px 18px', textAlign: 'center' }}>
-          <p style={{ fontFamily: F, fontSize: 22, color: INK }}>{adults}</p>
-          <p style={{ fontSize: 11, color: MUTE }}>Adultos</p>
-        </div>
-        <div style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 14, padding: '14px 18px', textAlign: 'center' }}>
-          <p style={{ fontFamily: F, fontSize: 22, color: INK }}>{children}</p>
-          <p style={{ fontSize: 11, color: MUTE }}>Niños</p>
-        </div>
-        <div style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 14, padding: '14px 18px', textAlign: 'center' }}>
-          <p style={{ fontFamily: F, fontSize: 22, color: '#C0594F' }}>{missing}</p>
-          <Tooltip text='Os ayudaremos a recopilarlas todas. Pulsad en "Direcciones pendientes" para empezar.'>
-            <span style={{ fontSize: 11, color: '#8b5f3e', textDecoration: 'underline', cursor: 'pointer' }}>Direcciones pendientes</span>
-          </Tooltip>
-        </div>
-        <div style={{ background: '#F4EFE8', border: '1px solid #ECE9E4', borderRadius: 14, padding: '14px 18px', display: 'flex', alignItems: 'center', gap: 14 }}>
-          <div style={{ width: 54, height: 54, borderRadius: 10, background: '#e7dcc9', flexShrink: 0, overflow: 'hidden' }}>
-            <img src="/invitaciones.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 20 }}>
+        {[
+          { icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75', label: 'Invitados totales', value: guests.length, color: INK },
+          { icon: 'M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z', label: 'Confirmados', value: confirmed, color: '#3A6B3A' },
+          { icon: 'M12 8v4l3 3M21 12a9 9 0 11-18 0 9 9 0 0118 0z', label: 'RSVP pendiente', value: pending, color: '#B8862F' },
+          { icon: 'M18 6L6 18M6 6l12 12', label: 'Declinados', value: declined, color: '#C0594F' },
+        ].map(s => (
+          <div key={s.label} style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 14, padding: '14px 18px', display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{ width: 38, height: 38, borderRadius: '50%', background: BEIGE, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke={BROWN} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d={s.icon} /></svg>
+            </div>
+            <div>
+              <p style={{ fontFamily: F, fontSize: 21, color: s.color, lineHeight: 1.1 }}>{s.value}</p>
+              <p style={{ fontSize: 11, color: SUBTEXT }}>{s.label}</p>
+            </div>
           </div>
-          <div>
-            <p style={{ fontFamily: F, fontSize: 13.5, color: INK, marginBottom: 6, lineHeight: 1.2 }}>Recopilad las direcciones de vuestros invitados</p>
-            <button style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 999, padding: '6px 12px', fontSize: 11, cursor: 'pointer' }}>Configurar recopilador</button>
-          </div>
-        </div>
+        ))}
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 20 }}>
@@ -361,18 +375,55 @@ export default function Invitados({ guests, setGuests, onNavigate }: Props) {
           )}
         </div>
 
-        <div style={{ background: '#F4EFE8', border: '1px solid #ECE9E4', borderRadius: 16, padding: 18, alignSelf: 'flex-start' }}>
-          <div style={{ background: 'white', borderRadius: 12, padding: 12, marginBottom: 14, boxShadow: '0 6px 16px rgba(0,0,0,0.06)' }}>
-            <img src="/pareja-portada.png" alt="" style={{ width: '100%', height: 150, objectFit: 'cover', borderRadius: 8, marginBottom: 8 }} />
-            <p style={{ fontFamily: F, fontSize: 13, color: INK, textAlign: 'center' }}>15 de junio de 2025</p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignSelf: 'flex-start' }}>
+          <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 16, padding: 18 }}>
+            <p style={{ fontFamily: F, fontSize: 15, color: INK, marginBottom: 12 }}>Progreso de RSVP</p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+              <RsvpDonut confirmed={confirmed} pending={pending} declined={declined} />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: INK }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: '#3A6B3A', display: 'inline-block' }} />{confirmed} Confirmados</span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: INK }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: '#B8862F', display: 'inline-block' }} />{pending} Pendientes</span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: INK }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: '#C0594F', display: 'inline-block' }} />{declined} Declinados</span>
+              </div>
+            </div>
           </div>
-          <p style={{ fontFamily: F, fontSize: 18, color: INK, marginBottom: 8, lineHeight: 1.25 }}>Habéis empezado vuestros Save the Dates</p>
-          <p style={{ fontSize: 11.5, color: MUTE, marginBottom: 14, lineHeight: 1.5 }}>
-            Nuestros diseños están hechos en casa e impresos en papel premium.
-          </p>
-          <button onClick={() => onNavigate && onNavigate('invitaciones')} style={{ background: '#241c17', color: 'white', border: 'none', borderRadius: 999, padding: '10px 20px', fontSize: 12, cursor: 'pointer' }}>
-            Explorar diseños
-          </button>
+
+          <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 16, padding: 18 }}>
+            <p style={{ fontFamily: F, fontSize: 15, color: INK, marginBottom: 12 }}>Grupos de invitados</p>
+            {(() => {
+              const groups = Array.from(new Set(guests.map(g => g.group).filter(Boolean)))
+              const withoutGroup = guests.filter(g => !g.group).length
+              if (groups.length === 0 && withoutGroup === guests.length) {
+                return <p style={{ fontSize: 12, color: SUBTEXT }}>Asignad un grupo a vuestros invitados desde el plano de mesas.</p>
+              }
+              return (
+                <>
+                  {groups.map(gr => (
+                    <div key={gr} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '6px 0', borderBottom: `1px solid ${BEIGE}` }}>
+                      <span style={{ fontSize: 12.5, color: INK }}>{gr}</span>
+                      <span style={{ fontSize: 11.5, color: SUBTEXT }}>{guests.filter(g => g.group === gr).length}</span>
+                    </div>
+                  ))}
+                  {withoutGroup > 0 && (
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '6px 0' }}>
+                      <span style={{ fontSize: 12.5, color: SUBTEXT }}>Sin grupo</span>
+                      <span style={{ fontSize: 11.5, color: SUBTEXT }}>{withoutGroup}</span>
+                    </div>
+                  )}
+                </>
+              )
+            })()}
+          </div>
+
+          <div style={{ background: 'linear-gradient(135deg, #F4EFE8, #EFE6F5)', border: `1px solid ${BEIGE}`, borderRadius: 16, padding: 18 }}>
+            <p style={{ fontFamily: F, fontSize: 15, color: INK, marginBottom: 6 }}>Sugerencias</p>
+            <p style={{ fontSize: 11.5, color: SUBTEXT, marginBottom: 12, lineHeight: 1.5 }}>
+              {pending > 0 ? `${pending} invitado${pending !== 1 ? 's' : ''} aún no ha${pending !== 1 ? 'n' : ''} respondido.` : 'Todos vuestros invitados han respondido. ¡Bien hecho!'}
+            </p>
+            <button onClick={() => onNavigate && onNavigate('mensajes')} style={{ background: BROWN, color: 'white', border: 'none', borderRadius: 999, padding: '9px 18px', fontSize: 12, cursor: 'pointer' }}>
+              Enviar recordatorio
+            </button>
+          </div>
         </div>
       </div>
 
