@@ -22,20 +22,20 @@ const IMG_BOUQUET = 'https://images.unsplash.com/photo-1519378058457-4c29a0a2efa
 const CATEGORIES = [
   { label: 'Save the dates', img: '/cat-save-the-dates.png', real: true },
   { label: 'Invitaciones', img: '/cat-invitaciones.png', real: true },
-  { label: 'Fundas', img: IMG_PAPER, real: false },
+  { label: 'Fundas', img: '/cat-fundas-detail.png', real: true },
   { label: 'Complementos de papel', img: '/cat-complementos.png', real: true },
   { label: 'Tarjetas de mesa', img: '/cat-tarjetasmesa.png', real: true },
   { label: 'Números de mesa', img: '/cat-numerosmesa.png', real: true },
   { label: 'Menús', img: '/cat-menus.png', real: true },
   { label: 'Programas', img: '/cat-programas.png', real: true },
-  { label: 'Servilletas', img: IMG_TABLE, real: false },
-  { label: 'Carteles', img: IMG_COUPLE, real: false },
+  { label: 'Servilletas', img: '/cat-servilletas.png', real: true },
+  { label: 'Carteles', img: '/cat-carteles.png', real: true },
   { label: 'Pegatinas', img: '/cat-fundas.png', real: true },
-  { label: 'Tarjetas de agradecimiento', img: IMG_HANDS, real: false },
-  { label: 'Agradecimientos al instante', img: IMG_HANDS, real: false },
-  { label: 'Save the dates digitales', img: IMG_COUPLE, real: false },
-  { label: 'Invitaciones despedida', img: IMG_BOUQUET, real: false },
-  { label: 'Subir tu diseño', img: IMG_PAPER, real: false },
+  { label: 'Tarjetas de agradecimiento', img: '/cat-agradecimiento.png', real: true },
+  { label: 'Agradecimientos al instante', img: '/cat-agradecimiento-instant.png', real: true },
+  { label: 'Save the dates digitales', img: '/cat-savethedate-digital.png', real: true },
+  { label: 'Invitaciones despedida', img: '/cat-despedida.png', real: true },
+  { label: 'Subir tu diseño', img: '/cat-subir-diseno.png', real: true },
 ]
 
 interface ProgramItem { id: string; time: string; title: string; desc: string }
