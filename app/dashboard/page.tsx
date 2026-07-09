@@ -115,7 +115,7 @@ export default function Dashboard() {
         {NAV_TOP.map(n => (
           <button key={n.id} onClick={() => setTab(n.id)} title={n.label} style={{
             display: 'flex', alignItems: 'center', justifyContent: collapsed ? 'center' : 'flex-start', gap: 8, textAlign: 'left', padding: collapsed ? '9px 0' : '7px 10px', borderRadius: 10, border: 'none',
-            background: tab === n.id ? '#F4E7D8' : 'transparent', color: tab === n.id ? '#6b4226' : '#a4816a',
+            background: tab === n.id ? '#F4E7D8' : 'transparent', color: INK,
             fontWeight: tab === n.id ? 700 : 400, fontSize: 12.5, cursor: 'pointer', marginBottom: 2
           }}>
             <SideIcon d={n.icon} />{!collapsed && n.label}
@@ -124,12 +124,12 @@ export default function Dashboard() {
 
         <div style={{ height: 1, background: '#ECE9E4', margin: '9px 10px' }} />
 
-        {!collapsed && <span style={{ fontSize: 12.5, fontWeight: 700, color: '#8b5f3e', padding: '2px 10px 6px' }}>Consejos de expertos</span>}
+        {!collapsed && <span style={{ fontSize: 12.5, fontWeight: 700, color: INK, padding: '2px 10px 6px' }}>Consejos de expertos</span>}
 
         {!collapsed && NAV_SECONDARY.map(n => (
           <button key={n.id} onClick={() => setTab(n.id)} style={{
             display: 'block', textAlign: 'left', padding: '6px 10px', borderRadius: 8, border: 'none',
-            background: 'transparent', color: '#8b5f3e',
+            background: 'transparent', color: INK,
             fontWeight: tab === n.id ? 600 : 400, fontSize: 12.5, cursor: 'pointer'
           }}>
             {n.label}
@@ -140,7 +140,7 @@ export default function Dashboard() {
           {NAV_BOTTOM.map(n => (
             <button key={n.id} onClick={() => setTab(n.id)} title={n.label} style={{
               display: 'flex', alignItems: 'center', justifyContent: collapsed ? 'center' : 'flex-start', gap: 10, textAlign: 'left', padding: collapsed ? '9px 0' : '7px 10px', borderRadius: 9, border: 'none',
-              background: tab === n.id ? '#F4EFE8' : 'transparent', color: '#8b5f3e',
+              background: tab === n.id ? '#F4EFE8' : 'transparent', color: INK,
               fontWeight: tab === n.id ? 600 : 400, fontSize: 12.5, cursor: 'pointer', marginBottom: 1
             }}>
               <SideIcon d={n.icon} />{!collapsed && n.label}
