@@ -106,7 +106,7 @@ export default function Proveedores({ vendors, setVendors }: Props) {
                 {vendors.find(v => v.category === 'Finca')?.contact || 'vuestra ciudad'}
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth="1.8"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
               </p>
-              <button onClick={() => goToForm('Finca')} style={{ background: '#241c17', color: 'white', border: 'none', borderRadius: 999, padding: '12px 28px', fontSize: 13, cursor: 'pointer', marginBottom: 12 }}>Ver espacios</button>
+              <button onClick={() => goToForm('Finca')} style={{ background: '#898a76', color: 'white', border: 'none', borderRadius: 999, padding: '12px 28px', fontSize: 13, cursor: 'pointer', marginBottom: 12 }}>Ver espacios</button>
               <p onClick={() => goToForm('Finca')} style={{ fontSize: 11, color: MUTE, textDecoration: 'underline', cursor: 'pointer' }}>¿Ya tenéis espacio? Añadidlo aquí</p>
             </div>
 
@@ -137,7 +137,7 @@ export default function Proveedores({ vendors, setVendors }: Props) {
           {/* GALERIA */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
             <p style={{ fontFamily: F, fontSize: 18, color: INK }}>Los espacios más populares</p>
-            <button onClick={() => goToForm('Finca')} style={{ background: '#241c17', color: 'white', border: 'none', borderRadius: 999, padding: '8px 18px', fontSize: 11.5, cursor: 'pointer' }}>Ver todos</button>
+            <button onClick={() => goToForm('Finca')} style={{ background: '#898a76', color: 'white', border: 'none', borderRadius: 999, padding: '8px 18px', fontSize: 11.5, cursor: 'pointer' }}>Ver todos</button>
           </div>
           <div style={{ display: 'flex', gap: 14, overflowX: 'auto', marginBottom: 32, paddingBottom: 4 }}>
             {[

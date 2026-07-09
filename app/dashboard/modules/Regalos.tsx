@@ -166,7 +166,7 @@ export default function Regalos({ weddingInfo }: Props) {
                   <img src={g.img} alt={g.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   <span style={{
                     position: 'absolute', top: 8, left: 8, width: 22, height: 22, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: added.has(g.id) ? '#241c17' : 'rgba(255,255,255,0.9)', border: added.has(g.id) ? 'none' : '1px solid #DDD8D0'
+                    background: added.has(g.id) ? '#898a76' : 'rgba(255,255,255,0.9)', border: added.has(g.id) ? 'none' : '1px solid #DDD8D0'
                   }}>
                     {added.has(g.id) && <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>}
                   </span>

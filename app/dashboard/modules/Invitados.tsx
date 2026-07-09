@@ -14,11 +14,11 @@ function Tooltip({ children, text, width = 190, align = 'center' }: { children: 
       {children}
       {show && (
         <span style={{
-          position: 'absolute', top: '125%', ...pos, background: '#241c17', color: 'white',
+          position: 'absolute', top: '125%', ...pos, background: '#898a76', color: 'white',
           fontSize: 11, lineHeight: 1.5, borderRadius: 10, padding: '10px 14px', width, zIndex: 30, textAlign: 'left', boxShadow: '0 8px 20px rgba(0,0,0,0.25)'
         }}>
           {text}
-          <span style={{ position: 'absolute', top: -5, width: 10, height: 10, background: '#241c17', ...(align === 'center' ? { transform: 'translateX(-50%) rotate(45deg)' } : { transform: 'rotate(45deg)' }), ...arrowPos }} />
+          <span style={{ position: 'absolute', top: -5, width: 10, height: 10, background: '#898a76', ...(align === 'center' ? { transform: 'translateX(-50%) rotate(45deg)' } : { transform: 'rotate(45deg)' }), ...arrowPos }} />
         </span>
       )}
     </span>
@@ -66,7 +66,7 @@ function AddGuestsModal({ onClose, onSave }: { onClose: () => void; onSave: (g: 
           <>
             <div style={{ background: '#F7F4EF', borderRadius: 12, padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 20 }}>
               <span style={{ fontSize: 12, color: INK, lineHeight: 1.4 }}>¿No tenéis todos los datos de vuestros invitados?</span>
-              <button style={{ border: '1px solid #241c17', background: 'white', borderRadius: 999, padding: '7px 14px', fontSize: 11, cursor: 'pointer', whiteSpace: 'nowrap' }}>Solicitar datos</button>
+              <button style={{ border: '1px solid #898a76', background: 'white', borderRadius: 999, padding: '7px 14px', fontSize: 11, cursor: 'pointer', whiteSpace: 'nowrap' }}>Solicitar datos</button>
             </div>
 
             <p style={{ fontSize: 13, fontWeight: 600, color: INK, marginBottom: 10 }}>Invitado principal</p>
@@ -92,8 +92,8 @@ function AddGuestsModal({ onClose, onSave }: { onClose: () => void; onSave: (g: 
             </div>
 
             <div style={{ display: 'flex', gap: 8, marginBottom: 18 }}>
-              <button style={{ border: '1px solid #241c17', background: 'white', borderRadius: 999, padding: '8px 16px', fontSize: 12, cursor: 'pointer' }}>+ Añadir acompañante</button>
-              <button style={{ border: '1px solid #241c17', background: 'white', borderRadius: 999, padding: '8px 16px', fontSize: 12, cursor: 'pointer' }}>+ Añadir niño/a</button>
+              <button style={{ border: '1px solid #898a76', background: 'white', borderRadius: 999, padding: '8px 16px', fontSize: 12, cursor: 'pointer' }}>+ Añadir acompañante</button>
+              <button style={{ border: '1px solid #898a76', background: 'white', borderRadius: 999, padding: '8px 16px', fontSize: 12, cursor: 'pointer' }}>+ Añadir niño/a</button>
             </div>
 
             <p style={{ fontSize: 12, fontWeight: 600, color: INK, marginBottom: 8 }}>¿Invitado?</p>
@@ -124,8 +124,8 @@ function AddGuestsModal({ onClose, onSave }: { onClose: () => void; onSave: (g: 
         )}
 
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 24, paddingTop: 16, borderTop: '1px solid #ECE9E4' }}>
-          <button onClick={onClose} style={{ border: '1px solid #241c17', background: 'white', borderRadius: 999, padding: '9px 18px', fontSize: 12, cursor: 'pointer' }}>Cancelar</button>
-          <button onClick={save} style={{ background: firstName.trim() ? '#241c17' : '#DCD4C8', color: 'white', border: 'none', borderRadius: 999, padding: '9px 20px', fontSize: 12, cursor: firstName.trim() ? 'pointer' : 'default' }}>Guardar</button>
+          <button onClick={onClose} style={{ border: '1px solid #898a76', background: 'white', borderRadius: 999, padding: '9px 18px', fontSize: 12, cursor: 'pointer' }}>Cancelar</button>
+          <button onClick={save} style={{ background: firstName.trim() ? '#898a76' : '#DCD4C8', color: 'white', border: 'none', borderRadius: 999, padding: '9px 20px', fontSize: 12, cursor: firstName.trim() ? 'pointer' : 'default' }}>Guardar</button>
         </div>
       </div>
     </div>
@@ -472,8 +472,8 @@ export default function Invitados({ guests, setGuests, onNavigate }: Props) {
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <input ref={fileInputRef} type="file" accept=".csv,.txt" onChange={importCsv} style={{ display: 'none' }} />
-              <button onClick={() => fileInputRef.current?.click()} style={{ border: '1px solid #241c17', background: 'white', borderRadius: 999, padding: '9px 18px', fontSize: 12, cursor: 'pointer' }}>Subir hoja de cálculo</button>
-              <button onClick={() => setShowModal(true)} style={{ background: '#241c17', color: 'white', border: 'none', borderRadius: 999, padding: '9px 20px', fontSize: 12, cursor: 'pointer' }}>Añadir invitados</button>
+              <button onClick={() => fileInputRef.current?.click()} style={{ border: '1px solid #898a76', background: 'white', borderRadius: 999, padding: '9px 18px', fontSize: 12, cursor: 'pointer' }}>Subir hoja de cálculo</button>
+              <button onClick={() => setShowModal(true)} style={{ background: '#898a76', color: 'white', border: 'none', borderRadius: 999, padding: '9px 20px', fontSize: 12, cursor: 'pointer' }}>Añadir invitados</button>
             </div>
           </div>
 

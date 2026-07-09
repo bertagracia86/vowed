@@ -98,7 +98,7 @@ function ProgramaCeremonia({ weddingInfo }: Props) {
             </div>
           ))}
         </div>
-        <button onClick={addItem} style={{ border: '1px solid #241c17', background: 'white', borderRadius: 999, padding: '9px 18px', fontSize: 12, cursor: 'pointer', marginBottom: 28 }}>+ Añadir momento</button>
+        <button onClick={addItem} style={{ border: '1px solid #898a76', background: 'white', borderRadius: 999, padding: '9px 18px', fontSize: 12, cursor: 'pointer', marginBottom: 28 }}>+ Añadir momento</button>
 
         <p style={{ fontFamily: F, fontSize: 18, color: INK, marginBottom: 12 }}>Cortejo nupcial</p>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 20 }}>
@@ -154,7 +154,7 @@ function ProgramaCeremonia({ weddingInfo }: Props) {
             </>
           )}
         </div>
-        <button onClick={() => window.print()} style={{ width: '100%', marginTop: 14, background: '#241c17', color: 'white', border: 'none', borderRadius: 999, padding: '11px 0', fontSize: 13, cursor: 'pointer' }}>
+        <button onClick={() => window.print()} style={{ width: '100%', marginTop: 14, background: '#898a76', color: 'white', border: 'none', borderRadius: 999, padding: '11px 0', fontSize: 13, cursor: 'pointer' }}>
           Imprimir / Descargar PDF
         </button>
       </div>
@@ -179,9 +179,8 @@ export default function Invitaciones({ weddingInfo }: Props) {
         {CATEGORIES.map(c => (
           <div key={c.label} onClick={() => setCat(c.label)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
             <div style={{
-              position: 'relative', width: '100%', aspectRatio: '1', borderRadius: 14, overflow: 'visible',
-              border: cat === c.label ? `2px solid ${BROWN}` : `1px solid ${BEIGE}`, transition: 'border-color 0.15s',
-              background: c.real ? BEIGE : 'transparent'
+              position: 'relative', width: '100%', aspectRatio: c.real ? '5/6' : '1', borderRadius: 14, overflow: 'visible',
+              border: cat === c.label ? `2px solid ${BROWN}` : `1px solid ${BEIGE}`, transition: 'border-color 0.15s'
             }}>
               <div style={{ position: 'absolute', inset: 0, borderRadius: 14, overflow: 'hidden', clipPath: c.label === 'Agradecimientos al instante' ? 'polygon(0 0, 78% 0, 78% 22%, 100% 22%, 100% 100%, 0 100%)' : undefined }}>
                 <img src={c.img} alt={c.label} style={{ width: '100%', height: '100%', objectFit: c.real ? 'contain' : 'cover', filter: c.real ? 'none' : 'sepia(0.55) saturate(1.4) brightness(0.92) contrast(1.05)' }} />

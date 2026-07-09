@@ -17,7 +17,7 @@ export default function LunasMiel() {
         <p style={{ fontFamily: F, fontSize: 20, color: INK, marginBottom: 8 }}>¿A dónde os apetece escaparos?</p>
         <div style={{ display: 'flex', gap: 8, justifyContent: 'center', maxWidth: 480, margin: '0 auto' }}>
           <input placeholder="Playa, montaña, ciudad..." style={{ flex: 1, border: '1px solid #ECE9E4', borderRadius: 999, padding: '11px 18px', fontSize: 13, outline: 'none' }} />
-          <button style={{ background: '#241c17', color: 'white', border: 'none', borderRadius: 999, padding: '11px 22px', fontSize: 13, cursor: 'pointer' }}>Buscar</button>
+          <button style={{ background: '#898a76', color: 'white', border: 'none', borderRadius: 999, padding: '11px 22px', fontSize: 13, cursor: 'pointer' }}>Buscar</button>
         </div>
       </div>
 

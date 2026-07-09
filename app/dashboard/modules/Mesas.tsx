@@ -81,8 +81,8 @@ function GuestEditor({ guest, allGuests, onClose, onSave }: { guest: Guest; allG
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 18 }}>
-          <button onClick={onClose} style={{ border: '1px solid #241c17', background: 'white', borderRadius: 999, padding: '8px 16px', fontSize: 12, cursor: 'pointer' }}>Cancelar</button>
-          <button onClick={() => { onSave(group, avoid); onClose() }} style={{ background: '#241c17', color: 'white', border: 'none', borderRadius: 999, padding: '8px 18px', fontSize: 12, cursor: 'pointer' }}>Guardar</button>
+          <button onClick={onClose} style={{ border: '1px solid #898a76', background: 'white', borderRadius: 999, padding: '8px 16px', fontSize: 12, cursor: 'pointer' }}>Cancelar</button>
+          <button onClick={() => { onSave(group, avoid); onClose() }} style={{ background: '#898a76', color: 'white', border: 'none', borderRadius: 999, padding: '8px 18px', fontSize: 12, cursor: 'pointer' }}>Guardar</button>
         </div>
       </div>
     </div>
