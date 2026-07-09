@@ -95,7 +95,7 @@ export default function Dashboard() {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: BG, fontFamily: F }}>
         <form onSubmit={checkPw} style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 18, padding: '40px 36px', width: 320, textAlign: 'center' }}>
-          <div style={{ fontFamily: F, fontSize: 26, fontStyle: 'italic', fontWeight: 700, color: '#4A3323', marginBottom: 6 }}>mylov3</div>
+          <div style={{ fontFamily: F, fontSize: 26, fontStyle: 'italic', fontWeight: 700, color: '#898a76', marginBottom: 6 }}>mylov3</div>
           <p style={{ fontSize: 12, color: MUTE, marginBottom: 24 }}>Introduce la contraseña para entrar</p>
           <input type="password" value={pw} onChange={e => setPw(e.target.value)} placeholder="••••" autoFocus
             style={{ width: '100%', border: '1px solid #E3DCC9', borderRadius: 12, padding: '12px 16px', fontSize: 14, outline: 'none', textAlign: 'center', marginBottom: 12 }} />
@@ -113,8 +113,8 @@ export default function Dashboard() {
       <aside onMouseEnter={() => setCollapsed(false)} style={{ width: collapsed ? 60 : 210, minWidth: collapsed ? 60 : 210, background: '#fcf9f6', borderRight: '1px solid #ECE9E4', padding: collapsed ? '14px 8px' : '14px 12px', display: 'flex', flexDirection: 'column', flexShrink: 0, overflow: 'hidden', transition: 'width 0.18s ease, min-width 0.18s ease, padding 0.18s ease' }}>
         <button onClick={() => setCollapsed(c => !c)} style={{ display: 'flex', alignItems: 'center', justifyContent: collapsed ? 'center' : 'flex-start', gap: 8, padding: '2px 8px 8px', background: 'none', border: 'none', cursor: 'pointer' }}>
           {collapsed
-            ? <span style={{ fontSize: 18, color: '#4A3323' }}>♡</span>
-            : <span style={{ fontFamily: F, fontSize: 24, fontWeight: 700, fontStyle: 'italic', color: '#4A3323' }}>mylov3</span>}
+            ? <span style={{ fontSize: 18, color: '#898a76' }}>♡</span>
+            : <span style={{ fontFamily: F, fontSize: 24, fontWeight: 700, fontStyle: 'italic', color: '#898a76' }}>mylov3</span>}
         </button>
 
         {NAV_TOP.map(n => (

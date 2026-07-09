@@ -142,7 +142,7 @@ const DEFAULT_BLOCKS: HotelBlock[] = [
 ]
 
 const CARD = '#FFFDFB'
-const BROWN = '#8B5E3C'
+const BROWN = '#898a76'
 const BEIGE = '#E7DDD2'
 const SUBTEXT = '#7C6858'
 

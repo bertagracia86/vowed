@@ -7,7 +7,7 @@ import { TASK_PHASES } from '@/lib/defaults'
 interface Props { tasks: Task[]; setTasks: (t: Task[]) => void; milestones: Milestone[]; setMilestones: (m: Milestone[]) => void; weddingDate: string; setTab: (t: string) => void }
 
 const CARD = '#FFFDFB'
-const BROWN = '#8B5E3C'
+const BROWN = '#898a76'
 const BEIGE = '#E7DDD2'
 const SUBTEXT = '#7C6858'
 

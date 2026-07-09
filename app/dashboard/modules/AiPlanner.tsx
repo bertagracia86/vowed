@@ -6,7 +6,7 @@ import { Task, Guest, BudgetItem } from '@/lib/types'
 interface Props { tasks: Task[]; guests: Guest[]; budget: BudgetItem[] }
 
 const CARD = '#FFFDFB'
-const BROWN = '#8B5E3C'
+const BROWN = '#898a76'
 const BEIGE = '#E7DDD2'
 const SUBTEXT = '#7C6858'
 

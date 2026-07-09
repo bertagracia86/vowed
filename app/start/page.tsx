@@ -4,9 +4,9 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 const BLUE = '#AAA396'
-const BLUE_DARK = '#9f7b5d'
+const BLUE_DARK = '#898a76'
 const BLUE_LIGHT = '#efe9e3'
-const INK = '#4A3B32'
+const INK = '#898a76'
 const F = "'Cormorant', serif"
 
 // grupo del stepper al que pertenece cada paso (0-indexed)

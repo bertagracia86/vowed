@@ -3,9 +3,9 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 const BLUE = '#AAA396'
-const BLUE_DARK = '#9f7b5d'
+const BLUE_DARK = '#898a76'
 const BLUE_LIGHT = '#efe9e3'
-const INK = '#4A3B32'
+const INK = '#898a76'
 const NEUTRAL = '#faf9f7'
 const F = "'Cormorant', serif"
 
@@ -71,7 +71,7 @@ export default function Home() {
 
       {/* NAV */}
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 300, background: NEUTRAL, borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '0 48px', height: 68, display: 'flex', alignItems: 'center', justifyContent: 'space-between', backdropFilter: 'blur(12px)', borderTopLeftRadius: 24, borderTopRightRadius: 24 }}>
-        <Link href="/" style={{ fontFamily: F, fontSize: 26, fontStyle: 'italic', fontWeight: 700, color: '#4A3323', textDecoration: 'none' }}>mylov3</Link>
+        <Link href="/" style={{ fontFamily: F, fontSize: 26, fontStyle: 'italic', fontWeight: 700, color: '#898a76', textDecoration: 'none' }}>mylov3</Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
           {[{ l: 'Inicio', a: true }, { l: 'Nosotros' }, { l: 'Servicios' }, { l: 'Precios' }, { l: 'Inspiración' }, { l: 'Contacto' }].map(n => (
             <a key={n.l} href="#" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', textDecoration: 'none', color: n.a ? BLUE_DARK : INK, opacity: n.a ? 1 : 0.65, fontWeight: n.a ? 600 : 400 }}>{n.l}</a>
