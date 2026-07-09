@@ -179,11 +179,21 @@ export default function Invitaciones({ weddingInfo }: Props) {
         {CATEGORIES.map(c => (
           <div key={c.label} onClick={() => setCat(c.label)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
             <div style={{
-              position: 'relative', width: '100%', aspectRatio: '1', borderRadius: 14, overflow: 'hidden',
-              border: cat === c.label ? `2px solid ${BROWN}` : `1px solid ${BEIGE}`, transition: 'border-color 0.15s'
+              position: 'relative', width: '100%', aspectRatio: '1', borderRadius: 14, overflow: 'visible',
+              border: cat === c.label ? `2px solid ${BROWN}` : `1px solid ${BEIGE}`, transition: 'border-color 0.15s',
+              background: c.real ? BEIGE : 'transparent'
             }}>
-              <img src={c.img} alt={c.label} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: c.real ? 'none' : 'sepia(0.55) saturate(1.4) brightness(0.92) contrast(1.05)' }} />
-              {!c.real && <div style={{ position: 'absolute', inset: 0, background: cat === c.label ? 'rgba(139,94,60,0.15)' : 'rgba(139,94,60,0.28)', transition: 'background 0.15s' }} />}
+              <div style={{ position: 'absolute', inset: 0, borderRadius: 14, overflow: 'hidden', clipPath: c.label === 'Agradecimientos al instante' ? 'polygon(0 0, 78% 0, 78% 22%, 100% 22%, 100% 100%, 0 100%)' : undefined }}>
+                <img src={c.img} alt={c.label} style={{ width: '100%', height: '100%', objectFit: c.real ? 'contain' : 'cover', filter: c.real ? 'none' : 'sepia(0.55) saturate(1.4) brightness(0.92) contrast(1.05)' }} />
+                {!c.real && <div style={{ position: 'absolute', inset: 0, background: cat === c.label ? 'rgba(139,94,60,0.15)' : 'rgba(139,94,60,0.28)', transition: 'background 0.15s' }} />}
+              </div>
+              {c.label === 'Agradecimientos al instante' && (
+                <div style={{
+                  position: 'absolute', top: -10, right: -10, width: 40, height: 40, borderRadius: '50%',
+                  background: BROWN, color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  textAlign: 'center', fontSize: 8, fontWeight: 700, lineHeight: 1.1, boxShadow: '0 2px 6px rgba(0,0,0,0.2)', zIndex: 2
+                }}>¡NUEVO!</div>
+              )}
             </div>
             <span style={{ fontSize: 10.5, color: cat === c.label ? BROWN : SUBTEXT, textAlign: 'center', lineHeight: 1.25, fontWeight: cat === c.label ? 600 : 400 }}>{c.label}</span>
           </div>
