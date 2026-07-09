@@ -25,7 +25,7 @@ const CATEGORIES = [
   { label: 'Fundas', img: IMG_PAPER, real: false },
   { label: 'Complementos de papel', img: '/cat-complementos.png', real: true },
   { label: 'Tarjetas de mesa', img: '/cat-tarjetasmesa.png', real: true },
-  { label: 'Números de mesa', img: IMG_TABLE, real: false },
+  { label: 'Números de mesa', img: '/cat-numerosmesa.png', real: true },
   { label: 'Menús', img: IMG_TABLE, real: false },
   { label: 'Programas', img: IMG_HANDS, real: false },
   { label: 'Servilletas', img: IMG_TABLE, real: false },
