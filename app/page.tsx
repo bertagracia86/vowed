@@ -105,7 +105,7 @@ export default function Home() {
       </section>
 
       {/* ESTADÍSTICAS */}
-      <div style={{ borderTop: `1px solid ${BLUE}`, padding: '40px 0', background: NEUTRAL }}>
+      <div style={{ padding: '40px 0', background: '#a3a58d' }}>
         <div style={{ maxWidth: 1000, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', textAlign: 'center' }}>
           {[
             { n: '1200+', l: 'Bodas planificadas', icon: <path d="M4 4h16v16H4zM4 9h16M8 2v4M16 2v4M9 14l2 2 4-4" /> },
@@ -114,9 +114,9 @@ export default function Home() {
             { n: '16+', l: 'Destinos', icon: <><path d="M12 2C9 6 9 10 12 14c3-4 3-8 0-12z" /><path d="M12 14v8M8 22h8" /></> },
           ].map(s => (
             <div key={s.l}>
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={BLUE_DARK} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: 10 }}>{s.icon}</svg>
-              <p style={{ fontFamily: F, fontSize: 30, color: BLUE_DARK, marginBottom: 6 }}>{s.n}</p>
-              <p style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#8a7358' }}>{s.l}</p>
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: 10 }}>{s.icon}</svg>
+              <p style={{ fontFamily: F, fontSize: 30, color: 'white', marginBottom: 6 }}>{s.n}</p>
+              <p style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)' }}>{s.l}</p>
             </div>
           ))}
         </div>
