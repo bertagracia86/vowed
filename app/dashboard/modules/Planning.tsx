@@ -4,14 +4,14 @@ import { F, INK, MUTE } from '@/lib/constants'
 import { Task, Milestone } from '@/lib/types'
 import { TASK_PHASES } from '@/lib/defaults'
 
-interface Props { tasks: Task[]; setTasks: (t: Task[]) => void; milestones: Milestone[]; weddingDate: string; setTab: (t: string) => void }
+interface Props { tasks: Task[]; setTasks: (t: Task[]) => void; milestones: Milestone[]; setMilestones: (m: Milestone[]) => void; weddingDate: string; setTab: (t: string) => void }
 
 const CARD = '#FFFDFB'
 const BROWN = '#8B5E3C'
 const BEIGE = '#E7DDD2'
 const SUBTEXT = '#7C6858'
 
-const TABS = ['Checklist', 'Calendario', 'Cronograma', 'Hitos', 'Recordatorios']
+const TABS = ['Checklist', 'Calendario', 'Hitos', 'Recordatorios']
 const FILTERS = ['Todas', 'Pendientes', 'Completadas'] as const
 
 const MONTH_NAMES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
@@ -22,11 +22,27 @@ function daysUntil(dateStr: string) {
   return Math.ceil(diff / 86400000)
 }
 
-export default function Planning({ tasks, setTasks, milestones, weddingDate, setTab }: Props) {
+export default function Planning({ tasks, setTasks, milestones, setMilestones, weddingDate, setTab }: Props) {
   const [tab, setTab2] = useState(TABS[0])
   const [filter, setFilter] = useState<typeof FILTERS[number]>('Todas')
   const [sortAlpha, setSortAlpha] = useState(false)
   const [monthOffset, setMonthOffset] = useState(0)
+  const [newTitle, setNewTitle] = useState('')
+  const [newDate, setNewDate] = useState('')
+
+  function addMilestone() {
+    if (!newTitle.trim() || !newDate) return
+    setMilestones([...milestones, { id: Date.now().toString(), title: newTitle, date: newDate, done: false }])
+    setNewTitle(''); setNewDate('')
+  }
+
+  function toggleMilestone(id: string) {
+    setMilestones(milestones.map(m => m.id === id ? { ...m, done: !m.done } : m))
+  }
+
+  function removeMilestone(id: string) {
+    setMilestones(milestones.filter(m => m.id !== id))
+  }
 
   const done = tasks.filter(t => t.done).length
   const pct = tasks.length > 0 ? Math.round((done / tasks.length) * 100) : 0
@@ -71,17 +87,47 @@ export default function Planning({ tasks, setTasks, milestones, weddingDate, set
         ))}
       </div>
 
-      {tab !== 'Checklist' && (
+      {tab === 'Hitos' && (
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 20 }}>
+          <div>
+            <div style={{ display: 'flex', gap: 8, marginBottom: 18 }}>
+              <input value={newTitle} onChange={e => setNewTitle(e.target.value)} onKeyDown={e => e.key === 'Enter' && addMilestone()} placeholder="Hito (ej: Enviar invitaciones)" style={{ flex: 1, border: `1px solid ${BEIGE}`, borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }} />
+              <input type="date" value={newDate} onChange={e => setNewDate(e.target.value)} style={{ border: `1px solid ${BEIGE}`, borderRadius: 12, padding: '11px 14px', fontSize: 13, outline: 'none' }} />
+              <button onClick={addMilestone} style={{ background: BROWN, color: 'white', border: 'none', borderRadius: 12, padding: '11px 22px', fontSize: 13, cursor: 'pointer' }}>Añadir</button>
+            </div>
+            {[...milestones].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()).length === 0 ? (
+              <p style={{ fontSize: 13, color: SUBTEXT, textAlign: 'center', padding: '30px 0' }}>Sin hitos todavía.</p>
+            ) : [...milestones].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()).map(m => {
+              const isPast = new Date(m.date) < new Date()
+              return (
+                <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 18px', background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 12, marginBottom: 8 }}>
+                  <span onClick={() => toggleMilestone(m.id)} style={{ width: 18, height: 18, borderRadius: 6, flexShrink: 0, border: m.done ? 'none' : `1.5px solid ${BEIGE}`, background: m.done ? BROWN : 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+                    {m.done && <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>}
+                  </span>
+                  <div style={{ flex: 1 }}>
+                    <p style={{ fontSize: 13, color: m.done ? SUBTEXT : INK, textDecoration: m.done ? 'line-through' : 'none' }}>{m.title}</p>
+                    <p style={{ fontSize: 11, color: isPast && !m.done ? '#C0594F' : SUBTEXT }}>
+                      {new Date(m.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}
+                      {isPast && !m.done ? ' · Vencido' : ''}
+                    </p>
+                  </div>
+                  <button onClick={() => removeMilestone(m.id)} style={{ background: 'none', border: 'none', color: '#C9BCA8', cursor: 'pointer', fontSize: 16 }}>×</button>
+                </div>
+              )
+            })}
+          </div>
+          <div style={{ background: 'linear-gradient(135deg, #F1E7D0, #F8F3E8)', borderRadius: 16, padding: '24px', alignSelf: 'flex-start' }}>
+            <p style={{ fontSize: 12, color: SUBTEXT, marginBottom: 6 }}>Fecha de la boda</p>
+            <p style={{ fontFamily: F, fontSize: 20, color: INK }}>{weddingDate ? new Date(weddingDate).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Por confirmar'}</p>
+            <p style={{ fontSize: 11, color: SUBTEXT, marginTop: 8 }}>Editad la fecha desde Ajustes → Detalles de la boda.</p>
+          </div>
+        </div>
+      )}
+
+      {tab !== 'Checklist' && tab !== 'Hitos' && (
         <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 16, padding: '40px 24px', textAlign: 'center' }}>
           <p style={{ fontFamily: F, fontSize: 18, color: INK, marginBottom: 6 }}>{tab}</p>
-          <p style={{ fontSize: 12, color: SUBTEXT }}>
-            {tab === 'Cronograma' || tab === 'Hitos' ? 'Consultad el detalle completo en la pestaña Cronograma del menú.' : 'Muy pronto podréis gestionar esto desde aquí.'}
-          </p>
-          {(tab === 'Cronograma' || tab === 'Hitos') && (
-            <button onClick={() => setTab('cronograma')} style={{ marginTop: 14, background: BROWN, color: 'white', border: 'none', borderRadius: 999, padding: '9px 20px', fontSize: 12, cursor: 'pointer' }}>
-              Ir a Cronograma
-            </button>
-          )}
+          <p style={{ fontSize: 12, color: SUBTEXT }}>Muy pronto podréis gestionar esto desde aquí.</p>
         </div>
       )}
 
@@ -177,7 +223,7 @@ export default function Planning({ tasks, setTasks, milestones, weddingDate, set
             <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 16, padding: 18 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
                 <p style={{ fontFamily: F, fontSize: 15, color: INK }}>Próximos hitos</p>
-                <span onClick={() => setTab('cronograma')} style={{ fontSize: 11, color: BROWN, cursor: 'pointer', textDecoration: 'underline' }}>Ver todos</span>
+                <span onClick={() => setTab2('Hitos')} style={{ fontSize: 11, color: BROWN, cursor: 'pointer', textDecoration: 'underline' }}>Ver todos</span>
               </div>
               {upcomingMilestones.length === 0 ? (
                 <p style={{ fontSize: 12, color: SUBTEXT }}>Sin hitos pendientes.</p>

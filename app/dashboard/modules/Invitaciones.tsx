@@ -6,29 +6,36 @@ import { WeddingInfo } from '@/lib/types'
 interface Props { weddingInfo: WeddingInfo }
 
 const TEMPLATES = [
-  { name: 'Jardín de olivos', price: '12 €', style: 'Bohemio', img: 'https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=400&q=80' },
-  { name: 'Lino y oro', price: '14 €', style: 'Elegante', img: 'https://images.unsplash.com/photo-1622037022824-0c71d511ec02?w=400&q=80' },
-  { name: 'Acuarela floral', price: '12 €', style: 'Romántico', img: 'https://images.unsplash.com/photo-1612630440053-cdc4458c79fd?w=400&q=80' },
-  { name: 'Minimal clásica', price: '10 €', style: 'Minimalista', img: 'https://images.unsplash.com/photo-1595407753234-0882f1e76e26?w=400&q=80' },
+  { name: 'Jardín de olivos', price: '12 €', style: 'Bohemio', img: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&q=80' },
+  { name: 'Lino y oro', price: '14 €', style: 'Elegante', img: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=400&q=80' },
+  { name: 'Acuarela floral', price: '12 €', style: 'Romántico', img: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=400&q=80' },
+  { name: 'Minimal clásica', price: '10 €', style: 'Minimalista', img: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=400&q=80' },
 ]
 
+const IMG_TABLE = 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=300&q=70'
+const IMG_PAPER = 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=300&q=70'
+const IMG_BOWS = 'https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=300&q=70'
+const IMG_HANDS = 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=300&q=70'
+const IMG_COUPLE = 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=300&q=70'
+const IMG_BOUQUET = 'https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?w=300&q=70'
+
 const CATEGORIES = [
-  { label: 'Save the dates', icon: 'M8 3v4M16 3v4M3 10h18M5 5h14a2 2 0 012 2v13a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2z' },
-  { label: 'Invitaciones', icon: 'M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zM22 6l-10 7L2 6' },
-  { label: 'Fundas', icon: 'M4 4h16v16H4zM4 10h16' },
-  { label: 'Complementos de papel', icon: 'M12 2C8 2 5 5.5 5 9.5 5 15 12 22 12 22s7-7 7-12.5C19 5.5 16 2 12 2z' },
-  { label: 'Tarjetas de mesa', icon: 'M3 3h18v18H3zM3 9h18M9 21V9' },
-  { label: 'Números de mesa', icon: 'M4 7V4h16v3M9 20h6M12 4v16' },
-  { label: 'Menús', icon: 'M4 19.5A2.5 2.5 0 016.5 17H20M4 19.5A2.5 2.5 0 006.5 22H20V2H6.5A2.5 2.5 0 004 4.5v15z' },
-  { label: 'Programas', icon: 'M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11' },
-  { label: 'Servilletas', icon: 'M4 4h16v16H4zM4 4l16 16' },
-  { label: 'Carteles', icon: 'M3 21v-4l13-13 4 4-13 13H3zM14 4l4 4' },
-  { label: 'Pegatinas', icon: 'M12 2a7 7 0 00-4 12.7V17h8v-2.3A7 7 0 0012 2zM9 21h6M10 18h4' },
-  { label: 'Tarjetas de agradecimiento', icon: 'M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z' },
-  { label: 'Agradecimientos al instante', icon: 'M13 2L3 14h7v8l10-12h-7V2z' },
-  { label: 'Save the dates digitales', icon: 'M23 7l-7 5 7 5V7zM1 5h15v14H1z' },
-  { label: 'Invitaciones despedida', icon: 'M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11' },
-  { label: 'Subir tu diseño', icon: 'M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12' },
+  { label: 'Save the dates', img: IMG_COUPLE },
+  { label: 'Invitaciones', img: IMG_PAPER },
+  { label: 'Fundas', img: IMG_PAPER },
+  { label: 'Complementos de papel', img: IMG_BOWS },
+  { label: 'Tarjetas de mesa', img: IMG_TABLE },
+  { label: 'Números de mesa', img: IMG_TABLE },
+  { label: 'Menús', img: IMG_TABLE },
+  { label: 'Programas', img: IMG_HANDS },
+  { label: 'Servilletas', img: IMG_TABLE },
+  { label: 'Carteles', img: IMG_COUPLE },
+  { label: 'Pegatinas', img: IMG_BOWS },
+  { label: 'Tarjetas de agradecimiento', img: IMG_HANDS },
+  { label: 'Agradecimientos al instante', img: IMG_HANDS },
+  { label: 'Save the dates digitales', img: IMG_COUPLE },
+  { label: 'Invitaciones despedida', img: IMG_BOUQUET },
+  { label: 'Subir tu diseño', img: IMG_PAPER },
 ]
 
 interface ProgramItem { id: string; time: string; title: string; desc: string }
@@ -172,10 +179,11 @@ export default function Invitaciones({ weddingInfo }: Props) {
         {CATEGORIES.map(c => (
           <div key={c.label} onClick={() => setCat(c.label)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
             <div style={{
-              width: '100%', aspectRatio: '1', borderRadius: 14, border: cat === c.label ? `1.5px solid ${BROWN}` : `1px solid ${BEIGE}`,
-              background: cat === c.label ? '#F4E7D8' : CARD, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.15s, border-color 0.15s'
+              position: 'relative', width: '100%', aspectRatio: '1', borderRadius: 14, overflow: 'hidden',
+              border: cat === c.label ? `2px solid ${BROWN}` : `1px solid ${BEIGE}`, transition: 'border-color 0.15s'
             }}>
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={BROWN} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d={c.icon} /></svg>
+              <img src={c.img} alt={c.label} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'sepia(0.55) saturate(1.4) brightness(0.92) contrast(1.05)' }} />
+              <div style={{ position: 'absolute', inset: 0, background: cat === c.label ? 'rgba(139,94,60,0.15)' : 'rgba(139,94,60,0.28)', transition: 'background 0.15s' }} />
             </div>
             <span style={{ fontSize: 10.5, color: cat === c.label ? BROWN : SUBTEXT, textAlign: 'center', lineHeight: 1.25, fontWeight: cat === c.label ? 600 : 400 }}>{c.label}</span>
           </div>

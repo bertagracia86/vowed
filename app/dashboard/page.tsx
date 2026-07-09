@@ -10,7 +10,6 @@ import Tareas from './modules/Tareas'
 import Presupuesto from './modules/Presupuesto'
 import Invitados from './modules/Invitados'
 import Mesas from './modules/Mesas'
-import Cronograma from './modules/Cronograma'
 import Proveedores from './modules/Proveedores'
 import Notas from './modules/Notas'
 import Invitaciones from './modules/Invitaciones'
@@ -18,6 +17,8 @@ import Regalos from './modules/Regalos'
 import Mensajes from './modules/Mensajes'
 import Consejos from './modules/Consejos'
 import LunasMiel from './modules/LunasMiel'
+import Ajustes from './modules/Ajustes'
+import AiPlanner from './modules/AiPlanner'
 import BodasDestino from './modules/BodasDestino'
 
 const NAV_TOP = [
@@ -25,7 +26,7 @@ const NAV_TOP = [
   { id: 'planning', label: 'Planning', icon: 'M8 3v4M16 3v4M3 10h18M5 5h14a2 2 0 012 2v13a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2z' },
   { id: 'timeline', label: 'Timeline', icon: 'M12 2a10 10 0 100 20 10 10 0 000-20zM12 6v6l4 2' },
   { id: 'proveedores', label: 'Espacio y proveedores', icon: 'M20.59 13.41L13.42 20.58a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82zM7 7h.01' },
-  { id: 'regalos', label: 'Regalos', icon: 'M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z' },
+  { id: 'regalos', label: 'Detalles', icon: 'M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z' },
   { id: 'invitaciones', label: 'Invitaciones y papelería', icon: 'M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zM22 6l-10 7L2 6' },
   { id: 'presupuesto', label: 'Presupuesto', icon: 'M12 3a9 9 0 100 18A9 9 0 0012 3zM12 8v8M9 10.5c0-1.5 1.5-2 3-2s3 .8 3 2-1 1.5-3 2-3 1-3 2.5 1.5 2 3 2 3-.6 3-2' },
   { id: 'invitados', label: 'Invitados y RSVP', icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75' },
@@ -35,7 +36,6 @@ const NAV_TOP = [
 
 const NAV_SECONDARY = [
   { id: 'tareas', label: 'Checklist', icon: 'M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11' },
-  { id: 'cronograma', label: 'Cronograma', icon: 'M8 3v4M16 3v4M3 10h18M5 5h14a2 2 0 012 2v13a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2z' },
   { id: 'notas', label: 'Notas', icon: 'M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18 2l4 4-10 10H8v-4L18 2z' },
   { id: 'consejos', label: 'Consejos de expertos', icon: 'M12 2a7 7 0 00-4 12.7V17h8v-2.3A7 7 0 0012 2zM9 21h6M10 18h4' },
   { id: 'lunas-miel', label: 'Lunas de miel', icon: 'M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z' },
@@ -44,6 +44,7 @@ const NAV_SECONDARY = [
 
 const NAV_BOTTOM = [
   { id: 'precios', label: 'Precios', icon: 'M2 8h20v13H2zM2 8l10 7 10-7' },
+  { id: 'ia', label: 'IA', icon: 'M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5L12 2zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15z' },
   { id: 'ajustes', label: 'Ajustes', icon: 'M12 15a3 3 0 100-6 3 3 0 000 6zM19 12a7 7 0 01-.1 1.2l2 1.6-2 3.4-2.4-.7a7 7 0 01-2 1.2l-.4 2.5H10l-.4-2.5a7 7 0 01-2-1.2l-2.4.7-2-3.4 2-1.6A7 7 0 015 12a7 7 0 01.1-1.2l-2-1.6 2-3.4 2.4.7a7 7 0 012-1.2L10 2.5h4l.4 2.5a7 7 0 012 1.2l2.4-.7 2 3.4-2 1.6A7 7 0 0119 12z' },
 ]
 
@@ -94,7 +95,7 @@ export default function Dashboard() {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: BG, fontFamily: F }}>
         <form onSubmit={checkPw} style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 18, padding: '40px 36px', width: 320, textAlign: 'center' }}>
-          <div style={{ fontFamily: F, fontSize: 26, fontStyle: 'italic', fontWeight: 700, color: BLUE, marginBottom: 6 }}>mylov3</div>
+          <div style={{ fontFamily: F, fontSize: 26, fontStyle: 'italic', fontWeight: 700, color: '#4A3323', marginBottom: 6 }}>mylov3</div>
           <p style={{ fontSize: 12, color: MUTE, marginBottom: 24 }}>Introduce la contraseña para entrar</p>
           <input type="password" value={pw} onChange={e => setPw(e.target.value)} placeholder="••••" autoFocus
             style={{ width: '100%', border: '1px solid #E3DCC9', borderRadius: 12, padding: '12px 16px', fontSize: 14, outline: 'none', textAlign: 'center', marginBottom: 12 }} />
@@ -113,7 +114,7 @@ export default function Dashboard() {
         <button onClick={() => setCollapsed(c => !c)} style={{ display: 'flex', alignItems: 'center', justifyContent: collapsed ? 'center' : 'flex-start', gap: 8, padding: '2px 8px 8px', background: 'none', border: 'none', cursor: 'pointer' }}>
           {collapsed
             ? <span style={{ fontSize: 18, color: '#4A3323' }}>♡</span>
-            : <span style={{ fontFamily: F, fontSize: 20, fontWeight: 700, fontStyle: 'italic', color: '#4A3323' }}>mylov3</span>}
+            : <span style={{ fontFamily: F, fontSize: 24, fontWeight: 700, fontStyle: 'italic', color: '#4A3323' }}>mylov3</span>}
         </button>
 
         {NAV_TOP.map(n => (
@@ -202,13 +203,13 @@ export default function Dashboard() {
 
         <main onMouseEnter={() => setCollapsed(true)} style={{ flex: 1, minWidth: 0, padding: '12px 32px', overflowY: 'auto', overflowX: 'hidden', background: 'white' }}>
           {tab === 'resumen' && <Resumen tasks={tasks} guests={guests} budget={budget} vendors={vendors} weddingInfo={weddingInfo} weddingDate={weddingDate} setTab={setTab} />}
-          {tab === 'planning' && <Planning tasks={tasks} setTasks={setTasks} milestones={milestones} weddingDate={weddingDate} setTab={setTab} />}
+          {tab === 'planning' && <Planning tasks={tasks} setTasks={setTasks} milestones={milestones} setMilestones={setMilestones} weddingDate={weddingDate} setTab={setTab} />}
+          {tab === 'ia' && <AiPlanner tasks={tasks} guests={guests} budget={budget} />}
           {tab === 'timeline' && <Timeline weddingDate={weddingDate} guestCount={guests.length} />}
           {tab === 'tareas' && <Tareas tasks={tasks} setTasks={setTasks} />}
           {tab === 'presupuesto' && <Presupuesto budget={budget} setBudget={setBudget} guestCount={guests.length} />}
           {tab === 'invitados' && <Invitados guests={guests} setGuests={setGuests} onNavigate={setTab} />}
           {tab === 'mesas' && <Mesas tables={tables} setTables={setTables} guests={guests} setGuests={setGuests} />}
-          {tab === 'cronograma' && <Cronograma milestones={milestones} setMilestones={setMilestones} weddingDate={weddingDate} setWeddingDate={setWeddingDate} />}
           {tab === 'proveedores' && <Proveedores vendors={vendors} setVendors={setVendors} />}
           {tab === 'notas' && <Notas notes={notes} setNotes={setNotes} />}
           {tab === 'invitaciones' && <Invitaciones weddingInfo={weddingInfo} />}
@@ -236,15 +237,7 @@ export default function Dashboard() {
             </div>
           )}
 
-          {tab === 'ajustes' && (
-            <div>
-              <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: INK, marginBottom: 4 }}>Ajustes</h1>
-              <p style={{ fontSize: 13, color: MUTE, marginBottom: 24 }}>Modo demo — los datos se reinician al recargar.</p>
-              <button onClick={() => setAuthed(false)} style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 12, padding: '11px 22px', fontSize: 13, color: INK, cursor: 'pointer' }}>
-                Cerrar sesión
-              </button>
-            </div>
-          )}
+          {tab === 'ajustes' && <Ajustes weddingInfo={weddingInfo} setWeddingInfo={setWeddingInfo} weddingDate={weddingDate} setWeddingDate={setWeddingDate} onLogout={() => setAuthed(false)} />}
         </main>
       </div>
       </div>
