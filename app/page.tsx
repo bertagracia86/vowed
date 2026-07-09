@@ -45,7 +45,7 @@ export default function Home() {
         .nav-a { font-size: 14px; color: ${INK}; text-decoration: none; opacity: 0.7; transition: opacity 0.2s; font-family: ${F}; }
         .nav-a:hover { opacity: 1; }
         .footer-a { display: block; font-family: ${F}; font-size: 14px; color: #6b5a4a; text-decoration: none; margin-bottom: 14px; transition: color 0.2s; }
-        .footer-a:hover { color: ${INK}; }
+        .footer-a:hover { color: white; }
         .btn-light { background: rgba(255,255,255,0.92); color: ${INK}; border: none; border-radius: 999px; padding: 14px 36px; font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; font-family: ${F}; }
         .btn-light:hover { background: white; transform: translateY(-1px); }
         .btn-blue { background: ${BLUE_DARK}; color: white; border: none; border-radius: 999px; padding: 14px 36px; font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; font-family: ${F}; }
@@ -203,11 +203,11 @@ export default function Home() {
       </section>
 
       {/* FOOTER */}
-      <footer style={{ background: BLUE_LIGHT, borderBottomLeftRadius: 24, borderBottomRightRadius: 24 }}>
+      <footer style={{ background: BLUE_DARK }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '64px 64px 40px', display: 'grid', gridTemplateColumns: '1.3fr 1fr 1fr 1.3fr', gap: 40 }}>
           <div>
-            <div style={{ fontFamily: F, fontSize: 26, fontStyle: 'italic', fontWeight: 700, color: BLUE_DARK, marginBottom: 14 }}>mylov3</div>
-            <p style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8a7358', lineHeight: 1.7, marginBottom: 20 }}>Planificación y diseño de bodas de lujo en el mundo</p>
+            <div style={{ fontFamily: F, fontSize: 26, fontStyle: 'italic', fontWeight: 700, color: 'white', marginBottom: 14 }}>mylov3</div>
+            <p style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.75)', lineHeight: 1.7, marginBottom: 20 }}>Planificación y diseño de bodas de lujo en el mundo</p>
             <div style={{ display: 'flex', gap: 10 }}>
               {[
                 { name: 'Instagram', icon: (
@@ -220,36 +220,36 @@ export default function Home() {
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M15 3h-2a4 4 0 0 0-4 4v3H7v4h2v7h4v-7h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
                 ) },
               ].map(s => (
-                <a key={s.name} href="#" aria-label={s.name} style={{ width: 32, height: 32, borderRadius: '50%', border: `1px solid ${BLUE}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: BLUE_DARK, textDecoration: 'none' }}>{s.icon}</a>
+                <a key={s.name} href="#" aria-label={s.name} style={{ width: 32, height: 32, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', textDecoration: 'none' }}>{s.icon}</a>
               ))}
             </div>
           </div>
 
           <div>
-            <p style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, color: INK, marginBottom: 18 }}>Enlaces rápidos</p>
+            <p style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, color: 'white', marginBottom: 18 }}>Enlaces rápidos</p>
             {['Sobre nosotros', 'Servicios', 'Portfolio', 'Experiencia', 'Blog', 'Contacto'].map(l => (
-              <a key={l} href="#" className="footer-a">{l}</a>
+              <a key={l} href="#" className="footer-a" style={{ color: 'rgba(255,255,255,0.8)' }}>{l}</a>
             ))}
           </div>
 
           <div>
-            <p style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, color: INK, marginBottom: 18 }}>Destinos</p>
+            <p style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, color: 'white', marginBottom: 18 }}>Destinos</p>
             {['Italia', 'Francia', 'Grecia', 'España', 'Portugal', 'Todos los destinos'].map(l => (
-              <a key={l} href="#" className="footer-a">{l}</a>
+              <a key={l} href="#" className="footer-a" style={{ color: 'rgba(255,255,255,0.8)' }}>{l}</a>
             ))}
           </div>
 
           <div>
-            <p style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, color: INK, marginBottom: 18 }}>Creemos algo precioso juntos</p>
-            <p style={{ fontFamily: F, fontSize: 14, color: '#6b5a4a', marginBottom: 22 }}>Cuéntanos sobre vuestra celebración</p>
-            <Link href="/start" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: BLUE_DARK, border: `1px solid ${BLUE_DARK}`, borderRadius: 999, padding: '13px 26px', textDecoration: 'none', display: 'inline-block' }}>Empezar ahora</Link>
+            <p style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, color: 'white', marginBottom: 18 }}>Creemos algo precioso juntos</p>
+            <p style={{ fontFamily: F, fontSize: 14, color: 'rgba(255,255,255,0.75)', marginBottom: 22 }}>Cuéntanos sobre vuestra celebración</p>
+            <Link href="/start" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'white', border: '1px solid rgba(255,255,255,0.6)', borderRadius: 999, padding: '13px 26px', textDecoration: 'none', display: 'inline-block' }}>Empezar ahora</Link>
           </div>
         </div>
-        <div style={{ borderTop: `1px solid ${BLUE}`, padding: '20px 64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-          <p style={{ fontFamily: F, fontSize: 12, color: '#8a7358' }}>© 2026 mylov3. Todos los derechos reservados.</p>
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.2)', padding: '20px 64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+          <p style={{ fontFamily: F, fontSize: 12, color: 'rgba(255,255,255,0.75)' }}>© 2026 mylov3. Todos los derechos reservados.</p>
           <div style={{ display: 'flex', gap: 24 }}>
-            <a href="#" className="footer-a" style={{ marginBottom: 0 }}>Política de privacidad</a>
-            <a href="#" className="footer-a" style={{ marginBottom: 0 }}>Términos y condiciones</a>
+            <a href="#" className="footer-a" style={{ marginBottom: 0, color: 'rgba(255,255,255,0.8)' }}>Política de privacidad</a>
+            <a href="#" className="footer-a" style={{ marginBottom: 0, color: 'rgba(255,255,255,0.8)' }}>Términos y condiciones</a>
           </div>
         </div>
       </footer>
