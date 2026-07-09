@@ -86,7 +86,7 @@ export default function Home() {
         <div style={{ position: 'relative', zIndex: 2, padding: '0 64px', width: '100%' }}>
           <div style={{ maxWidth: 480 }}>
             <span style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.16em', textTransform: 'uppercase', color: BLUE_DARK, fontWeight: 600 }}>Planificamos. Vosotros celebráis.</span>
-            <h2 style={{ fontFamily: F, fontSize: 'clamp(2rem,4vw,3.2rem)', fontWeight: 400, color: '#5f6050', lineHeight: 1.15, margin: '18px 0 22px' }}>
+            <h2 style={{ fontFamily: F, fontSize: 'clamp(2rem,4vw,3.2rem)', fontWeight: 600, color: '#5f6050', lineHeight: 1.15, margin: '18px 0 22px' }}>
               Planifica tu boda,<br /><i>sé tu wedding planner</i>
             </h2>
             <p style={{ fontFamily: F, fontSize: 16, color: '#6b5a4a', lineHeight: 1.7, marginBottom: 32, maxWidth: 400 }}>
