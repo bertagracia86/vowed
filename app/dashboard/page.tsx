@@ -205,7 +205,7 @@ export default function Dashboard() {
           {tab === 'cronograma' && <Cronograma milestones={milestones} setMilestones={setMilestones} weddingDate={weddingDate} setWeddingDate={setWeddingDate} />}
           {tab === 'proveedores' && <Proveedores vendors={vendors} setVendors={setVendors} />}
           {tab === 'notas' && <Notas notes={notes} setNotes={setNotes} />}
-          {tab === 'invitaciones' && <Invitaciones />}
+          {tab === 'invitaciones' && <Invitaciones weddingInfo={weddingInfo} />}
           {tab === 'regalos' && <Regalos weddingInfo={weddingInfo} />}
           {tab === 'mensajes' && <Mensajes guests={guests} />}
           {tab === 'consejos' && <Consejos />}
