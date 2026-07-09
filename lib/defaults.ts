@@ -21,9 +21,9 @@ export const DEFAULT_TASKS: Task[] = [
 ]
 
 export const DEFAULT_GUESTS: Guest[] = [
-  { id: '1', name: 'María García', contact: 'maria@email.com', rsvp: 'Sí', table_name: 'Mesa 1', menu: 'Normal', group: 'Familia García', avoid: [] },
-  { id: '2', name: 'Carlos López', contact: '600 123 456', rsvp: 'Sí', table_name: 'Mesa 1', menu: 'Vegetariano', group: 'Amigos', avoid: [] },
-  { id: '3', name: 'Ana Martínez', contact: '', rsvp: 'Pendiente', table_name: null, menu: '', group: 'Amigos', avoid: [] },
+  { id: '1', name: 'María García', contact: 'maria@email.com', rsvp: 'Sí', table_name: 'Mesa 1', seat: 0, menu: 'Normal', group: 'Familia García', avoid: [] },
+  { id: '2', name: 'Carlos López', contact: '600 123 456', rsvp: 'Sí', table_name: 'Mesa 1', seat: 1, menu: 'Vegetariano', group: 'Amigos', avoid: [] },
+  { id: '3', name: 'Ana Martínez', contact: '', rsvp: 'Pendiente', table_name: null, seat: null, menu: '', group: 'Amigos', avoid: [] },
 ]
 
 export const DEFAULT_BUDGET: BudgetItem[] = [

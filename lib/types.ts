@@ -11,6 +11,7 @@ export interface Guest {
   contact: string
   rsvp: 'Pendiente' | 'Sí' | 'No'
   table_name: string | null
+  seat: number | null
   menu: string
   group: string
   avoid: string[]

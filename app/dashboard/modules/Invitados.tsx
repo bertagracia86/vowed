@@ -181,7 +181,7 @@ export default function Invitados({ guests, setGuests, onNavigate }: Props) {
         .filter(l => !l.toLowerCase().startsWith('nombre'))
         .map(line => {
           const [name, contact] = line.split(',').map(s => s?.trim() || '')
-          return { id: Date.now().toString() + Math.random(), name: name || line, contact: contact || '', rsvp: 'Pendiente' as const, table_name: null, menu: '', group: '', avoid: [] }
+          return { id: Date.now().toString() + Math.random(), name: name || line, contact: contact || '', rsvp: 'Pendiente' as const, table_name: null, seat: null, menu: '', group: '', avoid: [] }
         })
         .filter(g => g.name)
       if (newGuests.length) setGuests([...guests, ...newGuests])
@@ -383,7 +383,7 @@ export default function Invitados({ guests, setGuests, onNavigate }: Props) {
         <AddGuestsModal
           onClose={() => setShowModal(false)}
           onSave={({ name, contact }) => {
-            setGuests([...guests, { id: Date.now().toString(), name, contact, rsvp: 'Pendiente', table_name: null, menu: '', group: '', avoid: [] }])
+            setGuests([...guests, { id: Date.now().toString(), name, contact, rsvp: 'Pendiente', table_name: null, seat: null, menu: '', group: '', avoid: [] }])
             setShowModal(false)
           }}
         />
