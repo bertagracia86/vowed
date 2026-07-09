@@ -80,48 +80,42 @@ export default function Home() {
         <Link href="/start" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: BLUE_DARK, border: `1px solid ${BLUE_DARK}`, borderRadius: 0, padding: '10px 22px', textDecoration: 'none' }}>Empezar</Link>
       </nav>
 
-      {/* HERO — banner de la terraza */}
-      <section className="hero-sec" style={{ position: 'relative', height: '88vh', overflow: 'hidden', paddingTop: 68 }}>
-        <img src="/banner-terraza.png" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', padding: '0 64px' }}>
+      {/* HERO — flat-lay de sobre y flores */}
+      <section className="hero-sec" style={{ position: 'relative', minHeight: '82vh', overflow: 'hidden', paddingTop: 68, background: NEUTRAL, display: 'flex', alignItems: 'center' }}>
+        <img src="/banner-envelope.png" alt="" style={{ position: 'absolute', top: 68, right: 0, bottom: 0, width: '62%', height: 'calc(100% - 68px)', objectFit: 'cover', objectPosition: 'left center' }} />
+        <div style={{ position: 'absolute', top: 68, right: 0, bottom: 0, width: '62%', height: 'calc(100% - 68px)', background: `linear-gradient(90deg, ${NEUTRAL} 0%, rgba(250,249,247,0) 22%)` }} />
+        <div style={{ position: 'relative', zIndex: 2, padding: '0 64px', width: '100%' }}>
           <div style={{ maxWidth: 480 }}>
             <span style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.16em', textTransform: 'uppercase', color: BLUE_DARK, fontWeight: 600 }}>Planificamos. Vosotros celebráis.</span>
             <h2 style={{ fontFamily: F, fontSize: 'clamp(2rem,4vw,3.2rem)', color: INK, lineHeight: 1.15, margin: '18px 0 22px' }}>
-              Planifica tu boda,<br />sé tu wedding planner
+              Planifica tu boda,<br /><i>sé tu wedding planner</i>
             </h2>
             <p style={{ fontFamily: F, fontSize: 16, color: '#6b5a4a', lineHeight: 1.7, marginBottom: 32, maxWidth: 400 }}>
               Creamos celebraciones cuidadas e inolvidables, en los lugares más bonitos del mundo.
             </p>
             <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-              <Link href="/start" style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: NEUTRAL, background: BLUE_DARK, padding: '11px 26px', textDecoration: 'none', display: 'inline-block' }}>
+              <Link href="/start" style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: NEUTRAL, background: BLUE_DARK, padding: '15px 30px', textDecoration: 'none', display: 'inline-block' }}>
                 ¡Empezamos!
               </Link>
-              <Link href="/dashboard" style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: BLUE_DARK, background: 'transparent', border: `1px solid ${BLUE_DARK}`, padding: '10px 25px', textDecoration: 'none', display: 'inline-block' }}>
+              <Link href="/dashboard" style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: INK, background: 'transparent', border: `1px solid ${INK}`, padding: '14px 29px', textDecoration: 'none', display: 'inline-block' }}>
                 Ver demo
               </Link>
             </div>
           </div>
         </div>
-        <div style={{ position: 'absolute', right: 28, top: 68, bottom: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
-          <span style={{ fontFamily: F, fontSize: 11, color: INK }}>01</span>
-          <div style={{ width: 1, height: 60, background: 'rgba(74,59,50,0.4)' }} />
-          <span style={{ fontFamily: F, fontSize: 11, color: INK }}>03</span>
-        </div>
-        <div style={{ position: 'absolute', bottom: 36, left: '50%', transform: 'translateX(-50%)', zIndex: 10 }}>
-          <button className="scroll-btn" style={{ borderColor: 'rgba(74,59,50,0.4)', color: INK }} onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}>↓</button>
-        </div>
       </section>
 
       {/* ESTADÍSTICAS */}
-      <div style={{ borderTop: `1px solid ${BLUE}`, padding: '32px 0', background: BLUE_LIGHT }}>
+      <div style={{ borderTop: `1px solid ${BLUE}`, padding: '40px 0', background: NEUTRAL }}>
         <div style={{ maxWidth: 1000, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', textAlign: 'center' }}>
           {[
-            { n: '1200+', l: 'Parejas felices' },
-            { n: '1500+', l: 'Bodas' },
-            { n: '25+', l: 'Destinos' },
-            { n: '16+', l: 'Años de experiencia' },
+            { n: '1200+', l: 'Bodas planificadas', icon: '🗓️' },
+            { n: '1500+', l: 'Lugares únicos', icon: '📍' },
+            { n: '25+', l: 'Años de experiencia', icon: '❤️' },
+            { n: '16+', l: 'Destinos', icon: '🌿' },
           ].map(s => (
             <div key={s.l}>
+              <p style={{ fontSize: 20, marginBottom: 10, opacity: 0.75 }}>{s.icon}</p>
               <p style={{ fontFamily: F, fontSize: 30, color: BLUE_DARK, marginBottom: 6 }}>{s.n}</p>
               <p style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#8a7358' }}>{s.l}</p>
             </div>
