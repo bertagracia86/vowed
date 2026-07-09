@@ -82,8 +82,7 @@ export default function Home() {
 
       {/* HERO — flat-lay de sobre y flores */}
       <section className="hero-sec" style={{ position: 'relative', minHeight: '82vh', overflow: 'hidden', paddingTop: 68, background: NEUTRAL, display: 'flex', alignItems: 'center' }}>
-        <img src="/banner-envelope.png" alt="" style={{ position: 'absolute', top: 68, right: 0, bottom: 0, width: '62%', height: 'calc(100% - 68px)', objectFit: 'cover', objectPosition: 'left center' }} />
-        <div style={{ position: 'absolute', top: 68, right: 0, bottom: 0, width: '62%', height: 'calc(100% - 68px)', background: `linear-gradient(90deg, ${NEUTRAL} 0%, rgba(250,249,247,0) 22%)` }} />
+        <img src="/banner-envelope.png" alt="" style={{ position: 'absolute', top: 68, left: 0, right: 0, bottom: 0, width: '100%', height: 'calc(100% - 68px)', objectFit: 'cover', objectPosition: 'center' }} />
         <div style={{ position: 'relative', zIndex: 2, padding: '0 64px', width: '100%' }}>
           <div style={{ maxWidth: 480 }}>
             <span style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.16em', textTransform: 'uppercase', color: BLUE_DARK, fontWeight: 600 }}>Planificamos. Vosotros celebráis.</span>
