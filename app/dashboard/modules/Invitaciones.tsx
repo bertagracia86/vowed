@@ -27,7 +27,7 @@ const CATEGORIES = [
   { label: 'Tarjetas de mesa', img: '/cat-tarjetasmesa.png', real: true },
   { label: 'Números de mesa', img: '/cat-numerosmesa.png', real: true },
   { label: 'Menús', img: '/cat-menus.png', real: true },
-  { label: 'Programas', img: IMG_HANDS, real: false },
+  { label: 'Programas', img: '/cat-programas.png', real: true },
   { label: 'Servilletas', img: IMG_TABLE, real: false },
   { label: 'Carteles', img: IMG_COUPLE, real: false },
   { label: 'Pegatinas', img: '/cat-fundas.png', real: true },
