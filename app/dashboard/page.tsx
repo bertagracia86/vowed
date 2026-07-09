@@ -5,6 +5,7 @@ import { DEFAULT_TASKS, DEFAULT_GUESTS, DEFAULT_BUDGET, DEFAULT_VENDORS, DEFAULT
 
 import Resumen from './modules/Resumen'
 import Planning from './modules/Planning'
+import Timeline from './modules/Timeline'
 import Tareas from './modules/Tareas'
 import Presupuesto from './modules/Presupuesto'
 import Invitados from './modules/Invitados'
@@ -22,6 +23,7 @@ import BodasDestino from './modules/BodasDestino'
 const NAV_TOP = [
   { id: 'resumen', label: 'Vuestra boda', icon: 'M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9zM9 22V12h6v10' },
   { id: 'planning', label: 'Planning', icon: 'M8 3v4M16 3v4M3 10h18M5 5h14a2 2 0 012 2v13a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2z' },
+  { id: 'timeline', label: 'Timeline', icon: 'M12 2a10 10 0 100 20 10 10 0 000-20zM12 6v6l4 2' },
   { id: 'proveedores', label: 'Espacio y proveedores', icon: 'M20.59 13.41L13.42 20.58a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82zM7 7h.01' },
   { id: 'regalos', label: 'Regalos', icon: 'M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z' },
   { id: 'invitaciones', label: 'Invitaciones y papelería', icon: 'M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zM22 6l-10 7L2 6' },
@@ -201,6 +203,7 @@ export default function Dashboard() {
         <main onMouseEnter={() => setCollapsed(true)} style={{ flex: 1, minWidth: 0, padding: '12px 32px', overflowY: 'auto', overflowX: 'hidden', background: 'white' }}>
           {tab === 'resumen' && <Resumen tasks={tasks} guests={guests} budget={budget} vendors={vendors} weddingInfo={weddingInfo} weddingDate={weddingDate} setTab={setTab} />}
           {tab === 'planning' && <Planning tasks={tasks} setTasks={setTasks} milestones={milestones} weddingDate={weddingDate} setTab={setTab} />}
+          {tab === 'timeline' && <Timeline weddingDate={weddingDate} guestCount={guests.length} />}
           {tab === 'tareas' && <Tareas tasks={tasks} setTasks={setTasks} />}
           {tab === 'presupuesto' && <Presupuesto budget={budget} setBudget={setBudget} guestCount={guests.length} />}
           {tab === 'invitados' && <Invitados guests={guests} setGuests={setGuests} onNavigate={setTab} />}
