@@ -182,7 +182,7 @@ export default function Invitaciones({ weddingInfo }: Props) {
               position: 'relative', width: '100%', aspectRatio: c.real ? '5/6' : '1', borderRadius: 14, overflow: 'visible',
               border: cat === c.label ? `2px solid ${BROWN}` : `1px solid ${BEIGE}`, transition: 'border-color 0.15s'
             }}>
-              <div style={{ position: 'absolute', inset: 0, borderRadius: 14, overflow: 'hidden', clipPath: c.label === 'Agradecimientos al instante' ? 'polygon(0 0, 78% 0, 78% 22%, 100% 22%, 100% 100%, 0 100%)' : undefined }}>
+              <div style={{ position: 'absolute', inset: 0, borderRadius: 14, overflow: 'hidden' }}>
                 <img src={c.img} alt={c.label} style={{ width: '100%', height: '100%', objectFit: c.real ? 'contain' : 'cover', filter: c.real ? 'none' : 'sepia(0.55) saturate(1.4) brightness(0.92) contrast(1.05)' }} />
                 {!c.real && <div style={{ position: 'absolute', inset: 0, background: cat === c.label ? 'rgba(139,94,60,0.15)' : 'rgba(139,94,60,0.28)', transition: 'background 0.15s' }} />}
               </div>
