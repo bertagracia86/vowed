@@ -107,7 +107,8 @@ export default function Dashboard() {
   }
 
   return (
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: BG, fontFamily: F, overflow: 'hidden' }}>
+    <div className="dash-root" style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: BG, fontFamily: F, overflow: 'hidden' }}>
+      <style>{`.dash-root, .dash-root p, .dash-root span, .dash-root div, .dash-root button, .dash-root input, .dash-root textarea, .dash-root a, .dash-root li, .dash-root td, .dash-root th, .dash-root label { font-weight: 500; }`}</style>
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
 
       <aside onMouseEnter={() => setCollapsed(false)} style={{ width: collapsed ? 60 : 210, minWidth: collapsed ? 60 : 210, background: '#fcf9f6', borderRight: '1px solid #ECE9E4', padding: collapsed ? '14px 8px' : '14px 12px', display: 'flex', flexDirection: 'column', flexShrink: 0, overflow: 'hidden', transition: 'width 0.18s ease, min-width 0.18s ease, padding 0.18s ease' }}>
