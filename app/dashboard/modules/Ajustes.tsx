@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { F, TEXT_PRIMARY } from '@/lib/constants'
 import { WeddingInfo } from '@/lib/types'
 
-interface Props { weddingInfo: WeddingInfo; setWeddingInfo: (w: WeddingInfo) => void; weddingDate: string; setWeddingDate: (d: string) => void; onLogout: () => void }
+interface Props { weddingInfo: WeddingInfo; setWeddingInfo: (w: WeddingInfo) => void; weddingDate: string; setWeddingDate: (d: string) => void; onLogout: () => void; readOnly?: boolean }
 
 const CARD = '#FFFDFB'
 const BROWN = '#898a76'
@@ -29,7 +29,7 @@ const TEAM = [
   { name: 'Carlos López', role: 'Visor', you: false },
 ]
 
-export default function Ajustes({ weddingInfo, setWeddingInfo, weddingDate, setWeddingDate, onLogout }: Props) {
+export default function Ajustes({ weddingInfo, setWeddingInfo, weddingDate, setWeddingDate, onLogout, readOnly }: Props) {
   const [section, setSection] = useState('perfil')
   const [notifs, setNotifs] = useState({
     tareas: { email: true, push: true, sms: false },
@@ -54,6 +54,12 @@ export default function Ajustes({ weddingInfo, setWeddingInfo, weddingDate, setW
   return (
     <div>
       <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: TEXT_PRIMARY, marginBottom: 4 }}>Ajustes</h1>
+
+      {readOnly && (
+        <div style={{ background: '#FBF0D9', border: '1px solid #EFDFB0', borderRadius: 10, padding: '8px 14px', fontSize: 12, color: '#8a6d1f', marginBottom: 16 }}>
+          Estás en modo demo: podéis explorar todo, pero los cambios no se guardan.
+        </div>
+      )}
       <p style={{ fontSize: 12, color: SUBTEXT, marginBottom: 20 }}>Gestionad vuestra cuenta, preferencias y los detalles de la boda.</p>
 
       <div style={{ display: 'grid', gridTemplateColumns: '220px 1fr 300px', gap: 20 }}>

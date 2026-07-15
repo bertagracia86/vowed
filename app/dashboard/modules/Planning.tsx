@@ -4,7 +4,7 @@ import { F, INK, MUTE, TEXT_PRIMARY } from '@/lib/constants'
 import { Task, Milestone } from '@/lib/types'
 import { TASK_PHASES } from '@/lib/defaults'
 
-interface Props { tasks: Task[]; setTasks: (t: Task[]) => void; milestones: Milestone[]; setMilestones: (m: Milestone[]) => void; weddingDate: string; setTab: (t: string) => void }
+interface Props { tasks: Task[]; setTasks: (t: Task[]) => void; milestones: Milestone[]; setMilestones: (m: Milestone[]) => void; weddingDate: string; setTab: (t: string) => void; readOnly?: boolean }
 
 const CARD = '#FFFDFB'
 const BROWN = '#898a76'
@@ -22,7 +22,7 @@ function daysUntil(dateStr: string) {
   return Math.ceil(diff / 86400000)
 }
 
-export default function Planning({ tasks, setTasks, milestones, setMilestones, weddingDate, setTab }: Props) {
+export default function Planning({ tasks, setTasks, milestones, setMilestones, weddingDate, setTab, readOnly }: Props) {
   const [tab, setTab2] = useState(TABS[0])
   const [filter, setFilter] = useState<typeof FILTERS[number]>('Todas')
   const [sortAlpha, setSortAlpha] = useState(false)
@@ -77,6 +77,12 @@ export default function Planning({ tasks, setTasks, milestones, setMilestones, w
   return (
     <div>
       <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: TEXT_PRIMARY, marginBottom: 16 }}>Planning</h1>
+
+      {readOnly && (
+        <div style={{ background: '#FBF0D9', border: '1px solid #EFDFB0', borderRadius: 10, padding: '8px 14px', fontSize: 12, color: '#8a6d1f', marginBottom: 16 }}>
+          Estás en modo demo: podéis explorar todo, pero los cambios no se guardan.
+        </div>
+      )}
 
       <div style={{ display: 'flex', gap: 20, borderBottom: `1px solid ${BEIGE}`, marginBottom: 22, overflowX: 'auto' }}>
         {TABS.map(t => (

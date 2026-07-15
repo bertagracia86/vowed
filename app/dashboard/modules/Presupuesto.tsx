@@ -3,7 +3,7 @@ import { useState, useRef } from 'react'
 import { F, INK, TEXT_PRIMARY, GREEN, GREEN_LIGHT } from '@/lib/constants'
 import { BudgetItem } from '@/lib/types'
 
-interface Props { budget: BudgetItem[]; setBudget: (b: BudgetItem[]) => void; guestCount: number }
+interface Props { budget: BudgetItem[]; setBudget: (b: BudgetItem[]) => void; guestCount: number; readOnly?: boolean }
 
 const CARD = '#FFFDFB'
 const BROWN = '#898a76'
@@ -16,7 +16,7 @@ const CAT_COLORS = [BROWN, '#C9A876', '#9BAA96', '#B08BC4', '#D19A6A', '#7FA3B8'
 
 const TABS = ['Categorías', 'Todos los gastos', 'Pagos', 'Facturas']
 
-export default function Presupuesto({ budget, setBudget, guestCount }: Props) {
+export default function Presupuesto({ budget, setBudget, guestCount, readOnly }: Props) {
   const [tab, setTab] = useState(TABS[0])
   const [newCat, setNewCat] = useState('')
   const [newEst, setNewEst] = useState('')
@@ -67,6 +67,12 @@ export default function Presupuesto({ budget, setBudget, guestCount }: Props) {
   return (
     <div>
       <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: TEXT_PRIMARY, marginBottom: 4 }}>Presupuesto</h1>
+
+      {readOnly && (
+        <div style={{ background: '#FBF0D9', border: '1px solid #EFDFB0', borderRadius: 10, padding: '8px 14px', fontSize: 12, color: '#8a6d1f', marginBottom: 16 }}>
+          Estás en modo demo: podéis explorar todo, pero los cambios no se guardan.
+        </div>
+      )}
       <p style={{ fontSize: 12, color: SUBTEXT, marginBottom: 20 }}>Controlad los gastos, gestionad los pagos y manteneos dentro del presupuesto.</p>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 20 }}>
@@ -140,7 +146,7 @@ export default function Presupuesto({ budget, setBudget, guestCount }: Props) {
                       />
                       <span style={{ fontSize: 12, color: b.estimated - b.paid < 0 ? '#C0594F' : SUBTEXT }}>{Math.max(0, b.estimated - b.paid).toLocaleString('es-ES')} €</span>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                        <span style={{ fontSize: 10.5, background: itemPct >= 100 ? 'GREEN_LIGHT' : itemPct > 0 ? '#FBF0D9' : BEIGE, color: itemPct >= 100 ? 'GREEN' : itemPct > 0 ? '#B8862F' : SUBTEXT, borderRadius: 999, padding: '3px 9px', whiteSpace: 'nowrap' }}>{itemPct}%</span>
+                        <span style={{ fontSize: 10.5, background: itemPct >= 100 ? GREEN_LIGHT : itemPct > 0 ? '#FBF0D9' : BEIGE, color: itemPct >= 100 ? GREEN : itemPct > 0 ? '#B8862F' : SUBTEXT, borderRadius: 999, padding: '3px 9px', whiteSpace: 'nowrap' }}>{itemPct}%</span>
                         <button onClick={() => remove(b.id)} style={{ background: 'none', border: 'none', color: '#C9BCA8', cursor: 'pointer', fontSize: 16 }}>×</button>
                       </div>
                     </div>
@@ -212,7 +218,7 @@ export default function Presupuesto({ budget, setBudget, guestCount }: Props) {
           <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 16, padding: 18 }}>
             <p style={{ fontFamily: F, fontSize: 15, color: TEXT_PRIMARY, marginBottom: 12 }}>Resumen de pagos</p>
             {[
-              { l: 'Pagado', v: paidCount, color: 'GREEN' },
+              { l: 'Pagado', v: paidCount, color: GREEN },
               { l: 'Parcial', v: pendingCount, color: '#B8862F' },
               { l: 'Sin pagar', v: overdueCount, color: '#C0594F' },
             ].map(row => (

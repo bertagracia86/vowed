@@ -1,10 +1,11 @@
 'use client'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { F, BLUE, INK, MUTE, TEXT_PRIMARY, TEXT_SECONDARY, GREEN, GREEN_LIGHT } from '@/lib/constants'
 import { WeddingInfo } from '@/lib/types'
+import { supabase } from '@/lib/supabase'
 
 interface Gift { id: string; name: string; price: number; img: string; reserved: boolean; store: string; url: string; category: string }
-interface Props { weddingInfo: WeddingInfo }
+interface Props { weddingInfo: WeddingInfo; userId?: string | null; readOnly?: boolean }
 
 const CATALOG: Gift[] = [
   { id: '1', name: 'Vajilla de porcelana (12 piezas)', price: 180, img: 'https://images.unsplash.com/photo-1603199506016-b9a594b593c0?w=400&q=80', reserved: false, store: 'El Corte Inglés', url: 'https://www.elcorteingles.es/hogar/menaje-mesa/vajillas/', category: 'Mesa' },
@@ -37,7 +38,7 @@ const CHECKLIST_ITEMS = [
   { id: 'c6', title: 'Preparar los agradecimientos', desc: 'Id anotando quién os regala qué para agilizar las tarjetas de agradecimiento.' },
 ]
 
-export default function Regalos({ weddingInfo }: Props) {
+export default function Regalos({ weddingInfo, userId, readOnly }: Props) {
   const [tab, setTab] = useState(TABS[0])
   const [gifts, setGifts] = useState(CATALOG)
   const [added, setAdded] = useState<Set<string>>(new Set(gifts.filter(g => g.reserved).map(g => g.id)))
@@ -49,20 +50,38 @@ export default function Regalos({ weddingInfo }: Props) {
   const photoInputRef = useRef<HTMLInputElement | null>(null)
   const reserved = gifts.filter(g => g.reserved).length
 
+  useEffect(() => {
+    if (!userId) return
+    supabase.from('vowed_gift_status').select('gift_id, reserved, thanked').eq('user_id', userId).then(({ data }) => {
+      if (!data) return
+      setAdded(prev => { const next = new Set(prev); data.forEach((r: any) => { if (r.reserved) next.add(r.gift_id) }); return next })
+      setThanked(new Set(data.filter((r: any) => r.thanked).map((r: any) => r.gift_id)))
+    })
+  }, [userId])
+
   const filteredGifts = activeCat ? gifts.filter(g => g.category === activeCat || CATEGORIES.find(c => c.label === activeCat)?.label === g.category) : gifts
 
+  function persistGiftStatus(id: string, patch: { reserved?: boolean; thanked?: boolean }) {
+    if (!userId || readOnly) return
+    supabase.from('vowed_gift_status').upsert({ gift_id: id, user_id: userId, ...patch })
+  }
+
   function toggleAdded(id: string) {
+    if (readOnly) return
     setAdded(prev => {
       const next = new Set(prev)
       next.has(id) ? next.delete(id) : next.add(id)
+      persistGiftStatus(id, { reserved: next.has(id) })
       return next
     })
   }
 
   function toggleThanked(id: string) {
+    if (readOnly) return
     setThanked(prev => {
       const next = new Set(prev)
       next.has(id) ? next.delete(id) : next.add(id)
+      persistGiftStatus(id, { thanked: next.has(id) })
       return next
     })
   }
@@ -98,6 +117,12 @@ export default function Regalos({ weddingInfo }: Props) {
   return (
     <div>
       <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: TEXT_PRIMARY, marginBottom: 4 }}>Lista de regalos</h1>
+
+      {readOnly && (
+        <div style={{ background: '#FBF0D9', border: '1px solid #EFDFB0', borderRadius: 10, padding: '8px 14px', fontSize: 12, color: '#8a6d1f', marginBottom: 16 }}>
+          Estás en modo demo: podéis explorar todo, pero los cambios no se guardan.
+        </div>
+      )}
       <p style={{ fontSize: 12, color: TEXT_SECONDARY, marginBottom: 16 }}>{reserved}/{gifts.length} reservados por vuestros invitados</p>
 
       <div style={{ display: 'flex', gap: 20, borderBottom: '1px solid #ECE9E4', marginBottom: 20, overflowX: 'auto' }}>
@@ -194,7 +219,7 @@ export default function Regalos({ weddingInfo }: Props) {
               <p style={{ fontFamily: F, fontSize: 17, color: TEXT_PRIMARY, marginBottom: 4 }}>Compartid vuestra lista</p>
               <p style={{ fontSize: 11.5, color: TEXT_SECONDARY }}>Enviad el enlace a vuestros invitados para que reserven un regalo.</p>
             </div>
-            <button onClick={copyLink} style={{ background: copied ? 'GREEN' : '#898a76', color: 'white', border: 'none', borderRadius: 999, padding: '10px 20px', fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+            <button onClick={copyLink} style={{ background: copied ? GREEN : '#898a76', color: 'white', border: 'none', borderRadius: 999, padding: '10px 20px', fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>
               {copied ? '¡Copiado!' : 'Copiar enlace'}
             </button>
           </div>
@@ -210,7 +235,7 @@ export default function Regalos({ weddingInfo }: Props) {
                 <div style={{ position: 'relative', aspectRatio: '4/3', overflow: 'hidden' }}>
                   <img src={g.img} alt={g.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   {g.reserved && (
-                    <span style={{ position: 'absolute', top: 8, left: 8, background: 'GREEN_LIGHT', color: 'GREEN', fontSize: 10, fontWeight: 600, borderRadius: 999, padding: '3px 10px' }}>
+                    <span style={{ position: 'absolute', top: 8, left: 8, background: GREEN_LIGHT, color: GREEN, fontSize: 10, fontWeight: 600, borderRadius: 999, padding: '3px 10px' }}>
                       Reservado
                     </span>
                   )}
@@ -264,7 +289,7 @@ export default function Regalos({ weddingInfo }: Props) {
               <p style={{ fontSize: 11, color: TEXT_SECONDARY }}>En vuestra lista</p>
             </div>
             <div style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 14, padding: '14px 18px', textAlign: 'center' }}>
-              <p style={{ fontFamily: F, fontSize: 22, color: 'GREEN' }}>{reserved}</p>
+              <p style={{ fontFamily: F, fontSize: 22, color: GREEN }}>{reserved}</p>
               <p style={{ fontSize: 11, color: TEXT_SECONDARY }}>Reservados</p>
             </div>
             <div style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 14, padding: '14px 18px', textAlign: 'center' }}>
@@ -286,7 +311,7 @@ export default function Regalos({ weddingInfo }: Props) {
                 <div key={g.id} style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr auto', alignItems: 'center', padding: '12px 18px', borderBottom: i < selectedGifts.length - 1 ? '1px solid #F5EFE0' : 'none' }}>
                   <span style={{ fontSize: 13, color: TEXT_PRIMARY }}>{g.name}</span>
                   <span style={{ fontSize: 12, color: TEXT_SECONDARY }}>{g.price} €</span>
-                  <span style={{ fontSize: 11, color: g.reserved ? 'GREEN' : '#B8862F' }}>{g.reserved ? 'Reservado' : 'Pendiente'}</span>
+                  <span style={{ fontSize: 11, color: g.reserved ? GREEN : '#B8862F' }}>{g.reserved ? 'Reservado' : 'Pendiente'}</span>
                   <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: TEXT_PRIMARY, cursor: 'pointer' }}>
                     <input type="checkbox" checked={thanked.has(g.id)} onChange={() => toggleThanked(g.id)} disabled={!g.reserved} />
                     Enviado

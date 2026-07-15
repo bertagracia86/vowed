@@ -3,11 +3,11 @@ import { useState, useRef } from 'react'
 import { F, BLUE, INK, MUTE, TEXT_PRIMARY, TEXT_SECONDARY, GREEN, GREEN_LIGHT } from '@/lib/constants'
 import { Vendor } from '@/lib/types'
 
-interface Props { vendors: Vendor[]; setVendors: (v: Vendor[]) => void }
+interface Props { vendors: Vendor[]; setVendors: (v: Vendor[]) => void; readOnly?: boolean }
 
 const CATEGORIES = ['Fotografía', 'Vídeo', 'Catering', 'Finca', 'Música/DJ', 'Flores', 'Vestido', 'Pastel', 'Transporte', 'Otro']
-const STATUS_COLORS: Record<string, string> = { Buscando: '#EFE0C2', Contactado: '#E3DCC9', Contratado: 'GREEN_LIGHT' }
-const STATUS_TEXT: Record<string, string> = { Buscando: '#B8862F', Contactado: '#5C4A3D', Contratado: 'GREEN' }
+const STATUS_COLORS: Record<string, string> = { Buscando: '#EFE0C2', Contactado: '#E3DCC9', Contratado: GREEN_LIGHT }
+const STATUS_TEXT: Record<string, string> = { Buscando: '#B8862F', Contactado: '#5C4A3D', Contratado: GREEN }
 
 const TABS = ['Explorar proveedores', 'Bandeja', 'Contratados', 'Favoritos', 'Presupuesto', 'Asesor de espacios', 'Bodas de destino']
 
@@ -24,7 +24,7 @@ const EXPLORE_CATS = [
   { label: 'Barra libre', icon: 'M5 3h14l-2 9a5 5 0 01-10 0L5 3zM12 15v6M8 21h8', cat: 'Otro' },
 ]
 
-export default function Proveedores({ vendors, setVendors }: Props) {
+export default function Proveedores({ vendors, setVendors, readOnly }: Props) {
   const [newName, setNewName] = useState('')
   const [newCat, setNewCat] = useState('Fotografía')
   const [newContact, setNewContact] = useState('')
@@ -66,6 +66,12 @@ export default function Proveedores({ vendors, setVendors }: Props) {
   return (
     <div>
       <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: TEXT_PRIMARY, marginBottom: 4 }}>Espacio y proveedores</h1>
+
+      {readOnly && (
+        <div style={{ background: '#FBF0D9', border: '1px solid #EFDFB0', borderRadius: 10, padding: '8px 14px', fontSize: 12, color: '#8a6d1f', marginBottom: 16 }}>
+          Estás en modo demo: podéis explorar todo, pero los cambios no se guardan.
+        </div>
+      )}
       <p style={{ fontSize: 12, color: TEXT_SECONDARY, marginBottom: 16 }}>
         {vendors.filter(v => v.status === 'Contratado').length} contratados · {vendors.filter(v => v.status === 'Buscando').length} buscando
       </p>

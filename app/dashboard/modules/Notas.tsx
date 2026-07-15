@@ -3,11 +3,11 @@ import { useState } from 'react'
 import { F, BLUE, INK, MUTE, TEXT_PRIMARY, TEXT_SECONDARY } from '@/lib/constants'
 
 interface Note { id: string; title: string; content: string; color: string }
-interface Props { notes: Note[]; setNotes: (n: Note[]) => void }
+interface Props { notes: Note[]; setNotes: (n: Note[]) => void; readOnly?: boolean }
 
 const COLORS = ['#FBF3E1', '#F1E7D0', '#F3F0FA', '#FBEEEE', '#EEF5EE']
 
-export default function Notas({ notes, setNotes }: Props) {
+export default function Notas({ notes, setNotes, readOnly }: Props) {
   const [newTitle, setNewTitle] = useState('')
   const [editing, setEditing] = useState<string | null>(null)
 
@@ -29,6 +29,12 @@ export default function Notas({ notes, setNotes }: Props) {
   return (
     <div>
       <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: TEXT_PRIMARY, marginBottom: 4 }}>Notas</h1>
+
+      {readOnly && (
+        <div style={{ background: '#FBF0D9', border: '1px solid #EFDFB0', borderRadius: 10, padding: '8px 14px', fontSize: 12, color: '#8a6d1f', marginBottom: 16 }}>
+          Estás en modo demo: podéis explorar todo, pero los cambios no se guardan.
+        </div>
+      )}
       <p style={{ fontSize: 12, color: TEXT_SECONDARY, marginBottom: 24 }}>{notes.length} notas guardadas</p>
 
       <div style={{ display: 'flex', gap: 8, marginBottom: 24 }}>

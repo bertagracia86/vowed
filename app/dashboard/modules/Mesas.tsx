@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { F, BLUE, INK, MUTE, TEXT_PRIMARY, TEXT_SECONDARY } from '@/lib/constants'
 import { TableRow, Guest } from '@/lib/types'
 
-interface Props { tables: TableRow[]; setTables: (t: TableRow[]) => void; guests: Guest[]; setGuests: (g: Guest[]) => void }
+interface Props { tables: TableRow[]; setTables: (t: TableRow[]) => void; guests: Guest[]; setGuests: (g: Guest[]) => void; readOnly?: boolean }
 
 const GROUP_COLORS = ['#AAA396', '#C9A876', '#9BAA96', '#B08BC4', '#D19A6A', '#7FA3B8', '#C4849A', '#8FA88F']
 
@@ -89,7 +89,7 @@ function GuestEditor({ guest, allGuests, onClose, onSave }: { guest: Guest; allG
   )
 }
 
-export default function Mesas({ tables, setTables, guests, setGuests }: Props) {
+export default function Mesas({ tables, setTables, guests, setGuests, readOnly }: Props) {
   const [newName, setNewName] = useState('')
   const [newShape, setNewShape] = useState<'round' | 'rect' | 'standing'>('round')
   const [newCapacity, setNewCapacity] = useState('8')
@@ -145,6 +145,12 @@ export default function Mesas({ tables, setTables, guests, setGuests }: Props) {
   return (
     <div>
       <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: TEXT_PRIMARY, marginBottom: 4 }}>Plano de mesas</h1>
+
+      {readOnly && (
+        <div style={{ background: '#FBF0D9', border: '1px solid #EFDFB0', borderRadius: 10, padding: '8px 14px', fontSize: 12, color: '#8a6d1f', marginBottom: 16 }}>
+          Estás en modo demo: podéis explorar todo, pero los cambios no se guardan.
+        </div>
+      )}
       <p style={{ fontSize: 12, color: TEXT_SECONDARY, marginBottom: 24 }}>
         {tables.length} mesas · {guests.length - unassigned.length}/{guests.length} invitados asignados · {totalCapacity} plazas disponibles
         {conflictCount > 0 && <span style={{ color: '#C0594F' }}> · {conflictCount} conflicto{conflictCount !== 1 ? 's' : ''} de asientos</span>}

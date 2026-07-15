@@ -4,9 +4,9 @@ import { F, BLUE, INK, MUTE, TEXT_PRIMARY, TEXT_SECONDARY } from '@/lib/constant
 import { Task } from '@/lib/types'
 import { TASK_PHASES } from '@/lib/defaults'
 
-interface Props { tasks: Task[]; setTasks: (t: Task[]) => void }
+interface Props { tasks: Task[]; setTasks: (t: Task[]) => void; readOnly?: boolean }
 
-export default function Tareas({ tasks, setTasks }: Props) {
+export default function Tareas({ tasks, setTasks, readOnly }: Props) {
   const [newTask, setNewTask] = useState('')
   const [newPhase, setNewPhase] = useState(TASK_PHASES[0])
   const done = tasks.filter(t => t.done).length
@@ -30,6 +30,12 @@ export default function Tareas({ tasks, setTasks }: Props) {
   return (
     <div>
       <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: TEXT_PRIMARY, marginBottom: 4 }}>Checklist</h1>
+
+      {readOnly && (
+        <div style={{ background: '#FBF0D9', border: '1px solid #EFDFB0', borderRadius: 10, padding: '8px 14px', fontSize: 12, color: '#8a6d1f', marginBottom: 16 }}>
+          Estás en modo demo: podéis explorar todo, pero los cambios no se guardan.
+        </div>
+      )}
       <p style={{ fontSize: 12, color: TEXT_SECONDARY, marginBottom: 16 }}>{done} de {tasks.length} completadas</p>
 
       <div style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 14, padding: '14px 18px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 16 }}>

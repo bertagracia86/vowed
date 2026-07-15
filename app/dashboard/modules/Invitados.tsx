@@ -303,7 +303,7 @@ export default function Invitados({ guests, setGuests: setGuestsRaw, onNavigate,
               <p style={{ fontFamily: F, fontSize: 17, color: TEXT_PRIMARY, marginBottom: 4 }}>Recopilad los datos que faltan</p>
               <p style={{ fontSize: 11.5, color: TEXT_SECONDARY }}>Compartid este enlace para que vuestros invitados rellenen su email, teléfono y dirección.</p>
             </div>
-            <button onClick={copyCollectLink} style={{ background: copiedCollect ? 'GREEN' : '#898a76', color: 'white', border: 'none', borderRadius: 999, padding: '10px 20px', fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+            <button onClick={copyCollectLink} style={{ background: copiedCollect ? GREEN : '#898a76', color: 'white', border: 'none', borderRadius: 999, padding: '10px 20px', fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>
               {copiedCollect ? '¡Copiado!' : 'Copiar enlace'}
             </button>
           </div>
@@ -352,7 +352,7 @@ export default function Invitados({ guests, setGuests: setGuestsRaw, onNavigate,
           ) : guests.map((g, i) => (
             <div key={g.id} style={{ display: 'grid', gridTemplateColumns: '2fr 1.5fr auto', alignItems: 'center', padding: '10px 18px', borderBottom: i < guests.length - 1 ? '1px solid #F5EFE0' : 'none' }}>
               <span style={{ fontSize: 13, color: TEXT_PRIMARY }}>{g.name}</span>
-              <span style={{ fontSize: 11, color: g.rsvp === 'Sí' ? 'GREEN' : g.rsvp === 'No' ? '#C0594F' : '#B8862F' }}>{g.rsvp}</span>
+              <span style={{ fontSize: 11, color: g.rsvp === 'Sí' ? GREEN : g.rsvp === 'No' ? '#C0594F' : '#B8862F' }}>{g.rsvp}</span>
               <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: TEXT_PRIMARY, cursor: 'pointer' }}>
                 <input type="checkbox" checked={g.thanked} onChange={() => toggleThanked(g.id)} />
                 {g.thanked ? 'Sí' : 'No'}
@@ -408,7 +408,7 @@ export default function Invitados({ guests, setGuests: setGuestsRaw, onNavigate,
           {(['Sí', 'Pendiente', 'No'] as const).map(status => {
             const list = guests.filter(g => g.rsvp === status)
             const label = status === 'Sí' ? 'Confirmados' : status === 'Pendiente' ? 'Pendientes' : 'Declinados'
-            const color = status === 'Sí' ? 'GREEN' : status === 'Pendiente' ? '#B8862F' : '#C0594F'
+            const color = status === 'Sí' ? GREEN : status === 'Pendiente' ? '#B8862F' : '#C0594F'
             return (
               <div key={status}>
                 <p style={{ fontFamily: F, fontSize: 15, color, marginBottom: 8 }}>{label} ({list.length})</p>
@@ -436,7 +436,7 @@ export default function Invitados({ guests, setGuests: setGuestsRaw, onNavigate,
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 20 }}>
         {[
           { icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75', label: 'Invitados totales', value: guests.length, color: TEXT_PRIMARY },
-          { icon: 'M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z', label: 'Confirmados', value: confirmed, color: 'GREEN' },
+          { icon: 'M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z', label: 'Confirmados', value: confirmed, color: GREEN },
           { icon: 'M12 8v4l3 3M21 12a9 9 0 11-18 0 9 9 0 0118 0z', label: 'RSVP pendiente', value: pending, color: '#B8862F' },
           { icon: 'M18 6L6 18M6 6l12 12', label: 'Declinados', value: declined, color: '#C0594F' },
         ].map(s => (
@@ -553,7 +553,7 @@ export default function Invitados({ guests, setGuests: setGuestsRaw, onNavigate,
             <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
               <RsvpDonut confirmed={confirmed} pending={pending} declined={declined} />
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: TEXT_PRIMARY }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: 'GREEN', display: 'inline-block' }} />{confirmed} Confirmados</span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: TEXT_PRIMARY }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: GREEN, display: 'inline-block' }} />{confirmed} Confirmados</span>
                 <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: TEXT_PRIMARY }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: '#B8862F', display: 'inline-block' }} />{pending} Pendientes</span>
                 <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: TEXT_PRIMARY }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: '#C0594F', display: 'inline-block' }} />{declined} Declinados</span>
               </div>

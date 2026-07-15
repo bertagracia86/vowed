@@ -4,10 +4,23 @@ import { F, BLUE, BLUE_DARK, INK, MUTE, BG, TEXT_PRIMARY, TEXT_SECONDARY } from 
 import { DEFAULT_TASKS, DEFAULT_GUESTS, DEFAULT_BUDGET, DEFAULT_VENDORS, DEFAULT_MILESTONES, DEFAULT_TABLES, DEFAULT_WEDDING } from '@/lib/defaults'
 import { fetchGuests, seedGuests, syncGuests } from '@/lib/guestsApi'
 import { Session, getSession, startDemo, signIn, signUp, clearSession } from '@/lib/auth'
+import { makeApi } from '@/lib/crudApi'
+import { usePersistedList } from '@/lib/usePersistedList'
+import { usePersistedWeddingInfo } from '@/lib/weddingInfoApi'
+import { Task, BudgetItem, Vendor, Milestone, TableRow } from '@/lib/types'
+
+const tasksApi = makeApi<Task>('vowed_tasks')
+const budgetApi = makeApi<BudgetItem>('vowed_budget_items')
+const vendorsApi = makeApi<Vendor>('vowed_vendors')
+const milestonesApi = makeApi<Milestone>('vowed_milestones')
+const tablesApi = makeApi<TableRow>('vowed_tables')
+interface Note { id: string; title: string; content: string; color: string }
+const notesApi = makeApi<Note>('vowed_notes')
+const eventsApi = makeApi<TimelineEvent>('vowed_timeline_events')
 
 import Resumen from './modules/Resumen'
 import Planning from './modules/Planning'
-import Timeline from './modules/Timeline'
+import Timeline, { DEFAULT_EVENTS, TimelineEvent } from './modules/Timeline'
 import Tareas from './modules/Tareas'
 import Presupuesto from './modules/Presupuesto'
 import Invitados from './modules/Invitados'
@@ -66,8 +79,6 @@ function SideIcon({ d }: { d: string }) {
   )
 }
 
-interface Note { id: string; title: string; content: string; color: string }
-
 export default function Dashboard() {
   const [session, setSession] = useState<Session | null | undefined>(undefined)
   const [checkingSession, setCheckingSession] = useState(true)
@@ -88,7 +99,7 @@ export default function Dashboard() {
 
   const isDemo = !!session?.demo
 
-  const [tasks, setTasks] = useState(DEFAULT_TASKS)
+  const [tasks, setTasks] = usePersistedList(tasksApi, session, DEFAULT_TASKS)
   const [guests, setGuests] = useState(DEFAULT_GUESTS)
   const guestsLoaded = useRef(false)
 
@@ -131,13 +142,14 @@ export default function Dashboard() {
     setGuests(DEFAULT_GUESTS)
   }
 
-  const [budget, setBudget] = useState(DEFAULT_BUDGET)
-  const [vendors, setVendors] = useState(DEFAULT_VENDORS)
-  const [milestones, setMilestones] = useState(DEFAULT_MILESTONES)
-  const [tables, setTables] = useState(DEFAULT_TABLES)
-  const [weddingInfo, setWeddingInfo] = useState(DEFAULT_WEDDING)
-  const [notes, setNotes] = useState<Note[]>([])
-  const [weddingDate, setWeddingDate] = useState(DEFAULT_WEDDING.date)
+  const [budget, setBudget] = usePersistedList(budgetApi, session, DEFAULT_BUDGET)
+  const [vendors, setVendors] = usePersistedList(vendorsApi, session, DEFAULT_VENDORS)
+  const [milestones, setMilestones] = usePersistedList(milestonesApi, session, DEFAULT_MILESTONES)
+  const [tables, setTables] = usePersistedList(tablesApi, session, DEFAULT_TABLES)
+  const [weddingInfo, setWeddingInfo] = usePersistedWeddingInfo(session, DEFAULT_WEDDING)
+  const [notes, setNotes] = usePersistedList(notesApi, session, [] as Note[])
+  const [events, setEvents] = usePersistedList(eventsApi, session, DEFAULT_EVENTS)
+  const weddingDate = weddingInfo.date || DEFAULT_WEDDING.date
 
   if (checkingSession || session === undefined) return null
 
@@ -269,17 +281,17 @@ export default function Dashboard() {
 
         <main onMouseEnter={() => setCollapsed(true)} style={{ flex: 1, minWidth: 0, padding: '12px 32px', overflowY: 'auto', overflowX: 'hidden', background: 'white' }}>
           {tab === 'resumen' && <Resumen tasks={tasks} guests={guests} budget={budget} vendors={vendors} weddingInfo={weddingInfo} weddingDate={weddingDate} setTab={setTab} />}
-          {tab === 'planning' && <Planning tasks={tasks} setTasks={setTasks} milestones={milestones} setMilestones={setMilestones} weddingDate={weddingDate} setTab={setTab} />}
+          {tab === 'planning' && <Planning tasks={tasks} setTasks={setTasks} milestones={milestones} setMilestones={setMilestones} weddingDate={weddingDate} setTab={setTab} readOnly={isDemo} />}
           {tab === 'ia' && <AiPlanner tasks={tasks} guests={guests} budget={budget} />}
-          {tab === 'timeline' && <Timeline weddingDate={weddingDate} guestCount={guests.length} />}
-          {tab === 'tareas' && <Tareas tasks={tasks} setTasks={setTasks} />}
-          {tab === 'presupuesto' && <Presupuesto budget={budget} setBudget={setBudget} guestCount={guests.length} />}
+          {tab === 'timeline' && <Timeline weddingDate={weddingDate} guestCount={guests.length} events={events} setEvents={setEvents} readOnly={isDemo} />}
+          {tab === 'tareas' && <Tareas tasks={tasks} setTasks={setTasks} readOnly={isDemo} />}
+          {tab === 'presupuesto' && <Presupuesto budget={budget} setBudget={setBudget} guestCount={guests.length} readOnly={isDemo} />}
           {tab === 'invitados' && <Invitados guests={guests} setGuests={setGuests} onNavigate={setTab} readOnly={isDemo} />}
-          {tab === 'mesas' && <Mesas tables={tables} setTables={setTables} guests={guests} setGuests={setGuests} />}
-          {tab === 'proveedores' && <Proveedores vendors={vendors} setVendors={setVendors} />}
-          {tab === 'notas' && <Notas notes={notes} setNotes={setNotes} />}
+          {tab === 'mesas' && <Mesas tables={tables} setTables={setTables} guests={guests} setGuests={setGuests} readOnly={isDemo} />}
+          {tab === 'proveedores' && <Proveedores vendors={vendors} setVendors={setVendors} readOnly={isDemo} />}
+          {tab === 'notas' && <Notas notes={notes} setNotes={setNotes} readOnly={isDemo} />}
           {tab === 'invitaciones' && <Invitaciones weddingInfo={weddingInfo} />}
-          {tab === 'regalos' && <Regalos weddingInfo={weddingInfo} />}
+          {tab === 'regalos' && <Regalos weddingInfo={weddingInfo} userId={session.userId} readOnly={isDemo} />}
           {tab === 'mensajes' && <Mensajes guests={guests} />}
           {tab === 'consejos' && <Consejos />}
           {tab === 'lunas-miel' && <LunasMiel />}
@@ -303,7 +315,7 @@ export default function Dashboard() {
             </div>
           )}
 
-          {tab === 'ajustes' && <Ajustes weddingInfo={weddingInfo} setWeddingInfo={setWeddingInfo} weddingDate={weddingDate} setWeddingDate={setWeddingDate} onLogout={handleLogout} />}
+          {tab === 'ajustes' && <Ajustes weddingInfo={weddingInfo} setWeddingInfo={setWeddingInfo} weddingDate={weddingDate} setWeddingDate={(d: string) => setWeddingInfo({ ...weddingInfo, date: d })} onLogout={handleLogout} readOnly={isDemo} />}
         </main>
       </div>
       </div>

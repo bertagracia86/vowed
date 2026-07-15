@@ -2,14 +2,14 @@
 import { useState } from 'react'
 import { F, INK, TEXT_PRIMARY } from '@/lib/constants'
 
-interface Props { weddingDate: string; guestCount: number }
+export interface TimelineEvent { id: string; time: string; title: string; subtitle: string; location: string; duration: string; category: string; icon: string }
+
+interface Props { weddingDate: string; guestCount: number; events: TimelineEvent[]; setEvents: (e: TimelineEvent[]) => void; readOnly?: boolean }
 
 const CARD = '#FFFDFB'
 const BROWN = '#898a76'
 const BEIGE = '#E7DDD2'
 const SUBTEXT = '#7C6858'
-
-interface TimelineEvent { id: string; time: string; title: string; subtitle: string; location: string; duration: string; category: string; icon: string }
 
 const TABS = ['Día de la boda', 'Cena de ensayo', 'Fiesta de bienvenida', 'Brunch de despedida']
 
@@ -22,7 +22,7 @@ const ICONS: Record<string, string> = {
   Traslado: 'M5 17h14M5 17a2 2 0 100 4 2 2 0 000-4zM19 17a2 2 0 100 4 2 2 0 000-4zM5 17V7a2 2 0 012-2h6l4 5h2a2 2 0 012 2v5',
 }
 
-const DEFAULT_EVENTS: TimelineEvent[] = [
+export const DEFAULT_EVENTS: TimelineEvent[] = [
   { id: '1', time: '12:00', title: 'Preparación', subtitle: 'Novia y damas de honor', location: 'Suite nupcial', duration: '2h 30m', category: 'Foto', icon: ICONS.Foto },
   { id: '2', time: '14:30', title: 'Primeras fotos', subtitle: 'Novia y novio', location: 'Jardín', duration: '30m', category: 'Foto', icon: ICONS.Foto },
   { id: '3', time: '15:00', title: 'Ceremonia', subtitle: 'Intercambio de votos', location: 'Jardín', duration: '30m', category: 'Ceremonia', icon: ICONS.Ceremonia },
@@ -35,9 +35,9 @@ const DEFAULT_EVENTS: TimelineEvent[] = [
   { id: '10', time: '22:15', title: 'Salida', subtitle: 'Salida con bengalas', location: 'Entrada principal', duration: '15m', category: 'Traslado', icon: ICONS.Traslado },
 ]
 
-export default function Timeline({ weddingDate, guestCount }: Props) {
+export default function Timeline({ weddingDate, guestCount, events, setEvents: setEventsRaw, readOnly }: Props) {
+  const setEvents = readOnly ? () => {} : setEventsRaw
   const [tab, setTab] = useState(TABS[0])
-  const [events, setEvents] = useState<TimelineEvent[]>(DEFAULT_EVENTS)
   const [editing, setEditing] = useState<string | null>(null)
 
   function move(id: string, dir: -1 | 1) {
@@ -70,6 +70,12 @@ export default function Timeline({ weddingDate, guestCount }: Props) {
   return (
     <div>
       <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: TEXT_PRIMARY, marginBottom: 4 }}>Timeline</h1>
+
+      {readOnly && (
+        <div style={{ background: '#FBF0D9', border: '1px solid #EFDFB0', borderRadius: 10, padding: '8px 14px', fontSize: 12, color: '#8a6d1f', marginBottom: 16 }}>
+          Estás en modo demo: podéis explorar todo, pero los cambios no se guardan.
+        </div>
+      )}
       <p style={{ fontSize: 12, color: SUBTEXT, marginBottom: 20 }}>Planificad cada momento y afrontad vuestro gran día con confianza.</p>
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, borderBottom: `1px solid ${BEIGE}`, marginBottom: 20, flexWrap: 'wrap' }}>

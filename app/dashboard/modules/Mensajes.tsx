@@ -30,7 +30,7 @@ export default function Mensajes({ guests }: Props) {
           <p style={{ fontSize: 11.5, color: TEXT_SECONDARY }}>Invitados totales</p>
         </div>
         <div style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 14, padding: '16px 18px' }}>
-          <p style={{ fontFamily: F, fontSize: 24, color: 'GREEN' }}>{confirmed}</p>
+          <p style={{ fontFamily: F, fontSize: 24, color: GREEN }}>{confirmed}</p>
           <p style={{ fontSize: 11.5, color: TEXT_SECONDARY }}>Confirmados</p>
         </div>
         <div style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 14, padding: '16px 18px' }}>
