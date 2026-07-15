@@ -1,6 +1,6 @@
 'use client'
 import { useState, useRef } from 'react'
-import { F, INK } from '@/lib/constants'
+import { F, INK, TEXT_PRIMARY, GREEN, GREEN_LIGHT } from '@/lib/constants'
 import { BudgetItem } from '@/lib/types'
 
 interface Props { budget: BudgetItem[]; setBudget: (b: BudgetItem[]) => void; guestCount: number }
@@ -66,17 +66,17 @@ export default function Presupuesto({ budget, setBudget, guestCount }: Props) {
 
   return (
     <div>
-      <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: INK, marginBottom: 4 }}>Presupuesto</h1>
+      <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: TEXT_PRIMARY, marginBottom: 4 }}>Presupuesto</h1>
       <p style={{ fontSize: 12, color: SUBTEXT, marginBottom: 20 }}>Controlad los gastos, gestionad los pagos y manteneos dentro del presupuesto.</p>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 20 }}>
         <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 14, padding: 16 }}>
           <p style={{ fontSize: 11, color: SUBTEXT, marginBottom: 8 }}>Presupuesto total</p>
-          <p style={{ fontFamily: F, fontSize: 21, fontWeight: 600, color: INK }}>{totalEst.toLocaleString('es-ES')} €</p>
+          <p style={{ fontFamily: F, fontSize: 21, fontWeight: 600, color: TEXT_PRIMARY }}>{totalEst.toLocaleString('es-ES')} €</p>
         </div>
         <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 14, padding: 16 }}>
           <p style={{ fontSize: 11, color: SUBTEXT, marginBottom: 8 }}>Gastado</p>
-          <p style={{ fontFamily: F, fontSize: 21, fontWeight: 600, color: INK, marginBottom: 6 }}>{totalPaid.toLocaleString('es-ES')} €</p>
+          <p style={{ fontFamily: F, fontSize: 21, fontWeight: 600, color: TEXT_PRIMARY, marginBottom: 6 }}>{totalPaid.toLocaleString('es-ES')} €</p>
           <div style={{ height: 6, borderRadius: 999, background: BEIGE, overflow: 'hidden' }}>
             <div style={{ width: `${pct}%`, height: '100%', background: BROWN, borderRadius: 999 }} />
           </div>
@@ -84,12 +84,12 @@ export default function Presupuesto({ budget, setBudget, guestCount }: Props) {
         </div>
         <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 14, padding: 16 }}>
           <p style={{ fontSize: 11, color: SUBTEXT, marginBottom: 8 }}>Restante</p>
-          <p style={{ fontFamily: F, fontSize: 21, fontWeight: 600, color: INK, marginBottom: 6 }}>{remaining.toLocaleString('es-ES')} €</p>
+          <p style={{ fontFamily: F, fontSize: 21, fontWeight: 600, color: TEXT_PRIMARY, marginBottom: 6 }}>{remaining.toLocaleString('es-ES')} €</p>
           <p style={{ fontSize: 10, color: SUBTEXT }}>{totalEst > 0 ? Math.round((remaining / totalEst) * 100) : 0}% del presupuesto</p>
         </div>
         <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 14, padding: 16 }}>
           <p style={{ fontSize: 11, color: SUBTEXT, marginBottom: 8 }}>Coste por invitado</p>
-          <p style={{ fontFamily: F, fontSize: 21, fontWeight: 600, color: INK }}>{costPerGuest.toLocaleString('es-ES')} €</p>
+          <p style={{ fontFamily: F, fontSize: 21, fontWeight: 600, color: TEXT_PRIMARY }}>{costPerGuest.toLocaleString('es-ES')} €</p>
         </div>
       </div>
 
@@ -99,27 +99,27 @@ export default function Presupuesto({ budget, setBudget, guestCount }: Props) {
             {TABS.map(t => (
               <button key={t} onClick={() => setTab(t)} style={{
                 background: 'none', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap', padding: '0 0 10px', fontSize: 13, fontFamily: F,
-                color: tab === t ? INK : SUBTEXT, fontWeight: tab === t ? 600 : 400, borderBottom: tab === t ? `2px solid ${BROWN}` : '2px solid transparent'
+                color: tab === t ? INK : SUBTEXT, fontWeight: tab === t ? 600 : 500, borderBottom: tab === t ? `2px solid ${BROWN}` : '2px solid transparent'
               }}>{t}</button>
             ))}
           </div>
 
           {tab !== 'Categorías' ? (
             <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 16, padding: '40px 24px', textAlign: 'center' }}>
-              <p style={{ fontFamily: F, fontSize: 17, color: INK, marginBottom: 6 }}>{tab}</p>
+              <p style={{ fontFamily: F, fontSize: 17, color: TEXT_PRIMARY, marginBottom: 6 }}>{tab}</p>
               <p style={{ fontSize: 12, color: SUBTEXT }}>Muy pronto podréis gestionar esto desde aquí.</p>
             </div>
           ) : (
             <>
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginBottom: 16 }}>
-                <button onClick={exportCsv} style={{ border: `1px solid ${BEIGE}`, background: 'white', borderRadius: 999, padding: '8px 16px', fontSize: 12, color: INK, cursor: 'pointer' }}>Exportar</button>
-                <button onClick={() => formRef.current?.scrollIntoView({ behavior: 'smooth' })} style={{ background: BROWN, color: 'white', border: 'none', borderRadius: 999, padding: '8px 18px', fontSize: 12, cursor: 'pointer' }}>+ Añadir gasto</button>
+                <button onClick={exportCsv} style={{ border: `1px solid ${BEIGE}`, background: 'white', borderRadius: 999, padding: '8px 16px', fontSize: 12, color: TEXT_PRIMARY, cursor: 'pointer' }}>Exportar</button>
+                <button onClick={() => formRef.current?.scrollIntoView({ behavior: 'smooth' })} style={{ background: BROWN, color: 'white', border: 'none', borderRadius: 999, padding: '8px 18px', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>+ Añadir gasto</button>
               </div>
 
               <div style={{ border: `1px solid ${BEIGE}`, borderRadius: 16, overflow: 'hidden', marginBottom: 24 }}>
                 <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr auto', padding: '10px 18px', background: '#FBF9F5', borderBottom: `1px solid ${BEIGE}` }}>
                   {['CATEGORÍA', 'PRESUPUESTO', 'PAGADO', 'RESTANTE', ''].map(h => (
-                    <span key={h} style={{ fontSize: 10, color: SUBTEXT, letterSpacing: '0.04em' }}>{h}</span>
+                    <span key={h} style={{ fontSize: 10, color: SUBTEXT, letterSpacing: '0.01em' }}>{h}</span>
                   ))}
                 </div>
                 {budget.length === 0 ? (
@@ -128,7 +128,7 @@ export default function Presupuesto({ budget, setBudget, guestCount }: Props) {
                   const itemPct = b.estimated > 0 ? Math.round((b.paid / b.estimated) * 100) : 0
                   return (
                     <div key={b.id} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr auto', alignItems: 'center', padding: '12px 18px', borderBottom: i < budget.length - 1 ? `1px solid ${BEIGE}` : 'none' }}>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, color: INK }}>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, color: TEXT_PRIMARY }}>
                         <span style={{ width: 8, height: 8, borderRadius: '50%', background: CAT_COLORS[i % CAT_COLORS.length], flexShrink: 0 }} />
                         {b.category}
                       </span>
@@ -140,7 +140,7 @@ export default function Presupuesto({ budget, setBudget, guestCount }: Props) {
                       />
                       <span style={{ fontSize: 12, color: b.estimated - b.paid < 0 ? '#C0594F' : SUBTEXT }}>{Math.max(0, b.estimated - b.paid).toLocaleString('es-ES')} €</span>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                        <span style={{ fontSize: 10.5, background: itemPct >= 100 ? '#D9E8D9' : itemPct > 0 ? '#FBF0D9' : BEIGE, color: itemPct >= 100 ? '#3A6B3A' : itemPct > 0 ? '#B8862F' : SUBTEXT, borderRadius: 999, padding: '3px 9px', whiteSpace: 'nowrap' }}>{itemPct}%</span>
+                        <span style={{ fontSize: 10.5, background: itemPct >= 100 ? 'GREEN_LIGHT' : itemPct > 0 ? '#FBF0D9' : BEIGE, color: itemPct >= 100 ? 'GREEN' : itemPct > 0 ? '#B8862F' : SUBTEXT, borderRadius: 999, padding: '3px 9px', whiteSpace: 'nowrap' }}>{itemPct}%</span>
                         <button onClick={() => remove(b.id)} style={{ background: 'none', border: 'none', color: '#C9BCA8', cursor: 'pointer', fontSize: 16 }}>×</button>
                       </div>
                     </div>
@@ -148,11 +148,11 @@ export default function Presupuesto({ budget, setBudget, guestCount }: Props) {
                 })}
                 {budget.length > 0 && (
                   <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr auto', padding: '12px 18px', background: '#FBF9F5', borderTop: `1px solid ${BEIGE}` }}>
-                    <span style={{ fontSize: 13, fontWeight: 600, color: INK }}>Total</span>
-                    <span style={{ fontSize: 12, fontWeight: 600, color: INK }}>{totalEst.toLocaleString('es-ES')} €</span>
-                    <span style={{ fontSize: 12, fontWeight: 600, color: INK }}>{totalPaid.toLocaleString('es-ES')} €</span>
-                    <span style={{ fontSize: 12, fontWeight: 600, color: INK }}>{remaining.toLocaleString('es-ES')} €</span>
-                    <span style={{ fontSize: 12, fontWeight: 600, color: INK }}>{pct}%</span>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY }}>Total</span>
+                    <span style={{ fontSize: 12, fontWeight: 600, color: TEXT_PRIMARY }}>{totalEst.toLocaleString('es-ES')} €</span>
+                    <span style={{ fontSize: 12, fontWeight: 600, color: TEXT_PRIMARY }}>{totalPaid.toLocaleString('es-ES')} €</span>
+                    <span style={{ fontSize: 12, fontWeight: 600, color: TEXT_PRIMARY }}>{remaining.toLocaleString('es-ES')} €</span>
+                    <span style={{ fontSize: 12, fontWeight: 600, color: TEXT_PRIMARY }}>{pct}%</span>
                   </div>
                 )}
               </div>
@@ -163,7 +163,7 @@ export default function Presupuesto({ budget, setBudget, guestCount }: Props) {
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                     {SUGGESTED.filter(s => !budget.some(b => b.category === s)).map(s => (
                       <button key={s} onClick={() => setBudget([...budget, { id: Date.now().toString() + s, category: s, estimated: 0, paid: 0 }])}
-                        style={{ border: `1px solid ${BEIGE}`, background: 'white', borderRadius: 999, padding: '6px 12px', fontSize: 11.5, color: INK, cursor: 'pointer' }}>
+                        style={{ border: `1px solid ${BEIGE}`, background: 'white', borderRadius: 999, padding: '6px 12px', fontSize: 11.5, color: TEXT_PRIMARY, cursor: 'pointer' }}>
                         + {s}
                       </button>
                     ))}
@@ -175,7 +175,7 @@ export default function Presupuesto({ budget, setBudget, guestCount }: Props) {
                 <input value={newCat} onChange={e => setNewCat(e.target.value)} placeholder="Categoría" style={{ flex: 1, border: `1px solid ${BEIGE}`, borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }} />
                 <input value={newEst} onChange={e => setNewEst(e.target.value)} type="number" placeholder="Presupuesto €" style={{ width: 140, border: `1px solid ${BEIGE}`, borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }} />
                 <input value={newPaid} onChange={e => setNewPaid(e.target.value)} type="number" placeholder="Pagado €" style={{ width: 120, border: `1px solid ${BEIGE}`, borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }} />
-                <button onClick={add} style={{ background: BROWN, color: 'white', border: 'none', borderRadius: 12, padding: '11px 22px', fontSize: 13, cursor: 'pointer' }}>Añadir</button>
+                <button onClick={add} style={{ background: BROWN, color: 'white', border: 'none', borderRadius: 12, padding: '11px 22px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Añadir</button>
               </div>
             </>
           )}
@@ -184,7 +184,7 @@ export default function Presupuesto({ budget, setBudget, guestCount }: Props) {
         {/* SIDEBAR */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignSelf: 'flex-start' }}>
           <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 16, padding: 18 }}>
-            <p style={{ fontFamily: F, fontSize: 15, color: INK, marginBottom: 12 }}>Resumen del presupuesto</p>
+            <p style={{ fontFamily: F, fontSize: 15, color: TEXT_PRIMARY, marginBottom: 12 }}>Resumen del presupuesto</p>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 14 }}>
               <svg width="120" height="120" viewBox="0 0 120 120">
                 <circle cx="60" cy="60" r={r} fill="none" stroke={BEIGE} strokeWidth="11" />
@@ -195,36 +195,36 @@ export default function Presupuesto({ budget, setBudget, guestCount }: Props) {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12 }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 6, color: INK }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: BROWN, display: 'inline-block' }} />Gastado</span>
-                <span style={{ color: INK }}>{totalPaid.toLocaleString('es-ES')} €</span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 6, color: TEXT_PRIMARY }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: BROWN, display: 'inline-block' }} />Gastado</span>
+                <span style={{ color: TEXT_PRIMARY }}>{totalPaid.toLocaleString('es-ES')} €</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12 }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 6, color: INK }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: BEIGE, display: 'inline-block' }} />Restante</span>
-                <span style={{ color: INK }}>{remaining.toLocaleString('es-ES')} €</span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 6, color: TEXT_PRIMARY }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: BEIGE, display: 'inline-block' }} />Restante</span>
+                <span style={{ color: TEXT_PRIMARY }}>{remaining.toLocaleString('es-ES')} €</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, fontWeight: 600, borderTop: `1px solid ${BEIGE}`, paddingTop: 6, marginTop: 2 }}>
-                <span style={{ color: INK }}>Total</span>
-                <span style={{ color: INK }}>{totalEst.toLocaleString('es-ES')} €</span>
+                <span style={{ color: TEXT_PRIMARY }}>Total</span>
+                <span style={{ color: TEXT_PRIMARY }}>{totalEst.toLocaleString('es-ES')} €</span>
               </div>
             </div>
           </div>
 
           <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 16, padding: 18 }}>
-            <p style={{ fontFamily: F, fontSize: 15, color: INK, marginBottom: 12 }}>Resumen de pagos</p>
+            <p style={{ fontFamily: F, fontSize: 15, color: TEXT_PRIMARY, marginBottom: 12 }}>Resumen de pagos</p>
             {[
-              { l: 'Pagado', v: paidCount, color: '#3A6B3A' },
+              { l: 'Pagado', v: paidCount, color: 'GREEN' },
               { l: 'Parcial', v: pendingCount, color: '#B8862F' },
               { l: 'Sin pagar', v: overdueCount, color: '#C0594F' },
             ].map(row => (
               <div key={row.l} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '6px 0' }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: INK }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: row.color, display: 'inline-block' }} />{row.l}</span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: TEXT_PRIMARY }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: row.color, display: 'inline-block' }} />{row.l}</span>
                 <span style={{ fontSize: 12, color: SUBTEXT }}>{row.v}</span>
               </div>
             ))}
           </div>
 
           <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 16, padding: 18 }}>
-            <p style={{ fontFamily: F, fontSize: 15, color: INK, marginBottom: 12 }}>Gastos principales</p>
+            <p style={{ fontFamily: F, fontSize: 15, color: TEXT_PRIMARY, marginBottom: 12 }}>Gastos principales</p>
             {topExpenses.length === 0 ? (
               <p style={{ fontSize: 12, color: SUBTEXT }}>Añadid partidas para ver el desglose.</p>
             ) : topExpenses.map((b, i) => {
@@ -232,7 +232,7 @@ export default function Presupuesto({ budget, setBudget, guestCount }: Props) {
               return (
                 <div key={b.id} style={{ marginBottom: 10 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                    <span style={{ fontSize: 12, color: INK }}>{b.category}</span>
+                    <span style={{ fontSize: 12, color: TEXT_PRIMARY }}>{b.category}</span>
                     <span style={{ fontSize: 11, color: SUBTEXT }}>{share}%</span>
                   </div>
                   <div style={{ height: 6, borderRadius: 999, background: BEIGE, overflow: 'hidden' }}>
@@ -244,7 +244,7 @@ export default function Presupuesto({ budget, setBudget, guestCount }: Props) {
           </div>
 
           <div style={{ background: 'linear-gradient(135deg, #F4EFE8, #EFE6F5)', border: `1px solid ${BEIGE}`, borderRadius: 16, padding: 18 }}>
-            <p style={{ fontFamily: F, fontSize: 15, color: INK, marginBottom: 6 }}>Consejo</p>
+            <p style={{ fontFamily: F, fontSize: 15, color: TEXT_PRIMARY, marginBottom: 6 }}>Consejo</p>
             <p style={{ fontSize: 11.5, color: SUBTEXT, lineHeight: 1.5 }}>
               {overdueCount > 0
                 ? `Tenéis ${overdueCount} partida${overdueCount !== 1 ? 's' : ''} sin ningún pago realizado. Revisadlas para no llevaros sorpresas de última hora.`

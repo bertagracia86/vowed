@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { F, INK, MUTE } from '@/lib/constants'
+import { F, INK, MUTE, TEXT_PRIMARY } from '@/lib/constants'
 import { Task, Milestone } from '@/lib/types'
 import { TASK_PHASES } from '@/lib/defaults'
 
@@ -76,13 +76,13 @@ export default function Planning({ tasks, setTasks, milestones, setMilestones, w
 
   return (
     <div>
-      <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: INK, marginBottom: 16 }}>Planning</h1>
+      <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: TEXT_PRIMARY, marginBottom: 16 }}>Planning</h1>
 
       <div style={{ display: 'flex', gap: 20, borderBottom: `1px solid ${BEIGE}`, marginBottom: 22, overflowX: 'auto' }}>
         {TABS.map(t => (
           <button key={t} onClick={() => setTab2(t)} style={{
             background: 'none', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap', padding: '0 0 10px', fontSize: 13, fontFamily: F,
-            color: tab === t ? INK : SUBTEXT, fontWeight: tab === t ? 600 : 400, borderBottom: tab === t ? `2px solid ${BROWN}` : '2px solid transparent'
+            color: tab === t ? INK : SUBTEXT, fontWeight: tab === t ? 600 : 500, borderBottom: tab === t ? `2px solid ${BROWN}` : '2px solid transparent'
           }}>{t}</button>
         ))}
       </div>
@@ -93,7 +93,7 @@ export default function Planning({ tasks, setTasks, milestones, setMilestones, w
             <div style={{ display: 'flex', gap: 8, marginBottom: 18 }}>
               <input value={newTitle} onChange={e => setNewTitle(e.target.value)} onKeyDown={e => e.key === 'Enter' && addMilestone()} placeholder="Hito (ej: Enviar invitaciones)" style={{ flex: 1, border: `1px solid ${BEIGE}`, borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }} />
               <input type="date" value={newDate} onChange={e => setNewDate(e.target.value)} style={{ border: `1px solid ${BEIGE}`, borderRadius: 12, padding: '11px 14px', fontSize: 13, outline: 'none' }} />
-              <button onClick={addMilestone} style={{ background: BROWN, color: 'white', border: 'none', borderRadius: 12, padding: '11px 22px', fontSize: 13, cursor: 'pointer' }}>Añadir</button>
+              <button onClick={addMilestone} style={{ background: BROWN, color: 'white', border: 'none', borderRadius: 12, padding: '11px 22px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Añadir</button>
             </div>
             {[...milestones].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()).length === 0 ? (
               <p style={{ fontSize: 13, color: SUBTEXT, textAlign: 'center', padding: '30px 0' }}>Sin hitos todavía.</p>
@@ -118,7 +118,7 @@ export default function Planning({ tasks, setTasks, milestones, setMilestones, w
           </div>
           <div style={{ background: 'linear-gradient(135deg, #F1E7D0, #F8F3E8)', borderRadius: 16, padding: '24px', alignSelf: 'flex-start' }}>
             <p style={{ fontSize: 12, color: SUBTEXT, marginBottom: 6 }}>Fecha de la boda</p>
-            <p style={{ fontFamily: F, fontSize: 20, color: INK }}>{weddingDate ? new Date(weddingDate).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Por confirmar'}</p>
+            <p style={{ fontFamily: F, fontSize: 20, color: TEXT_PRIMARY }}>{weddingDate ? new Date(weddingDate).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Por confirmar'}</p>
             <p style={{ fontSize: 11, color: SUBTEXT, marginTop: 8 }}>Editad la fecha desde Ajustes → Detalles de la boda.</p>
           </div>
         </div>
@@ -126,7 +126,7 @@ export default function Planning({ tasks, setTasks, milestones, setMilestones, w
 
       {tab !== 'Checklist' && tab !== 'Hitos' && (
         <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 16, padding: '40px 24px', textAlign: 'center' }}>
-          <p style={{ fontFamily: F, fontSize: 18, color: INK, marginBottom: 6 }}>{tab}</p>
+          <p style={{ fontFamily: F, fontSize: 18, color: TEXT_PRIMARY, marginBottom: 6 }}>{tab}</p>
           <p style={{ fontSize: 12, color: SUBTEXT }}>Muy pronto podréis gestionar esto desde aquí.</p>
         </div>
       )}
@@ -142,7 +142,7 @@ export default function Planning({ tasks, setTasks, milestones, setMilestones, w
                 <text x="50" y="56" textAnchor="middle" fontSize="20" fontFamily={F} fill={INK}>{pct}%</text>
               </svg>
               <div>
-                <p style={{ fontFamily: F, fontSize: 19, color: INK, marginBottom: 4 }}>Progreso de la planificación</p>
+                <p style={{ fontFamily: F, fontSize: 19, color: TEXT_PRIMARY, marginBottom: 4 }}>Progreso de la planificación</p>
                 <p style={{ fontSize: 12, color: SUBTEXT }}>{pct >= 100 ? '¡Lo tenéis todo listo!' : pct >= 50 ? '¡Vais muy bien! Seguid así.' : 'Cada tarea completada os acerca más al gran día.'}</p>
               </div>
             </div>
@@ -163,7 +163,7 @@ export default function Planning({ tasks, setTasks, milestones, setMilestones, w
                   )
                 })}
               </div>
-              <button onClick={() => setSortAlpha(s => !s)} style={{ border: `1px solid ${BEIGE}`, background: 'white', borderRadius: 999, padding: '7px 14px', fontSize: 12, color: INK, cursor: 'pointer' }}>
+              <button onClick={() => setSortAlpha(s => !s)} style={{ border: `1px solid ${BEIGE}`, background: 'white', borderRadius: 999, padding: '7px 14px', fontSize: 12, color: TEXT_PRIMARY, cursor: 'pointer' }}>
                 Ordenar: {sortAlpha ? 'Alfabético' : 'Por fase'}
               </button>
             </div>
@@ -172,7 +172,7 @@ export default function Planning({ tasks, setTasks, milestones, setMilestones, w
               <p style={{ fontSize: 13, color: SUBTEXT, textAlign: 'center', padding: '30px 0' }}>Sin tareas en este filtro.</p>
             ) : filteredByPhase.map(group => (
               <div key={group.phase} style={{ marginBottom: 18 }}>
-                <p style={{ fontFamily: F, fontSize: 14, color: INK, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <p style={{ fontFamily: F, fontSize: 14, color: TEXT_PRIMARY, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
                   {group.phase}
                   <span style={{ fontSize: 11, color: SUBTEXT }}>({group.items.length})</span>
                 </p>
@@ -195,7 +195,7 @@ export default function Planning({ tasks, setTasks, milestones, setMilestones, w
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignSelf: 'flex-start' }}>
             <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 16, padding: 18 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-                <p style={{ fontFamily: F, fontSize: 15, color: INK }}>{MONTH_NAMES[month]} {year}</p>
+                <p style={{ fontFamily: F, fontSize: 15, color: TEXT_PRIMARY }}>{MONTH_NAMES[month]} {year}</p>
                 <div style={{ display: 'flex', gap: 4 }}>
                   <button onClick={() => setMonthOffset(m => m - 1)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: SUBTEXT, fontSize: 13, padding: 4 }}>‹</button>
                   <button onClick={() => setMonthOffset(m => m + 1)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: SUBTEXT, fontSize: 13, padding: 4 }}>›</button>
@@ -222,7 +222,7 @@ export default function Planning({ tasks, setTasks, milestones, setMilestones, w
 
             <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 16, padding: 18 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-                <p style={{ fontFamily: F, fontSize: 15, color: INK }}>Próximos hitos</p>
+                <p style={{ fontFamily: F, fontSize: 15, color: TEXT_PRIMARY }}>Próximos hitos</p>
                 <span onClick={() => setTab2('Hitos')} style={{ fontSize: 11, color: BROWN, cursor: 'pointer', textDecoration: 'underline' }}>Ver todos</span>
               </div>
               {upcomingMilestones.length === 0 ? (
@@ -232,7 +232,7 @@ export default function Planning({ tasks, setTasks, milestones, setMilestones, w
                 return (
                   <div key={m.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 0', borderBottom: `1px solid ${BEIGE}` }}>
                     <div>
-                      <p style={{ fontSize: 12.5, color: INK }}>{m.title}</p>
+                      <p style={{ fontSize: 12.5, color: TEXT_PRIMARY }}>{m.title}</p>
                       <p style={{ fontSize: 10.5, color: SUBTEXT }}>{new Date(m.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
                     </div>
                     <span style={{ fontSize: 10.5, color: BROWN, background: BEIGE, borderRadius: 999, padding: '3px 9px', whiteSpace: 'nowrap' }}>
@@ -244,9 +244,9 @@ export default function Planning({ tasks, setTasks, milestones, setMilestones, w
             </div>
 
             <div style={{ background: 'linear-gradient(135deg, #F4EFE8, #EFE6F5)', border: `1px solid ${BEIGE}`, borderRadius: 16, padding: 18 }}>
-              <p style={{ fontFamily: F, fontSize: 15, color: INK, marginBottom: 6 }}>¿Necesitáis ayuda?</p>
+              <p style={{ fontFamily: F, fontSize: 15, color: TEXT_PRIMARY, marginBottom: 6 }}>¿Necesitáis ayuda?</p>
               <p style={{ fontSize: 11.5, color: SUBTEXT, marginBottom: 12, lineHeight: 1.5 }}>Consultad nuestros consejos de expertos para manteneros al día en cada etapa.</p>
-              <button onClick={() => setTab('consejos')} style={{ background: BROWN, color: 'white', border: 'none', borderRadius: 999, padding: '9px 18px', fontSize: 12, cursor: 'pointer' }}>
+              <button onClick={() => setTab('consejos')} style={{ background: BROWN, color: 'white', border: 'none', borderRadius: 999, padding: '9px 18px', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
                 Ver consejos
               </button>
             </div>

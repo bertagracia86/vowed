@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { F, BLUE, INK, MUTE } from '@/lib/constants'
+import { F, BLUE, INK, MUTE, TEXT_PRIMARY, TEXT_SECONDARY, GREEN } from '@/lib/constants'
 import { Guest } from '@/lib/types'
 
 interface Props { guests: Guest[] }
@@ -21,33 +21,33 @@ export default function Mensajes({ guests }: Props) {
 
   return (
     <div>
-      <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: INK, marginBottom: 4 }}>Mensajes a invitados</h1>
-      <p style={{ fontSize: 12, color: MUTE, marginBottom: 20 }}>Enviad recordatorios y novedades a todos vuestros invitados desde un solo sitio.</p>
+      <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: TEXT_PRIMARY, marginBottom: 4 }}>Mensajes a invitados</h1>
+      <p style={{ fontSize: 12, color: TEXT_SECONDARY, marginBottom: 20 }}>Enviad recordatorios y novedades a todos vuestros invitados desde un solo sitio.</p>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14, marginBottom: 28 }}>
         <div style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 14, padding: '16px 18px' }}>
-          <p style={{ fontFamily: F, fontSize: 24, color: INK }}>{guests.length}</p>
-          <p style={{ fontSize: 11.5, color: MUTE }}>Invitados totales</p>
+          <p style={{ fontFamily: F, fontSize: 24, color: TEXT_PRIMARY }}>{guests.length}</p>
+          <p style={{ fontSize: 11.5, color: TEXT_SECONDARY }}>Invitados totales</p>
         </div>
         <div style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 14, padding: '16px 18px' }}>
-          <p style={{ fontFamily: F, fontSize: 24, color: '#3A6B3A' }}>{confirmed}</p>
-          <p style={{ fontSize: 11.5, color: MUTE }}>Confirmados</p>
+          <p style={{ fontFamily: F, fontSize: 24, color: 'GREEN' }}>{confirmed}</p>
+          <p style={{ fontSize: 11.5, color: TEXT_SECONDARY }}>Confirmados</p>
         </div>
         <div style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 14, padding: '16px 18px' }}>
           <p style={{ fontFamily: F, fontSize: 24, color: '#B8862F' }}>{pending}</p>
-          <p style={{ fontSize: 11.5, color: MUTE }}>Pendientes de responder</p>
+          <p style={{ fontSize: 11.5, color: TEXT_SECONDARY }}>Pendientes de responder</p>
         </div>
       </div>
 
-      <p style={{ fontFamily: F, fontSize: 18, color: INK, marginBottom: 12 }}>Plantillas de mensaje</p>
+      <p style={{ fontFamily: F, fontSize: 18, color: TEXT_PRIMARY, marginBottom: 12 }}>Plantillas de mensaje</p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
         {TEMPLATES.map(t => (
           <div key={t.id} onClick={() => setSelected(t.id)} style={{
             border: selected === t.id ? `1.5px solid ${BLUE}` : '1px solid #ECE9E4', background: selected === t.id ? '#F7F4EF' : 'white',
             borderRadius: 14, padding: '14px 18px', cursor: 'pointer'
           }}>
-            <p style={{ fontSize: 14, fontWeight: 600, color: INK, marginBottom: 4 }}>{t.title}</p>
-            <p style={{ fontSize: 12, color: MUTE, lineHeight: 1.5 }}>{t.body}</p>
+            <p style={{ fontSize: 14, fontWeight: 600, color: TEXT_PRIMARY, marginBottom: 4 }}>{t.title}</p>
+            <p style={{ fontSize: 12, color: TEXT_SECONDARY, lineHeight: 1.5 }}>{t.body}</p>
           </div>
         ))}
       </div>

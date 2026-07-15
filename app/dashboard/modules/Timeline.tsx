@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { F, INK } from '@/lib/constants'
+import { F, INK, TEXT_PRIMARY } from '@/lib/constants'
 
 interface Props { weddingDate: string; guestCount: number }
 
@@ -69,7 +69,7 @@ export default function Timeline({ weddingDate, guestCount }: Props) {
 
   return (
     <div>
-      <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: INK, marginBottom: 4 }}>Timeline</h1>
+      <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: TEXT_PRIMARY, marginBottom: 4 }}>Timeline</h1>
       <p style={{ fontSize: 12, color: SUBTEXT, marginBottom: 20 }}>Planificad cada momento y afrontad vuestro gran día con confianza.</p>
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, borderBottom: `1px solid ${BEIGE}`, marginBottom: 20, flexWrap: 'wrap' }}>
@@ -77,16 +77,16 @@ export default function Timeline({ weddingDate, guestCount }: Props) {
           {TABS.map(t => (
             <button key={t} onClick={() => setTab(t)} style={{
               background: 'none', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap', padding: '0 0 10px', fontSize: 13, fontFamily: F,
-              color: tab === t ? INK : SUBTEXT, fontWeight: tab === t ? 600 : 400, borderBottom: tab === t ? `2px solid ${BROWN}` : '2px solid transparent'
+              color: tab === t ? INK : SUBTEXT, fontWeight: tab === t ? 600 : 500, borderBottom: tab === t ? `2px solid ${BROWN}` : '2px solid transparent'
             }}>{t}</button>
           ))}
         </div>
-        <button onClick={addEvent} style={{ background: BROWN, color: 'white', border: 'none', borderRadius: 999, padding: '9px 18px', fontSize: 12, cursor: 'pointer', marginBottom: 8 }}>+ Añadir evento</button>
+        <button onClick={addEvent} style={{ background: BROWN, color: 'white', border: 'none', borderRadius: 999, padding: '9px 18px', fontSize: 12, fontWeight: 600, cursor: 'pointer', marginBottom: 8 }}>+ Añadir evento</button>
       </div>
 
       {tab !== 'Día de la boda' ? (
         <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 16, padding: '40px 24px', textAlign: 'center' }}>
-          <p style={{ fontFamily: F, fontSize: 17, color: INK, marginBottom: 6 }}>{tab}</p>
+          <p style={{ fontFamily: F, fontSize: 17, color: TEXT_PRIMARY, marginBottom: 6 }}>{tab}</p>
           <p style={{ fontSize: 12, color: SUBTEXT }}>Muy pronto podréis planificar este evento desde aquí.</p>
         </div>
       ) : (
@@ -95,19 +95,19 @@ export default function Timeline({ weddingDate, guestCount }: Props) {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 20 }}>
               <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 14, padding: '14px 18px' }}>
                 <p style={{ fontSize: 11, color: SUBTEXT, marginBottom: 6 }}>Fecha</p>
-                <p style={{ fontFamily: F, fontSize: 15, color: INK }}>{weddingDate ? new Date(weddingDate).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Por confirmar'}</p>
+                <p style={{ fontFamily: F, fontSize: 15, color: TEXT_PRIMARY }}>{weddingDate ? new Date(weddingDate).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Por confirmar'}</p>
               </div>
               <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 14, padding: '14px 18px' }}>
                 <p style={{ fontSize: 11, color: SUBTEXT, marginBottom: 6 }}>Inicio</p>
-                <p style={{ fontFamily: F, fontSize: 15, color: INK }}>{events[0]?.time || '—'}</p>
+                <p style={{ fontFamily: F, fontSize: 15, color: TEXT_PRIMARY }}>{events[0]?.time || '—'}</p>
               </div>
               <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 14, padding: '14px 18px' }}>
                 <p style={{ fontSize: 11, color: SUBTEXT, marginBottom: 6 }}>Invitados</p>
-                <p style={{ fontFamily: F, fontSize: 15, color: INK }}>{guestCount}</p>
+                <p style={{ fontFamily: F, fontSize: 15, color: TEXT_PRIMARY }}>{guestCount}</p>
               </div>
               <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 14, padding: '14px 18px' }}>
                 <p style={{ fontSize: 11, color: SUBTEXT, marginBottom: 6 }}>Eventos</p>
-                <p style={{ fontFamily: F, fontSize: 15, color: INK }}>{total}</p>
+                <p style={{ fontFamily: F, fontSize: 15, color: TEXT_PRIMARY }}>{total}</p>
               </div>
             </div>
 
@@ -130,14 +130,14 @@ export default function Timeline({ weddingDate, guestCount }: Props) {
                           <input value={ev.subtitle} onChange={e => update(ev.id, 'subtitle', e.target.value)} placeholder="Detalle" style={{ flex: 1, border: `1px solid ${BEIGE}`, borderRadius: 8, padding: '6px 10px', fontSize: 12, outline: 'none' }} />
                           <input value={ev.location} onChange={e => update(ev.id, 'location', e.target.value)} placeholder="Ubicación" style={{ flex: 1, border: `1px solid ${BEIGE}`, borderRadius: 8, padding: '6px 10px', fontSize: 12, outline: 'none' }} />
                         </div>
-                        <button onClick={() => setEditing(null)} style={{ alignSelf: 'flex-end', background: BROWN, color: 'white', border: 'none', borderRadius: 999, padding: '6px 14px', fontSize: 11.5, cursor: 'pointer' }}>Listo</button>
+                        <button onClick={() => setEditing(null)} style={{ alignSelf: 'flex-end', background: BROWN, color: 'white', border: 'none', borderRadius: 999, padding: '6px 14px', fontSize: 11.5, fontWeight: 600, cursor: 'pointer' }}>Listo</button>
                       </div>
                     ) : (
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 14, minWidth: 0 }}>
                           <span style={{ fontFamily: F, fontSize: 14, color: BROWN, minWidth: 46, flexShrink: 0 }}>{ev.time}</span>
                           <div style={{ minWidth: 0 }}>
-                            <p style={{ fontSize: 13.5, fontWeight: 600, color: INK }}>{ev.title}</p>
+                            <p style={{ fontSize: 13.5, fontWeight: 600, color: TEXT_PRIMARY }}>{ev.title}</p>
                             <p style={{ fontSize: 11, color: SUBTEXT }}>{ev.subtitle}</p>
                           </div>
                         </div>
@@ -162,7 +162,7 @@ export default function Timeline({ weddingDate, guestCount }: Props) {
           {/* SIDEBAR */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignSelf: 'flex-start' }}>
             <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 16, padding: 18 }}>
-              <p style={{ fontFamily: F, fontSize: 15, color: INK, marginBottom: 12 }}>Progreso del timeline</p>
+              <p style={{ fontFamily: F, fontSize: 15, color: TEXT_PRIMARY, marginBottom: 12 }}>Progreso del timeline</p>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <svg width="110" height="110" viewBox="0 0 110 110">
                   <circle cx="55" cy="55" r="42" fill="none" stroke={BEIGE} strokeWidth="10" />
@@ -175,35 +175,35 @@ export default function Timeline({ weddingDate, guestCount }: Props) {
             </div>
 
             <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 16, padding: 18 }}>
-              <p style={{ fontFamily: F, fontSize: 15, color: INK, marginBottom: 12 }}>Acciones rápidas</p>
+              <p style={{ fontFamily: F, fontSize: 15, color: TEXT_PRIMARY, marginBottom: 12 }}>Acciones rápidas</p>
               {[
                 { label: 'Duplicar timeline', desc: 'Copiad este horario para otro evento' },
                 { label: 'Reordenar eventos', desc: 'Usad las flechas para cambiar el orden' },
               ].map(a => (
                 <div key={a.label} style={{ padding: '8px 0', borderBottom: `1px solid ${BEIGE}` }}>
-                  <p style={{ fontSize: 12.5, color: INK, marginBottom: 2 }}>{a.label}</p>
+                  <p style={{ fontSize: 12.5, color: TEXT_PRIMARY, marginBottom: 2 }}>{a.label}</p>
                   <p style={{ fontSize: 10.5, color: SUBTEXT }}>{a.desc}</p>
                 </div>
               ))}
-              <button onClick={addEvent} style={{ marginTop: 10, width: '100%', background: BROWN, color: 'white', border: 'none', borderRadius: 999, padding: '9px 0', fontSize: 12, cursor: 'pointer' }}>+ Añadir evento</button>
+              <button onClick={addEvent} style={{ marginTop: 10, width: '100%', background: BROWN, color: 'white', border: 'none', borderRadius: 999, padding: '9px 0', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>+ Añadir evento</button>
             </div>
 
             <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 16, padding: 18 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-                <p style={{ fontFamily: F, fontSize: 15, color: INK }}>Categorías</p>
+                <p style={{ fontFamily: F, fontSize: 15, color: TEXT_PRIMARY }}>Categorías</p>
               </div>
               {Object.entries(categoryCounts).map(([cat, count]) => (
                 <div key={cat} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '5px 0' }}>
-                  <span style={{ fontSize: 12, color: INK }}>{cat}</span>
+                  <span style={{ fontSize: 12, color: TEXT_PRIMARY }}>{cat}</span>
                   <span style={{ fontSize: 11.5, color: SUBTEXT }}>{count}</span>
                 </div>
               ))}
             </div>
 
             <div style={{ background: 'linear-gradient(135deg, #F4EFE8, #EFE6F5)', border: `1px solid ${BEIGE}`, borderRadius: 16, padding: 18 }}>
-              <p style={{ fontFamily: F, fontSize: 15, color: INK, marginBottom: 6 }}>¿Necesitáis ayuda?</p>
+              <p style={{ fontFamily: F, fontSize: 15, color: TEXT_PRIMARY, marginBottom: 6 }}>¿Necesitáis ayuda?</p>
               <p style={{ fontSize: 11.5, color: SUBTEXT, marginBottom: 12, lineHeight: 1.5 }}>Consultad nuestras recomendaciones para perfeccionar vuestro horario.</p>
-              <button style={{ background: BROWN, color: 'white', border: 'none', borderRadius: 999, padding: '9px 18px', fontSize: 12, cursor: 'pointer' }}>Ver sugerencias</button>
+              <button style={{ background: BROWN, color: 'white', border: 'none', borderRadius: 999, padding: '9px 18px', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>Ver sugerencias</button>
             </div>
           </div>
         </div>

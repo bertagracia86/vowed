@@ -1,13 +1,10 @@
 'use client'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { F, BLUE, BLUE_DARK, INK, TEXT_PRIMARY } from '@/lib/constants'
 
-const BLUE = '#AAA396'
-const BLUE_DARK = '#898a76'
 const BLUE_LIGHT = '#efe9e3'
-const INK = '#898a76'
 const NEUTRAL = '#faf9f7'
-const F = "'Cormorant', serif"
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0)
@@ -48,9 +45,9 @@ export default function Home() {
         .footer-a:hover { color: white; }
         .btn-light { background: rgba(255,255,255,0.92); color: ${INK}; border: none; border-radius: 999px; padding: 14px 36px; font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; font-family: ${F}; }
         .btn-light:hover { background: white; transform: translateY(-1px); }
-        .btn-blue { background: ${BLUE_DARK}; color: white; border: none; border-radius: 999px; padding: 14px 36px; font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; font-family: ${F}; }
+        .btn-blue { background: ${BLUE_DARK}; color: white; border: none; border-radius: 999px; padding: 14px 36px; font-size: 16px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; font-family: ${F}; }
         .btn-blue:hover { transform: translateY(-1px); }
-        .btn-blue-sm { background: ${BLUE_DARK}; color: white; border: none; border-radius: 999px; padding: 10px 24px; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; font-family: ${F}; }
+        .btn-blue-sm { background: ${BLUE_DARK}; color: white; border: none; border-radius: 999px; padding: 10px 24px; font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; font-family: ${F}; }
         .btn-blue-sm:hover { opacity: 0.9; transform: translateY(-1px); }
         .feat-card { padding: 32px 28px; background: white; transition: background 0.2s; cursor: pointer; display: flex; flex-direction: column; }
         .feat-card:hover { background: #faf8f2; }
@@ -73,30 +70,33 @@ export default function Home() {
         <Link href="/" style={{ fontFamily: F, fontSize: 26, fontStyle: 'italic', fontWeight: 700, color: '#898a76', textDecoration: 'none' }}>mylov3</Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
           {[{ l: 'Inicio', a: true }, { l: 'Nosotros' }, { l: 'Servicios' }, { l: 'Precios' }, { l: 'Inspiración' }, { l: 'Contacto' }].map(n => (
-            <a key={n.l} href="#" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', textDecoration: 'none', color: n.a ? BLUE_DARK : INK, opacity: n.a ? 1 : 0.65, fontWeight: n.a ? 600 : 400 }}>{n.l}</a>
+            <a key={n.l} href="#" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.01em', textTransform: 'uppercase', textDecoration: 'none', color: n.a ? BLUE_DARK : INK, opacity: n.a ? 1 : 0.65, fontWeight: n.a ? 600 : 500 }}>{n.l}</a>
           ))}
         </div>
-        <Link href="/start" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: BLUE_DARK, border: `1px solid ${BLUE_DARK}`, borderRadius: 999, padding: '10px 22px', textDecoration: 'none' }}>Empezar</Link>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
+          <Link href="/dashboard" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.01em', textTransform: 'uppercase', color: INK, textDecoration: 'none' }}>Iniciar sesión</Link>
+          <Link href="/start" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.01em', textTransform: 'uppercase', color: BLUE_DARK, border: `1px solid ${BLUE_DARK}`, borderRadius: 999, padding: '10px 22px', textDecoration: 'none' }}>Empezar</Link>
+        </div>
       </nav>
 
       {/* HERO — flat-lay de sobre y flores */}
       <section className="hero-sec" style={{ position: 'relative', minHeight: '82vh', overflow: 'hidden', paddingTop: 68, background: NEUTRAL, display: 'flex', alignItems: 'center' }}>
         <img src="/banner-envelope.png" alt="" style={{ position: 'absolute', top: 68, left: 0, right: 0, bottom: 0, width: '100%', height: 'calc(100% - 68px)', objectFit: 'cover', objectPosition: 'center' }} />
         <div style={{ position: 'absolute', top: 68, left: 0, bottom: 0, width: '52%', background: 'linear-gradient(90deg, rgba(250,249,247,0.85) 0%, rgba(250,249,247,0.55) 55%, rgba(250,249,247,0) 100%)' }} />
-        <div style={{ position: 'relative', zIndex: 2, padding: '0 64px', width: '100%' }}>
+        <div style={{ position: 'relative', zIndex: 2, padding: '0 64px 0 84px', width: '100%' }}>
           <div style={{ maxWidth: 480 }}>
-            <span style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.16em', textTransform: 'uppercase', color: BLUE_DARK, fontWeight: 600 }}>Planificamos. Vosotros celebráis.</span>
-            <h2 style={{ fontFamily: F, fontSize: 'clamp(2rem,4vw,3.2rem)', fontWeight: 600, lineHeight: 1.15, margin: '18px 0 22px' }}>
+            <span style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.01em', textTransform: 'uppercase', color: BLUE_DARK, fontWeight: 600 }}>Planificamos. Vosotros celebráis.</span>
+            <h2 style={{ fontFamily: F, fontSize: 'clamp(2rem,4vw,3.2rem)', fontWeight: 500, lineHeight: 1.15, margin: '18px 0 22px' }}>
               <span style={{ color: '#5f6050' }}>Planifica tu boda,</span><br /><i style={{ color: '#898a76' }}>sé tu wedding planner</i>
             </h2>
             <p style={{ fontFamily: F, fontSize: 16, color: '#6b5a4a', lineHeight: 1.7, marginBottom: 32, maxWidth: 400 }}>
               Creamos celebraciones cuidadas e inolvidables, en los lugares más bonitos del mundo.
             </p>
             <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-              <Link href="/start" style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: NEUTRAL, background: BLUE_DARK, borderRadius: 999, padding: '15px 30px', textDecoration: 'none', display: 'inline-block' }}>
+              <Link href="/start" style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.01em', textTransform: 'uppercase', color: NEUTRAL, background: BLUE_DARK, borderRadius: 999, padding: '15px 30px', textDecoration: 'none', display: 'inline-block', fontWeight: 600 }}>
                 ¡Empezamos!
               </Link>
-              <Link href="/dashboard" style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: INK, background: 'transparent', border: `1px solid ${INK}`, borderRadius: 999, padding: '14px 29px', textDecoration: 'none', display: 'inline-block' }}>
+              <Link href="/dashboard" style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.01em', textTransform: 'uppercase', color: TEXT_PRIMARY, background: 'transparent', border: `1px solid ${INK}`, borderRadius: 999, padding: '14px 29px', textDecoration: 'none', display: 'inline-block' }}>
                 Ver demo
               </Link>
             </div>
@@ -116,7 +116,7 @@ export default function Home() {
             <div key={s.l} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">{s.icon}</svg>
               <p style={{ fontFamily: F, fontSize: 20, color: 'white' }}>{s.n}</p>
-              <p style={{ fontFamily: F, fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)' }}>{s.l}</p>
+              <p style={{ fontFamily: F, fontSize: 10.5, letterSpacing: '0.01em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)' }}>{s.l}</p>
             </div>
           ))}
         </div>
@@ -129,12 +129,12 @@ export default function Home() {
           {/* Fila 1: sobre nosotros + foto + servicios + foto */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 24, marginBottom: 90, alignItems: 'start' }}>
             <div>
-              <span style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#8a7358' }}>Sobre nosotros</span>
-              <h3 style={{ fontFamily: F, fontSize: 28, color: INK, lineHeight: 1.2, margin: '14px 0 18px' }}>Tu visión, perfectamente diseñada</h3>
+              <span style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.01em', textTransform: 'uppercase', color: '#8a7358' }}>Sobre nosotros</span>
+              <h3 style={{ fontFamily: F, fontSize: 28, color: TEXT_PRIMARY, lineHeight: 1.2, margin: '14px 0 18px' }}>Tu visión, perfectamente diseñada</h3>
               <p style={{ fontFamily: F, fontSize: 14, color: '#6b5a4a', lineHeight: 1.7, marginBottom: 26 }}>
                 Somos una herramienta de planificación de bodas pensada para parejas que quieren celebraciones a medida, con su propia historia y estilo.
               </p>
-              <a href="#" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: BLUE_DARK, border: `1px solid ${BLUE_DARK}`, borderRadius: 999, padding: '13px 22px', textDecoration: 'none', display: 'inline-block' }}>Conoce nuestra historia</a>
+              <a href="#" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.01em', textTransform: 'uppercase', color: BLUE_DARK, border: `1px solid ${BLUE_DARK}`, borderRadius: 999, padding: '13px 22px', textDecoration: 'none', display: 'inline-block' }}>Conoce nuestra historia</a>
             </div>
 
             <div style={{ height: 340 }}>
@@ -142,10 +142,10 @@ export default function Home() {
             </div>
 
             <div>
-              <span style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#8a7358' }}>Nuestros servicios</span>
-              <h3 style={{ fontFamily: F, fontSize: 28, color: INK, lineHeight: 1.2, margin: '14px 0 22px' }}>Experiencias a tu medida</h3>
+              <span style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.01em', textTransform: 'uppercase', color: '#8a7358' }}>Nuestros servicios</span>
+              <h3 style={{ fontFamily: F, fontSize: 28, color: TEXT_PRIMARY, lineHeight: 1.2, margin: '14px 0 22px' }}>Experiencias a tu medida</h3>
               {['Planificación completa', 'Planificación parcial', 'Bodas en cualquier destino', 'Diseño y estilismo'].map(s => (
-                <a key={s} href="#" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 0', borderTop: `1px solid ${BLUE}`, fontFamily: F, fontSize: 14, color: INK, textDecoration: 'none' }}>
+                <a key={s} href="#" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 0', borderTop: `1px solid ${BLUE}`, fontFamily: F, fontSize: 14, color: TEXT_PRIMARY, textDecoration: 'none' }}>
                   {s} <span style={{ color: BLUE_DARK }}>→</span>
                 </a>
               ))}
@@ -159,9 +159,9 @@ export default function Home() {
           {/* Fila 2: bodas destacadas + 4 fotos */}
           <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', gap: 40, alignItems: 'center' }}>
             <div>
-              <span style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#8a7358' }}>Bodas destacadas</span>
-              <h3 style={{ fontFamily: F, fontSize: 26, color: INK, lineHeight: 1.25, margin: '14px 0 22px' }}>Historias de amor que tuvimos el honor de acompañar</h3>
-              <a href="#" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: BLUE_DARK, border: `1px solid ${BLUE_DARK}`, borderRadius: 999, padding: '13px 22px', textDecoration: 'none', display: 'inline-block' }}>Ver portfolio</a>
+              <span style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.01em', textTransform: 'uppercase', color: '#8a7358' }}>Bodas destacadas</span>
+              <h3 style={{ fontFamily: F, fontSize: 26, color: TEXT_PRIMARY, lineHeight: 1.25, margin: '14px 0 22px' }}>Historias de amor que tuvimos el honor de acompañar</h3>
+              <a href="#" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.01em', textTransform: 'uppercase', color: BLUE_DARK, border: `1px solid ${BLUE_DARK}`, borderRadius: 999, padding: '13px 22px', textDecoration: 'none', display: 'inline-block' }}>Ver portfolio</a>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }}>
               {['/showcase-3.png', '/invitados.png', '/detalles.png', '/presupuesto.png'].map(src => (
@@ -180,7 +180,7 @@ export default function Home() {
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 40, flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
             <span style={{ fontFamily: F, fontSize: 48, color: BLUE_DARK, lineHeight: 1 }}>&ldquo;</span>
-            <p style={{ fontFamily: F, fontSize: 17, color: INK, lineHeight: 1.5 }}>
+            <p style={{ fontFamily: F, fontSize: 17, color: TEXT_PRIMARY, lineHeight: 1.5 }}>
               Cada detalle fue tal y como lo imaginamos.<br />Nuestra boda fue sencillamente mágica.
             </p>
           </div>
@@ -190,7 +190,7 @@ export default function Home() {
                 <img src="/invitados.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
               <div>
-                <p style={{ fontFamily: F, fontSize: 13, letterSpacing: '0.08em', textTransform: 'uppercase', color: INK, fontWeight: 600 }}>María &amp; Lucas</p>
+                <p style={{ fontFamily: F, fontSize: 13, letterSpacing: '0.01em', textTransform: 'uppercase', color: TEXT_PRIMARY, fontWeight: 600 }}>María &amp; Lucas</p>
                 <p style={{ fontFamily: F, fontSize: 13, color: '#8a7358' }}>Costa Amalfitana, Italia</p>
               </div>
             </div>
@@ -207,7 +207,7 @@ export default function Home() {
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '64px 64px 40px', display: 'grid', gridTemplateColumns: '1.3fr 1fr 1fr 1.3fr', gap: 40 }}>
           <div>
             <div style={{ fontFamily: F, fontSize: 26, fontStyle: 'italic', fontWeight: 700, color: 'white', marginBottom: 14 }}>mylov3</div>
-            <p style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.75)', lineHeight: 1.7, marginBottom: 20 }}>Planificación y diseño de bodas de lujo en el mundo</p>
+            <p style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.01em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.75)', lineHeight: 1.7, marginBottom: 20 }}>Planificación y diseño de bodas de lujo en el mundo</p>
             <div style={{ display: 'flex', gap: 10 }}>
               {[
                 { name: 'Instagram', icon: (
@@ -226,23 +226,23 @@ export default function Home() {
           </div>
 
           <div>
-            <p style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, color: 'white', marginBottom: 18 }}>Enlaces rápidos</p>
+            <p style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.01em', textTransform: 'uppercase', fontWeight: 600, color: 'white', marginBottom: 18 }}>Enlaces rápidos</p>
             {['Sobre nosotros', 'Servicios', 'Portfolio', 'Experiencia', 'Blog', 'Contacto'].map(l => (
               <a key={l} href="#" className="footer-a" style={{ color: 'rgba(255,255,255,0.8)' }}>{l}</a>
             ))}
           </div>
 
           <div>
-            <p style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, color: 'white', marginBottom: 18 }}>Destinos</p>
+            <p style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.01em', textTransform: 'uppercase', fontWeight: 600, color: 'white', marginBottom: 18 }}>Destinos</p>
             {['Italia', 'Francia', 'Grecia', 'España', 'Portugal', 'Todos los destinos'].map(l => (
               <a key={l} href="#" className="footer-a" style={{ color: 'rgba(255,255,255,0.8)' }}>{l}</a>
             ))}
           </div>
 
           <div>
-            <p style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, color: 'white', marginBottom: 18 }}>Creemos algo precioso juntos</p>
+            <p style={{ fontFamily: F, fontSize: 12, letterSpacing: '0.01em', textTransform: 'uppercase', fontWeight: 600, color: 'white', marginBottom: 18 }}>Creemos algo precioso juntos</p>
             <p style={{ fontFamily: F, fontSize: 14, color: 'rgba(255,255,255,0.75)', marginBottom: 22 }}>Cuéntanos sobre vuestra celebración</p>
-            <Link href="/start" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'white', border: '1px solid rgba(255,255,255,0.6)', borderRadius: 999, padding: '13px 26px', textDecoration: 'none', display: 'inline-block' }}>Empezar ahora</Link>
+            <Link href="/start" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.01em', textTransform: 'uppercase', color: 'white', border: '1px solid rgba(255,255,255,0.6)', borderRadius: 999, padding: '13px 26px', textDecoration: 'none', display: 'inline-block' }}>Empezar ahora</Link>
           </div>
         </div>
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.2)', padding: '20px 64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>

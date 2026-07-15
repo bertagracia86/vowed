@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { F, BLUE, INK, MUTE } from '@/lib/constants'
+import { F, BLUE, INK, MUTE, TEXT_PRIMARY, TEXT_SECONDARY } from '@/lib/constants'
 import { TableRow, Guest } from '@/lib/types'
 
 interface Props { tables: TableRow[]; setTables: (t: TableRow[]) => void; guests: Guest[]; setGuests: (g: Guest[]) => void }
@@ -37,7 +37,7 @@ function Seat({ guest, onDrop, onDragStart, onDragOverSeat, isOver, conflict }: 
       }}
     >
       {guest ? (
-        <span style={{ fontSize: 13, fontWeight: 700, color: INK }}>{initials(guest.name)}</span>
+        <span style={{ fontSize: 13, fontWeight: 700, color: TEXT_PRIMARY }}>{initials(guest.name)}</span>
       ) : (
         <span style={{ fontSize: 16, color: '#DDD8D0' }}>+</span>
       )}
@@ -63,17 +63,17 @@ function GuestEditor({ guest, allGuests, onClose, onSave }: { guest: Guest; allG
   return (
     <div onClick={onClose} style={{ position: 'fixed', inset: 0, background: 'rgba(36,28,23,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 60 }}>
       <div onClick={e => e.stopPropagation()} style={{ background: 'white', borderRadius: 16, width: 340, padding: '22px 24px' }}>
-        <p style={{ fontFamily: F, fontSize: 17, color: INK, marginBottom: 14 }}>{guest.name}</p>
+        <p style={{ fontFamily: F, fontSize: 17, color: TEXT_PRIMARY, marginBottom: 14 }}>{guest.name}</p>
 
-        <p style={{ fontSize: 11, color: MUTE, marginBottom: 6 }}>GRUPO / FAMILIA</p>
+        <p style={{ fontSize: 11, color: TEXT_SECONDARY, marginBottom: 6 }}>GRUPO / FAMILIA</p>
         <input value={group} onChange={e => setGroup(e.target.value)} placeholder="ej. Familia García" style={{ width: '100%', border: '1px solid #E3DCC9', borderRadius: 10, padding: '9px 12px', fontSize: 13, outline: 'none', marginBottom: 16 }} />
 
-        <p style={{ fontSize: 11, color: MUTE, marginBottom: 6 }}>NO SENTAR JUNTO A</p>
+        <p style={{ fontSize: 11, color: TEXT_SECONDARY, marginBottom: 6 }}>NO SENTAR JUNTO A</p>
         <div style={{ maxHeight: 160, overflowY: 'auto', border: '1px solid #F5EFE0', borderRadius: 10, padding: 8 }}>
           {others.length === 0 ? (
             <p style={{ fontSize: 11, color: '#C9BCA8', padding: 4 }}>No hay otros invitados.</p>
           ) : others.map(o => (
-            <label key={o.id} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12.5, color: INK, padding: '4px 4px', cursor: 'pointer' }}>
+            <label key={o.id} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12.5, color: TEXT_PRIMARY, padding: '4px 4px', cursor: 'pointer' }}>
               <input type="checkbox" checked={avoid.includes(o.id)} onChange={e => setAvoid(e.target.checked ? [...avoid, o.id] : avoid.filter(id => id !== o.id))} />
               {o.name}
             </label>
@@ -82,7 +82,7 @@ function GuestEditor({ guest, allGuests, onClose, onSave }: { guest: Guest; allG
 
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 18 }}>
           <button onClick={onClose} style={{ border: '1px solid #898a76', background: 'white', borderRadius: 999, padding: '8px 16px', fontSize: 12, cursor: 'pointer' }}>Cancelar</button>
-          <button onClick={() => { onSave(group, avoid); onClose() }} style={{ background: '#898a76', color: 'white', border: 'none', borderRadius: 999, padding: '8px 18px', fontSize: 12, cursor: 'pointer' }}>Guardar</button>
+          <button onClick={() => { onSave(group, avoid); onClose() }} style={{ background: '#898a76', color: 'white', border: 'none', borderRadius: 999, padding: '8px 18px', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>Guardar</button>
         </div>
       </div>
     </div>
@@ -144,8 +144,8 @@ export default function Mesas({ tables, setTables, guests, setGuests }: Props) {
 
   return (
     <div>
-      <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: INK, marginBottom: 4 }}>Plano de mesas</h1>
-      <p style={{ fontSize: 12, color: MUTE, marginBottom: 24 }}>
+      <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: TEXT_PRIMARY, marginBottom: 4 }}>Plano de mesas</h1>
+      <p style={{ fontSize: 12, color: TEXT_SECONDARY, marginBottom: 24 }}>
         {tables.length} mesas · {guests.length - unassigned.length}/{guests.length} invitados asignados · {totalCapacity} plazas disponibles
         {conflictCount > 0 && <span style={{ color: '#C0594F' }}> · {conflictCount} conflicto{conflictCount !== 1 ? 's' : ''} de asientos</span>}
       </p>
@@ -160,16 +160,16 @@ export default function Mesas({ tables, setTables, guests, setGuests }: Props) {
         {newShape !== 'standing' && (
           <input value={newCapacity} onChange={e => setNewCapacity(e.target.value)} type="number" min={1} placeholder="Plazas" style={{ width: 90, border: '1px solid #E3DCC9', borderRadius: 12, padding: '11px 14px', fontSize: 13, outline: 'none' }} />
         )}
-        <button onClick={addTable} style={{ background: BLUE, color: 'white', border: 'none', borderRadius: 12, padding: '11px 22px', fontSize: 13, cursor: 'pointer' }}>+ Mesa</button>
+        <button onClick={addTable} style={{ background: BLUE, color: 'white', border: 'none', borderRadius: 12, padding: '11px 22px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>+ Mesa</button>
       </div>
 
-      <p style={{ fontSize: 10.5, color: MUTE, marginBottom: 18 }}>
+      <p style={{ fontSize: 10.5, color: TEXT_SECONDARY, marginBottom: 18 }}>
         Arrastrad a un invitado hasta un asiento concreto para decidir exactamente quién va a cada lado. Clicad en un invitado para asignarle grupo o marcar con quién no debe sentarse.
       </p>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 40, marginBottom: 32 }}>
         {tables.length === 0 ? (
-          <p style={{ fontSize: 13, color: MUTE, textAlign: 'center', padding: '40px 0' }}>Sin mesas todavía. Añadid la primera arriba.</p>
+          <p style={{ fontSize: 13, color: TEXT_SECONDARY, textAlign: 'center', padding: '40px 0' }}>Sin mesas todavía. Añadid la primera arriba.</p>
         ) : tables.map(table => {
           const isStanding = table.shape === 'standing'
           const isRound = table.shape === 'round'
@@ -179,10 +179,10 @@ export default function Mesas({ tables, setTables, guests, setGuests }: Props) {
           return (
             <div key={table.id}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-                <p style={{ fontFamily: F, fontSize: 17, color: INK }}>{table.name}</p>
+                <p style={{ fontFamily: F, fontSize: 17, color: TEXT_PRIMARY }}>{table.name}</p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                   {!isStanding && (
-                    <span style={{ fontSize: 11, color: MUTE, background: '#F5F2EC', borderRadius: 999, padding: '3px 10px' }}>{seatedCount}/{table.capacity} plazas</span>
+                    <span style={{ fontSize: 11, color: TEXT_SECONDARY, background: '#F5F2EC', borderRadius: 999, padding: '3px 10px' }}>{seatedCount}/{table.capacity} plazas</span>
                   )}
                   <button onClick={() => removeTable(table.id, table.name)} style={{ background: 'none', border: 'none', color: '#C9BCA8', cursor: 'pointer', fontSize: 17 }}>×</button>
                 </div>
@@ -193,7 +193,7 @@ export default function Mesas({ tables, setTables, guests, setGuests }: Props) {
                   {tableGuests.length === 0 ? (
                     <p style={{ fontSize: 12, color: '#9B8EC4' }}>Zona de pie · sin límite · arrastra invitados aquí</p>
                   ) : tableGuests.map(g => (
-                    <span key={g.id} draggable onDragStart={() => setDragged({ guestId: g.id, fromTable: table.name, fromSeat: null })} style={{ background: 'white', border: '1px solid #C9BCE8', borderRadius: 999, padding: '5px 12px', fontSize: 12, color: INK, cursor: 'grab' }}>{g.name}</span>
+                    <span key={g.id} draggable onDragStart={() => setDragged({ guestId: g.id, fromTable: table.name, fromSeat: null })} style={{ background: 'white', border: '1px solid #C9BCE8', borderRadius: 999, padding: '5px 12px', fontSize: 12, color: TEXT_PRIMARY, cursor: 'grab' }}>{g.name}</span>
                   ))}
                 </div>
               ) : isRound ? (
@@ -207,7 +207,7 @@ export default function Mesas({ tables, setTables, guests, setGuests }: Props) {
                         position: 'absolute', left: center - radius + 30, top: center - radius + 30, width: (radius - 30) * 2, height: (radius - 30) * 2,
                         borderRadius: '50%', background: '#FBF9F5', border: '1.5px solid #E3DCC9', display: 'flex', alignItems: 'center', justifyContent: 'center'
                       }}>
-                        <span style={{ fontFamily: F, fontSize: 13, color: MUTE }}>{table.name}</span>
+                        <span style={{ fontFamily: F, fontSize: 13, color: TEXT_SECONDARY }}>{table.name}</span>
                       </div>
                       {Array.from({ length: table.capacity }).map((_, seat) => {
                         const angle = (seat / table.capacity) * 2 * Math.PI - Math.PI / 2
@@ -268,7 +268,7 @@ export default function Mesas({ tables, setTables, guests, setGuests }: Props) {
                     <div style={{ width, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
                       {renderRow(topCount, 0)}
                       <div style={{ width: '92%', height: 46, background: '#FBF9F5', border: '1.5px solid #E3DCC9', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <span style={{ fontFamily: F, fontSize: 13, color: MUTE }}>{table.name}</span>
+                        <span style={{ fontFamily: F, fontSize: 13, color: TEXT_SECONDARY }}>{table.name}</span>
                       </div>
                       {renderRow(bottomCount, topCount)}
                     </div>
@@ -286,13 +286,13 @@ export default function Mesas({ tables, setTables, guests, setGuests }: Props) {
         onDrop={() => dragged && unassign(dragged.guestId)}
         style={{ border: `1.5px ${dragOverUnassigned ? 'solid' : 'dashed'} ${dragOverUnassigned ? BLUE : '#F5EFE0'}`, borderRadius: 14, padding: 16, background: dragOverUnassigned ? '#F4EFE8' : 'transparent', transition: 'background 0.15s, border-color 0.15s' }}
       >
-        <p style={{ fontSize: 11, color: MUTE, marginBottom: 10 }}>Sin asignar ({unassigned.length})</p>
+        <p style={{ fontSize: 11, color: TEXT_SECONDARY, marginBottom: 10 }}>Sin asignar ({unassigned.length})</p>
         {unassigned.length === 0 ? (
           <p style={{ fontSize: 11, color: '#C9BCA8' }}>Todos asignados ♡</p>
         ) : (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
             {unassigned.map(g => (
-              <div key={g.id} draggable onDragStart={() => setDragged({ guestId: g.id, fromTable: null, fromSeat: null })} onClick={() => setEditingGuest(g)} style={{ background: 'white', border: '1px solid #F5EFE0', borderRadius: 999, padding: '7px 12px', fontSize: 12, color: INK, cursor: 'grab', display: 'flex', alignItems: 'center', gap: 6 }}>
+              <div key={g.id} draggable onDragStart={() => setDragged({ guestId: g.id, fromTable: null, fromSeat: null })} onClick={() => setEditingGuest(g)} style={{ background: 'white', border: '1px solid #F5EFE0', borderRadius: 999, padding: '7px 12px', fontSize: 12, color: TEXT_PRIMARY, cursor: 'grab', display: 'flex', alignItems: 'center', gap: 6 }}>
                 <span style={{ width: 7, height: 7, borderRadius: '50%', background: groupColor(g.group) }} />
                 {g.name}
               </div>

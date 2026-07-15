@@ -1,13 +1,13 @@
 'use client'
 import { useState, useRef } from 'react'
-import { F, BLUE, INK, MUTE } from '@/lib/constants'
+import { F, BLUE, INK, MUTE, TEXT_PRIMARY, TEXT_SECONDARY, GREEN, GREEN_LIGHT } from '@/lib/constants'
 import { Vendor } from '@/lib/types'
 
 interface Props { vendors: Vendor[]; setVendors: (v: Vendor[]) => void }
 
 const CATEGORIES = ['Fotografía', 'Vídeo', 'Catering', 'Finca', 'Música/DJ', 'Flores', 'Vestido', 'Pastel', 'Transporte', 'Otro']
-const STATUS_COLORS: Record<string, string> = { Buscando: '#EFE0C2', Contactado: '#E3DCC9', Contratado: '#D9E8D9' }
-const STATUS_TEXT: Record<string, string> = { Buscando: '#B8862F', Contactado: '#5C4A3D', Contratado: '#3A6B3A' }
+const STATUS_COLORS: Record<string, string> = { Buscando: '#EFE0C2', Contactado: '#E3DCC9', Contratado: 'GREEN_LIGHT' }
+const STATUS_TEXT: Record<string, string> = { Buscando: '#B8862F', Contactado: '#5C4A3D', Contratado: 'GREEN' }
 
 const TABS = ['Explorar proveedores', 'Bandeja', 'Contratados', 'Favoritos', 'Presupuesto', 'Asesor de espacios', 'Bodas de destino']
 
@@ -65,8 +65,8 @@ export default function Proveedores({ vendors, setVendors }: Props) {
 
   return (
     <div>
-      <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: INK, marginBottom: 4 }}>Espacio y proveedores</h1>
-      <p style={{ fontSize: 12, color: MUTE, marginBottom: 16 }}>
+      <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: TEXT_PRIMARY, marginBottom: 4 }}>Espacio y proveedores</h1>
+      <p style={{ fontSize: 12, color: TEXT_SECONDARY, marginBottom: 16 }}>
         {vendors.filter(v => v.status === 'Contratado').length} contratados · {vendors.filter(v => v.status === 'Buscando').length} buscando
       </p>
 
@@ -76,7 +76,7 @@ export default function Proveedores({ vendors, setVendors }: Props) {
           <button key={t} onClick={() => setTab(t)} style={{
             background: 'none', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap',
             padding: '0 0 10px', fontSize: 13, fontFamily: F,
-            color: tab === t ? INK : MUTE, fontWeight: tab === t ? 600 : 400,
+            color: tab === t ? INK : MUTE, fontWeight: tab === t ? 600 : 500,
             borderBottom: tab === t ? '2px solid #898a76' : '2px solid transparent'
           }}>
             {t}
@@ -93,7 +93,7 @@ export default function Proveedores({ vendors, setVendors }: Props) {
                 <div style={{ width: 46, height: 46, borderRadius: '50%', background: newCat === c.cat ? '#F4E7D8' : '#F4EFE8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#898a76" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d={c.icon} /></svg>
                 </div>
-                <span style={{ fontSize: 10.5, color: MUTE, whiteSpace: 'nowrap' }}>{c.label}</span>
+                <span style={{ fontSize: 10.5, color: TEXT_SECONDARY, whiteSpace: 'nowrap' }}>{c.label}</span>
               </div>
             ))}
           </div>
@@ -101,26 +101,26 @@ export default function Proveedores({ vendors, setVendors }: Props) {
           {/* DOS TARJETAS */}
           <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 28 }}>
             <div style={{ background: '#F7F4EF', borderRadius: 16, padding: '36px 24px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-              <p style={{ fontFamily: F, fontSize: 20, color: INK, marginBottom: 6 }}>Explorad espacios en</p>
-              <p style={{ fontFamily: F, fontSize: 20, color: INK, marginBottom: 18, display: 'flex', alignItems: 'center', gap: 6, textDecoration: 'underline', cursor: 'pointer' }}>
+              <p style={{ fontFamily: F, fontSize: 20, color: TEXT_PRIMARY, marginBottom: 6 }}>Explorad espacios en</p>
+              <p style={{ fontFamily: F, fontSize: 20, color: TEXT_PRIMARY, marginBottom: 18, display: 'flex', alignItems: 'center', gap: 6, textDecoration: 'underline', cursor: 'pointer' }}>
                 {vendors.find(v => v.category === 'Finca')?.contact || 'vuestra ciudad'}
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth="1.8"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
               </p>
-              <button onClick={() => goToForm('Finca')} style={{ background: '#898a76', color: 'white', border: 'none', borderRadius: 999, padding: '12px 28px', fontSize: 13, cursor: 'pointer', marginBottom: 12 }}>Ver espacios</button>
-              <p onClick={() => goToForm('Finca')} style={{ fontSize: 11, color: MUTE, textDecoration: 'underline', cursor: 'pointer' }}>¿Ya tenéis espacio? Añadidlo aquí</p>
+              <button onClick={() => goToForm('Finca')} style={{ background: '#898a76', color: 'white', border: 'none', borderRadius: 999, padding: '12px 28px', fontSize: 13, fontWeight: 600, cursor: 'pointer', marginBottom: 12 }}>Ver espacios</button>
+              <p onClick={() => goToForm('Finca')} style={{ fontSize: 11, color: TEXT_SECONDARY, textDecoration: 'underline', cursor: 'pointer' }}>¿Ya tenéis espacio? Añadidlo aquí</p>
             </div>
 
-            <span style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%,-50%)', background: 'white', border: '1px solid #ECE9E4', borderRadius: '50%', width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, color: MUTE, zIndex: 2 }}>o</span>
+            <span style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%,-50%)', background: 'white', border: '1px solid #ECE9E4', borderRadius: '50%', width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, color: TEXT_SECONDARY, zIndex: 2 }}>o</span>
 
             <div style={{ background: 'linear-gradient(135deg, #F4EFE8, #EFE6F5)', border: `1.5px solid ${BLUE}`, borderRadius: 16, padding: '28px 24px' }}>
-              <p style={{ fontFamily: F, fontSize: 20, color: INK, textAlign: 'center', marginBottom: 6 }}>Encontrad vuestro espacio en segundos</p>
-              <p style={{ fontSize: 11.5, color: MUTE, textAlign: 'center', marginBottom: 16 }}>Contadnos qué buscáis y os lo emparejamos con el espacio perfecto.</p>
+              <p style={{ fontFamily: F, fontSize: 20, color: TEXT_PRIMARY, textAlign: 'center', marginBottom: 6 }}>Encontrad vuestro espacio en segundos</p>
+              <p style={{ fontSize: 11.5, color: TEXT_SECONDARY, textAlign: 'center', marginBottom: 16 }}>Contadnos qué buscáis y os lo emparejamos con el espacio perfecto.</p>
               <div style={{ display: 'flex', gap: 8, background: 'white', border: '1px solid #ECE9E4', borderRadius: 999, padding: '10px 8px 10px 16px', alignItems: 'center', marginBottom: 12 }}>
                 <input
                   value={aiQuery} onChange={e => setAiQuery(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && aiQuery.trim() && goToForm('Finca', aiQuery)}
                   placeholder="Un espacio con jardín en Madrid para 100 invitados..."
-                  style={{ flex: 1, fontSize: 12, color: INK, border: 'none', outline: 'none', background: 'transparent', fontFamily: F }}
+                  style={{ flex: 1, fontSize: 12, color: TEXT_PRIMARY, border: 'none', outline: 'none', background: 'transparent', fontFamily: F }}
                 />
                 <span onClick={() => aiQuery.trim() && goToForm('Finca', aiQuery)} style={{ width: 30, height: 30, borderRadius: '50%', background: BLUE, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, cursor: 'pointer' }}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" /></svg>
@@ -128,7 +128,7 @@ export default function Proveedores({ vendors, setVendors }: Props) {
               </div>
               <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                 {['¿Presupuesto realista para 150 invitados?', 'Espacios con ceremonia al aire libre'].map(q => (
-                  <span key={q} onClick={() => setAiQuery(q)} style={{ border: '1px solid #ECE9E4', background: 'white', borderRadius: 999, padding: '6px 12px', fontSize: 10.5, color: MUTE, cursor: 'pointer' }}>{q}</span>
+                  <span key={q} onClick={() => setAiQuery(q)} style={{ border: '1px solid #ECE9E4', background: 'white', borderRadius: 999, padding: '6px 12px', fontSize: 10.5, color: TEXT_SECONDARY, cursor: 'pointer' }}>{q}</span>
                 ))}
               </div>
             </div>
@@ -136,8 +136,8 @@ export default function Proveedores({ vendors, setVendors }: Props) {
 
           {/* GALERIA */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-            <p style={{ fontFamily: F, fontSize: 18, color: INK }}>Los espacios más populares</p>
-            <button onClick={() => goToForm('Finca')} style={{ background: '#898a76', color: 'white', border: 'none', borderRadius: 999, padding: '8px 18px', fontSize: 11.5, cursor: 'pointer' }}>Ver todos</button>
+            <p style={{ fontFamily: F, fontSize: 18, color: TEXT_PRIMARY }}>Los espacios más populares</p>
+            <button onClick={() => goToForm('Finca')} style={{ background: '#898a76', color: 'white', border: 'none', borderRadius: 999, padding: '8px 18px', fontSize: 11.5, fontWeight: 600, cursor: 'pointer' }}>Ver todos</button>
           </div>
           <div style={{ display: 'flex', gap: 14, overflowX: 'auto', marginBottom: 32, paddingBottom: 4 }}>
             {[
@@ -153,9 +153,9 @@ export default function Proveedores({ vendors, setVendors }: Props) {
                     <svg width="13" height="13" viewBox="0 0 24 24" fill={favorites.has(v.name) ? '#C0594F' : 'none'} stroke={favorites.has(v.name) ? '#C0594F' : INK} strokeWidth="1.8"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z" /></svg>
                   </span>
                 </div>
-                <p style={{ fontSize: 13, fontWeight: 600, color: INK, marginBottom: 2 }}>{v.name}</p>
-                <p style={{ fontSize: 11, color: MUTE, marginBottom: 2 }}>{v.loc}</p>
-                <p style={{ fontSize: 11, color: MUTE }}>Desde {v.price}</p>
+                <p style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY, marginBottom: 2 }}>{v.name}</p>
+                <p style={{ fontSize: 11, color: TEXT_SECONDARY, marginBottom: 2 }}>{v.loc}</p>
+                <p style={{ fontSize: 11, color: TEXT_SECONDARY }}>Desde {v.price}</p>
               </div>
             ))}
           </div>
@@ -163,7 +163,7 @@ export default function Proveedores({ vendors, setVendors }: Props) {
       )}
 
       {/* VUESTROS PROVEEDORES — gestion existente */}
-      <p ref={formRef} style={{ fontFamily: F, fontSize: 18, color: INK, marginBottom: 12, scrollMarginTop: 20 }}>Vuestros proveedores</p>
+      <p ref={formRef} style={{ fontFamily: F, fontSize: 18, color: TEXT_PRIMARY, marginBottom: 12, scrollMarginTop: 20 }}>Vuestros proveedores</p>
 
       <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
         <input value={newName} onChange={e => setNewName(e.target.value)} placeholder="Nombre del proveedor" style={{ flex: 1, minWidth: 160, border: '1px solid #E3DCC9', borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }} />
@@ -172,35 +172,35 @@ export default function Proveedores({ vendors, setVendors }: Props) {
         </select>
         <input value={newContact} onChange={e => setNewContact(e.target.value)} placeholder="Contacto" style={{ width: 160, border: '1px solid #E3DCC9', borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }} />
         <input value={newBudget} onChange={e => setNewBudget(e.target.value)} type="number" placeholder="Presupuesto €" style={{ width: 130, border: '1px solid #E3DCC9', borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }} />
-        <button onClick={add} style={{ background: BLUE, color: 'white', border: 'none', borderRadius: 12, padding: '11px 22px', fontSize: 13, cursor: 'pointer' }}>Añadir</button>
+        <button onClick={add} style={{ background: BLUE, color: 'white', border: 'none', borderRadius: 12, padding: '11px 22px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Añadir</button>
       </div>
 
       {vendors.length === 0 ? (
-        <p style={{ fontSize: 13, color: MUTE, textAlign: 'center', padding: '40px 0' }}>Sin proveedores todavía.</p>
+        <p style={{ fontSize: 13, color: TEXT_SECONDARY, textAlign: 'center', padding: '40px 0' }}>Sin proveedores todavía.</p>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {vendors.map(v => (
             <div key={v.id} style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 14 }}>
               <div style={{ display: 'flex', alignItems: 'center', padding: '14px 18px', gap: 14, cursor: 'pointer' }} onClick={() => setExpanded(expanded === v.id ? null : v.id)}>
                 <div style={{ flex: 1 }}>
-                  <p style={{ fontSize: 14, fontWeight: 500, color: INK }}>{v.name}</p>
-                  <p style={{ fontSize: 11, color: MUTE }}>{v.category} · {v.contact}</p>
+                  <p style={{ fontSize: 14, fontWeight: 500, color: TEXT_PRIMARY }}>{v.name}</p>
+                  <p style={{ fontSize: 11, color: TEXT_SECONDARY }}>{v.category} · {v.contact}</p>
                 </div>
                 <span style={{ background: STATUS_COLORS[v.status], color: STATUS_TEXT[v.status], fontSize: 11, borderRadius: 999, padding: '4px 12px', fontWeight: 500 }}>{v.status}</span>
-                <span style={{ fontFamily: F, fontSize: 15, color: INK }}>{v.budget.toLocaleString('es-ES')} €</span>
+                <span style={{ fontFamily: F, fontSize: 15, color: TEXT_PRIMARY }}>{v.budget.toLocaleString('es-ES')} €</span>
                 <button onClick={e => { e.stopPropagation(); remove(v.id) }} style={{ background: 'none', border: 'none', color: '#C9BCA8', cursor: 'pointer', fontSize: 18 }}>×</button>
               </div>
 
               {expanded === v.id && (
                 <div style={{ padding: '0 18px 16px', borderTop: '1px solid #F5EFE0', display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                   <div style={{ marginTop: 12 }}>
-                    <p style={{ fontSize: 10, color: MUTE, marginBottom: 4 }}>ESTADO</p>
+                    <p style={{ fontSize: 10, color: TEXT_SECONDARY, marginBottom: 4 }}>ESTADO</p>
                     <select value={v.status} onChange={e => update(v.id, 'status', e.target.value)} style={{ border: '1px solid #F5EFE0', borderRadius: 8, padding: '7px 10px', fontSize: 12, outline: 'none', background: 'white' }}>
                       <option>Buscando</option><option>Contactado</option><option>Contratado</option>
                     </select>
                   </div>
                   <div style={{ flex: 1, marginTop: 12 }}>
-                    <p style={{ fontSize: 10, color: MUTE, marginBottom: 4 }}>NOTAS</p>
+                    <p style={{ fontSize: 10, color: TEXT_SECONDARY, marginBottom: 4 }}>NOTAS</p>
                     <input value={v.notes} onChange={e => update(v.id, 'notes', e.target.value)} placeholder="Añadir notas..." style={{ width: '100%', border: '1px solid #F5EFE0', borderRadius: 8, padding: '7px 10px', fontSize: 12, outline: 'none' }} />
                   </div>
                 </div>

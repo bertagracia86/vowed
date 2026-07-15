@@ -1,7 +1,9 @@
 'use client'
-import { useState } from 'react'
-import { F, BLUE, BLUE_DARK, INK, MUTE, BG, PASSWORD } from '@/lib/constants'
+import { useState, useEffect, useRef } from 'react'
+import { F, BLUE, BLUE_DARK, INK, MUTE, BG, TEXT_PRIMARY, TEXT_SECONDARY } from '@/lib/constants'
 import { DEFAULT_TASKS, DEFAULT_GUESTS, DEFAULT_BUDGET, DEFAULT_VENDORS, DEFAULT_MILESTONES, DEFAULT_TABLES, DEFAULT_WEDDING } from '@/lib/defaults'
+import { fetchGuests, seedGuests, syncGuests } from '@/lib/guestsApi'
+import { Session, getSession, startDemo, signIn, signUp, clearSession } from '@/lib/auth'
 
 import Resumen from './modules/Resumen'
 import Planning from './modules/Planning'
@@ -67,16 +69,68 @@ function SideIcon({ d }: { d: string }) {
 interface Note { id: string; title: string; content: string; color: string }
 
 export default function Dashboard() {
-  const [authed, setAuthed] = useState(false)
-  const [pw, setPw] = useState('')
-  const [pwErr, setPwErr] = useState('')
+  const [session, setSession] = useState<Session | null | undefined>(undefined)
+  const [checkingSession, setCheckingSession] = useState(true)
+  const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin')
+  const [email, setEmail] = useState('')
+  const [pin, setPin] = useState('')
+  const [authErr, setAuthErr] = useState('')
+  const [authBusy, setAuthBusy] = useState(false)
   const [tab, setTab] = useState('resumen')
   const [collapsed, setCollapsed] = useState(false)
   const [search, setSearch] = useState('')
   const [showNotifs, setShowNotifs] = useState(false)
 
+  useEffect(() => {
+    setSession(getSession())
+    setCheckingSession(false)
+  }, [])
+
+  const isDemo = !!session?.demo
+
   const [tasks, setTasks] = useState(DEFAULT_TASKS)
   const [guests, setGuests] = useState(DEFAULT_GUESTS)
+  const guestsLoaded = useRef(false)
+
+  useEffect(() => {
+    if (!session || session.demo) return
+    const userId = session.userId!
+    fetchGuests(userId).then(async remote => {
+      if (remote.length > 0) {
+        setGuests(remote)
+      } else {
+        await seedGuests(userId, DEFAULT_GUESTS)
+      }
+      guestsLoaded.current = true
+    })
+  }, [session])
+
+  useEffect(() => {
+    if (!guestsLoaded.current || !session || session.demo) return
+    syncGuests(session.userId!, guests)
+  }, [guests])
+
+  async function handleAuthSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setAuthErr('')
+    setAuthBusy(true)
+    const result = authMode === 'signin' ? await signIn(email, pin) : await signUp(email, pin)
+    setAuthBusy(false)
+    if (result.error) setAuthErr(result.error)
+    else if (result.session) setSession(result.session)
+  }
+
+  function handleStartDemo() {
+    setSession(startDemo())
+  }
+
+  function handleLogout() {
+    clearSession()
+    setSession(null)
+    guestsLoaded.current = false
+    setGuests(DEFAULT_GUESTS)
+  }
+
   const [budget, setBudget] = useState(DEFAULT_BUDGET)
   const [vendors, setVendors] = useState(DEFAULT_VENDORS)
   const [milestones, setMilestones] = useState(DEFAULT_MILESTONES)
@@ -85,22 +139,33 @@ export default function Dashboard() {
   const [notes, setNotes] = useState<Note[]>([])
   const [weddingDate, setWeddingDate] = useState(DEFAULT_WEDDING.date)
 
-  function checkPw(e: React.FormEvent) {
-    e.preventDefault()
-    if (pw === PASSWORD) { setAuthed(true); setPwErr('') }
-    else setPwErr('Contraseña incorrecta')
-  }
+  if (checkingSession || session === undefined) return null
 
-  if (!authed) {
+  if (!session) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: BG, fontFamily: F }}>
-        <form onSubmit={checkPw} style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 18, padding: '40px 36px', width: 320, textAlign: 'center' }}>
+        <form onSubmit={handleAuthSubmit} style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 18, padding: '40px 36px', width: 320, textAlign: 'center' }}>
           <div style={{ fontFamily: F, fontSize: 26, fontStyle: 'italic', fontWeight: 700, color: '#898a76', marginBottom: 6 }}>mylov3</div>
-          <p style={{ fontSize: 12, color: MUTE, marginBottom: 24 }}>Introduce la contraseña para entrar</p>
-          <input type="password" value={pw} onChange={e => setPw(e.target.value)} placeholder="••••" autoFocus
+          <p style={{ fontSize: 12, color: TEXT_SECONDARY, marginBottom: 20 }}>{authMode === 'signin' ? 'Entra con tu cuenta' : 'Crea tu cuenta'}</p>
+          <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" autoFocus required
+            style={{ width: '100%', border: '1px solid #E3DCC9', borderRadius: 12, padding: '12px 16px', fontSize: 14, outline: 'none', textAlign: 'center', marginBottom: 10 }} />
+          <input type="password" inputMode="numeric" maxLength={4} value={pin} onChange={e => setPin(e.target.value.replace(/\D/g, ''))} placeholder="PIN de 4 dígitos" required
             style={{ width: '100%', border: '1px solid #E3DCC9', borderRadius: 12, padding: '12px 16px', fontSize: 14, outline: 'none', textAlign: 'center', marginBottom: 12 }} />
-          {pwErr && <p style={{ fontSize: 12, color: '#C0594F', marginBottom: 12 }}>{pwErr}</p>}
-          <button type="submit" style={{ width: '100%', background: BLUE, color: 'white', border: 'none', borderRadius: 12, padding: '12px 0', fontSize: 14, cursor: 'pointer' }}>Entrar</button>
+          {authErr && <p style={{ fontSize: 12, color: '#C0594F', marginBottom: 12 }}>{authErr}</p>}
+          <button type="submit" disabled={authBusy} style={{ width: '100%', background: BLUE, color: 'white', border: 'none', borderRadius: 12, padding: '12px 0', fontSize: 14, fontWeight: 600, cursor: authBusy ? 'default' : 'pointer', opacity: authBusy ? 0.6 : 1, marginBottom: 14 }}>
+            {authMode === 'signin' ? 'Entrar' : 'Crear cuenta'}
+          </button>
+          <p style={{ fontSize: 12, color: TEXT_SECONDARY, marginBottom: 14 }}>
+            {authMode === 'signin' ? '¿No tienes cuenta? ' : '¿Ya tienes cuenta? '}
+            <button type="button" onClick={() => { setAuthMode(authMode === 'signin' ? 'signup' : 'signin'); setAuthErr('') }} style={{ background: 'none', border: 'none', color: BLUE_DARK, fontWeight: 600, cursor: 'pointer', padding: 0, fontSize: 12 }}>
+              {authMode === 'signin' ? 'Crear una' : 'Entrar'}
+            </button>
+          </p>
+          <div style={{ borderTop: '1px solid #ECE9E4', paddingTop: 14 }}>
+            <button type="button" onClick={handleStartDemo} style={{ width: '100%', background: 'transparent', border: `1px solid ${BLUE_DARK}`, color: BLUE_DARK, borderRadius: 12, padding: '10px 0', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+              Ver demo (sin guardar cambios)
+            </button>
+          </div>
         </form>
       </div>
     )
@@ -121,8 +186,8 @@ export default function Dashboard() {
         {NAV_TOP.map(n => (
           <button key={n.id} onClick={() => setTab(n.id)} title={n.label} style={{
             display: 'flex', alignItems: 'center', justifyContent: collapsed ? 'center' : 'flex-start', gap: 8, textAlign: 'left', padding: collapsed ? '9px 0' : '7px 10px', borderRadius: 10, border: 'none',
-            background: tab === n.id ? '#F4E7D8' : 'transparent', color: INK,
-            fontWeight: tab === n.id ? 700 : 400, fontSize: 12.5, cursor: 'pointer', marginBottom: 2
+            background: tab === n.id ? '#F4E7D8' : 'transparent', color: TEXT_PRIMARY,
+            fontWeight: tab === n.id ? 700 : 500, fontSize: 12.5, cursor: 'pointer', marginBottom: 2
           }}>
             <SideIcon d={n.icon} />{!collapsed && n.label}
           </button>
@@ -130,13 +195,13 @@ export default function Dashboard() {
 
         <div style={{ height: 1, background: '#ECE9E4', margin: '9px 10px' }} />
 
-        {!collapsed && <span style={{ fontSize: 12.5, fontWeight: 700, color: INK, padding: '2px 10px 6px' }}>Consejos de expertos</span>}
+        {!collapsed && <span style={{ fontSize: 12.5, fontWeight: 700, color: TEXT_PRIMARY, padding: '2px 10px 6px' }}>Consejos de expertos</span>}
 
         {!collapsed && NAV_SECONDARY.map(n => (
           <button key={n.id} onClick={() => setTab(n.id)} style={{
             display: 'block', textAlign: 'left', padding: '6px 10px', borderRadius: 8, border: 'none',
-            background: 'transparent', color: INK,
-            fontWeight: tab === n.id ? 600 : 400, fontSize: 12.5, cursor: 'pointer'
+            background: 'transparent', color: TEXT_PRIMARY,
+            fontWeight: tab === n.id ? 600 : 500, fontSize: 12.5, cursor: 'pointer'
           }}>
             {n.label}
           </button>
@@ -146,8 +211,8 @@ export default function Dashboard() {
           {NAV_BOTTOM.map(n => (
             <button key={n.id} onClick={() => setTab(n.id)} title={n.label} style={{
               display: 'flex', alignItems: 'center', justifyContent: collapsed ? 'center' : 'flex-start', gap: 10, textAlign: 'left', padding: collapsed ? '9px 0' : '7px 10px', borderRadius: 9, border: 'none',
-              background: tab === n.id ? '#F4EFE8' : 'transparent', color: INK,
-              fontWeight: tab === n.id ? 600 : 400, fontSize: 12.5, cursor: 'pointer', marginBottom: 1
+              background: tab === n.id ? '#F4EFE8' : 'transparent', color: TEXT_PRIMARY,
+              fontWeight: tab === n.id ? 600 : 500, fontSize: 12.5, cursor: 'pointer', marginBottom: 1
             }}>
               <SideIcon d={n.icon} />{!collapsed && n.label}
             </button>
@@ -157,22 +222,22 @@ export default function Dashboard() {
 
       <div onMouseEnter={() => setCollapsed(true)} style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         <header style={{ borderBottom: '1px solid #ECE9E4', padding: '10px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, background: 'white', flexShrink: 0 }}>
-          <span style={{ fontFamily: F, fontSize: 19, fontWeight: 600, color: INK, flexShrink: 0 }}>Vuestra boda</span>
+          <span style={{ fontFamily: F, fontSize: 19, fontWeight: 600, color: TEXT_PRIMARY, flexShrink: 0 }}>Vuestra boda</span>
           <div style={{ position: 'relative', flex: 1, maxWidth: 420 }}>
             <div style={{ border: '1px solid #ECE9E4', borderRadius: 10, padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.8"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4-4" /></svg>
               <input
                 value={search} onChange={e => setSearch(e.target.value)}
                 placeholder="Buscar secciones del panel..."
-                style={{ border: 'none', outline: 'none', fontSize: 12, color: INK, flex: 1, background: 'transparent', fontFamily: F }}
+                style={{ border: 'none', outline: 'none', fontSize: 12, color: TEXT_PRIMARY, flex: 1, background: 'transparent', fontFamily: F }}
               />
             </div>
             {search.trim() && (
               <div style={{ position: 'absolute', top: '110%', left: 0, right: 0, background: 'white', border: '1px solid #ECE9E4', borderRadius: 10, boxShadow: '0 8px 20px rgba(0,0,0,0.08)', zIndex: 40, overflow: 'hidden' }}>
                 {ALL_NAV.filter(n => n.label.toLowerCase().includes(search.toLowerCase())).length === 0 ? (
-                  <p style={{ padding: '10px 14px', fontSize: 12, color: MUTE }}>Sin resultados</p>
+                  <p style={{ padding: '10px 14px', fontSize: 12, color: TEXT_SECONDARY }}>Sin resultados</p>
                 ) : ALL_NAV.filter(n => n.label.toLowerCase().includes(search.toLowerCase())).map(n => (
-                  <button key={n.id} onClick={() => { setTab(n.id); setSearch('') }} style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', textAlign: 'left', padding: '9px 14px', border: 'none', background: 'white', cursor: 'pointer', fontSize: 12.5, color: INK }}>
+                  <button key={n.id} onClick={() => { setTab(n.id); setSearch('') }} style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', textAlign: 'left', padding: '9px 14px', border: 'none', background: 'white', cursor: 'pointer', fontSize: 12.5, color: TEXT_PRIMARY }}>
                     <SideIcon d={n.icon} />{n.label}
                   </button>
                 ))}
@@ -187,18 +252,18 @@ export default function Dashboard() {
               <span onClick={() => setShowNotifs(s => !s)} style={{ position: 'absolute', top: -6, right: -6, background: '#c0594f', color: 'white', fontSize: 9, width: 15, height: 15, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>{NOTIFICATIONS.length}</span>
               {showNotifs && (
                 <div style={{ position: 'absolute', top: '140%', right: 0, width: 280, background: 'white', border: '1px solid #ECE9E4', borderRadius: 12, boxShadow: '0 8px 20px rgba(0,0,0,0.1)', zIndex: 40, overflow: 'hidden' }}>
-                  <p style={{ fontFamily: F, fontSize: 13, color: INK, padding: '10px 14px', borderBottom: '1px solid #F5EFE0' }}>Notificaciones</p>
+                  <p style={{ fontFamily: F, fontSize: 13, color: TEXT_PRIMARY, padding: '10px 14px', borderBottom: '1px solid #F5EFE0' }}>Notificaciones</p>
                   {NOTIFICATIONS.map(n => (
                     <div key={n.id} style={{ padding: '10px 14px', borderBottom: '1px solid #F5EFE0' }}>
-                      <p style={{ fontSize: 12, color: INK, marginBottom: 2, lineHeight: 1.4 }}>{n.text}</p>
-                      <p style={{ fontSize: 10.5, color: MUTE }}>{n.time}</p>
+                      <p style={{ fontSize: 12, color: TEXT_PRIMARY, marginBottom: 2, lineHeight: 1.4 }}>{n.text}</p>
+                      <p style={{ fontSize: 10.5, color: TEXT_SECONDARY }}>{n.time}</p>
                     </div>
                   ))}
                 </div>
               )}
             </div>
             <svg onClick={() => setTab('precios')} width="19" height="19" viewBox="0 0 24 24" fill="none" stroke={MUTE} strokeWidth="1.6" style={{ cursor: 'pointer' }}><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
-            <div onClick={() => setTab('ajustes')} style={{ width: 30, height: 30, borderRadius: '50%', background: '#F4EFE7', border: `1px solid ${BLUE}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 600, color: BLUE_DARK, fontFamily: F, cursor: 'pointer' }}>LM</div>
+            <div onClick={handleLogout} title={isDemo ? 'Salir de la demo' : `Cerrar sesión (${session.email})`} style={{ width: 30, height: 30, borderRadius: '50%', background: '#F4EFE7', border: `1px solid ${BLUE}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 600, color: BLUE_DARK, fontFamily: F, cursor: 'pointer' }}>{isDemo ? 'DEMO' : session.email.slice(0, 2).toUpperCase()}</div>
           </div>
         </header>
 
@@ -209,7 +274,7 @@ export default function Dashboard() {
           {tab === 'timeline' && <Timeline weddingDate={weddingDate} guestCount={guests.length} />}
           {tab === 'tareas' && <Tareas tasks={tasks} setTasks={setTasks} />}
           {tab === 'presupuesto' && <Presupuesto budget={budget} setBudget={setBudget} guestCount={guests.length} />}
-          {tab === 'invitados' && <Invitados guests={guests} setGuests={setGuests} onNavigate={setTab} />}
+          {tab === 'invitados' && <Invitados guests={guests} setGuests={setGuests} onNavigate={setTab} readOnly={isDemo} />}
           {tab === 'mesas' && <Mesas tables={tables} setTables={setTables} guests={guests} setGuests={setGuests} />}
           {tab === 'proveedores' && <Proveedores vendors={vendors} setVendors={setVendors} />}
           {tab === 'notas' && <Notas notes={notes} setNotes={setNotes} />}
@@ -222,23 +287,23 @@ export default function Dashboard() {
 
           {tab === 'precios' && (
             <div>
-              <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: INK, marginBottom: 24 }}>Precios</h1>
+              <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: TEXT_PRIMARY, marginBottom: 24 }}>Precios</h1>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                 <div style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 16, padding: 28 }}>
-                  <p style={{ fontFamily: F, fontSize: 22, color: INK, marginBottom: 6 }}>Organizador</p>
-                  <p style={{ fontFamily: F, fontSize: 36, color: INK, marginBottom: 12 }}>Gratis</p>
-                  <p style={{ fontSize: 13, color: MUTE, lineHeight: 1.8 }}>Todas las herramientas de planificación: tareas, presupuesto, invitados, mesas, cronograma y notas.</p>
+                  <p style={{ fontFamily: F, fontSize: 22, color: TEXT_PRIMARY, marginBottom: 6 }}>Organizador</p>
+                  <p style={{ fontFamily: F, fontSize: 36, color: TEXT_PRIMARY, marginBottom: 12 }}>Gratis</p>
+                  <p style={{ fontSize: 13, color: TEXT_SECONDARY, lineHeight: 1.8 }}>Todas las herramientas de planificación: tareas, presupuesto, invitados, mesas, cronograma y notas.</p>
                 </div>
                 <div style={{ background: 'white', border: `2px solid ${BLUE}`, borderRadius: 16, padding: 28 }}>
-                  <p style={{ fontFamily: F, fontSize: 22, color: INK, marginBottom: 6 }}>Plantillas de invitación</p>
+                  <p style={{ fontFamily: F, fontSize: 22, color: TEXT_PRIMARY, marginBottom: 6 }}>Plantillas de invitación</p>
                   <p style={{ fontFamily: F, fontSize: 36, color: BLUE, marginBottom: 12 }}>Desde 10 €</p>
-                  <p style={{ fontSize: 13, color: MUTE, lineHeight: 1.8 }}>Diseños digitales listos para personalizar. Pago único, descarga inmediata.</p>
+                  <p style={{ fontSize: 13, color: TEXT_SECONDARY, lineHeight: 1.8 }}>Diseños digitales listos para personalizar. Pago único, descarga inmediata.</p>
                 </div>
               </div>
             </div>
           )}
 
-          {tab === 'ajustes' && <Ajustes weddingInfo={weddingInfo} setWeddingInfo={setWeddingInfo} weddingDate={weddingDate} setWeddingDate={setWeddingDate} onLogout={() => setAuthed(false)} />}
+          {tab === 'ajustes' && <Ajustes weddingInfo={weddingInfo} setWeddingInfo={setWeddingInfo} weddingDate={weddingDate} setWeddingDate={setWeddingDate} onLogout={handleLogout} />}
         </main>
       </div>
       </div>

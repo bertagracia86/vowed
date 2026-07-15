@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { F, BLUE, INK, MUTE } from '@/lib/constants'
+import { F, BLUE, INK, MUTE, TEXT_PRIMARY, TEXT_SECONDARY } from '@/lib/constants'
 import { WeddingInfo } from '@/lib/types'
 
 interface Props { weddingInfo: WeddingInfo }
@@ -81,7 +81,7 @@ function ProgramaCeremonia({ weddingInfo }: Props) {
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: 24 }}>
       {/* EDITOR */}
       <div>
-        <p style={{ fontFamily: F, fontSize: 18, color: INK, marginBottom: 12 }}>Orden de la ceremonia</p>
+        <p style={{ fontFamily: F, fontSize: 18, color: TEXT_PRIMARY, marginBottom: 12 }}>Orden de la ceremonia</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
           {items.map((item, i) => (
             <div key={item.id} style={{ border: '1px solid #ECE9E4', borderRadius: 14, padding: '12px 14px', background: 'white' }}>
@@ -94,28 +94,28 @@ function ProgramaCeremonia({ weddingInfo }: Props) {
                 </div>
                 <button onClick={() => removeItem(item.id)} style={{ background: 'none', border: 'none', color: '#C9BCA8', cursor: 'pointer', fontSize: 16 }}>×</button>
               </div>
-              <input value={item.desc} onChange={e => update(item.id, 'desc', e.target.value)} placeholder="Detalle opcional (quién lee, quién canta...)" style={{ width: '100%', border: '1px solid #F5EFE0', borderRadius: 8, padding: '6px 10px', fontSize: 12, outline: 'none', color: MUTE }} />
+              <input value={item.desc} onChange={e => update(item.id, 'desc', e.target.value)} placeholder="Detalle opcional (quién lee, quién canta...)" style={{ width: '100%', border: '1px solid #F5EFE0', borderRadius: 8, padding: '6px 10px', fontSize: 12, outline: 'none', color: TEXT_SECONDARY }} />
             </div>
           ))}
         </div>
         <button onClick={addItem} style={{ border: '1px solid #898a76', background: 'white', borderRadius: 999, padding: '9px 18px', fontSize: 12, cursor: 'pointer', marginBottom: 28 }}>+ Añadir momento</button>
 
-        <p style={{ fontFamily: F, fontSize: 18, color: INK, marginBottom: 12 }}>Cortejo nupcial</p>
+        <p style={{ fontFamily: F, fontSize: 18, color: TEXT_PRIMARY, marginBottom: 12 }}>Cortejo nupcial</p>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 20 }}>
           <div>
-            <p style={{ fontSize: 11, color: MUTE, marginBottom: 4 }}>PADRINO</p>
+            <p style={{ fontSize: 11, color: TEXT_SECONDARY, marginBottom: 4 }}>PADRINO</p>
             <input value={padrino} onChange={e => setPadrino(e.target.value)} placeholder="Nombre" style={{ width: '100%', border: '1px solid #E3DCC9', borderRadius: 10, padding: '9px 12px', fontSize: 13, outline: 'none' }} />
           </div>
           <div>
-            <p style={{ fontSize: 11, color: MUTE, marginBottom: 4 }}>MADRINA</p>
+            <p style={{ fontSize: 11, color: TEXT_SECONDARY, marginBottom: 4 }}>MADRINA</p>
             <input value={madrina} onChange={e => setMadrina(e.target.value)} placeholder="Nombre" style={{ width: '100%', border: '1px solid #E3DCC9', borderRadius: 10, padding: '9px 12px', fontSize: 13, outline: 'none' }} />
           </div>
           <div>
-            <p style={{ fontSize: 11, color: MUTE, marginBottom: 4 }}>TESTIGOS</p>
+            <p style={{ fontSize: 11, color: TEXT_SECONDARY, marginBottom: 4 }}>TESTIGOS</p>
             <input value={testigos} onChange={e => setTestigos(e.target.value)} placeholder="Nombres separados por coma" style={{ width: '100%', border: '1px solid #E3DCC9', borderRadius: 10, padding: '9px 12px', fontSize: 13, outline: 'none' }} />
           </div>
           <div>
-            <p style={{ fontSize: 11, color: MUTE, marginBottom: 4 }}>DAMAS Y CABALLEROS DE HONOR</p>
+            <p style={{ fontSize: 11, color: TEXT_SECONDARY, marginBottom: 4 }}>DAMAS Y CABALLEROS DE HONOR</p>
             <input value={damas} onChange={e => setDamas(e.target.value)} placeholder="Nombres separados por coma" style={{ width: '100%', border: '1px solid #E3DCC9', borderRadius: 10, padding: '9px 12px', fontSize: 13, outline: 'none' }} />
           </div>
         </div>
@@ -123,13 +123,13 @@ function ProgramaCeremonia({ weddingInfo }: Props) {
 
       {/* PREVIEW IMPRIMIBLE */}
       <div style={{ alignSelf: 'flex-start', position: 'sticky', top: 0 }}>
-        <p style={{ fontSize: 11, color: MUTE, marginBottom: 10 }}>Vista previa</p>
+        <p style={{ fontSize: 11, color: TEXT_SECONDARY, marginBottom: 10 }}>Vista previa</p>
         <div id="program-preview" style={{ border: '1px solid #ECE9E4', borderRadius: 16, padding: '36px 30px', background: 'white', boxShadow: '0 8px 24px rgba(0,0,0,0.06)' }}>
-          <p style={{ fontFamily: F, fontSize: 12, color: MUTE, textAlign: 'center', letterSpacing: '0.1em', marginBottom: 6 }}>PROGRAMA DE LA CEREMONIA</p>
-          <h2 style={{ fontFamily: F, fontSize: 28, color: INK, textAlign: 'center', marginBottom: 4, fontStyle: 'italic' }}>
+          <p style={{ fontFamily: F, fontSize: 12, color: TEXT_SECONDARY, textAlign: 'center', letterSpacing: '0.01em', marginBottom: 6 }}>PROGRAMA DE LA CEREMONIA</p>
+          <h2 style={{ fontFamily: F, fontSize: 28, color: TEXT_PRIMARY, textAlign: 'center', marginBottom: 4, fontStyle: 'italic' }}>
             {weddingInfo.partner1 || 'Vosotros'} &amp; {weddingInfo.partner2 || 'dos'}
           </h2>
-          <p style={{ fontSize: 12, color: MUTE, textAlign: 'center', marginBottom: 22 }}>
+          <p style={{ fontSize: 12, color: TEXT_SECONDARY, textAlign: 'center', marginBottom: 22 }}>
             {weddingInfo.date ? new Date(weddingInfo.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Fecha por confirmar'}
             {weddingInfo.venue ? ` · ${weddingInfo.venue}` : ''}
           </p>
@@ -138,23 +138,23 @@ function ProgramaCeremonia({ weddingInfo }: Props) {
             <div key={item.id} style={{ marginBottom: 14 }}>
               <div style={{ display: 'flex', gap: 10, alignItems: 'baseline' }}>
                 {item.time && <span style={{ fontFamily: F, fontSize: 12, color: '#898a76', minWidth: 40 }}>{item.time}</span>}
-                <span style={{ fontFamily: F, fontSize: 15, color: INK }}>{item.title}</span>
+                <span style={{ fontFamily: F, fontSize: 15, color: TEXT_PRIMARY }}>{item.title}</span>
               </div>
-              {item.desc && <p style={{ fontSize: 11, color: MUTE, marginLeft: item.time ? 50 : 0, marginTop: 2 }}>{item.desc}</p>}
+              {item.desc && <p style={{ fontSize: 11, color: TEXT_SECONDARY, marginLeft: item.time ? 50 : 0, marginTop: 2 }}>{item.desc}</p>}
             </div>
           ))}
           {(padrino || madrina || testigos || damas) && (
             <>
               <div style={{ height: 1, background: '#ECE9E4', margin: '20px 0' }} />
-              <p style={{ fontFamily: F, fontSize: 12, color: MUTE, textAlign: 'center', letterSpacing: '0.08em', marginBottom: 10 }}>CORTEJO NUPCIAL</p>
-              {padrino && <p style={{ fontSize: 12, color: INK, textAlign: 'center', marginBottom: 4 }}>Padrino: {padrino}</p>}
-              {madrina && <p style={{ fontSize: 12, color: INK, textAlign: 'center', marginBottom: 4 }}>Madrina: {madrina}</p>}
-              {testigos && <p style={{ fontSize: 12, color: INK, textAlign: 'center', marginBottom: 4 }}>Testigos: {testigos}</p>}
-              {damas && <p style={{ fontSize: 12, color: INK, textAlign: 'center' }}>Honor: {damas}</p>}
+              <p style={{ fontFamily: F, fontSize: 12, color: TEXT_SECONDARY, textAlign: 'center', letterSpacing: '0.01em', marginBottom: 10 }}>CORTEJO NUPCIAL</p>
+              {padrino && <p style={{ fontSize: 12, color: TEXT_PRIMARY, textAlign: 'center', marginBottom: 4 }}>Padrino: {padrino}</p>}
+              {madrina && <p style={{ fontSize: 12, color: TEXT_PRIMARY, textAlign: 'center', marginBottom: 4 }}>Madrina: {madrina}</p>}
+              {testigos && <p style={{ fontSize: 12, color: TEXT_PRIMARY, textAlign: 'center', marginBottom: 4 }}>Testigos: {testigos}</p>}
+              {damas && <p style={{ fontSize: 12, color: TEXT_PRIMARY, textAlign: 'center' }}>Honor: {damas}</p>}
             </>
           )}
         </div>
-        <button onClick={() => window.print()} style={{ width: '100%', marginTop: 14, background: '#898a76', color: 'white', border: 'none', borderRadius: 999, padding: '11px 0', fontSize: 13, cursor: 'pointer' }}>
+        <button onClick={() => window.print()} style={{ width: '100%', marginTop: 14, background: '#898a76', color: 'white', border: 'none', borderRadius: 999, padding: '11px 0', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
           Imprimir / Descargar PDF
         </button>
       </div>
@@ -172,7 +172,7 @@ export default function Invitaciones({ weddingInfo }: Props) {
 
   return (
     <div>
-      <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: INK, marginBottom: 4 }}>Invitaciones y papelería</h1>
+      <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: TEXT_PRIMARY, marginBottom: 4 }}>Invitaciones y papelería</h1>
       <p style={{ fontSize: 12, color: SUBTEXT, marginBottom: 20 }}>Preciosas invitaciones y papelería que marcan el tono de vuestro gran día.</p>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: 14, marginBottom: 32 }}>
@@ -194,7 +194,7 @@ export default function Invitaciones({ weddingInfo }: Props) {
                 }}>¡NUEVO!</div>
               )}
             </div>
-            <span style={{ fontSize: 10.5, color: cat === c.label ? BROWN : SUBTEXT, textAlign: 'center', lineHeight: 1.25, fontWeight: cat === c.label ? 600 : 400 }}>{c.label}</span>
+            <span style={{ fontSize: 10.5, color: cat === c.label ? BROWN : SUBTEXT, textAlign: 'center', lineHeight: 1.25, fontWeight: cat === c.label ? 600 : 500 }}>{c.label}</span>
           </div>
         ))}
       </div>
@@ -210,12 +210,12 @@ export default function Invitaciones({ weddingInfo }: Props) {
               </div>
               <div style={{ padding: '16px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
-                  <p style={{ fontFamily: F, fontSize: 16, color: INK, marginBottom: 2 }}>{t.name}</p>
+                  <p style={{ fontFamily: F, fontSize: 16, color: TEXT_PRIMARY, marginBottom: 2 }}>{t.name}</p>
                   <p style={{ fontSize: 11, color: SUBTEXT }}>{t.style}</p>
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <p style={{ fontFamily: F, fontSize: 18, color: INK, marginBottom: 6 }}>{t.price}</p>
-                  <button style={{ background: BROWN, color: 'white', border: 'none', borderRadius: 999, padding: '8px 18px', fontSize: 12, cursor: 'pointer' }}>Comprar</button>
+                  <p style={{ fontFamily: F, fontSize: 18, color: TEXT_PRIMARY, marginBottom: 6 }}>{t.price}</p>
+                  <button style={{ background: BROWN, color: 'white', border: 'none', borderRadius: 999, padding: '8px 18px', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>Comprar</button>
                 </div>
               </div>
             </div>
@@ -225,7 +225,7 @@ export default function Invitaciones({ weddingInfo }: Props) {
 
       <div style={{ background: 'linear-gradient(135deg, #F4EFE8, #EFE6F5)', border: `1px solid ${BEIGE}`, borderRadius: 16, padding: '24px 28px', display: 'grid', gridTemplateColumns: '1.3fr 1fr 1fr 1fr', gap: 20, alignItems: 'center' }}>
         <div>
-          <p style={{ fontFamily: F, fontSize: 17, color: INK, marginBottom: 6 }}>¿Necesitáis ayuda para elegir?</p>
+          <p style={{ fontFamily: F, fontSize: 17, color: TEXT_PRIMARY, marginBottom: 6 }}>¿Necesitáis ayuda para elegir?</p>
           <p style={{ fontSize: 11.5, color: SUBTEXT, marginBottom: 12, lineHeight: 1.5 }}>Nuestro asistente puede ayudaros a encontrar el estilo, el texto y el papel perfectos.</p>
           <button style={{ border: `1px solid ${BROWN}`, background: 'white', color: BROWN, borderRadius: 999, padding: '8px 16px', fontSize: 12, cursor: 'pointer' }}>Preguntar al asistente</button>
         </div>
@@ -237,7 +237,7 @@ export default function Invitaciones({ weddingInfo }: Props) {
           <div key={f.title} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={BROWN} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }}><path d={f.icon} /></svg>
             <div>
-              <p style={{ fontSize: 12.5, fontWeight: 600, color: INK, marginBottom: 2 }}>{f.title}</p>
+              <p style={{ fontSize: 12.5, fontWeight: 600, color: TEXT_PRIMARY, marginBottom: 2 }}>{f.title}</p>
               <p style={{ fontSize: 11, color: SUBTEXT, lineHeight: 1.4 }}>{f.desc}</p>
             </div>
           </div>

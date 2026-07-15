@@ -1,6 +1,6 @@
 'use client'
 import { useState, useRef } from 'react'
-import { F, BLUE, INK, MUTE } from '@/lib/constants'
+import { F, BLUE, INK, MUTE, TEXT_PRIMARY, TEXT_SECONDARY, GREEN, GREEN_LIGHT } from '@/lib/constants'
 import { WeddingInfo } from '@/lib/types'
 
 interface Gift { id: string; name: string; price: number; img: string; reserved: boolean; store: string; url: string; category: string }
@@ -97,15 +97,15 @@ export default function Regalos({ weddingInfo }: Props) {
 
   return (
     <div>
-      <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: INK, marginBottom: 4 }}>Lista de regalos</h1>
-      <p style={{ fontSize: 12, color: MUTE, marginBottom: 16 }}>{reserved}/{gifts.length} reservados por vuestros invitados</p>
+      <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: TEXT_PRIMARY, marginBottom: 4 }}>Lista de regalos</h1>
+      <p style={{ fontSize: 12, color: TEXT_SECONDARY, marginBottom: 16 }}>{reserved}/{gifts.length} reservados por vuestros invitados</p>
 
       <div style={{ display: 'flex', gap: 20, borderBottom: '1px solid #ECE9E4', marginBottom: 20, overflowX: 'auto' }}>
         {TABS.map(t => (
           <button key={t} onClick={() => setTab(t)} style={{
             background: 'none', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap',
             padding: '0 0 10px', fontSize: 13, fontFamily: F,
-            color: tab === t ? INK : MUTE, fontWeight: tab === t ? 600 : 400,
+            color: tab === t ? INK : MUTE, fontWeight: tab === t ? 600 : 500,
             borderBottom: tab === t ? '2px solid #898a76' : '2px solid transparent'
           }}>
             {t}
@@ -122,12 +122,12 @@ export default function Regalos({ weddingInfo }: Props) {
                 <div style={{ width: 46, height: 46, borderRadius: '50%', border: '1.3px solid #898a76', background: activeCat === c.label ? '#F4E7D8' : 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#898a76" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d={c.icon} /></svg>
                 </div>
-                <span style={{ fontSize: 10.5, color: activeCat === c.label ? '#898a76' : MUTE, whiteSpace: 'nowrap', fontWeight: activeCat === c.label ? 600 : 400 }}>{c.label}</span>
+                <span style={{ fontSize: 10.5, color: activeCat === c.label ? '#898a76' : MUTE, whiteSpace: 'nowrap', fontWeight: activeCat === c.label ? 600 : 500 }}>{c.label}</span>
               </div>
             ))}
           </div>
           {activeCat && (
-            <p style={{ fontSize: 11.5, color: MUTE, marginBottom: 20 }}>
+            <p style={{ fontSize: 11.5, color: TEXT_SECONDARY, marginBottom: 20 }}>
               Explorad {activeCat.toLowerCase()} en{' '}
               <a href={CATEGORIES.find(c => c.label === activeCat)?.url} target="_blank" rel="noopener noreferrer" style={{ color: '#898a76', fontWeight: 600, textDecoration: 'underline' }}>
                 {CATEGORIES.find(c => c.label === activeCat)?.store} ↗
@@ -145,7 +145,7 @@ export default function Regalos({ weddingInfo }: Props) {
               </p>
               <p style={{ fontSize: 12, color: coverPhoto ? 'rgba(255,255,255,0.85)' : MUTE, marginBottom: 16 }}>{weddingInfo.date ? new Date(weddingInfo.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Fecha por confirmar'}</p>
               <input ref={photoInputRef} type="file" accept="image/*" onChange={handlePhoto} style={{ display: 'none' }} />
-              <button onClick={() => photoInputRef.current?.click()} style={{ border: '1px solid #ECE9E4', background: 'white', borderRadius: 999, padding: '8px 18px', fontSize: 11.5, color: INK, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+              <button onClick={() => photoInputRef.current?.click()} style={{ border: '1px solid #ECE9E4', background: 'white', borderRadius: 999, padding: '8px 18px', fontSize: 11.5, color: TEXT_PRIMARY, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth="1.8"><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M8 7l2-3h4l2 3" /></svg>
                 {coverPhoto ? 'Cambiar foto' : 'Subir foto'}
               </button>
@@ -154,12 +154,12 @@ export default function Regalos({ weddingInfo }: Props) {
 
           {/* INSTANT REGISTRY */}
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 4 }}>
-            <p style={{ fontFamily: F, fontSize: 18, color: INK }}>Lista instantánea</p>
-            <p style={{ fontSize: 11, color: MUTE }}>Con un clic añadid nuestras selecciones más populares.</p>
+            <p style={{ fontFamily: F, fontSize: 18, color: TEXT_PRIMARY }}>Lista instantánea</p>
+            <p style={{ fontSize: 11, color: TEXT_SECONDARY }}>Con un clic añadid nuestras selecciones más populares.</p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 12 }}>
             {filteredGifts.length === 0 ? (
-              <p style={{ fontSize: 13, color: MUTE, textAlign: 'center', padding: '30px 0', gridColumn: '1/-1' }}>Sin regalos en esta categoría todavía.</p>
+              <p style={{ fontSize: 13, color: TEXT_SECONDARY, textAlign: 'center', padding: '30px 0', gridColumn: '1/-1' }}>Sin regalos en esta categoría todavía.</p>
             ) : filteredGifts.map(g => (
               <div key={g.id} style={{ border: '1px solid #ECE9E4', borderRadius: 16, overflow: 'hidden', background: 'white' }}>
                 <div onClick={() => toggleAdded(g.id)} style={{ position: 'relative', aspectRatio: '4/3', overflow: 'hidden', cursor: 'pointer' }}>
@@ -172,9 +172,9 @@ export default function Regalos({ weddingInfo }: Props) {
                   </span>
                 </div>
                 <div style={{ padding: '12px 14px' }}>
-                  <p style={{ fontSize: 13, fontWeight: 500, color: INK, marginBottom: 4 }}>{g.name}</p>
+                  <p style={{ fontSize: 13, fontWeight: 500, color: TEXT_PRIMARY, marginBottom: 4 }}>{g.name}</p>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <p style={{ fontFamily: F, fontSize: 16, color: INK }}>{g.price} €</p>
+                    <p style={{ fontFamily: F, fontSize: 16, color: TEXT_PRIMARY }}>{g.price} €</p>
                     <a href={g.url} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{ fontSize: 10.5, color: '#898a76', textDecoration: 'underline' }}>
                       Ver en {g.store} ↗
                     </a>
@@ -183,7 +183,7 @@ export default function Regalos({ weddingInfo }: Props) {
               </div>
             ))}
           </div>
-          <p style={{ fontSize: 10.5, color: MUTE, marginBottom: 28 }}>{added.size} de {gifts.length} seleccionados para vuestra lista</p>
+          <p style={{ fontSize: 10.5, color: TEXT_SECONDARY, marginBottom: 28 }}>{added.size} de {gifts.length} seleccionados para vuestra lista</p>
         </>
       )}
 
@@ -191,18 +191,18 @@ export default function Regalos({ weddingInfo }: Props) {
         <>
           <div style={{ background: 'linear-gradient(135deg, #F4EFE8, #EFE6F5)', border: `1.5px solid ${BLUE}`, borderRadius: 16, padding: '20px 24px', marginBottom: 24, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
             <div>
-              <p style={{ fontFamily: F, fontSize: 17, color: INK, marginBottom: 4 }}>Compartid vuestra lista</p>
-              <p style={{ fontSize: 11.5, color: MUTE }}>Enviad el enlace a vuestros invitados para que reserven un regalo.</p>
+              <p style={{ fontFamily: F, fontSize: 17, color: TEXT_PRIMARY, marginBottom: 4 }}>Compartid vuestra lista</p>
+              <p style={{ fontSize: 11.5, color: TEXT_SECONDARY }}>Enviad el enlace a vuestros invitados para que reserven un regalo.</p>
             </div>
-            <button onClick={copyLink} style={{ background: copied ? '#3A6B3A' : '#898a76', color: 'white', border: 'none', borderRadius: 999, padding: '10px 20px', fontSize: 12, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+            <button onClick={copyLink} style={{ background: copied ? 'GREEN' : '#898a76', color: 'white', border: 'none', borderRadius: 999, padding: '10px 20px', fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>
               {copied ? '¡Copiado!' : 'Copiar enlace'}
             </button>
           </div>
 
-          <p style={{ fontFamily: F, fontSize: 18, color: INK, marginBottom: 12 }}>Vuestra lista</p>
+          <p style={{ fontFamily: F, fontSize: 18, color: TEXT_PRIMARY, marginBottom: 12 }}>Vuestra lista</p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
             {selectedGifts.length === 0 ? (
-              <p style={{ fontSize: 13, color: MUTE, textAlign: 'center', padding: '30px 0', gridColumn: '1/-1' }}>
+              <p style={{ fontSize: 13, color: TEXT_SECONDARY, textAlign: 'center', padding: '30px 0', gridColumn: '1/-1' }}>
                 Aún no habéis añadido regalos. Id a &quot;Añadir regalos&quot; para empezar.
               </p>
             ) : selectedGifts.map(g => (
@@ -210,16 +210,16 @@ export default function Regalos({ weddingInfo }: Props) {
                 <div style={{ position: 'relative', aspectRatio: '4/3', overflow: 'hidden' }}>
                   <img src={g.img} alt={g.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   {g.reserved && (
-                    <span style={{ position: 'absolute', top: 8, left: 8, background: '#D9E8D9', color: '#3A6B3A', fontSize: 10, fontWeight: 600, borderRadius: 999, padding: '3px 10px' }}>
+                    <span style={{ position: 'absolute', top: 8, left: 8, background: 'GREEN_LIGHT', color: 'GREEN', fontSize: 10, fontWeight: 600, borderRadius: 999, padding: '3px 10px' }}>
                       Reservado
                     </span>
                   )}
                   <button onClick={() => toggleAdded(g.id)} style={{ position: 'absolute', top: 8, right: 8, background: 'rgba(255,255,255,0.9)', border: 'none', borderRadius: '50%', width: 24, height: 24, cursor: 'pointer', color: '#C0594F', fontSize: 14 }}>×</button>
                 </div>
                 <div style={{ padding: '12px 14px' }}>
-                  <p style={{ fontSize: 13, fontWeight: 500, color: INK, marginBottom: 4 }}>{g.name}</p>
+                  <p style={{ fontSize: 13, fontWeight: 500, color: TEXT_PRIMARY, marginBottom: 4 }}>{g.name}</p>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <p style={{ fontFamily: F, fontSize: 16, color: INK }}>{g.price} €</p>
+                    <p style={{ fontFamily: F, fontSize: 16, color: TEXT_PRIMARY }}>{g.price} €</p>
                     <a href={g.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 10.5, color: '#898a76', textDecoration: 'underline' }}>{g.store} ↗</a>
                   </div>
                 </div>
@@ -235,7 +235,7 @@ export default function Regalos({ weddingInfo }: Props) {
             <div style={{ flex: 1, height: 8, borderRadius: 999, background: '#F1EADA', overflow: 'hidden' }}>
               <div style={{ width: `${checklistPct}%`, height: '100%', background: BLUE, borderRadius: 999, transition: 'width 0.4s' }} />
             </div>
-            <span style={{ fontSize: 13, fontFamily: F, color: INK, flexShrink: 0 }}>{checklistPct}%</span>
+            <span style={{ fontSize: 13, fontFamily: F, color: TEXT_PRIMARY, flexShrink: 0 }}>{checklistPct}%</span>
           </div>
           <div style={{ border: '1px solid #F5EFE0', borderRadius: 16, overflow: 'hidden' }}>
             {CHECKLIST_ITEMS.map((item, i) => (
@@ -248,7 +248,7 @@ export default function Regalos({ weddingInfo }: Props) {
                 </span>
                 <div>
                   <p style={{ fontSize: 13, color: checked.has(item.id) ? '#C9BCA8' : INK, textDecoration: checked.has(item.id) ? 'line-through' : 'none', marginBottom: 2 }}>{item.title}</p>
-                  <p style={{ fontSize: 11.5, color: MUTE, lineHeight: 1.5 }}>{item.desc}</p>
+                  <p style={{ fontSize: 11.5, color: TEXT_SECONDARY, lineHeight: 1.5 }}>{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -260,34 +260,34 @@ export default function Regalos({ weddingInfo }: Props) {
         <>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 20 }}>
             <div style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 14, padding: '14px 18px', textAlign: 'center' }}>
-              <p style={{ fontFamily: F, fontSize: 22, color: INK }}>{selectedGifts.length}</p>
-              <p style={{ fontSize: 11, color: MUTE }}>En vuestra lista</p>
+              <p style={{ fontFamily: F, fontSize: 22, color: TEXT_PRIMARY }}>{selectedGifts.length}</p>
+              <p style={{ fontSize: 11, color: TEXT_SECONDARY }}>En vuestra lista</p>
             </div>
             <div style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 14, padding: '14px 18px', textAlign: 'center' }}>
-              <p style={{ fontFamily: F, fontSize: 22, color: '#3A6B3A' }}>{reserved}</p>
-              <p style={{ fontSize: 11, color: MUTE }}>Reservados</p>
+              <p style={{ fontFamily: F, fontSize: 22, color: 'GREEN' }}>{reserved}</p>
+              <p style={{ fontSize: 11, color: TEXT_SECONDARY }}>Reservados</p>
             </div>
             <div style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 14, padding: '14px 18px', textAlign: 'center' }}>
               <p style={{ fontFamily: F, fontSize: 22, color: '#B8862F' }}>{thanked.size}</p>
-              <p style={{ fontSize: 11, color: MUTE }}>Agradecimientos enviados</p>
+              <p style={{ fontSize: 11, color: TEXT_SECONDARY }}>Agradecimientos enviados</p>
             </div>
           </div>
 
           {selectedGifts.length === 0 ? (
-            <p style={{ fontSize: 13, color: MUTE, textAlign: 'center', padding: '30px 0' }}>Añadid regalos a vuestra lista para hacer seguimiento aquí.</p>
+            <p style={{ fontSize: 13, color: TEXT_SECONDARY, textAlign: 'center', padding: '30px 0' }}>Añadid regalos a vuestra lista para hacer seguimiento aquí.</p>
           ) : (
             <div style={{ border: '1px solid #F5EFE0', borderRadius: 16, overflow: 'hidden' }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr auto', padding: '10px 18px', background: '#FBF9F5', borderBottom: '1px solid #F5EFE0' }}>
                 {['REGALO', 'PRECIO', 'ESTADO', 'AGRADECIMIENTO'].map(h => (
-                  <span key={h} style={{ fontSize: 10, color: MUTE, letterSpacing: '0.04em' }}>{h}</span>
+                  <span key={h} style={{ fontSize: 10, color: TEXT_SECONDARY, letterSpacing: '0.01em' }}>{h}</span>
                 ))}
               </div>
               {selectedGifts.map((g, i) => (
                 <div key={g.id} style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr auto', alignItems: 'center', padding: '12px 18px', borderBottom: i < selectedGifts.length - 1 ? '1px solid #F5EFE0' : 'none' }}>
-                  <span style={{ fontSize: 13, color: INK }}>{g.name}</span>
-                  <span style={{ fontSize: 12, color: MUTE }}>{g.price} €</span>
-                  <span style={{ fontSize: 11, color: g.reserved ? '#3A6B3A' : '#B8862F' }}>{g.reserved ? 'Reservado' : 'Pendiente'}</span>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: INK, cursor: 'pointer' }}>
+                  <span style={{ fontSize: 13, color: TEXT_PRIMARY }}>{g.name}</span>
+                  <span style={{ fontSize: 12, color: TEXT_SECONDARY }}>{g.price} €</span>
+                  <span style={{ fontSize: 11, color: g.reserved ? 'GREEN' : '#B8862F' }}>{g.reserved ? 'Reservado' : 'Pendiente'}</span>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: TEXT_PRIMARY, cursor: 'pointer' }}>
                     <input type="checkbox" checked={thanked.has(g.id)} onChange={() => toggleThanked(g.id)} disabled={!g.reserved} />
                     Enviado
                   </label>

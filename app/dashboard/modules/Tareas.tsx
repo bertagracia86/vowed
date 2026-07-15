@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { F, BLUE, INK, MUTE } from '@/lib/constants'
+import { F, BLUE, INK, MUTE, TEXT_PRIMARY, TEXT_SECONDARY } from '@/lib/constants'
 import { Task } from '@/lib/types'
 import { TASK_PHASES } from '@/lib/defaults'
 
@@ -29,14 +29,14 @@ export default function Tareas({ tasks, setTasks }: Props) {
 
   return (
     <div>
-      <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: INK, marginBottom: 4 }}>Checklist</h1>
-      <p style={{ fontSize: 12, color: MUTE, marginBottom: 16 }}>{done} de {tasks.length} completadas</p>
+      <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: TEXT_PRIMARY, marginBottom: 4 }}>Checklist</h1>
+      <p style={{ fontSize: 12, color: TEXT_SECONDARY, marginBottom: 16 }}>{done} de {tasks.length} completadas</p>
 
       <div style={{ background: 'white', border: '1px solid #ECE9E4', borderRadius: 14, padding: '14px 18px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 16 }}>
         <div style={{ flex: 1, height: 8, borderRadius: 999, background: '#F1EADA', overflow: 'hidden' }}>
           <div style={{ width: `${pct}%`, height: '100%', background: BLUE, borderRadius: 999, transition: 'width 0.4s' }} />
         </div>
-        <span style={{ fontSize: 13, fontFamily: F, color: INK, flexShrink: 0 }}>{pct}%</span>
+        <span style={{ fontSize: 13, fontFamily: F, color: TEXT_PRIMARY, flexShrink: 0 }}>{pct}%</span>
       </div>
 
       <div style={{ display: 'flex', gap: 8, marginBottom: 24, flexWrap: 'wrap' }}>
@@ -49,11 +49,11 @@ export default function Tareas({ tasks, setTasks }: Props) {
         <select value={newPhase} onChange={e => setNewPhase(e.target.value)} style={{ border: '1px solid #E3DCC9', borderRadius: 12, padding: '11px 14px', fontSize: 13, outline: 'none', background: 'white' }}>
           {TASK_PHASES.map(p => <option key={p}>{p}</option>)}
         </select>
-        <button onClick={add} style={{ background: BLUE, color: 'white', border: 'none', borderRadius: 12, padding: '11px 22px', fontSize: 13, cursor: 'pointer' }}>Añadir</button>
+        <button onClick={add} style={{ background: BLUE, color: 'white', border: 'none', borderRadius: 12, padding: '11px 22px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Añadir</button>
       </div>
 
       {tasks.length === 0 ? (
-        <p style={{ fontSize: 13, color: MUTE, textAlign: 'center', padding: '40px 0' }}>Sin tareas. Añadid la primera arriba.</p>
+        <p style={{ fontSize: 13, color: TEXT_SECONDARY, textAlign: 'center', padding: '40px 0' }}>Sin tareas. Añadid la primera arriba.</p>
       ) : (
         TASK_PHASES.map(phase => {
           const phaseTasks = tasks.filter(t => t.phase === phase)
@@ -62,8 +62,8 @@ export default function Tareas({ tasks, setTasks }: Props) {
           return (
             <div key={phase} style={{ marginBottom: 22 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-                <p style={{ fontFamily: F, fontSize: 15, color: INK }}>{phase}</p>
-                <span style={{ fontSize: 11, color: MUTE }}>{phaseDone}/{phaseTasks.length}</span>
+                <p style={{ fontFamily: F, fontSize: 15, color: TEXT_PRIMARY }}>{phase}</p>
+                <span style={{ fontSize: 11, color: TEXT_SECONDARY }}>{phaseDone}/{phaseTasks.length}</span>
               </div>
               <div style={{ border: '1px solid #F5EFE0', borderRadius: 16, overflow: 'hidden' }}>
                 {phaseTasks.map((t, i) => (

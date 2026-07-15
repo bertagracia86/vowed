@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { F, INK } from '@/lib/constants'
+import { F, TEXT_PRIMARY } from '@/lib/constants'
 import { Task, Guest, BudgetItem } from '@/lib/types'
 
 interface Props { tasks: Task[]; guests: Guest[]; budget: BudgetItem[] }
@@ -82,7 +82,7 @@ export default function AiPlanner({ tasks, guests, budget }: Props) {
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
-        <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: INK }}>Planificador con IA</h1>
+        <h1 style={{ fontFamily: F, fontSize: 26, fontWeight: 500, color: TEXT_PRIMARY }}>Planificador con IA</h1>
         <span style={{ fontSize: 10, fontWeight: 700, color: BROWN, background: BEIGE, borderRadius: 999, padding: '2px 9px' }}>BETA</span>
       </div>
       <p style={{ fontSize: 12, color: SUBTEXT, marginBottom: 20 }}>Vuestro asistente personal de boda. Recibid recomendaciones personalizadas y ayuda experta.</p>
@@ -97,7 +97,7 @@ export default function AiPlanner({ tasks, guests, budget }: Props) {
             <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#F4E7D8', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={BROWN} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d={c.icon} /></svg>
             </div>
-            <p style={{ fontSize: 13.5, fontWeight: 600, color: INK, marginBottom: 4 }}>{c.title}</p>
+            <p style={{ fontSize: 13.5, fontWeight: 600, color: TEXT_PRIMARY, marginBottom: 4 }}>{c.title}</p>
             <p style={{ fontSize: 11.5, color: SUBTEXT, lineHeight: 1.5 }}>{c.desc}</p>
           </div>
         ))}
@@ -105,10 +105,10 @@ export default function AiPlanner({ tasks, guests, budget }: Props) {
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: 20 }}>
         <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 16, padding: 22, display: 'flex', flexDirection: 'column' }}>
-          <p style={{ fontFamily: F, fontSize: 18, color: INK, marginBottom: 14 }}>¿En qué puedo ayudaros hoy?</p>
+          <p style={{ fontFamily: F, fontSize: 18, color: TEXT_PRIMARY, marginBottom: 14 }}>¿En qué puedo ayudaros hoy?</p>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 18 }}>
             {PROMPTS.map(p => (
-              <button key={p} onClick={() => send(p)} style={{ border: `1px solid ${BEIGE}`, background: 'white', borderRadius: 999, padding: '7px 14px', fontSize: 11.5, color: INK, cursor: 'pointer' }}>{p}</button>
+              <button key={p} onClick={() => send(p)} style={{ border: `1px solid ${BEIGE}`, background: 'white', borderRadius: 999, padding: '7px 14px', fontSize: 11.5, color: TEXT_PRIMARY, cursor: 'pointer' }}>{p}</button>
             ))}
           </div>
 
@@ -116,7 +116,7 @@ export default function AiPlanner({ tasks, guests, budget }: Props) {
             {messages.map(m => m.role === 'user' ? (
               <div key={m.id} style={{ alignSelf: 'flex-end', maxWidth: '80%' }}>
                 <div style={{ background: '#F4E7D8', borderRadius: '14px 14px 4px 14px', padding: '10px 16px' }}>
-                  <p style={{ fontSize: 13, color: INK }}>{m.text}</p>
+                  <p style={{ fontSize: 13, color: TEXT_PRIMARY }}>{m.text}</p>
                 </div>
               </div>
             ) : (
@@ -125,10 +125,10 @@ export default function AiPlanner({ tasks, guests, budget }: Props) {
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={BROWN} strokeWidth="1.8"><path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5L12 2z" /></svg>
                 </div>
                 <div style={{ background: 'white', border: `1px solid ${BEIGE}`, borderRadius: '4px 14px 14px 14px', padding: '12px 16px' }}>
-                  <p style={{ fontSize: 13, color: INK, marginBottom: m.bullets ? 8 : 0 }}>{m.text}</p>
+                  <p style={{ fontSize: 13, color: TEXT_PRIMARY, marginBottom: m.bullets ? 8 : 0 }}>{m.text}</p>
                   {m.bullets && (
                     <ul style={{ margin: 0, paddingLeft: 18 }}>
-                      {m.bullets.map(b => <li key={b} style={{ fontSize: 12.5, color: INK, marginBottom: 4 }}>{b}</li>)}
+                      {m.bullets.map(b => <li key={b} style={{ fontSize: 12.5, color: TEXT_PRIMARY, marginBottom: 4 }}>{b}</li>)}
                     </ul>
                   )}
                 </div>
@@ -140,7 +140,7 @@ export default function AiPlanner({ tasks, guests, budget }: Props) {
             <input
               value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && send(input)}
               placeholder="Preguntadme lo que queráis sobre vuestra boda..."
-              style={{ flex: 1, border: 'none', outline: 'none', fontSize: 13, color: INK, fontFamily: F }}
+              style={{ flex: 1, border: 'none', outline: 'none', fontSize: 13, color: TEXT_PRIMARY, fontFamily: F }}
             />
             <span onClick={() => send(input)} style={{ width: 32, height: 32, borderRadius: '50%', background: BROWN, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', flexShrink: 0 }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2"><path d="M12 19V5M5 12l7-7 7 7" /></svg>
@@ -152,24 +152,24 @@ export default function AiPlanner({ tasks, guests, budget }: Props) {
         {/* SIDEBAR */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignSelf: 'flex-start' }}>
           <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 16, padding: 18 }}>
-            <p style={{ fontFamily: F, fontSize: 15, color: INK, marginBottom: 12 }}>Resumen de la planificación</p>
+            <p style={{ fontFamily: F, fontSize: 15, color: TEXT_PRIMARY, marginBottom: 12 }}>Resumen de la planificación</p>
             {[
               { label: 'Tareas pendientes', value: tasksLeft },
               { label: 'Restante presupuesto', value: `${budgetLeft.toLocaleString('es-ES')} €` },
               { label: 'RSVP pendientes', value: guestsPending },
             ].map(row => (
               <div key={row.label} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: `1px solid ${BEIGE}` }}>
-                <span style={{ fontSize: 12, color: INK }}>{row.label}</span>
+                <span style={{ fontSize: 12, color: TEXT_PRIMARY }}>{row.label}</span>
                 <span style={{ fontSize: 12, color: SUBTEXT }}>{row.value}</span>
               </div>
             ))}
           </div>
 
           <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 16, padding: 18 }}>
-            <p style={{ fontFamily: F, fontSize: 15, color: INK, marginBottom: 12 }}>Lo que otras parejas preguntan</p>
+            <p style={{ fontFamily: F, fontSize: 15, color: TEXT_PRIMARY, marginBottom: 12 }}>Lo que otras parejas preguntan</p>
             {FAQ.map(f => (
               <div key={f} onClick={() => send(f)} style={{ padding: '7px 0', borderBottom: `1px solid ${BEIGE}`, cursor: 'pointer' }}>
-                <p style={{ fontSize: 12, color: INK }}>{f}</p>
+                <p style={{ fontSize: 12, color: TEXT_PRIMARY }}>{f}</p>
               </div>
             ))}
           </div>
