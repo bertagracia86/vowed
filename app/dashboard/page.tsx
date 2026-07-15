@@ -2,7 +2,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { F, BLUE, BLUE_DARK, INK, MUTE, BG, TEXT_PRIMARY, TEXT_SECONDARY } from '@/lib/constants'
 import { DEFAULT_TASKS, DEFAULT_GUESTS, DEFAULT_BUDGET, DEFAULT_VENDORS, DEFAULT_MILESTONES, DEFAULT_TABLES, DEFAULT_WEDDING } from '@/lib/defaults'
-import { fetchGuests, seedGuests, syncGuests } from '@/lib/guestsApi'
+import { fetchGuests, syncGuests } from '@/lib/guestsApi'
+import { generatePersonalizedTasks } from '@/lib/planningGenerator'
 import { Session, getSession, startDemo, signIn, signUp, clearSession } from '@/lib/auth'
 import { makeApi } from '@/lib/crudApi'
 import { usePersistedList } from '@/lib/usePersistedList'
@@ -98,8 +99,9 @@ export default function Dashboard() {
   }, [])
 
   const isDemo = !!session?.demo
+  const EMPTY_WEDDING = { partner1: '', partner2: '', date: '', venue: '', message: '' }
 
-  const [tasks, setTasks] = usePersistedList(tasksApi, session, DEFAULT_TASKS)
+  const [tasks, setTasks] = usePersistedList(tasksApi, session, isDemo ? DEFAULT_TASKS : [])
   const [guests, setGuests] = useState(DEFAULT_GUESTS)
   const guestsLoaded = useRef(false)
 
@@ -110,7 +112,7 @@ export default function Dashboard() {
       if (remote.length > 0) {
         setGuests(remote)
       } else {
-        await seedGuests(userId, DEFAULT_GUESTS)
+        setGuests([])
       }
       guestsLoaded.current = true
     })
@@ -142,14 +144,21 @@ export default function Dashboard() {
     setGuests(DEFAULT_GUESTS)
   }
 
-  const [budget, setBudget] = usePersistedList(budgetApi, session, DEFAULT_BUDGET)
-  const [vendors, setVendors] = usePersistedList(vendorsApi, session, DEFAULT_VENDORS)
-  const [milestones, setMilestones] = usePersistedList(milestonesApi, session, DEFAULT_MILESTONES)
-  const [tables, setTables] = usePersistedList(tablesApi, session, DEFAULT_TABLES)
-  const [weddingInfo, setWeddingInfo] = usePersistedWeddingInfo(session, DEFAULT_WEDDING)
+  const [budget, setBudget] = usePersistedList(budgetApi, session, isDemo ? DEFAULT_BUDGET : [])
+  const [vendors, setVendors] = usePersistedList(vendorsApi, session, isDemo ? DEFAULT_VENDORS : [])
+  const [milestones, setMilestones] = usePersistedList(milestonesApi, session, isDemo ? DEFAULT_MILESTONES : [])
+  const [tables, setTables] = usePersistedList(tablesApi, session, isDemo ? DEFAULT_TABLES : [])
+  const [weddingInfo, setWeddingInfo] = usePersistedWeddingInfo(session, isDemo ? DEFAULT_WEDDING : EMPTY_WEDDING)
   const [notes, setNotes] = usePersistedList(notesApi, session, [] as Note[])
-  const [events, setEvents] = usePersistedList(eventsApi, session, DEFAULT_EVENTS)
-  const weddingDate = weddingInfo.date || DEFAULT_WEDDING.date
+  const [events, setEvents] = usePersistedList(eventsApi, session, isDemo ? DEFAULT_EVENTS : [])
+  const weddingDate = weddingInfo.date || (isDemo ? DEFAULT_WEDDING.date : '')
+
+  const tasksGenerated = useRef(false)
+  useEffect(() => {
+    if (isDemo || !weddingInfo.date || tasks.length > 0 || tasksGenerated.current) return
+    tasksGenerated.current = true
+    setTasks(generatePersonalizedTasks(weddingInfo.date))
+  }, [weddingInfo.date, tasks.length, isDemo])
 
   if (checkingSession || session === undefined) return null
 

@@ -84,6 +84,12 @@ export default function Planning({ tasks, setTasks, milestones, setMilestones, w
         </div>
       )}
 
+      {!readOnly && weddingDate && (
+        <div style={{ background: '#EAF1E9', border: '1px solid #CFE0CD', borderRadius: 10, padding: '8px 14px', fontSize: 12, color: '#3d6b3a', marginBottom: 16 }}>
+          Hemos adaptado este planning a que faltan {Math.max(0, daysUntil(weddingDate))} días para vuestra boda — las tareas más urgentes se han priorizado automáticamente.
+        </div>
+      )}
+
       <div style={{ display: 'flex', gap: 20, borderBottom: `1px solid ${BEIGE}`, marginBottom: 22, overflowX: 'auto' }}>
         {TABS.map(t => (
           <button key={t} onClick={() => setTab2(t)} style={{
