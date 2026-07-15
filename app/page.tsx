@@ -68,11 +68,6 @@ export default function Home() {
       {/* NAV */}
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 300, background: NEUTRAL, borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '0 48px', height: 68, display: 'flex', alignItems: 'center', justifyContent: 'space-between', backdropFilter: 'blur(12px)' }}>
         <Link href="/" style={{ fontFamily: F, fontSize: 26, fontStyle: 'italic', fontWeight: 700, color: '#898a76', textDecoration: 'none' }}>mylov3</Link>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
-          {[{ l: 'Inicio', a: true }, { l: 'Nosotros' }, { l: 'Servicios' }, { l: 'Precios' }, { l: 'Inspiración' }, { l: 'Contacto' }].map(n => (
-            <a key={n.l} href="#" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.01em', textTransform: 'uppercase', textDecoration: 'none', color: n.a ? BLUE_DARK : INK, opacity: n.a ? 1 : 0.65, fontWeight: n.a ? 600 : 500 }}>{n.l}</a>
-          ))}
-        </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
           <Link href="/dashboard" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.01em', textTransform: 'uppercase', color: INK, textDecoration: 'none' }}>Iniciar sesión</Link>
           <Link href="/start" style={{ fontFamily: F, fontSize: 11, letterSpacing: '0.01em', textTransform: 'uppercase', color: BLUE_DARK, border: `1px solid ${BLUE_DARK}`, borderRadius: 999, padding: '10px 22px', textDecoration: 'none' }}>Empezar</Link>
