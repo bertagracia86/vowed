@@ -299,7 +299,7 @@ export default function Dashboard() {
           {tab === 'mesas' && <Mesas tables={tables} setTables={setTables} guests={guests} setGuests={setGuests} readOnly={isDemo} />}
           {tab === 'proveedores' && <Proveedores vendors={vendors} setVendors={setVendors} readOnly={isDemo} />}
           {tab === 'notas' && <Notas notes={notes} setNotes={setNotes} readOnly={isDemo} />}
-          {tab === 'invitaciones' && <Invitaciones weddingInfo={weddingInfo} />}
+          {tab === 'invitaciones' && <Invitaciones weddingInfo={weddingInfo} userId={session.userId} readOnly={isDemo} />}
           {tab === 'regalos' && <Regalos weddingInfo={weddingInfo} userId={session.userId} readOnly={isDemo} />}
           {tab === 'mensajes' && <Mensajes guests={guests} />}
           {tab === 'consejos' && <Consejos />}

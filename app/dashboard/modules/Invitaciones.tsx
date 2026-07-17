@@ -2,8 +2,9 @@
 import { useState } from 'react'
 import { F, BLUE, INK, MUTE, TEXT_PRIMARY, TEXT_SECONDARY } from '@/lib/constants'
 import { WeddingInfo } from '@/lib/types'
+import { supabase } from '@/lib/supabase'
 
-interface Props { weddingInfo: WeddingInfo }
+interface Props { weddingInfo: WeddingInfo; userId?: string | null; readOnly?: boolean }
 
 const TEMPLATES = [
   { name: 'Jardín de olivos', price: '12 €', style: 'Bohemio', img: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&q=80' },
@@ -167,8 +168,180 @@ const BROWN = '#898a76'
 const BEIGE = '#E7DDD2'
 const SUBTEXT = '#7C6858'
 
-export default function Invitaciones({ weddingInfo }: Props) {
+const SIZES = [
+  { label: 'Petite', dims: '4.7 x 6.6 cm', extra: 0 },
+  { label: 'Classic', dims: '12.7 x 17.8 cm', extra: 0.4 },
+  { label: 'Grande', dims: '14 x 21.6 cm', extra: 0.9 },
+]
+
+const PAPERS = [
+  { label: 'Estándar', desc: 'Papel mate 300g', extra: 0, thickness: 3 },
+  { label: 'Grueso premium', desc: 'Papel texturado 400g', extra: 0.6, thickness: 5 },
+  { label: 'Ultra grueso', desc: 'Doble capa 700g', extra: 1.3, thickness: 8 },
+]
+
+const SHAPES = [
+  { label: 'Rectangular', radius: 4 },
+  { label: 'Esquinas redondeadas', radius: 18 },
+  { label: 'Arco', radius: '50% 50% 4px 4px' },
+]
+
+interface Template { name: string; price: string; style: string; img: string }
+
+function InvitationConfigurator({ template, weddingInfo, userId, readOnly, onBack }: { template: Template; weddingInfo: WeddingInfo; userId?: string | null; readOnly?: boolean; onBack: () => void }) {
+  const [size, setSize] = useState(SIZES[1])
+  const [paper, setPaper] = useState(PAPERS[0])
+  const [shape, setShape] = useState(SHAPES[0])
+  const [quantity, setQuantity] = useState(50)
+  const [title, setTitle] = useState(`${weddingInfo.partner1 || 'Vosotros'} & ${weddingInfo.partner2 || 'dos'}`)
+  const [subtitle, setSubtitle] = useState(weddingInfo.date ? new Date(weddingInfo.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Fecha por confirmar')
+  const [venueText, setVenueText] = useState(weddingInfo.venue || '')
+  const [showOrderForm, setShowOrderForm] = useState(false)
+  const [orderName, setOrderName] = useState('')
+  const [orderAddress, setOrderAddress] = useState('')
+  const [orderNotes, setOrderNotes] = useState('')
+  const [orderSent, setOrderSent] = useState(false)
+
+  const basePrice = parseFloat(template.price) || 10
+  const unitPrice = basePrice + size.extra + paper.extra
+  const total = unitPrice * quantity
+
+  async function submitOrder() {
+    if (readOnly || !userId) { setOrderSent(true); return }
+    await supabase.from('vowed_print_orders').insert({
+      id: Date.now().toString(), user_id: userId, template: template.name, size: size.label, paper: paper.label,
+      shape: shape.label, quantity, price_total: Math.round(total * 100) / 100,
+      shipping_name: orderName, shipping_address: orderAddress, notes: orderNotes,
+    })
+    setOrderSent(true)
+  }
+
+  return (
+    <div style={{ marginBottom: 32 }}>
+      <button onClick={onBack} style={{ background: 'none', border: 'none', color: SUBTEXT, fontSize: 12, cursor: 'pointer', marginBottom: 16, padding: 0 }}>‹ Volver a las invitaciones</button>
+
+      {readOnly && (
+        <div style={{ background: '#FBF0D9', border: '1px solid #EFDFB0', borderRadius: 10, padding: '8px 14px', fontSize: 12, color: '#8a6d1f', marginBottom: 16 }}>
+          Estás en modo demo: podéis explorar todo, pero el pedido no se guarda.
+        </div>
+      )}
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 380px', gap: 28 }}>
+        {/* PREVIEW */}
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', background: '#F4EFE8', borderRadius: 18, padding: 40 }}>
+          <div id="invitation-preview" style={{
+            width: 320, background: 'white', borderRadius: typeof shape.radius === 'string' ? shape.radius : shape.radius,
+            boxShadow: `0 ${paper.thickness * 2}px ${paper.thickness * 4}px rgba(0,0,0,0.18)`,
+            border: `${paper.thickness / 2}px solid white`, outline: '1px solid #ECE9E4',
+            padding: '48px 30px', textAlign: 'center', position: 'relative'
+          }}>
+            <div style={{ aspectRatio: '4/3', borderRadius: 8, overflow: 'hidden', marginBottom: 20 }}>
+              <img src={template.img} alt={template.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
+            <p style={{ fontFamily: F, fontSize: 22, color: TEXT_PRIMARY, fontStyle: 'italic', marginBottom: 8 }}>{title}</p>
+            <p style={{ fontSize: 12, color: TEXT_SECONDARY, marginBottom: 4 }}>{subtitle}</p>
+            {venueText && <p style={{ fontSize: 12, color: TEXT_SECONDARY }}>{venueText}</p>}
+          </div>
+        </div>
+
+        {/* OPTIONS */}
+        <div>
+          <p style={{ fontFamily: F, fontSize: 20, color: TEXT_PRIMARY, marginBottom: 2 }}>{template.name}</p>
+          <p style={{ fontSize: 12, color: SUBTEXT, marginBottom: 20 }}>{template.style} · desde {basePrice.toFixed(2)} €/ud</p>
+
+          <p style={{ fontSize: 12, fontWeight: 600, color: TEXT_PRIMARY, marginBottom: 8 }}>Texto</p>
+          <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Nombres" style={{ width: '100%', border: '1px solid #E3DCC9', borderRadius: 8, padding: '8px 10px', fontSize: 13, outline: 'none', marginBottom: 8, fontFamily: F }} />
+          <input value={subtitle} onChange={e => setSubtitle(e.target.value)} placeholder="Fecha" style={{ width: '100%', border: '1px solid #E3DCC9', borderRadius: 8, padding: '8px 10px', fontSize: 13, outline: 'none', marginBottom: 8 }} />
+          <input value={venueText} onChange={e => setVenueText(e.target.value)} placeholder="Lugar" style={{ width: '100%', border: '1px solid #E3DCC9', borderRadius: 8, padding: '8px 10px', fontSize: 13, outline: 'none', marginBottom: 20 }} />
+
+          <p style={{ fontSize: 12, fontWeight: 600, color: TEXT_PRIMARY, marginBottom: 8 }}>Tamaño</p>
+          <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
+            {SIZES.map(s => (
+              <button key={s.label} onClick={() => setSize(s)} style={{
+                flex: 1, border: `1.5px solid ${size.label === s.label ? BROWN : BEIGE}`, background: size.label === s.label ? '#F4EFE8' : 'white',
+                borderRadius: 10, padding: '8px 6px', cursor: 'pointer', textAlign: 'center'
+              }}>
+                <p style={{ fontSize: 12, fontWeight: 600, color: TEXT_PRIMARY }}>{s.label}</p>
+                <p style={{ fontSize: 9.5, color: SUBTEXT }}>{s.dims}</p>
+              </button>
+            ))}
+          </div>
+
+          <p style={{ fontSize: 12, fontWeight: 600, color: TEXT_PRIMARY, marginBottom: 8 }}>Grosor del papel</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
+            {PAPERS.map(p => (
+              <button key={p.label} onClick={() => setPaper(p)} style={{
+                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                border: `1.5px solid ${paper.label === p.label ? BROWN : BEIGE}`, background: paper.label === p.label ? '#F4EFE8' : 'white',
+                borderRadius: 10, padding: '9px 14px', cursor: 'pointer', textAlign: 'left'
+              }}>
+                <span>
+                  <p style={{ fontSize: 12.5, fontWeight: 600, color: TEXT_PRIMARY }}>{p.label}</p>
+                  <p style={{ fontSize: 10.5, color: SUBTEXT }}>{p.desc}</p>
+                </span>
+                {p.extra > 0 && <span style={{ fontSize: 11, color: SUBTEXT }}>+{p.extra.toFixed(2)} €</span>}
+              </button>
+            ))}
+          </div>
+
+          <p style={{ fontSize: 12, fontWeight: 600, color: TEXT_PRIMARY, marginBottom: 8 }}>Forma</p>
+          <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
+            {SHAPES.map(s => (
+              <button key={s.label} onClick={() => setShape(s)} style={{
+                flex: 1, border: `1.5px solid ${shape.label === s.label ? BROWN : BEIGE}`, background: shape.label === s.label ? '#F4EFE8' : 'white',
+                borderRadius: 10, padding: '8px 6px', cursor: 'pointer', fontSize: 11, color: TEXT_PRIMARY
+              }}>{s.label}</button>
+            ))}
+          </div>
+
+          <p style={{ fontSize: 12, fontWeight: 600, color: TEXT_PRIMARY, marginBottom: 8 }}>Cantidad</p>
+          <input type="number" min={10} step={10} value={quantity} onChange={e => setQuantity(Math.max(10, Number(e.target.value) || 10))}
+            style={{ width: '100%', border: '1px solid #E3DCC9', borderRadius: 8, padding: '8px 10px', fontSize: 13, outline: 'none', marginBottom: 20 }} />
+
+          <div style={{ background: CARD, border: `1px solid ${BEIGE}`, borderRadius: 12, padding: '14px 16px', marginBottom: 16 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: SUBTEXT, marginBottom: 4 }}>
+              <span>{unitPrice.toFixed(2)} € × {quantity} unidades</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: F, fontSize: 20, color: TEXT_PRIMARY }}>
+              <span>Total</span><span>{total.toFixed(2)} €</span>
+            </div>
+          </div>
+
+          <button onClick={() => window.print()} style={{ width: '100%', border: `1px solid ${BROWN}`, background: 'white', color: BROWN, borderRadius: 999, padding: '11px 0', fontSize: 13, fontWeight: 600, cursor: 'pointer', marginBottom: 10 }}>
+            Imprimir / Descargar PDF
+          </button>
+
+          {orderSent ? (
+            <div style={{ background: '#EAF1E9', border: '1px solid #CFE0CD', borderRadius: 10, padding: '12px 14px', fontSize: 12.5, color: '#3d6b3a', textAlign: 'center' }}>
+              ¡Pedido recibido! Os contactaremos para confirmar la producción y el envío.
+            </div>
+          ) : showOrderForm ? (
+            <div style={{ border: `1px solid ${BEIGE}`, borderRadius: 12, padding: 14 }}>
+              <p style={{ fontSize: 12, fontWeight: 600, color: TEXT_PRIMARY, marginBottom: 8 }}>Datos de envío</p>
+              <input value={orderName} onChange={e => setOrderName(e.target.value)} placeholder="Nombre completo" style={{ width: '100%', border: '1px solid #E3DCC9', borderRadius: 8, padding: '8px 10px', fontSize: 13, outline: 'none', marginBottom: 8 }} />
+              <input value={orderAddress} onChange={e => setOrderAddress(e.target.value)} placeholder="Dirección de envío" style={{ width: '100%', border: '1px solid #E3DCC9', borderRadius: 8, padding: '8px 10px', fontSize: 13, outline: 'none', marginBottom: 8 }} />
+              <textarea value={orderNotes} onChange={e => setOrderNotes(e.target.value)} placeholder="Notas (opcional)" rows={2} style={{ width: '100%', border: '1px solid #E3DCC9', borderRadius: 8, padding: '8px 10px', fontSize: 13, outline: 'none', marginBottom: 10, fontFamily: F, resize: 'vertical' }} />
+              <button onClick={submitOrder} disabled={!orderName.trim() || !orderAddress.trim()} style={{
+                width: '100%', background: BROWN, color: 'white', border: 'none', borderRadius: 999, padding: '10px 0', fontSize: 13, fontWeight: 600,
+                cursor: orderName.trim() && orderAddress.trim() ? 'pointer' : 'default', opacity: orderName.trim() && orderAddress.trim() ? 1 : 0.5
+              }}>
+                Confirmar solicitud de pedido
+              </button>
+            </div>
+          ) : (
+            <button onClick={() => setShowOrderForm(true)} style={{ width: '100%', background: BROWN, color: 'white', border: 'none', borderRadius: 999, padding: '11px 0', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+              Solicitar impresión y envío
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default function Invitaciones({ weddingInfo, userId, readOnly }: Props) {
   const [cat, setCat] = useState('Programas')
+  const [selectedTemplate, setSelectedTemplate] = useState<typeof TEMPLATES[number] | null>(null)
 
   return (
     <div>
@@ -177,7 +350,7 @@ export default function Invitaciones({ weddingInfo }: Props) {
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: 14, marginBottom: 32 }}>
         {CATEGORIES.map(c => (
-          <div key={c.label} onClick={() => setCat(c.label)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+          <div key={c.label} onClick={() => { setCat(c.label); setSelectedTemplate(null) }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
             <div style={{
               position: 'relative', width: '100%', aspectRatio: c.real ? '5/6' : '1', borderRadius: 14, overflow: 'visible',
               border: cat === c.label ? `2px solid ${BROWN}` : `1px solid ${BEIGE}`, transition: 'border-color 0.15s'
@@ -201,11 +374,13 @@ export default function Invitaciones({ weddingInfo }: Props) {
 
       {cat === 'Programas' ? (
         <ProgramaCeremonia weddingInfo={weddingInfo} />
+      ) : selectedTemplate ? (
+        <InvitationConfigurator template={selectedTemplate} weddingInfo={weddingInfo} userId={userId} readOnly={readOnly} onBack={() => setSelectedTemplate(null)} />
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20, marginBottom: 32 }}>
           {TEMPLATES.map(t => (
             <div key={t.name} style={{ border: `1px solid ${BEIGE}`, borderRadius: 18, overflow: 'hidden', background: CARD }}>
-              <div style={{ aspectRatio: '4/3', overflow: 'hidden' }}>
+              <div style={{ aspectRatio: '4/3', overflow: 'hidden', cursor: 'pointer' }} onClick={() => setSelectedTemplate(t)}>
                 <img src={t.img} alt={t.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
               <div style={{ padding: '16px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -214,8 +389,8 @@ export default function Invitaciones({ weddingInfo }: Props) {
                   <p style={{ fontSize: 11, color: SUBTEXT }}>{t.style}</p>
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <p style={{ fontFamily: F, fontSize: 18, color: TEXT_PRIMARY, marginBottom: 6 }}>{t.price}</p>
-                  <button style={{ background: BROWN, color: 'white', border: 'none', borderRadius: 999, padding: '8px 18px', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>Comprar</button>
+                  <p style={{ fontFamily: F, fontSize: 18, color: TEXT_PRIMARY, marginBottom: 6 }}>desde {t.price}</p>
+                  <button onClick={() => setSelectedTemplate(t)} style={{ background: BROWN, color: 'white', border: 'none', borderRadius: 999, padding: '8px 18px', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>Personalizar</button>
                 </div>
               </div>
             </div>
