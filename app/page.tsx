@@ -1,14 +1,12 @@
 'use client'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { F, BLUE, BLUE_DARK, INK, TEXT_PRIMARY } from '@/lib/constants'
 
 const BLUE_LIGHT = '#efe9e3'
 const NEUTRAL = '#faf9f7'
 
 export default function Home() {
-  const [scrollY, setScrollY] = useState(0)
-
   useEffect(() => {
     const s1 = document.createElement('script')
     s1.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js'
@@ -28,9 +26,6 @@ export default function Home() {
       document.head.appendChild(s2)
     }
     document.head.appendChild(s1)
-    const onScroll = () => setScrollY(window.scrollY)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   return (
