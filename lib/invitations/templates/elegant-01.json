@@ -1,0 +1,52 @@
+{
+  "id": "elegant-01",
+  "name": "Lino y oro",
+  "style": "Elegante",
+  "widthMm": 127,
+  "heightMm": 178,
+  "background": "#FFFDFB",
+  "thumbnail": "https://images.unsplash.com/photo-1544816155-12df9643f363?w=400&q=80",
+  "fontOptions": ["Playfair Display", "Cormorant Garamond", "EB Garamond"],
+  "colorOptions": ["#3A3A3A", "#B08B4F", "#898a76", "#E7DDD2"],
+  "elements": [
+    {
+      "type": "image",
+      "id": "photo",
+      "src": "https://images.unsplash.com/photo-1544816155-12df9643f363?w=600&q=80",
+      "x": 40,
+      "y": 40,
+      "width": 420,
+      "height": 260,
+      "allowedZone": { "x": 40, "y": 40, "width": 420, "height": 260 },
+      "editable": { "image": true, "position": false }
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "text": "Emma & Lucas",
+      "font": "Playfair Display",
+      "fontSize": 44,
+      "color": "#3A3A3A",
+      "align": "center",
+      "width": 420,
+      "x": 40,
+      "y": 340,
+      "allowedZone": { "x": 30, "y": 320, "width": 440, "height": 90 },
+      "editable": { "text": true, "font": true, "color": true, "fontSize": { "min": 30, "max": 58 }, "position": true }
+    },
+    {
+      "type": "text",
+      "id": "date",
+      "text": "15 · 06 · 2027",
+      "font": "EB Garamond",
+      "fontSize": 18,
+      "color": "#B08B4F",
+      "align": "center",
+      "width": 420,
+      "x": 40,
+      "y": 430,
+      "allowedZone": { "x": 30, "y": 415, "width": 440, "height": 50 },
+      "editable": { "text": true, "color": true, "position": true }
+    }
+  ]
+}

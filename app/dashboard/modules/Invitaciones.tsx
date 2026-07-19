@@ -3,6 +3,8 @@ import { useState } from 'react'
 import { F, BLUE, INK, MUTE, TEXT_PRIMARY, TEXT_SECONDARY } from '@/lib/constants'
 import { WeddingInfo } from '@/lib/types'
 import { supabase } from '@/lib/supabase'
+import { getTemplate as getInvitationTemplate } from '@/lib/invitations/templateRegistry'
+import InvitationEditor from '@/components/invitation-editor/InvitationEditor'
 
 interface Props { weddingInfo: WeddingInfo; userId?: string | null; readOnly?: boolean }
 
@@ -20,9 +22,9 @@ const STYLES = [
 
 const TEMPLATES = [
   { name: 'Jardín de olivos', price: '12 €', style: 'Rústico', img: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&q=80', colors: ['#898a76', '#C9BCA8', '#5f6050'] },
-  { name: 'Lino y oro', price: '14 €', style: 'Elegante', img: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=400&q=80', colors: ['#B08B4F', '#E7DDD2', '#3A3A3A'] },
+  { name: 'Lino y oro', price: '14 €', style: 'Elegante', img: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=400&q=80', colors: ['#B08B4F', '#E7DDD2', '#3A3A3A'], templateId: 'elegant-01' },
   { name: 'Acuarela floral', price: '12 €', style: 'Floral', img: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=400&q=80', colors: ['#B08BC4', '#8FA88F', '#E7DDD2'] },
-  { name: 'Minimal clásica', price: '10 €', style: 'Minimalista', img: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=400&q=80', colors: ['#2B2A26', '#FAF9F7', '#898a76'] },
+  { name: 'Minimal clásica', price: '10 €', style: 'Minimalista', img: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=400&q=80', colors: ['#2B2A26', '#FAF9F7', '#898a76'], templateId: 'minimal-01' },
   { name: 'Serif clásico', price: '11 €', style: 'Tipografía', img: 'https://images.unsplash.com/photo-1517842645767-c639042777db?w=400&q=80', colors: ['#2B2A26', '#AAA396', '#FAF9F7'] },
   { name: 'Iniciales doradas', price: '13 €', style: 'Monograma', img: 'https://images.unsplash.com/photo-1587271339471-30fd1b56c2c4?w=400&q=80', colors: ['#B08B4F', '#2B2A26', '#E7DDD2'] },
   { name: 'Hojas de eucalipto', price: '12 €', style: 'Verde botánico', img: 'https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=400&q=80', colors: ['#7FA88F', '#E7DDD2', '#5f6050'] },
@@ -407,7 +409,11 @@ export default function Invitaciones({ weddingInfo, userId, readOnly }: Props) {
       {cat === 'Programas' ? (
         <ProgramaCeremonia weddingInfo={weddingInfo} />
       ) : selectedTemplate ? (
-        <InvitationConfigurator template={selectedTemplate} weddingInfo={weddingInfo} userId={userId} readOnly={readOnly} onBack={() => setSelectedTemplate(null)} />
+        (selectedTemplate as any).templateId && getInvitationTemplate((selectedTemplate as any).templateId) ? (
+          <InvitationEditor template={getInvitationTemplate((selectedTemplate as any).templateId)!} userId={userId} readOnly={readOnly} onBack={() => setSelectedTemplate(null)} />
+        ) : (
+          <InvitationConfigurator template={selectedTemplate} weddingInfo={weddingInfo} userId={userId} readOnly={readOnly} onBack={() => setSelectedTemplate(null)} />
+        )
       ) : cat === 'Invitaciones' ? (
         <div style={{ marginBottom: 32 }}>
           <p style={{ fontFamily: F, fontSize: 30, color: TEXT_PRIMARY, textAlign: 'center', marginBottom: 24 }}>Invitaciones de boda</p>
