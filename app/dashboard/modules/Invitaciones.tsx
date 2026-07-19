@@ -6,11 +6,28 @@ import { supabase } from '@/lib/supabase'
 
 interface Props { weddingInfo: WeddingInfo; userId?: string | null; readOnly?: boolean }
 
+const STYLES = [
+  { label: 'Elegante', tag: 'Elegante', img: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=200&q=80' },
+  { label: 'Minimalista', tag: 'Minimalista', img: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=200&q=80' },
+  { label: 'Floral', tag: 'Floral', img: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=200&q=80' },
+  { label: 'Tipografía', tag: 'Tipografía', img: 'https://images.unsplash.com/photo-1517842645767-c639042777db?w=200&q=80' },
+  { label: 'Monograma', tag: 'Monograma', img: 'https://images.unsplash.com/photo-1587271339471-30fd1b56c2c4?w=200&q=80' },
+  { label: 'Rústico', tag: 'Rústico', img: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=200&q=80' },
+  { label: 'Verde botánico', tag: 'Verde botánico', img: 'https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=200&q=80' },
+  { label: 'Vintage', tag: 'Vintage', img: 'https://images.unsplash.com/photo-1508050919630-b135583b29ab?w=200&q=80' },
+  { label: 'Whimsical', tag: 'Whimsical', img: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=200&q=80' },
+]
+
 const TEMPLATES = [
-  { name: 'Jardín de olivos', price: '12 €', style: 'Bohemio', img: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&q=80' },
-  { name: 'Lino y oro', price: '14 €', style: 'Elegante', img: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=400&q=80' },
-  { name: 'Acuarela floral', price: '12 €', style: 'Romántico', img: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=400&q=80' },
-  { name: 'Minimal clásica', price: '10 €', style: 'Minimalista', img: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=400&q=80' },
+  { name: 'Jardín de olivos', price: '12 €', style: 'Rústico', img: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&q=80', colors: ['#898a76', '#C9BCA8', '#5f6050'] },
+  { name: 'Lino y oro', price: '14 €', style: 'Elegante', img: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=400&q=80', colors: ['#B08B4F', '#E7DDD2', '#3A3A3A'] },
+  { name: 'Acuarela floral', price: '12 €', style: 'Floral', img: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=400&q=80', colors: ['#B08BC4', '#8FA88F', '#E7DDD2'] },
+  { name: 'Minimal clásica', price: '10 €', style: 'Minimalista', img: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=400&q=80', colors: ['#2B2A26', '#FAF9F7', '#898a76'] },
+  { name: 'Serif clásico', price: '11 €', style: 'Tipografía', img: 'https://images.unsplash.com/photo-1517842645767-c639042777db?w=400&q=80', colors: ['#2B2A26', '#AAA396', '#FAF9F7'] },
+  { name: 'Iniciales doradas', price: '13 €', style: 'Monograma', img: 'https://images.unsplash.com/photo-1587271339471-30fd1b56c2c4?w=400&q=80', colors: ['#B08B4F', '#2B2A26', '#E7DDD2'] },
+  { name: 'Hojas de eucalipto', price: '12 €', style: 'Verde botánico', img: 'https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=400&q=80', colors: ['#7FA88F', '#E7DDD2', '#5f6050'] },
+  { name: 'Papel envejecido', price: '13 €', style: 'Vintage', img: 'https://images.unsplash.com/photo-1508050919630-b135583b29ab?w=400&q=80', colors: ['#B08B4F', '#7C6858', '#E7DDD2'] },
+  { name: 'Trazos sueltos', price: '11 €', style: 'Whimsical', img: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=400&q=80', colors: ['#C0594F', '#AAA396', '#FAF9F7'] },
 ]
 
 const IMG_TABLE = 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=300&q=70'
@@ -342,6 +359,9 @@ function InvitationConfigurator({ template, weddingInfo, userId, readOnly, onBac
 export default function Invitaciones({ weddingInfo, userId, readOnly }: Props) {
   const [cat, setCat] = useState('Programas')
   const [selectedTemplate, setSelectedTemplate] = useState<typeof TEMPLATES[number] | null>(null)
+  const [styleFilter, setStyleFilter] = useState<string | null>(null)
+
+  const visibleTemplates = styleFilter ? TEMPLATES.filter(t => t.style === styleFilter) : TEMPLATES
 
   return (
     <div>
@@ -350,7 +370,7 @@ export default function Invitaciones({ weddingInfo, userId, readOnly }: Props) {
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: 14, marginBottom: 32 }}>
         {CATEGORIES.map(c => (
-          <div key={c.label} onClick={() => { setCat(c.label); setSelectedTemplate(null) }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+          <div key={c.label} onClick={() => { setCat(c.label); setSelectedTemplate(null); setStyleFilter(null) }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
             <div style={{
               position: 'relative', width: '100%', aspectRatio: c.real ? '5/6' : '1', borderRadius: 14, overflow: 'visible',
               border: cat === c.label ? `2px solid ${BROWN}` : `1px solid ${BEIGE}`, transition: 'border-color 0.15s'
@@ -376,6 +396,54 @@ export default function Invitaciones({ weddingInfo, userId, readOnly }: Props) {
         <ProgramaCeremonia weddingInfo={weddingInfo} />
       ) : selectedTemplate ? (
         <InvitationConfigurator template={selectedTemplate} weddingInfo={weddingInfo} userId={userId} readOnly={readOnly} onBack={() => setSelectedTemplate(null)} />
+      ) : cat === 'Invitaciones' ? (
+        <div style={{ marginBottom: 32 }}>
+          <p style={{ fontFamily: F, fontSize: 30, color: TEXT_PRIMARY, textAlign: 'center', marginBottom: 24 }}>Invitaciones de boda</p>
+
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 20, marginBottom: 32, flexWrap: 'wrap' }}>
+            {STYLES.map(s => (
+              <div key={s.label} onClick={() => setStyleFilter(styleFilter === s.tag ? null : s.tag)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, cursor: 'pointer', width: 78 }}>
+                <div style={{ width: 64, height: 64, borderRadius: '50%', overflow: 'hidden', border: styleFilter === s.tag ? `2px solid ${BROWN}` : `1px solid ${BEIGE}` }}>
+                  <img src={s.img} alt={s.label} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
+                <span style={{ fontSize: 11, color: styleFilter === s.tag ? BROWN : SUBTEXT, fontWeight: styleFilter === s.tag ? 600 : 500, textAlign: 'center' }}>{s.label}</span>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, flexWrap: 'wrap', gap: 10 }}>
+            <p style={{ fontSize: 12, color: SUBTEXT }}>{visibleTemplates.length} diseños{styleFilter ? ` · estilo ${styleFilter}` : ''}</p>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {['Ordenar: Destacados', 'Color', 'Forma', 'Foil', 'Orientación'].map(f => (
+                <span key={f} style={{ border: `1px solid ${BEIGE}`, borderRadius: 999, padding: '6px 14px', fontSize: 11.5, color: TEXT_SECONDARY, whiteSpace: 'nowrap' }}>{f}</span>
+              ))}
+              {styleFilter && (
+                <span onClick={() => setStyleFilter(null)} style={{ border: `1px solid ${BROWN}`, borderRadius: 999, padding: '6px 14px', fontSize: 11.5, color: BROWN, cursor: 'pointer', whiteSpace: 'nowrap' }}>Quitar filtro ×</span>
+              )}
+            </div>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
+            {visibleTemplates.map(t => (
+              <div key={t.name} style={{ border: `1px solid ${BEIGE}`, borderRadius: 14, overflow: 'hidden', background: CARD, cursor: 'pointer' }} onClick={() => setSelectedTemplate(t)}>
+                <div style={{ aspectRatio: '4/5', overflow: 'hidden' }}>
+                  <img src={t.img} alt={t.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
+                <div style={{ padding: '12px 14px' }}>
+                  <p style={{ fontFamily: F, fontSize: 15, color: TEXT_PRIMARY, marginBottom: 6 }}>{t.name}</p>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', gap: 4 }}>
+                      {t.colors.map(c => (
+                        <span key={c} style={{ width: 14, height: 14, borderRadius: '50%', background: c, border: '1px solid rgba(0,0,0,0.08)', display: 'inline-block' }} />
+                      ))}
+                    </div>
+                    <span style={{ fontSize: 12.5, color: TEXT_PRIMARY }}>desde {t.price}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20, marginBottom: 32 }}>
           {TEMPLATES.map(t => (
