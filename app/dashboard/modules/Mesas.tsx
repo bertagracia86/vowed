@@ -97,10 +97,17 @@ export default function Mesas({ tables, setTables, guests, setGuests, readOnly }
   const [overSeat, setOverSeat] = useState<string | null>(null)
   const [dragOverUnassigned, setDragOverUnassigned] = useState(false)
   const [editingGuest, setEditingGuest] = useState<Guest | null>(null)
+  const [nameError, setNameError] = useState('')
 
   function addTable() {
-    if (!newName.trim()) return
-    setTables([...tables, { id: Date.now().toString(), name: newName, shape: newShape, capacity: Number(newCapacity) || 8 }])
+    const trimmed = newName.trim()
+    if (!trimmed) return
+    if (tables.some(t => t.name.toLowerCase() === trimmed.toLowerCase())) {
+      setNameError('Ya existe una mesa con ese nombre.')
+      return
+    }
+    setNameError('')
+    setTables([...tables, { id: Date.now().toString(), name: trimmed, shape: newShape, capacity: Number(newCapacity) || 8 }])
     setNewName(''); setNewCapacity('8')
   }
 
@@ -157,7 +164,7 @@ export default function Mesas({ tables, setTables, guests, setGuests, readOnly }
       </p>
 
       <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
-        <input value={newName} onChange={e => setNewName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addTable()} placeholder="Nombre de la mesa (ej: Mesa 1)" style={{ flex: 1, minWidth: 160, border: '1px solid #E3DCC9', borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }} />
+        <input value={newName} onChange={e => { setNewName(e.target.value); setNameError('') }} onKeyDown={e => e.key === 'Enter' && addTable()} placeholder="Nombre de la mesa (ej: Mesa 1)" style={{ flex: 1, minWidth: 160, border: `1px solid ${nameError ? '#C0594F' : '#E3DCC9'}`, borderRadius: 12, padding: '11px 16px', fontSize: 13, outline: 'none' }} />
         <select value={newShape} onChange={e => setNewShape(e.target.value as any)} style={{ border: '1px solid #E3DCC9', borderRadius: 12, padding: '11px 14px', fontSize: 13, outline: 'none', background: 'white' }}>
           <option value="round">Redonda</option>
           <option value="rect">Rectangular</option>
@@ -168,6 +175,8 @@ export default function Mesas({ tables, setTables, guests, setGuests, readOnly }
         )}
         <button onClick={addTable} style={{ background: BLUE, color: 'white', border: 'none', borderRadius: 12, padding: '11px 22px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>+ Mesa</button>
       </div>
+
+      {nameError && <p style={{ fontSize: 11.5, color: '#C0594F', marginTop: -14, marginBottom: 14 }}>{nameError}</p>}
 
       <p style={{ fontSize: 10.5, color: TEXT_SECONDARY, marginBottom: 18 }}>
         Arrastrad a un invitado hasta un asiento concreto para decidir exactamente quién va a cada lado. Clicad en un invitado para asignarle grupo o marcar con quién no debe sentarse.
