@@ -33,6 +33,6 @@ export async function syncGuests(userId: string, guests: Guest[]) {
   const currentIds = new Set(guests.map(g => g.id))
   const staleIds = (data ?? []).map((r: any) => r.id).filter((id: string) => !currentIds.has(id))
   if (staleIds.length > 0) {
-    await supabase.from('vowed_guests').delete().in('id', staleIds)
+    await supabase.from('vowed_guests').delete().eq('user_id', userId).in('id', staleIds)
   }
 }

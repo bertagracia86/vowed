@@ -19,7 +19,7 @@ export function makeApi<T extends { id: string }>(table: string) {
       const currentIds = new Set(rows.map(r => r.id))
       const staleIds = (data ?? []).map((r: any) => r.id).filter((id: string) => !currentIds.has(id))
       if (staleIds.length > 0) {
-        await supabase.from(table).delete().in('id', staleIds)
+        await supabase.from(table).delete().eq('user_id', userId).in('id', staleIds)
       }
     },
   }
