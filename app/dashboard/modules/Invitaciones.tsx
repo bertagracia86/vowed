@@ -37,6 +37,18 @@ const IMG_HANDS = 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?
 const IMG_COUPLE = 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=300&q=70'
 const IMG_BOUQUET = 'https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?w=300&q=70'
 
+const THUMB_SCALE: Record<string, number> = {
+  'Fundas': 0.92,
+  'Tarjetas de mesa': 1.12,
+  'Servilletas': 1.12,
+  'Agradecimientos al instante': 1.12,
+  'Save the dates': 1.12,
+  'Menús': 1.04,
+  'Save the dates digitales': 1.1,
+  'Pegatinas': 1.1,
+  'Carteles': 1.1,
+}
+
 const CATEGORIES = [
   { label: 'Save the dates', img: '/cat-save-the-dates.png', real: true },
   { label: 'Invitaciones', img: '/cat-invitaciones.png', real: true },
@@ -376,7 +388,7 @@ export default function Invitaciones({ weddingInfo, userId, readOnly }: Props) {
               border: cat === c.label ? `2px solid ${BROWN}` : `1px solid ${BEIGE}`, transition: 'border-color 0.15s'
             }}>
               <div style={{ position: 'absolute', inset: 0, borderRadius: 14, overflow: 'hidden' }}>
-                <img src={c.img} alt={c.label} style={{ width: '100%', height: '100%', objectFit: c.real ? 'contain' : 'cover', filter: c.real ? 'none' : 'sepia(0.55) saturate(1.4) brightness(0.92) contrast(1.05)', transform: ['Fundas', 'Tarjetas de mesa', 'Servilletas', 'Agradecimientos al instante', 'Save the dates'].includes(c.label) ? 'scale(1.12)' : undefined }} />
+                <img src={c.img} alt={c.label} style={{ width: '100%', height: '100%', objectFit: c.real ? 'contain' : 'cover', filter: c.real ? 'none' : 'sepia(0.55) saturate(1.4) brightness(0.92) contrast(1.05)', transform: `scale(${THUMB_SCALE[c.label] ?? 1})` }} />
                 {!c.real && <div style={{ position: 'absolute', inset: 0, background: cat === c.label ? 'rgba(139,94,60,0.15)' : 'rgba(139,94,60,0.28)', transition: 'background 0.15s' }} />}
               </div>
               {c.label === 'Agradecimientos al instante' && (
